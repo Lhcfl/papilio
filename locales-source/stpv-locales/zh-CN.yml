@@ -1,0 +1,79 @@
+---
+stpvAntennaPatch: "Sharkey Stelpolva Edition 为天线的设置添加了额外的关键词语法。\n具体而言， `domain:example.com` 这个特殊关键词会匹配所有来自 `example.com` 的帖子。这个关键词同样能使用在 OR 语法中。\n特别地，你必须用 `domain:here` 来匹配本实例的帖子。\n"
+stpvPgroongaSearchInstru: "可以使用 `A OR B` 的词法来搜索包含 A 或者 B 的帖子。`A B`（中间有空格）代表同时包含关键词 A 和 B 的帖子。"
+timeTravel: "时光机"
+timeTravelDescription: "显示该日期以前的帖子"
+makePrivate:
+  text: "私密化"
+  description: "私密化帖子将使帖子变得仅自己可见，并向远程服务器发送删除标记。"
+  confirm: "你确定要私密化该帖字吗？"
+  warn: "批量私密化帖子是**永久的、不可逆**的过程，并且对服务器有一定负载。请谨慎操作。你每小时只能批量私密化一次帖子。"
+  sinceDate: "开始日期"
+  untilDate: "结束日期"
+  dangerTip: "由于这是一个非常危险的操作，请输入 `{text}` 来启用这项功能"
+  manyCount: "共有 {count} 个帖子将会被私密化"
+  textmany: "批量私密化！"
+  manyWarn: "真的要批量私密化这 {count} 个帖子吗？这个操作不可逆，你的这些帖子会永远只有你自己可见（真的！）"
+  didStart: "私密化进程已经开始"
+  bulkText: "批量私密化帖子"
+_stpvPlus:
+  title: Stelpolva Plus 设置
+  info: 这些设置是 Sharkey Stelpolva 添加的设置，是普通Sharkey实例没有的。
+  disableAllReactions:
+    label: 前端禁用回应表情功能
+    caption: 该设置只是前端更改，别人仍然可以对你的帖子做出回应。只对Sharkey风格Note生效
+  defaultFont:
+    label: 默认字体
+    caption: 一些中文字体文件较大，请切换字体后等待一会儿字体文件的加载。为了更好的体验，仅支持简体的峄山碑篆体和仅支持繁体的崇羲篆體会互相补充。
+  fontType:
+    label: 字体属性
+    caption: 选择字体的子属性
+  customFont:
+    label: 自定义字体…
+    caption: 从您的本地字体列表中选择字体
+  softMutedUsers:
+    label: 在时间线上折叠的用户 ID
+    caption: 填写从 Raw 上可以看到的用户 ID，一行一个。最多不能超过100个，超出的部分会被自动删除。
+  softMutedNotes:
+    label: 在时间线上折叠的帖子 ID
+    caption: 填写从 URL 上可以看到的帖子 ID，一行一个。最多不能超过100个，超出的部分会被自动删除。
+  softMutedDomains:
+    label: 在时间线上折叠的域名
+    caption: 填写域名，一行一个，最多不能超过100个，超出的部分会被自动删除。
+  hideReplyAcct:
+    label: 隐藏被折叠回复的acct
+    caption: 不显示 @username@domain
+  advancedPostForm:
+    label: 高级发帖框模式
+    caption: 允许添加前缀和小尾巴等
+  combineRepliesQuotes:
+    label: 合并引用和回复
+    caption: 在帖子详细页同时显示引用和回复
+  disableTimeline:
+    label: 禁用时间线
+    caption: "禁用 {name} 时间线"
+  aprilFools:
+    label: 愚人节彩蛋
+    caption: "打开后在 4 月 1 日有意外惊喜（？）"
+stpvMuteUser: "在时间线上折叠该用户的帖子"
+stpvUnmuteUser: "在时间线上恢复显示该用户的帖子"
+stpvMuteNote: "以后在时间线上折叠"
+stpvUnmuteNote: "以后在时间线上恢复显示"
+stpvMuteInstance: "在时间线上折叠来自此实例的帖子"
+stpvDomainUserSaysSomething: "来自 {domain} 的 {name} 说了什么"
+stpvReactionsStat: 表情回应统计图
+stpvReactionsStatDescription: 显示了你发布的前100多emoji的数量
+stpvPFprefix: "前缀..."
+stpvPFsuffix: "...后缀"
+stpvWarnNoQueryLocalFonts: 啊哦! 你的浏览器不支持 queryLocalFonts 方法，因此请在文本框中手动填写字体名。
+stpvEmojiPickerItemSize: "表情符号大小"
+
+wordMute: "折叠关键词"
+hardWordMute: "屏蔽关键词"
+mute: "静音"
+block: "屏蔽"
+
+_notification:
+  reportAccepted: "举报被接受"
+
+reportAcceptedBody: "您对 {target} 的举报已被接受。感谢您的帮助！管理人员已经采取了适当的措施。"

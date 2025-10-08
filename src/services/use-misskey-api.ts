@@ -1,0 +1,36 @@
+import { api } from "misskey-js";
+
+let apiClient: api.APIClient | null = null;
+
+export const useMisskeyApi = () => {
+	if (apiClient) {
+		return apiClient;
+	}
+	const origin = getUserSite();
+	const credential = getUserToken();
+	return (apiClient = new api.APIClient({ origin, credential }));
+};
+
+export const storeUserSite = (site: string) => {
+	localStorage.setItem("site", site);
+};
+
+export const getUserSite = (): string => {
+	const site = localStorage.getItem("site");
+	if (!site) {
+		throw new Error("Site is not set");
+	}
+	return site;
+};
+
+const getUserToken = (): string => {
+	const token = localStorage.getItem("token");
+	if (!token) {
+		throw new Error("Token is not set");
+	}
+	return token;
+};
+
+export const storeUserToken = (token: string) => {
+	localStorage.setItem("token", token);
+};

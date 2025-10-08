@@ -1,0 +1,9 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.2.5/schema.json",
+	"root": false,
+  "extends": "//",
+  "linter": { "enabled": false },
+  "vcs": { "enabled": false },
+  "files": { "includes": [] },
+  "formatter": { "enabled": false }
+}

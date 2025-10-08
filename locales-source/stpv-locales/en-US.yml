@@ -1,0 +1,77 @@
+---
+stpvAntennaPatch: |
+  Sharkey Stelpolva Edition adds additional keyword syntax to the antenna settings.
+  That means, the special keyword `domain:example.com` will match all posts from `example.com`. This keyword can also be used in OR syntax.
+  Specifically, you must use `domain:here` to match posts in this instance.
+stpvPgroongaSearchInstru: Use the `A OR B` syntax to search for notes containing either A or B. `A B` (with a space in between) means posts containing both keywords A and B.
+timeTravel: Time Travel
+timeTravelDescription: Show posts before this date
+makePrivate:
+  text: Make private
+  description: Making a post private will make it visible only to you and send a deletion request to remote servers.
+  confirm: Are you sure you want to make this post private?
+  warn: Making posts private in batches is a **permanent, irreversible** process and places a certain amount of load on the server. Please proceed with caution. You can only make posts private in batches once an hour.
+  sinceDate: Since Date
+  untilDate: Until Date
+  dangerTip: Since this is a very dangerous operation, please enter `{text}` to enable this feature
+  manyCount: There are {count} posts that will be made private
+  textmany: Make posts private!
+  manyWarn: Do you really want to make these {count} posts private in batches? This operation is irreversible and your posts will only be visible to you forever (really!)
+  didStart: The making-private process has started
+  bulkText: Bulk make posts private
+_stpvPlus:
+  title: Stelpolva Plus Settings
+  info: These settings are added by Sharkey Stelpolva and are not available in normal Sharkey instances.
+  disableAllReactions:
+    label: Disable all reactions for front-end
+    caption: This only includes front-end changes, so other people can still react emojis to you. Only available for Sharkey style note.
+  defaultFont:
+    label: Default Font
+    caption: Some Chinese font files are large, please wait for a while for the font to load after switching. 为了更好的体验，仅支持简体的峄山碑篆体和仅支持繁体的崇羲篆體会互相补充。
+  fontType:
+    label: Font Type
+    caption: Select subfont for the font
+  customFont:
+    label: Custom Font...
+    caption: Select a font from your local font list
+  softMutedUsers:
+    label: User IDs soft muted on the timeline
+    caption: Fill in the user IDs that can be found on Raw, one per line. At most 100 IDs, and any exceeded will be deleted.
+  softMutedNotes:
+    label: Post IDs soft muted on the timeline
+    caption: Fill in the note IDs that can be found on URL, one per line. At most 100 IDs, and any exceeded will be deleted.
+  softMutedDomains:
+    label: Domain names soft muted on the timeline
+    caption: Fill in the domain names, one per line. At most 100 domains, and any exceeded will be deleted.
+  hideReplyAcct:
+    label: Hide collapsed replied note acct
+    caption: Don't show @username@domain
+  advancedPostForm:
+    label: Advanced post form
+    caption: Allows adding prefixes, suffixes, etc.
+  combineRepliesQuotes:
+    label: Combine quotes and replies
+    caption: Display both quotes and replies on the post details page
+  disableTimeline:
+    label: Disable timeline
+    caption: "Disable {name} timeline"
+  aprilFools:
+    label: April Fools' Day Easter Eggs
+    caption: "Open it and you will find a surprise(?) on April 1st"
+stpvMuteUser: "Soft mute notes in timeline"
+stpvUnmuteUser: "Don't soft mute notes in timeline"
+stpvMuteNote: "Soft mute this note later"
+stpvUnmuteNote: "Unmute this note"
+stpvMuteInstance: "Soft mute notes from this instance in timeline"
+stpvDomainUserSaysSomething: "{name} from {domain} said something"
+stpvReactionsStat: "Emoji Reactions Stats"
+stpvReactionsStatDescription: "Shows the the first 100 of emojis mostly reacted"
+stpvPFprefix: "prefix..."
+stpvPFsuffix: "...suffix"
+stpvWarnNoQueryLocalFonts: Oops! Your browser doesn't support the queryLocalFonts method, so please fill in the font name manually in the text box.
+stpvEmojiPickerItemSize: "Emoji size"
+
+_notification:
+  reportAccepted: "Report Accepted"
+
+reportAcceptedBody: "Your report against {target} has been accepted. Thank you for your help! The administrators have taken appropriate action."
