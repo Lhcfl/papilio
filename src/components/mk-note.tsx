@@ -1,12 +1,11 @@
 import { RepeatIcon } from "lucide-react";
-import type { Note } from "misskey-js/entities.js";
 import { MkAvatar } from "./mk-avatar";
 import { MkUserName } from "./mk-user-name";
 import { MkNoteActions } from "./note/mk-note-actions";
 import { MkNoteBody } from "./note/mk-note-body";
 import { MkNoteHeader } from "./note/mk-note-header";
 
-const MkNoteRenoteTip = (props: { note: Note }) => {
+const MkNoteRenoteTip = (props: { note: NoteWithExtension }) => {
 	return (
 		<div className="mk-note-renote-tip p-2 flex gap-2 items-center text-muted-foreground">
 			<RepeatIcon></RepeatIcon>
@@ -16,7 +15,7 @@ const MkNoteRenoteTip = (props: { note: Note }) => {
 	);
 };
 
-export const MkNote = (props: { note: Note }) => {
+export const MkNote = (props: { note: NoteWithExtension }) => {
 	const appearNote = props.note.renote ?? props.note;
 
 	return (

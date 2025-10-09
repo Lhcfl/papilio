@@ -32,7 +32,10 @@ export default defineConfig({
 				},
 			],
 			dts: "./src/auto-imports.d.ts",
-			dirs: ["./src/hooks", "./src/lib"],
+			dirs: ["./src/hooks", "./src/lib", "./src/services", {
+				glob: "./src/types",
+				types: true,
+			}],
 			dtsMode: "overwrite",
 		}),
 		react(),

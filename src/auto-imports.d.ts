@@ -12,9 +12,12 @@ declare global {
   const cn: typeof import('./lib/utils')['cn']
   const createRef: typeof import('react')['createRef']
   const forwardRef: typeof import('react')['forwardRef']
+  const getUserSite: typeof import('./services/use-misskey-api')['getUserSite']
   const lazy: typeof import('react')['lazy']
   const memo: typeof import('react')['memo']
   const startTransition: typeof import('react')['startTransition']
+  const storeUserSite: typeof import('./services/use-misskey-api')['storeUserSite']
+  const storeUserToken: typeof import('./services/use-misskey-api')['storeUserToken']
   const useCallback: typeof import('react')['useCallback']
   const useContext: typeof import('react')['useContext']
   const useDebugValue: typeof import('react')['useDebugValue']
@@ -28,6 +31,7 @@ declare global {
   const useIsMobile: typeof import('./hooks/use-mobile')['useIsMobile']
   const useLayoutEffect: typeof import('react')['useLayoutEffect']
   const useMemo: typeof import('react')['useMemo']
+  const useMisskeyApi: typeof import('./services/use-misskey-api')['useMisskeyApi']
   const useMisskeyGlobal: typeof import('./hooks/use-misskey-global')['useMisskeyGlobal']
   const useMutation: typeof import('@tanstack/react-query')['useMutation']
   const useNavigate: typeof import('@tanstack/react-router')['useNavigate']
@@ -36,15 +40,20 @@ declare global {
   const useQueryClient: typeof import('@tanstack/react-query')['useQueryClient']
   const useReducer: typeof import('react')['useReducer']
   const useRef: typeof import('react')['useRef']
+  const useRenoteAction: typeof import('./hooks/note-actions')['useRenoteAction']
   const useRouter: typeof import('@tanstack/react-router')['useRouter']
   const useSearch: typeof import('@tanstack/react-router')['useSearch']
   const useState: typeof import('react')['useState']
   const useSyncExternalStore: typeof import('react')['useSyncExternalStore']
   const useTransition: typeof import('react')['useTransition']
+  const useUnrenoteAction: typeof import('./hooks/note-actions')['useUnrenoteAction']
 }
 // for type re-export
 declare global {
   // @ts-ignore
   export type { MisskeyGlobalContextType } from './hooks/use-misskey-global'
   import('./hooks/use-misskey-global')
+  // @ts-ignore
+  export type { NoteWithExtension } from './types/note'
+  import('./types/note')
 }
