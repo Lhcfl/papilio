@@ -1,21 +1,24 @@
-import { useMisskeyApi } from "@/services/use-misskey-api";
+import { LoadingTrigger } from "./loading-trigger";
+import { MkNote } from "./mk-note";
 import { Spinner } from "./ui/spinner";
 
 export const MkTimerline = () => {
-	const misskeyApi = useMisskeyApi();
-
-	const { data, isLoading, isError } = useQuery({
-		queryKey: ["mk-timerline"],
-		queryFn: () => misskeyApi.request("notes/timeline", {}),
-	});
+	const { data, isError, fetchNextPage, hasNextPage, isLoading } =
+		useHomeTimeline();
 
 	return (
-		<div>
-			{isLoading && <Spinner />}
+		<div className="mk-timerline w-full">
 			{isError && <div>Error</div>}
-			{data?.map((item) => (
-				<div key={item.id}>{item.text}</div>
-			))}
+			{data?.pages.map((page) =>
+				page.map((note) => <MkNote key={note.id} note={note} />),
+			)}
+			{(isLoading || hasNextPage) && (
+				<div className="w-full flex justify-center my-4">
+					<LoadingTrigger onShow={fetchNextPage}>
+						<Spinner />
+					</LoadingTrigger>
+				</div>
+			)}
 		</div>
 	);
 };
