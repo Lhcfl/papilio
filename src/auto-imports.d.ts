@@ -12,6 +12,7 @@ declare global {
   const cn: typeof import('./lib/utils')['cn']
   const createRef: typeof import('react')['createRef']
   const forwardRef: typeof import('react')['forwardRef']
+  const getNoteExcerpt: typeof import('./services/note-excerpt')['getNoteExcerpt']
   const getUserSite: typeof import('./services/use-misskey-api')['getUserSite']
   const getUserSiteOrNull: typeof import('./services/use-misskey-api')['getUserSiteOrNull']
   const getUserTokenOrNull: typeof import('./services/use-misskey-api')['getUserTokenOrNull']

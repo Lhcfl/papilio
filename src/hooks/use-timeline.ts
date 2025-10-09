@@ -62,6 +62,7 @@ export const useTimeline = (type: TimelineTypes) => {
             limit: TIMELINE_PAGE_SIZE,
             untilId: pageParam,
           });
+
       }
     },
     getNextPageParam: (lastPage) => lastPage.at(-1)?.id,

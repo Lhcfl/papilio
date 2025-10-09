@@ -1,8 +1,11 @@
 import { Fragment } from "react";
+import { toast } from "sonner";
 import { AppRightCard } from "@/components/app-right-card";
 import { AppSidebar } from "@/components/app-sidebar";
+import { MkNotificationToast } from "@/components/mk-notification-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import { MisskeyGlobalProvider } from "@/providers/misskey-global";
 
 export const DefaultLayout = (props: {
@@ -13,6 +16,26 @@ export const DefaultLayout = (props: {
 	headerCenter?: React.ReactNode;
 }) => {
 	const Wrapper = props.wrapper || Fragment;
+	const stream = useMisskeyStream();
+	const api = useMisskeyApi();
+
+	useEffect(() => {
+		const connection = stream.useChannel("main");
+		if (import.meta.env.DEV) {
+			console.log("subscribed to main channel");
+		}
+
+		connection.on("notification", (n) => {
+			toast.custom((id) => <MkNotificationToast key={`toast-${id}`} notification={n} />);
+		});
+
+		return () => {
+			if (import.meta.env.DEV) {
+				console.log("main channel disposed");
+			}
+			connection.dispose();
+		};
+	});
 
 	return (
 		<MisskeyGlobalProvider>
@@ -37,6 +60,7 @@ export const DefaultLayout = (props: {
 					</div>
 				</SidebarInset>
 			</SidebarProvider>
+			<Toaster />
 		</MisskeyGlobalProvider>
 	);
 };
