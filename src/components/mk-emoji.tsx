@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import Twemoji from "twemoji";
 import { getUserSite } from "@/services/use-misskey-api";
 
@@ -12,7 +13,7 @@ export const MkCustomEmoji = (props: {
 	menuReaction?: boolean;
 	fallbackToImage?: boolean;
 }) => {
-	const className = "inline h-[2em] align-middle transition-all" + (props.normal ? " h-[1.25m] align-[-0.25em]" : "");
+	const className = clsx("inline align-middle transition-all", props.normal ? "h-[1.25em] align-[-0.25em]" : "h-[2em]");
 	const { emojisMap, site, meta } = useMisskeyGlobal();
 	const [error, setError] = useState(false);
 

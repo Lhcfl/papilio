@@ -17,7 +17,6 @@ export const DefaultLayout = (props: {
 }) => {
 	const Wrapper = props.wrapper || Fragment;
 	const stream = useMisskeyStream();
-	const api = useMisskeyApi();
 
 	useEffect(() => {
 		const connection = stream.useChannel("main");
