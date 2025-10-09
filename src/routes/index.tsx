@@ -1,15 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { MkTimelinesContainer, MkTimelinesContent, MkTimelinesTabs } from "@/components/mk-timelines";
-import { DefaultLayout } from "@/layouts/default-layout";
+import { createFileRoute } from '@tanstack/react-router'
+import { MkTimelinesContainer, MkTimelinesContent, MkTimelinesTabs } from '@/components/mk-timelines'
+import { DefaultLayout } from '@/layouts/default-layout'
 
-export const Route = createFileRoute("/")({
-	component: Index,
-});
+export const Route = createFileRoute('/')({
+  component: Index,
+})
 
 function Index() {
-	return (
-		<DefaultLayout wrapper={MkTimelinesContainer} headerCenter={<MkTimelinesTabs />}>
-			<MkTimelinesContent />
-		</DefaultLayout>
-	);
+  return (
+    <DefaultLayout wrapper={MkTimelinesContainer} headerCenter={<MkTimelinesTabs />}>
+      <MkTimelinesContent />
+    </DefaultLayout>
+  )
 }

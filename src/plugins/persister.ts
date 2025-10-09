@@ -1,11 +1,11 @@
-import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
-import type { DehydrateOptions } from "@tanstack/react-query";
-import * as IDB from "idb-keyval";
-import { getCurrentUserSiteIDB } from "./idb";
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
+import type { DehydrateOptions } from '@tanstack/react-query'
+import * as IDB from 'idb-keyval'
+import { getCurrentUserSiteIDB } from './idb'
 
-const PersisterIDB = getCurrentUserSiteIDB();
+const PersisterIDB = getCurrentUserSiteIDB()
 
-export const PERSIST_GC_TIME = 1000 * 60 * 60 * 24; // 24 hours
+export const PERSIST_GC_TIME = 1000 * 60 * 60 * 24 // 24 hours
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,25 +14,25 @@ export const queryClient = new QueryClient({
 
     },
   },
-});
+})
 
 export const localStoragePersister = createAsyncStoragePersister({
   storage: {
-    getItem: (key) => IDB.get(key, PersisterIDB).then(obj => JSON.stringify(obj)),
+    getItem: key => IDB.get(key, PersisterIDB).then(obj => JSON.stringify(obj)),
     setItem: (key, value) => IDB.set(key, JSON.parse(value), PersisterIDB),
-    removeItem: (key) => IDB.del(key, PersisterIDB),
+    removeItem: key => IDB.del(key, PersisterIDB),
   },
-  key: "query-persist",
-});
+  key: 'query-persist',
+})
 
 export const dehydrateOptions: DehydrateOptions = {
   shouldDehydrateMutation: () => false,
   shouldDehydrateQuery: (query) => {
     if (import.meta.env.DEV) {
       if (query.gcTime >= PERSIST_GC_TIME) {
-        console.log("Persisting query:", query.queryKey, query);
+        console.log('Persisting query:', query.queryKey, query)
       }
     }
-    return query.gcTime >= PERSIST_GC_TIME; // only persist queries with gcTime >= 24 hours
+    return query.gcTime >= PERSIST_GC_TIME // only persist queries with gcTime >= 24 hours
   },
-};
+}

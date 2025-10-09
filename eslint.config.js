@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import stylistic from "@stylistic/eslint-plugin";
 import { defineConfig, globalIgnores } from "eslint/config";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
@@ -14,6 +15,7 @@ export default defineConfig([
 			js.configs.recommended,
 			tseslint.configs.recommended,
 			reactHooks.configs["recommended-latest"],
+			stylistic.configs.recommended,
 			reactRefresh.configs.vite,
 		],
 		languageOptions: {
