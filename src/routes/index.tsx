@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MkTimerline } from "@/components/mk-timerline";
-import { Button } from "@/components/ui/button";
+import { MkTimeline } from "@/components/mk-timeline";
 import { DefaultLayout } from "@/layouts/default-layout";
 
 export const Route = createFileRoute("/")({
@@ -10,14 +9,8 @@ export const Route = createFileRoute("/")({
 function Index() {
 	return (
 		<DefaultLayout>
-			<div className="p-2">
-				<h3>Welcome Home!</h3>
-			</div>
 			<div>
-				<Button>hello</Button>
-			</div>
-			<div>
-				<MkTimerline />
+				<MkTimeline type="home" />
 			</div>
 		</DefaultLayout>
 	);

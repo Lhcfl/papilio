@@ -24,17 +24,20 @@ declare global {
   const useContext: typeof import('react')['useContext']
   const useDebugValue: typeof import('react')['useDebugValue']
   const useDeferredValue: typeof import('react')['useDeferredValue']
+  const useDeleteNoteAction: typeof import('./hooks/note-actions')['useDeleteNoteAction']
   const useEffect: typeof import('react')['useEffect']
   const useGlobalTimeline: typeof import('./hooks/use-timeline')['useGlobalTimeline']
   const useHomeTimeline: typeof import('./hooks/use-timeline')['useHomeTimeline']
   const useId: typeof import('react')['useId']
   const useImperativeHandle: typeof import('react')['useImperativeHandle']
+  const useInfiniteQuery: typeof import('@tanstack/react-query')['useInfiniteQuery']
   const useInsertionEffect: typeof import('react')['useInsertionEffect']
   const useIsMobile: typeof import('./hooks/use-mobile')['useIsMobile']
   const useLayoutEffect: typeof import('react')['useLayoutEffect']
   const useMemo: typeof import('react')['useMemo']
   const useMisskeyApi: typeof import('./services/use-misskey-api')['useMisskeyApi']
   const useMisskeyGlobal: typeof import('./hooks/use-misskey-global')['useMisskeyGlobal']
+  const useMisskeyStream: typeof import('./services/use-misskey-api')['useMisskeyStream']
   const useMutation: typeof import('@tanstack/react-query')['useMutation']
   const useNavigate: typeof import('@tanstack/react-router')['useNavigate']
   const useParams: typeof import('@tanstack/react-router')['useParams']
@@ -47,7 +50,9 @@ declare global {
   const useSearch: typeof import('@tanstack/react-router')['useSearch']
   const useState: typeof import('react')['useState']
   const useSyncExternalStore: typeof import('react')['useSyncExternalStore']
+  const useTimeline: typeof import('./hooks/use-timeline')['useTimeline']
   const useTransition: typeof import('react')['useTransition']
+  const useTranslation: typeof import('react-i18next')['useTranslation']
   const useUnrenoteAction: typeof import('./hooks/note-actions')['useUnrenoteAction']
 }
 // for type re-export
@@ -55,6 +60,9 @@ declare global {
   // @ts-ignore
   export type { MisskeyGlobalContextType } from './hooks/use-misskey-global'
   import('./hooks/use-misskey-global')
+  // @ts-ignore
+  export type { TimelineTypes } from './hooks/use-timeline'
+  import('./hooks/use-timeline')
   // @ts-ignore
   export type { NoteWithExtension } from './types/note'
   import('./types/note')

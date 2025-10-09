@@ -14,3 +14,11 @@ export const useUnrenoteAction = (noteId: string) => {
 		mutationFn: () => api.request("notes/unrenote", { noteId }),
 	});
 };
+
+export const useDeleteNoteAction = (noteId: string) => {
+	const api = useMisskeyApi();
+	return useMutation({
+		mutationKey: ["deleteNote", noteId],
+		mutationFn: () => api.request("notes/delete", { noteId }),
+	});
+};

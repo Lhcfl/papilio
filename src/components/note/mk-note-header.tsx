@@ -17,7 +17,7 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
 			</div>
 			<div className="note-info">
 				<div className="note-time flex items-center gap-2">
-					<MkTime time={props.note.createdAt} />
+					<MkTime time={props.note.createdAt} className="text-sm" />
 					<MkVisibilityIcon className="size-4" note={props.note} />
 				</div>
 			</div>

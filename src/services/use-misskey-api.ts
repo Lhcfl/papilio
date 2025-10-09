@@ -1,4 +1,4 @@
-import { api } from "misskey-js";
+import { api, Stream } from "misskey-js";
 
 let apiClient: api.APIClient | null = null;
 
@@ -10,6 +10,17 @@ export const useMisskeyApi = () => {
 	const credential = getUserToken();
 	return (apiClient = new api.APIClient({ origin, credential }));
 };
+
+let stream: Stream | null = null;
+
+export const useMisskeyStream = () => {
+	if (stream) {
+		return stream;
+	}
+	const origin = getUserSite();
+	const token = getUserToken();
+	return (stream = new Stream(origin, { token }));
+}
 
 export const storeUserSite = (site: string) => {
 	localStorage.setItem("site", site);

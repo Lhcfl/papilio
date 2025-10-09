@@ -17,6 +17,7 @@ export const MisskeyGlobalProvider = (props: { children: React.ReactNode }) => {
 		queryKey: ["me"],
 		queryFn: () => api.request("i", {}),
 		gcTime: PERSIST_GC_TIME,
+		staleTime: 1000 * 60 * 60, // 1 hour
 	});
 
 	const emojisQuery = useQuery({
@@ -25,12 +26,14 @@ export const MisskeyGlobalProvider = (props: { children: React.ReactNode }) => {
 		queryFn: () => fetch(new URL("/api/emojis", api.origin)).then((r) => r.json()) as Promise<EmojisResponse>,
 		select: (data) => data.emojis,
 		gcTime: PERSIST_GC_TIME,
+		staleTime: 1000 * 60 * 10, // 10 minutes
 	});
 
 	const metaQuery = useQuery({
 		queryKey: ["site-info"],
 		queryFn: () => api.request("meta", {}),
 		gcTime: PERSIST_GC_TIME,
+		staleTime: 1000 * 60 * 60, // 1 hour
 	});
 
 	/** Descriptions and Queries */

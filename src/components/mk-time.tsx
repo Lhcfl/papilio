@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import type { HTMLProps } from "react";
 import { useTranslation } from "react-i18next";
 
 function getDateSafe(n: Date | string | number) {
@@ -23,13 +24,15 @@ const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
 	second: "numeric",
 });
 
-export const MkTime = (props: {
-	time: Date | string | number | null;
-	origin?: Date | null;
-	mode?: "relative" | "absolute" | "detail";
-	colored?: boolean;
-}) => {
-	const { time, origin = null, mode = "relative", colored = true } = props;
+export const MkTime = (
+	props: {
+		time: Date | string | number | null;
+		origin?: Date | null;
+		mode?: "relative" | "absolute" | "detail";
+		colored?: boolean;
+	} & HTMLProps<HTMLTimeElement>,
+) => {
+	const { time, origin = null, mode = "relative", colored = true, ...rest } = props;
 	const { t } = useTranslation();
 
 	const [realNow, setNow] = useState(Date.now());
@@ -103,7 +106,8 @@ export const MkTime = (props: {
 			className={clsx({
 				"text-yellow-500": colored && old && !veryOld,
 				"text-red-500": colored && veryOld,
-			})}>
+			})}
+			{...rest}>
 			{invalid && t("nothing")}
 			{mode === "absolute" && absolute}
 			{mode === "relative" && relative}

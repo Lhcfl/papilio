@@ -20,6 +20,7 @@ export default defineConfig({
 						"useQuery",
 						"useMutation",
 						"useQueryClient",
+						"useInfiniteQuery",
 						"QueryClient",
 						"QueryClientProvider",
 					],
@@ -29,6 +30,9 @@ export default defineConfig({
 						"useSearch",
 						"useRouter",
 					],
+					"react-i18next": [
+						"useTranslation",
+					]
 				},
 			],
 			dts: "./src/auto-imports.d.ts",

@@ -2,16 +2,13 @@ import { LoadingTrigger } from "./loading-trigger";
 import { MkNote } from "./mk-note";
 import { Spinner } from "./ui/spinner";
 
-export const MkTimerline = () => {
-	const { data, isError, fetchNextPage, hasNextPage, isLoading } =
-		useHomeTimeline();
+export const MkTimeline = (props: { type: TimelineTypes }) => {
+	const { data, isError, fetchNextPage, hasNextPage, isLoading } = useTimeline(props.type);
 
 	return (
 		<div className="mk-timerline w-full">
 			{isError && <div>Error</div>}
-			{data?.pages.map((page) =>
-				page.map((note) => <MkNote key={note.id} note={note} />),
-			)}
+			{data?.pages.map((page) => page.map((note) => <MkNote key={note.id} note={note} />))}
 			{(isLoading || hasNextPage) && (
 				<div className="w-full flex justify-center my-4">
 					<LoadingTrigger onShow={fetchNextPage}>

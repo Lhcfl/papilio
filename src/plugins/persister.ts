@@ -10,7 +10,8 @@ export const PERSIST_GC_TIME = 1000 * 60 * 60 * 24; // 24 hours
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchInterval: 1000 * 60 * 60, // 1 hour
+      // refetchInterval: 1000 * 60 * 60, // 1 hour
+
     },
   },
 });
