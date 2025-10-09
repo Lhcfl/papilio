@@ -1,5 +1,6 @@
+import { Tabs } from "@radix-ui/react-tabs";
 import { createFileRoute } from "@tanstack/react-router";
-import { MkTimelines } from "@/components/mk-timelines";
+import { MkTimelinesContainer, MkTimelinesContent, MkTimelinesTabs } from "@/components/mk-timelines";
 import { DefaultLayout } from "@/layouts/default-layout";
 
 export const Route = createFileRoute("/")({
@@ -8,10 +9,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
 	return (
-		<DefaultLayout>
-			<div>
-				<MkTimelines />
-			</div>
+		<DefaultLayout wrapper={MkTimelinesContainer} headerCenter={<MkTimelinesTabs />}>
+			<MkTimelinesContent />
 		</DefaultLayout>
 	);
 }

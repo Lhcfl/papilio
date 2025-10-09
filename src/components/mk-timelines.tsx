@@ -15,25 +15,43 @@ const timelineIcons = {
 	global: <GlobeIcon />,
 };
 
-export const MkTimelines = () => {
-	const timelines: TimelineTypes[] = ["home", "local", "hybrid", "global"];
-	const { t } = useTranslation();
+const timelines: TimelineTypes[] = ["home", "local", "hybrid", "global"];
 
+export const MkTimelinesTabs = () => {
+	const { t } = useTranslation();
 	return (
-		<Tabs defaultValue="home">
-			<TabsList>
-				{timelines.map((timeline) => (
-					<TabsTrigger key={timeline} value={timeline}>
-						{timelineIcons[timeline]}
-						{t(getTimelineTranslationKey(timeline))}
-					</TabsTrigger>
-				))}
-			</TabsList>
+		<TabsList>
 			{timelines.map((timeline) => (
-				<TabsContent key={timeline} value={timeline}>
-					<MkTimeline type={timeline} />
-				</TabsContent>
+				<TabsTrigger key={timeline} value={timeline}>
+					{timelineIcons[timeline]}
+					{t(getTimelineTranslationKey(timeline))}
+				</TabsTrigger>
 			))}
-		</Tabs>
+		</TabsList>
+	);
+};
+
+export const MkTimelinesContainer = (props: { children: React.ReactNode }) => {
+	return <Tabs defaultValue="home">{props.children}</Tabs>;
+};
+
+export const MkTimelinesContent = () => {
+	return timelines.map((timeline) => (
+		<TabsContent key={timeline} value={timeline}>
+			<MkTimeline type={timeline} />
+		</TabsContent>
+	));
+};
+
+export const MkTimelines = () => {
+	return (
+		<MkTimelinesContainer>
+			<div className="mk-timelines-header">
+				<div className="mk-timelines-nav">
+					<MkTimelinesTabs />
+				</div>
+			</div>
+			<MkTimelinesContent />
+		</MkTimelinesContainer>
 	);
 };
