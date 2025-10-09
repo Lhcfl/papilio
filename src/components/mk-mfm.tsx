@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { ClockIcon, HashIcon } from "lucide-react";
+import { ClockIcon } from "lucide-react";
 import * as mfm from "mfm-js";
 import * as Misskey from "misskey-js";
 import type { CSSProperties } from "react";
 import { MkCustomEmoji, MkEmoji } from "./mk-emoji";
+import { MkHashTag } from "./mk-hashtag";
 import { MkMention } from "./mk-mention";
 import { MkUrl } from "./mk-url";
 
@@ -106,11 +107,7 @@ export const MkMfm = (in_props: MfmProps) => {
 				case "strike":
 					return <del>{genEl(token.children, scale)}</del>;
 				case "italic":
-					return (
-						<i style={{ fontStyle: "oblique" }}>
-							{genEl(token.children, scale)}
-						</i>
-					);
+					return <i style={{ fontStyle: "oblique" }}>{genEl(token.children, scale)}</i>;
 
 				case "fn": {
 					// TODO: CSSを文字列で組み立てていくと token.props.args.~~~ 経由でCSSインジェクションできるのでよしなにやる
@@ -162,16 +159,8 @@ export const MkMfm = (in_props: MfmProps) => {
 							break;
 						}
 						case "spin": {
-							const direction = token.props.args.left
-								? "reverse"
-								: token.props.args.alternate
-									? "alternate"
-									: "normal";
-							const anime = token.props.args.x
-								? "mfm-spinX"
-								: token.props.args.y
-									? "mfm-spinY"
-									: "mfm-spin";
+							const direction = token.props.args.left ? "reverse" : token.props.args.alternate ? "alternate" : "normal";
+							const anime = token.props.args.x ? "mfm-spinX" : token.props.args.y ? "mfm-spinY" : "mfm-spin";
 							const speed = validTime(token.props.args.speed) ?? "1.5s";
 							const delay = validTime(token.props.args.delay) ?? "0s";
 							style = useAnim
@@ -220,16 +209,10 @@ export const MkMfm = (in_props: MfmProps) => {
 						}
 						case "x2": {
 							if (props.inline) {
-								return (
-									<span style={{ fontSize: "120%" }}>
-										{genEl(token.children, scale * 1.2)}
-									</span>
-								);
+								return <span style={{ fontSize: "120%" }}>{genEl(token.children, scale * 1.2)}</span>;
 							} else {
 								return (
-									<span
-										className={defaultStore.state.advancedMfm ? "mfm-x2" : ""}
-									>
+									<span className={defaultStore.state.advancedMfm ? "mfm-x2" : ""}>
 										{genEl(token.children, scale * 2)}
 									</span>
 								);
@@ -237,16 +220,10 @@ export const MkMfm = (in_props: MfmProps) => {
 						}
 						case "x3": {
 							if (props.inline) {
-								return (
-									<span style={{ fontSize: "120%" }}>
-										{genEl(token.children, scale * 1.2)}
-									</span>
-								);
+								return <span style={{ fontSize: "120%" }}>{genEl(token.children, scale * 1.2)}</span>;
 							} else {
 								return (
-									<span
-										className={defaultStore.state.advancedMfm ? "mfm-x3" : ""}
-									>
+									<span className={defaultStore.state.advancedMfm ? "mfm-x3" : ""}>
 										{genEl(token.children, scale * 3)}
 									</span>
 								);
@@ -254,16 +231,10 @@ export const MkMfm = (in_props: MfmProps) => {
 						}
 						case "x4": {
 							if (props.inline) {
-								return (
-									<span style={{ fontSize: "120%" }}>
-										{genEl(token.children, scale * 1.2)}
-									</span>
-								);
+								return <span style={{ fontSize: "120%" }}>{genEl(token.children, scale * 1.2)}</span>;
 							} else {
 								return (
-									<span
-										className={defaultStore.state.advancedMfm ? "mfm-x4" : ""}
-									>
+									<span className={defaultStore.state.advancedMfm ? "mfm-x4" : ""}>
 										{genEl(token.children, scale * 4)}
 									</span>
 								);
@@ -290,19 +261,11 @@ export const MkMfm = (in_props: MfmProps) => {
 							break;
 						}
 						case "blur": {
-							return (
-								<span className="_mfm_blur_">
-									{genEl(token.children, scale)}
-								</span>
-							);
+							return <span className="_mfm_blur_">{genEl(token.children, scale)}</span>;
 						}
 						case "rainbow": {
 							if (!useAnim) {
-								return (
-									<span className="_mfm_rainbow_fallback_">
-										{genEl(token.children, scale)}
-									</span>
-								);
+								return <span className="_mfm_rainbow_fallback_">{genEl(token.children, scale)}</span>;
 							}
 							const speed = validTime(token.props.args.speed) ?? "1s";
 							const delay = validTime(token.props.args.delay) ?? "0s";
@@ -316,11 +279,7 @@ export const MkMfm = (in_props: MfmProps) => {
 							if (!useAnim) {
 								return genEl(token.children, scale);
 							}
-							return (
-								<span className="_mfm_sparkle_">
-									{genEl(token.children, scale)}
-								</span>
-							);
+							return <span className="_mfm_sparkle_">{genEl(token.children, scale)}</span>;
 						}
 						case "fade": {
 							if (!useAnim) {
@@ -328,9 +287,7 @@ export const MkMfm = (in_props: MfmProps) => {
 								break;
 							}
 
-							const direction = token.props.args.out
-								? "alternate-reverse"
-								: "alternate";
+							const direction = token.props.args.out ? "alternate-reverse" : "alternate";
 							const speed = validTime(token.props.args.speed) ?? "1.5s";
 							const delay = validTime(token.props.args.delay) ?? "0s";
 							const loop = safeParseFloat(token.props.args.loop) ?? "infinite";
@@ -397,18 +354,10 @@ export const MkMfm = (in_props: MfmProps) => {
 							break;
 						}
 						case "crop": {
-							const top = Number.parseFloat(
-								(token.props.args.top ?? "0").toString(),
-							);
-							const right = Number.parseFloat(
-								(token.props.args.right ?? "0").toString(),
-							);
-							const bottom = Number.parseFloat(
-								(token.props.args.bottom ?? "0").toString(),
-							);
-							const left = Number.parseFloat(
-								(token.props.args.left ?? "0").toString(),
-							);
+							const top = Number.parseFloat((token.props.args.top ?? "0").toString());
+							const right = Number.parseFloat((token.props.args.right ?? "0").toString());
+							const bottom = Number.parseFloat((token.props.args.bottom ?? "0").toString());
+							const left = Number.parseFloat((token.props.args.left ?? "0").toString());
 							style = {
 								clipPath: `inset(${top}% ${right}% ${bottom}% ${left}%)`,
 							};
@@ -450,17 +399,9 @@ export const MkMfm = (in_props: MfmProps) => {
 							let b_style = token.props.args.style;
 							if (
 								typeof b_style !== "string" ||
-								![
-									"hidden",
-									"dotted",
-									"dashed",
-									"solid",
-									"double",
-									"groove",
-									"ridge",
-									"inset",
-									"outset",
-								].includes(b_style)
+								!["hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"].includes(
+									b_style,
+								)
 							)
 								b_style = "solid";
 							const width = safeParseFloat(token.props.args.width) ?? 1;
@@ -493,10 +434,7 @@ export const MkMfm = (in_props: MfmProps) => {
 								}
 								return (
 									<ruby>
-										{genEl(
-											token.children.slice(0, token.children.length - 1),
-											scale,
-										)}
+										{genEl(token.children.slice(0, token.children.length - 1), scale)}
 										<rt>{text.trim()}</rt>
 									</ruby>
 								);
@@ -509,9 +447,7 @@ export const MkMfm = (in_props: MfmProps) => {
 						}
 						case "unixtime": {
 							const child = token.children[0];
-							const unixtime = parseInt(
-								child.type === "text" ? child.props.text : "",
-							);
+							const unixtime = parseInt(child.type === "text" ? child.props.text : "");
 							return (
 								<span>
 									<ClockIcon></ClockIcon>
@@ -529,13 +465,9 @@ export const MkMfm = (in_props: MfmProps) => {
 								onClick={(ev) => {
 									ev.stopPropagation();
 									ev.preventDefault();
-									const clickEv =
-										typeof token.props.args.ev === "string"
-											? token.props.args.ev
-											: "";
+									const clickEv = typeof token.props.args.ev === "string" ? token.props.args.ev : "";
 									props.clickEv?.(clickEv);
-								}}
-							>
+								}}>
 								{genEl(token.children, scale)}
 							</span>;
 						}
@@ -549,27 +481,15 @@ export const MkMfm = (in_props: MfmProps) => {
 							</span>
 						);
 					} else {
-						return (
-							<span style={{ display: "inline-block", ...style }}>
-								{genEl(token.children, scale)}
-							</span>
-						);
+						return <span style={{ display: "inline-block", ...style }}>{genEl(token.children, scale)}</span>;
 					}
 				}
 
 				case "small": {
 					if (props.inline) {
-						return (
-							<span style={{ opacity: 0.7 }}>
-								{genEl(token.children, scale)}
-							</span>
-						);
+						return <span style={{ opacity: 0.7 }}>{genEl(token.children, scale)}</span>;
 					}
-					return [
-						<small style={{ opacity: 0.7 }}>
-							{genEl(token.children, scale)}
-						</small>,
-					];
+					return [<small style={{ opacity: 0.7 }}>{genEl(token.children, scale)}</small>];
 				}
 
 				case "center": {
@@ -601,11 +521,7 @@ export const MkMfm = (in_props: MfmProps) => {
 
 				case "link": {
 					if (props.inline) {
-						return (
-							<span className="text-blue-500">
-								{genEl(token.children, scale)}
-							</span>
-						);
+						return <span className="text-blue-500">{genEl(token.children, scale)}</span>;
 					}
 					return (
 						<bdi>
@@ -613,8 +529,7 @@ export const MkMfm = (in_props: MfmProps) => {
 								key={Math.random()}
 								url={token.props.url}
 								rel="nofollow noopener"
-								navigationBehavior={props.linkNavigationBehavior}
-							>
+								navigationBehavior={props.linkNavigationBehavior}>
 								{genEl(token.children, scale, true)}
 							</MkUrl>
 						</bdi>
@@ -623,9 +538,7 @@ export const MkMfm = (in_props: MfmProps) => {
 
 				case "mention": {
 					const mentionHost =
-						token.props.host == null &&
-						props.author &&
-						props.author.host != null
+						token.props.host == null && props.author && props.author.host != null
 							? props.author.host
 							: token.props.host;
 
@@ -645,10 +558,7 @@ export const MkMfm = (in_props: MfmProps) => {
 					// TODO
 					return (
 						<bdi>
-							<span>
-								<HashIcon />
-								{token.props.hashtag}
-							</span>
+							<MkHashTag name={token.props.hashtag} />
 						</bdi>
 					);
 				}
@@ -787,13 +697,7 @@ export const MkMfm = (in_props: MfmProps) => {
 
 	return (
 		<bdi className={classList.join(" ")}>
-			<span
-				className={
-					props.nowrap
-						? "inline-block truncate line-clamp-1 whitespace-pre"
-						: "whitespace-pre-wrap"
-				}
-			>
+			<span className={props.nowrap ? "inline-block truncate line-clamp-1 whitespace-pre" : "whitespace-pre-wrap"}>
 				{genEl(rootAst, props.rootScale ?? 1)}
 			</span>
 		</bdi>
