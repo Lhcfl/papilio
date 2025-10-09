@@ -14,35 +14,35 @@ export const MkNoteMenu = (props: { note: NoteWithExtension }) => {
     <DropdownMenuContent align="start">
       <DropdownMenuGroup>
         <DropdownMenuItem>
-          <InfoIcon></InfoIcon>
+          <InfoIcon />
           {t('details')}
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <CopyIcon></CopyIcon>
+          <CopyIcon />
           {t('copyContent')}
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <LinkIcon></LinkIcon>
+          <LinkIcon />
           {t('copyLink')}
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <LinkIcon></LinkIcon>
+          <LinkIcon />
           {t('copyRemoteLink')}
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <ExternalLinkIcon></ExternalLinkIcon>
+          <ExternalLinkIcon />
           {t('showOnRemote')}
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <ShareIcon></ShareIcon>
+          <ShareIcon />
           {t('share')}
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <LanguagesIcon></LanguagesIcon>
+          <LanguagesIcon />
           {t('translate')}
         </DropdownMenuItem>
       </DropdownMenuGroup>
-      <DropdownMenuSeparator></DropdownMenuSeparator>
+      <DropdownMenuSeparator />
     </DropdownMenuContent>
   )
 }

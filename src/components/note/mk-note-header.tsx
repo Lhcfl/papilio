@@ -11,7 +11,7 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
       <MkAvatar user={props.note.user} className="size-10" />
       <div className="user-info flex-grow-1 flex-shrink-1 w-0">
         <div className="user-name font-bold">
-          <MkUserName user={props.note.user}></MkUserName>
+          <MkUserName user={props.note.user} />
         </div>
         <div className="user-username text-sm text-gray-500">
           @

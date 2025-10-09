@@ -313,36 +313,36 @@ export const MkMfm = (in_props: MfmProps) => {
               }
               break
             }
-            // This is a sharkey extension and is currently disabled
-            // case "followmouse": {
-            // 	if (props.inline) {
-            // 		style = "font-style: italic;";
-            // 		break;
-            // 	}
-            // 	// Make sure advanced MFM is on and that reduced motion is off
-            // 	if (!useAnim) {
-            // 		style = "";
-            // 		break;
-            // 	}
+            // // This is a sharkey extension and is currently disabled
+            // case 'followmouse': {
+            //   if (props.inline) {
+            //     style = 'font-style: italic;'
+            //     break
+            //   }
+            //   // Make sure advanced MFM is on and that reduced motion is off
+            //   if (!useAnim) {
+            //     style = ''
+            //     break
+            //   }
 
-            // 	let x = !!token.props.args.x;
-            // 	let y = !!token.props.args.y;
+            //   let x = !!token.props.args.x
+            //   let y = !!token.props.args.y
 
-            // 	if (!x && !y) {
-            // 		x = true;
-            // 		y = true;
-            // 	}
+            //   if (!x && !y) {
+            //     x = true
+            //     y = true
+            //   }
 
-            // 	return (
-            // 		<span
-            // 			data-x={x}
-            // 			data-y={y}
-            // 			data-speed={validTime(token.props.args.speed) ?? "0.1s"}
-            // 			data-rotate-by-velocity={!!token.props.args.rotateByVelocity}
-            // 		>
-            // 			{genEl(token.children, scale)}
-            // 		</span>
-            // 	);
+            //   return (
+            //     <span
+            //       data-x={x}
+            //       data-y={y}
+            //       data-speed={validTime(token.props.args.speed) ?? '0.1s'}
+            //       data-rotate-by-velocity={!!token.props.args.rotateByVelocity}
+            //     >
+            //       {genEl(token.children, scale)}
+            //     </span>
+            //   )
             // }
             case 'position': {
               if (props.inline) {
@@ -455,8 +455,8 @@ export const MkMfm = (in_props: MfmProps) => {
               const unixtime = parseInt(child.type === 'text' ? child.props.text : '')
               return (
                 <span>
-                  <ClockIcon></ClockIcon>
-                  <time dateTime={(unixtime * 1000).toString()}></time>
+                  <ClockIcon />
+                  <time dateTime={(unixtime * 1000).toString()} />
                 </span>
               )
             }

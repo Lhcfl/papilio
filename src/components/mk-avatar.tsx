@@ -12,7 +12,7 @@ export const MkAvatar = (
       <AvatarFallback>
         <div>{user.name}</div>
       </AvatarFallback>
-      <AvatarImage src={user.avatarUrl}></AvatarImage>
+      <AvatarImage src={user.avatarUrl} />
     </Avatar>
   )
 }

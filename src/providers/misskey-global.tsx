@@ -49,7 +49,7 @@ export const MisskeyGlobalProvider = (props: { children: React.ReactNode }) => {
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <CircleXIcon></CircleXIcon>
+              <CircleXIcon />
             </EmptyMedia>
             <EmptyTitle>{t('error')}</EmptyTitle>
             <EmptyDescription>
@@ -96,7 +96,7 @@ export const MisskeyGlobalProvider = (props: { children: React.ReactNode }) => {
                 : (
                     <span className="text-green-500">[OK]</span>
                   )}
-							&nbsp;
+&nbsp;
               {name}
             </li>
           ))}

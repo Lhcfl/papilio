@@ -15,8 +15,13 @@ export default defineConfig([
 			js.configs.recommended,
 			tseslint.configs.recommended,
 			reactHooks.configs["recommended-latest"],
-			stylistic.configs.recommended,
 			reactRefresh.configs.vite,
+			stylistic.configs.recommended,
+			{
+				rules: {
+					"@stylistic/jsx-self-closing-comp": "error",
+				}
+			}
 		],
 		languageOptions: {
 			ecmaVersion: 2020,

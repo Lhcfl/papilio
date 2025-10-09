@@ -10,7 +10,7 @@ const MkMentionInner = (props: { username: string, host: string | null }) => {
   return (
     <span className="flex items-center">
       <Avatar className="size-5 mr-1">
-        <AvatarImage src={src}></AvatarImage>
+        <AvatarImage src={src} />
       </Avatar>
       @
       {username}

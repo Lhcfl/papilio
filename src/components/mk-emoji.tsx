@@ -29,7 +29,7 @@ export const MkCustomEmoji = (props: {
   if ((!url || error) && props.fallbackToImage && meta.notFoundImageUrl) {
     return (
       <span className="mk-custom-emoji error mk-custom-emoji-fallback">
-        <img className={className} src={meta.notFoundImageUrl} alt={alt} title={alt} decoding="async"></img>
+        <img className={className} src={meta.notFoundImageUrl} alt={alt} title={alt} decoding="async" />
       </span>
     )
   }
@@ -45,8 +45,7 @@ export const MkCustomEmoji = (props: {
           decoding="async"
           onError={() => setError(true)}
           onLoad={() => setError(false)}
-        >
-        </img>
+        />
       </span>
     )
   }
