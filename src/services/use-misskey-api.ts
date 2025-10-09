@@ -15,6 +15,14 @@ export const storeUserSite = (site: string) => {
 	localStorage.setItem("site", site);
 };
 
+export const getUserSiteOrNull = (): string => {
+	return localStorage.getItem("site") || "NULL";
+}
+
+export const getUserTokenOrNull = (): string => {
+	return localStorage.getItem("token") || "NULL";
+};
+
 export const getUserSite = (): string => {
 	const site = localStorage.getItem("site");
 	if (!site) {

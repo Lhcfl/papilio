@@ -1,10 +1,12 @@
 import type { User } from "misskey-js/entities.js";
+import type { HTMLProps } from "react";
 import { MkMfm } from "./mk-mfm";
 
-export const MkUserName = (props: { user: User }) => {
+export const MkUserName = (props: { user: User } & HTMLProps<HTMLSpanElement>) => {
+	const { user, ...rest } = props;
 	return (
-		<span>
-			<MkMfm text={props.user.name || props.user.username} plain></MkMfm>
+		<span {...rest}>
+			<MkMfm text={user.name || user.username} plain></MkMfm>
 		</span>
 	);
 };

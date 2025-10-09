@@ -13,6 +13,8 @@ declare global {
   const createRef: typeof import('react')['createRef']
   const forwardRef: typeof import('react')['forwardRef']
   const getUserSite: typeof import('./services/use-misskey-api')['getUserSite']
+  const getUserSiteOrNull: typeof import('./services/use-misskey-api')['getUserSiteOrNull']
+  const getUserTokenOrNull: typeof import('./services/use-misskey-api')['getUserTokenOrNull']
   const lazy: typeof import('react')['lazy']
   const memo: typeof import('react')['memo']
   const startTransition: typeof import('react')['startTransition']
