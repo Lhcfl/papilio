@@ -28,11 +28,11 @@ export const DefaultLayout = (props: {
 									<div className="flex-grow-1 w-0 text-center">{props.headerCenter}</div>
 									<div>{props.headerRight}</div>
 								</header>
-								<div>{props.children}</div>
+								<div className="p-2">{props.children}</div>
 							</ScrollArea>
 						</Wrapper>
 					</div>
-					<div className="right-card-container p-2 border-l">
+					<div className="right-card-container p-2 border-l max-lg:hidden">
 						<AppRightCard />
 					</div>
 				</SidebarInset>

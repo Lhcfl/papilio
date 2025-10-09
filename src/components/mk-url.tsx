@@ -8,7 +8,7 @@ export const MkUrl = (
 	} & HTMLAttributes<HTMLAnchorElement>,
 ) => {
 	return (
-		<a href={props.url} {...props}>
+		<a href={props.url} {...props} className="break-all break-words">
 			{props.children || props.url}
 		</a>
 	);
