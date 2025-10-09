@@ -6,8 +6,7 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-  const Link: typeof import('@tanstack/react-router')['Link']
-  const Outlet: typeof import('@tanstack/react-router')['Outlet']
+  const MisskeyGlobalContext: typeof import('./hooks/use-misskey-global')['MisskeyGlobalContext']
   const QueryClient: typeof import('@tanstack/react-query')['QueryClient']
   const QueryClientProvider: typeof import('@tanstack/react-query')['QueryClientProvider']
   const cn: typeof import('./lib/utils')['cn']
@@ -29,6 +28,7 @@ declare global {
   const useIsMobile: typeof import('./hooks/use-mobile')['useIsMobile']
   const useLayoutEffect: typeof import('react')['useLayoutEffect']
   const useMemo: typeof import('react')['useMemo']
+  const useMisskeyGlobal: typeof import('./hooks/use-misskey-global')['useMisskeyGlobal']
   const useMutation: typeof import('@tanstack/react-query')['useMutation']
   const useNavigate: typeof import('@tanstack/react-router')['useNavigate']
   const useParams: typeof import('@tanstack/react-router')['useParams']
@@ -41,4 +41,10 @@ declare global {
   const useState: typeof import('react')['useState']
   const useSyncExternalStore: typeof import('react')['useSyncExternalStore']
   const useTransition: typeof import('react')['useTransition']
+}
+// for type re-export
+declare global {
+  // @ts-ignore
+  export type { MisskeyGlobalContextType } from './hooks/use-misskey-global'
+  import('./hooks/use-misskey-global')
 }

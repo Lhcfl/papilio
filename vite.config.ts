@@ -1,10 +1,10 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import UnoCSS from "unocss/vite";
-import TanStackRouter from "@tanstack/router-plugin/vite";
-import AutoImport from "unplugin-auto-import/vite";
 import path from "node:path";
 import TailWindCSS from "@tailwindcss/vite";
+import TanStackRouter from "@tanstack/router-plugin/vite";
+import react from "@vitejs/plugin-react";
+import UnoCSS from "unocss/vite";
+import AutoImport from "unplugin-auto-import/vite";
+import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -28,8 +28,6 @@ export default defineConfig({
 						"useParams",
 						"useSearch",
 						"useRouter",
-						"Link",
-						"Outlet",
 					],
 				},
 			],
