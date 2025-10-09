@@ -1,6 +1,7 @@
 import { acct } from "misskey-js";
 import type { Note } from "misskey-js/entities.js";
 import { MkAvatar } from "../mk-avatar";
+import { MkTime } from "../mk-time";
 import { MkUserName } from "../mk-user-name";
 
 export const MkNoteHeader = (props: { note: Note }) => {
@@ -11,14 +12,10 @@ export const MkNoteHeader = (props: { note: Note }) => {
 				<div className="user-name font-bold">
 					<MkUserName user={props.note.user}></MkUserName>
 				</div>
-				<div className="user-username text-sm text-gray-500">
-					@{acct.toString(props.note.user)}
-				</div>
+				<div className="user-username text-sm text-gray-500">@{acct.toString(props.note.user)}</div>
 			</div>
 			<div className="note-info">
-				<div className="note-created-at text-sm text-gray-500">
-					{new Date(props.note.createdAt).toLocaleString()}
-				</div>
+				<MkTime time={props.note.createdAt} />
 			</div>
 		</div>
 	);

@@ -124,6 +124,19 @@ export function build() {
 
 	removeEmpty(locales);
 
+	const transformToI18nNext = (obj: Record<string, unknown>) => {
+		for (const k of Object.keys(obj)) {
+			if (typeof obj[k] === "string") {
+				obj[k] = obj[k].replaceAll(/{(\w+)}/g, (_, p1) => `{{${p1}}}`); // i18next形式に変換
+			}
+			if (typeof obj[k] === "object") {
+				transformToI18nNext(obj[k] as Record<string, unknown>);
+			}
+		}
+	}
+
+	transformToI18nNext(locales);
+
 	return Object.entries(locales).reduce(
 		(a, [k, v]) => (
 			(a[k] = (() => {
