@@ -11,9 +11,11 @@ import {
 } from "@/components/ui/sidebar";
 
 export const AppSidebar = () => {
+	const { meta } = useMisskeyGlobal();
+
 	return (
 		<Sidebar>
-			<SidebarHeader>header</SidebarHeader>
+			<SidebarHeader>{meta.name}</SidebarHeader>
 			<SidebarContent>
 				<SidebarGroup>
 					<SidebarGroupLabel>group 1</SidebarGroupLabel>
