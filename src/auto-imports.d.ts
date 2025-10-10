@@ -53,6 +53,7 @@ declare global {
   const useState: typeof import('react')['useState']
   const useSyncExternalStore: typeof import('react')['useSyncExternalStore']
   const useTimeline: typeof import('./hooks/use-timeline')['useTimeline']
+  const useTimelineTabs: typeof import('./hooks/use-timeline-tabs')['useTimelineTabs']
   const useTransition: typeof import('react')['useTransition']
   const useTranslation: typeof import('react-i18next')['useTranslation']
   const useUnrenoteAction: typeof import('./hooks/note-actions')['useUnrenoteAction']
@@ -68,4 +69,7 @@ declare global {
   // @ts-ignore
   export type { NoteWithExtension } from './types/note'
   import('./types/note')
+  // @ts-ignore
+  export type { Tab } from './types/page-header'
+  import('./types/page-header')
 }

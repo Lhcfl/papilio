@@ -1,4 +1,3 @@
-import { Fragment } from 'react'
 import { toast } from 'sonner'
 import { AppRightCard } from '@/components/app-right-card'
 import { AppSidebar } from '@/components/app-sidebar'
@@ -6,16 +5,17 @@ import { MkNotificationToast } from '@/components/mk-notification-toast'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { Toaster } from '@/components/ui/sonner'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { MisskeyGlobalProvider } from '@/providers/misskey-global'
 
-export const DefaultLayout = (props: {
-  children: React.ReactNode
-  wrapper?: (props: { children: React.ReactNode }) => React.JSX.Element
+export function DefaultLayout<T extends string = string>(props: {
+  tabs: Tab<T>[]
+  children: (tab: Tab<T>) => React.ReactNode
   headerLeft?: React.ReactNode
   headerRight?: React.ReactNode
-  headerCenter?: React.ReactNode
-}) => {
-  const Wrapper = props.wrapper || Fragment
+}) {
+  const { tabs, children, headerLeft, headerRight } = props
+
   const stream = useMisskeyStream()
 
   useEffect(() => {
@@ -42,17 +42,32 @@ export const DefaultLayout = (props: {
         <AppSidebar />
         <SidebarInset className="grid grid-cols-[1fr_auto]">
           <div className="main-container">
-            <Wrapper>
+            <Tabs defaultValue={tabs[0]?.value}>
               <ScrollArea className="h-screen">
                 <header className="flex gap-1 items-center p-2 sticky top-0 bg-background border-b z-10">
                   <SidebarTrigger className="size-8" />
-                  <div>{props.headerLeft}</div>
-                  <div className="flex-grow-1 w-0 text-center">{props.headerCenter}</div>
-                  <div>{props.headerRight}</div>
+                  <div>{headerLeft}</div>
+                  <div className="flex-grow-1 w-0 text-center">
+                    <TabsList>
+                      {tabs.map(tab => (
+                        <TabsTrigger key={tab.value} value={tab.value}>
+                          {tab.icon}
+                          {tab.label}
+                        </TabsTrigger>
+                      ))}
+                    </TabsList>
+                  </div>
+                  <div>{headerRight}</div>
                 </header>
-                <div className="p-2">{props.children}</div>
+                <div className="p-2">
+                  {tabs.map(tab => (
+                    <TabsContent key={tab.value} value={tab.value}>
+                      {children(tab)}
+                    </TabsContent>
+                  ))}
+                </div>
               </ScrollArea>
-            </Wrapper>
+            </Tabs>
           </div>
           <div className="right-card-container p-2 border-l max-lg:hidden">
             <AppRightCard />
