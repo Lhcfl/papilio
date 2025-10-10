@@ -12,7 +12,7 @@ import {
 import { MkVisibilityIcon } from './mk-visibility-icon'
 
 export const MkNoteRenoteTip = (props: { note: NoteWithExtension }) => {
-  const meId = useMe(s => s.me?.id)
+  const meId = useMe(me => me.id)
 
   const isMine = props.note.userId === meId
 

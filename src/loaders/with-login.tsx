@@ -37,7 +37,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
   const api = injectMisskeyApi()
   const { t } = useTranslation()
 
-  const setMe = useMe(s => s.setMe)
+  const setMe = useSetableMe(s => s.setMe)
   const setEmojis = useEmojis(s => s.setEmojis)
   const setMeta = useSetableSiteMeta(s => s.setMeta)
 

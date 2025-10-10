@@ -6,7 +6,17 @@ type MeState = {
   setMe: (user: MeDetailed | null) => void
 }
 
-export const useMe = create<MeState>(set => ({
+export const useSetableMe = create<MeState>(set => ({
   me: null,
   setMe: user => set({ me: user }),
 }))
+
+export function useMe(): MeDetailed
+export function useMe<T>(selector: (m: MeDetailed) => T): T | undefined
+export function useMe<T>(selector?: (m: MeDetailed) => T) {
+  return useSetableMe((s) => {
+    const me = s.me
+    if (me == null) return undefined
+    return selector ? selector(me) : me
+  })
+}

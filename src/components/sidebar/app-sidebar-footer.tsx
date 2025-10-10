@@ -4,7 +4,7 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui
 import { MkUserName } from '../mk-user-name'
 
 export const AppSidebarFooter = () => {
-  const me = useMe(s => s.me!)
+  const me = useMe()
 
   return (
     <SidebarMenu>

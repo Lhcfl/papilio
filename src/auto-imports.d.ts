@@ -57,6 +57,7 @@ declare global {
   const useRenoteAction: typeof import('./hooks/note-actions')['useRenoteAction']
   const useRouter: typeof import('@tanstack/react-router')['useRouter']
   const useSearch: typeof import('@tanstack/react-router')['useSearch']
+  const useSetableMe: typeof import('./stores/me')['useSetableMe']
   const useSetableSiteMeta: typeof import('./stores/site')['useSetableSiteMeta']
   const useSiteMeta: typeof import('./stores/site')['useSiteMeta']
   const useState: typeof import('react')['useState']

@@ -49,7 +49,7 @@ export function useNoteUpdateListener() {
   const patch = useNoteSingleton(s => s.patch)
   const register = useNoteSingleton(s => s.register)
   const unregister = useNoteSingleton(s => s.unregister)
-  const meId = useMe(s => s.me?.id)
+  const meId = useMe(me => me.id)
 
   useEffect(() => {
     if (import.meta.env.DEV) {

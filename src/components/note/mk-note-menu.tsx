@@ -11,8 +11,8 @@ import type { NoteWithExtension } from '@/types/note'
 export const MkNoteMenu = (props: { note: NoteWithExtension }) => {
   const { t } = useTranslation()
   const { note } = props
-  const meId = useMe(s => s.me?.id)
-  const isAdmin = useMe(s => s.me?.isAdmin)
+  const meId = useMe(me => me.id)
+  const isAdmin = useMe(me => me.isAdmin)
 
   const isMine = meId === note.userId
 
