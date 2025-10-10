@@ -92,7 +92,10 @@ const NoteBodyLong = (props: NoteBodyCommonProps) => {
   return (
     <div className="note-body-long">
       <NoteBodyExpanded
-        className={clsx({ 'max-h-50 mb-[-2em] overflow-hidden mask-b-from-0': !expanded })}
+        className={clsx({
+          'max-h-50 mb-[-2em] overflow-hidden mask-b-from-0': !expanded,
+          'mb-2': expanded,
+        })}
         {...props}
       />
       <div className="sticky bottom-2 w-full text-center">

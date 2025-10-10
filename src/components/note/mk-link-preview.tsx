@@ -22,16 +22,17 @@ export const MkLinkPreview = (props: { url: string } & React.ComponentProps<type
   })
 
   const title = data?.title || url
+  const thumbnail = data?.thumbnail || data?.icon
 
   return (
-    <Item variant="outline" {...rest} asChild>
+    <Item variant="outline" {...rest} asChild size="sm">
       <a href={url}>
         {data
           ? (
               <>
-                {data.thumbnail && (
+                {thumbnail && (
                   <ItemMedia variant="image">
-                    <img src={data.thumbnail} />
+                    <img src={thumbnail} />
                   </ItemMedia>
                 )}
                 <ItemContent>

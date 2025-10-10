@@ -245,7 +245,7 @@ const NotificationIconColor = (notification: Notification) => {
 export const MkNotificationToast = (props: { notification: Notification }) => {
   const { notification } = props
   return (
-    <Item className="w-70 bg-background z-20 shadow-sm">
+    <Item className="w-70 bg-background z-20 shadow-sm" size="sm" variant="outline">
       <div>
         {'user' in notification
           ? (
