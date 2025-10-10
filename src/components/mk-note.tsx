@@ -1,6 +1,7 @@
 import { MkNoteActions } from './note/mk-note-actions'
 import { MkNoteBody } from './note/mk-note-body'
 import { MkNoteHeader } from './note/mk-note-header'
+import { MkNoteReactions } from './note/mk-note-reactions'
 import { MkNoteRenoteTip } from './note/mk-note-renote-tip'
 
 export const MkNote = (props: { note: NoteWithExtension }) => {
@@ -11,6 +12,7 @@ export const MkNote = (props: { note: NoteWithExtension }) => {
       {props.note.renote && <MkNoteRenoteTip note={props.note} />}
       <MkNoteHeader note={appearNote} />
       <MkNoteBody note={appearNote} />
+      <MkNoteReactions note={appearNote} />
       <MkNoteActions note={appearNote} />
     </div>
   )

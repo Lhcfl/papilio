@@ -18,6 +18,7 @@ declare global {
   const getUserTokenOrNull: typeof import('./services/use-misskey-api')['getUserTokenOrNull']
   const lazy: typeof import('react')['lazy']
   const memo: typeof import('react')['memo']
+  const normalizeEmojiName: typeof import('./lib/emojis')['normalizeEmojiName']
   const startTransition: typeof import('react')['startTransition']
   const storeUserSite: typeof import('./services/use-misskey-api')['storeUserSite']
   const storeUserToken: typeof import('./services/use-misskey-api')['storeUserToken']

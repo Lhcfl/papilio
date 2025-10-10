@@ -14,22 +14,25 @@ export const MkCustomEmoji = (props: {
   fallbackToImage?: boolean
 }) => {
   const className = clsx('inline align-middle transition-all', props.normal ? 'h-[1.25em] align-[-0.25em]' : 'h-[2em]')
-  const { emojisMap, site, meta } = useMisskeyGlobal()
+  const { emojisMap, site } = useMisskeyGlobal()
   const [error, setError] = useState(false)
 
   const name = props.name[0] === ':' ? props.name.slice(1, -1) : props.name
-  const isLocal = props.host == null && (name.endsWith('@.') || name.includes('@'))
+  const [normalizedName, normalizedHost] = name.split('@')
+  const isLocal = props.host == null && (normalizedHost == '.' || !normalizedHost)
   const url = props.url
     ? props.url
     : isLocal
-      ? emojisMap.get(name)?.url
+      ? emojisMap.get(normalizedName)?.url
       : new URL(props.host ? `/emoji/${name}@${props.host}.webp` : `/emoji/${name}.webp`, site).toString()
   const alt = `:${name}:`
 
-  if ((!url || error) && props.fallbackToImage && meta.notFoundImageUrl) {
+  const emojiFallbackUrl = new URL('/static-assets/emoji-unknown.png', site).toString()
+
+  if ((!url || error) && props.fallbackToImage) {
     return (
       <span className="mk-custom-emoji error mk-custom-emoji-fallback">
-        <img className={className} src={meta.notFoundImageUrl} alt={alt} title={alt} decoding="async" />
+        <img className={className} src={emojiFallbackUrl} alt={alt} title={alt} decoding="async" />
       </span>
     )
   }
@@ -53,12 +56,12 @@ export const MkCustomEmoji = (props: {
   return <span className="mk-custom-emoji error">{alt}</span>
 }
 
-export const MkEmoji = (props: { emoji: string, menu?: boolean, menuReaction?: boolean }) => {
+export const MkEmoji = (props: { emoji: string, menu?: boolean, menuReaction?: boolean } & { className?: string }) => {
   const parsed = Twemoji.parse(props.emoji, {
     base: getUserSite(),
     ext: '.svg',
     folder: '/twemoji',
-    className: 'h-[1.25em] align-[-0.25em] transition-all inline',
+    className: clsx('h-[1.25em] align-[-0.25em] transition-all inline', props.className),
   })
   return <span className="mk-emoji" dangerouslySetInnerHTML={{ __html: parsed }} />
 }
