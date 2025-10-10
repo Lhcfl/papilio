@@ -1,4 +1,4 @@
-import { HeartIcon, MoreHorizontalIcon, QuoteIcon, RepeatIcon, ReplyIcon, SmileIcon } from 'lucide-react'
+import { HeartIcon, MoreHorizontalIcon, QuoteIcon, RepeatIcon, ReplyIcon, SmilePlusIcon } from 'lucide-react'
 import type { ComponentProps } from 'react'
 import { Button } from '../ui/button'
 import { DropdownMenu, DropdownMenuTrigger } from '../ui/dropdown-menu'
@@ -64,7 +64,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension }) => {
       <MkNoteActionButton icon={<HeartIcon />} onClick={() => console.log('implement heart')} />
       <MkNoteActionButton
         count={note.reactionCount}
-        icon={<SmileIcon />}
+        icon={<SmilePlusIcon />}
         onClick={() => console.log('implement smile')}
       />
       <DropdownMenu>

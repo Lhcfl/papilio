@@ -30,7 +30,7 @@ export const dehydrateOptions: DehydrateOptions = {
   shouldDehydrateQuery: (query) => {
     if (import.meta.env.DEV) {
       if (query.gcTime >= PERSIST_GC_TIME) {
-        console.log('Persisting query:', query.queryKey, query)
+        console.log('[query] persisting:', query.queryKey)
       }
     }
     return query.gcTime >= PERSIST_GC_TIME // only persist queries with gcTime >= 24 hours

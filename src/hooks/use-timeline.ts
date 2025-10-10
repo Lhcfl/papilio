@@ -8,6 +8,7 @@ export const useTimeline = (type: TimelineTypes) => {
   const api = useMisskeyApi()
   const stream = useMisskeyStream()
   const queryClient = useQueryClient()
+  const singleton = useNoteSingleton()
   const queryKey = ['timeline', type]
 
   const channelName = `${type}Timeline` as const
@@ -17,12 +18,14 @@ export const useTimeline = (type: TimelineTypes) => {
     const channel = stream.useChannel(channelName)
     channel.on('note', (note) => {
       console.log('new note received', note)
+      const [id] = singleton.register(note)
+
       queryClient.setQueryData(queryKey, (data: (typeof query)['data']) => {
         console.log(data)
         const [page0, ...other] = data?.pages || [[]]
         const newPages = page0.length >= TIMELINE_PAGE_SIZE
-          ? [[note], page0]
-          : [[note, ...page0]]
+          ? [[id], page0]
+          : [[id, ...page0]]
 
         return data
           ? {
@@ -40,33 +43,38 @@ export const useTimeline = (type: TimelineTypes) => {
     }
   })
 
+  const fetcher = ({ pageParam }: { pageParam?: string }) => {
+    switch (type) {
+      case 'home':
+        return api.request('notes/timeline', {
+          limit: TIMELINE_PAGE_SIZE,
+          untilId: pageParam,
+        })
+      case 'global':
+        return api.request('notes/global-timeline', {
+          limit: TIMELINE_PAGE_SIZE,
+          untilId: pageParam,
+        })
+      case 'local':
+        return api.request('notes/local-timeline', {
+          limit: TIMELINE_PAGE_SIZE,
+          untilId: pageParam,
+        })
+      case 'hybrid':
+        return api.request('notes/hybrid-timeline', {
+          limit: TIMELINE_PAGE_SIZE,
+          untilId: pageParam,
+        })
+    }
+  }
+
   const query = useInfiniteQuery({
     queryKey,
-    queryFn: ({ pageParam }) => {
-      switch (type) {
-        case 'home':
-          return api.request('notes/timeline', {
-            limit: TIMELINE_PAGE_SIZE,
-            untilId: pageParam,
-          })
-        case 'global':
-          return api.request('notes/global-timeline', {
-            limit: TIMELINE_PAGE_SIZE,
-            untilId: pageParam,
-          })
-        case 'local':
-          return api.request('notes/local-timeline', {
-            limit: TIMELINE_PAGE_SIZE,
-            untilId: pageParam,
-          })
-        case 'hybrid':
-          return api.request('notes/hybrid-timeline', {
-            limit: TIMELINE_PAGE_SIZE,
-            untilId: pageParam,
-          })
-      }
+    queryFn: async ({ pageParam }) => {
+      const notes = await fetcher({ pageParam })
+      return singleton.register(...notes)
     },
-    getNextPageParam: lastPage => lastPage.at(-1)?.id,
+    getNextPageParam: lastPage => lastPage.at(-1),
     initialPageParam: 'zzzzzzzzzzzzzzzzzzzzzzzz',
     staleTime: Number.POSITIVE_INFINITY,
   })

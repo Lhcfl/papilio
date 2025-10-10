@@ -41,6 +41,7 @@ declare global {
   const useMisskeyStream: typeof import('./services/use-misskey-api')['useMisskeyStream']
   const useMutation: typeof import('@tanstack/react-query')['useMutation']
   const useNavigate: typeof import('@tanstack/react-router')['useNavigate']
+  const useNoteSingleton: typeof import('./hooks/use-note')['useNoteSingleton']
   const useParams: typeof import('@tanstack/react-router')['useParams']
   const useQuery: typeof import('@tanstack/react-query')['useQuery']
   const useQueryClient: typeof import('@tanstack/react-query')['useQueryClient']

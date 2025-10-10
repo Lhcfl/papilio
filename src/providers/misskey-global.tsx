@@ -36,6 +36,15 @@ export const MisskeyGlobalProvider = (props: { children: React.ReactNode }) => {
     staleTime: 1000 * 60 * 60, // 1 hour
   })
 
+  const noteSingleton = useNoteSingleton()
+
+  useEffect(() => {
+    const me = meQuery.data
+    if (me) {
+      return noteSingleton.startListening(me.id)
+    }
+  }, [meQuery.data, noteSingleton])
+
   /** Descriptions and Queries */
   const queries = [
     ['emoji', emojisQuery],
