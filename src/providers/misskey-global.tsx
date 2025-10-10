@@ -43,6 +43,13 @@ export const MisskeyGlobalProvider = (props: { children: React.ReactNode }) => {
     ['me', meQuery],
   ] as const
 
+  const queryClient = useQueryClient()
+
+  function reload() {
+    queryClient.invalidateQueries()
+    window.location.reload()
+  }
+
   if (queries.some(([, q]) => q.isError)) {
     return (
       <div className="w-screen h-screen flex items-center justify-center">
@@ -57,12 +64,10 @@ export const MisskeyGlobalProvider = (props: { children: React.ReactNode }) => {
                 {queries.map(
                   ([name, query]) =>
                     query.error && (
-                      <li>
+                      <li key={name}>
                         <b>
-                          Loading
                           {name}
-                          :
-                          {' '}
+                          :&nbsp;
                         </b>
                         <span>{query.error?.message}</span>
                       </li>
@@ -72,7 +77,7 @@ export const MisskeyGlobalProvider = (props: { children: React.ReactNode }) => {
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <Button onClick={() => window.location.reload()}>{t('reload')}</Button>
+            <Button onClick={reload}>{t('reload')}</Button>
           </EmptyContent>
         </Empty>
       </div>

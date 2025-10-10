@@ -83,32 +83,33 @@ export const MkMfm = (in_props: MfmProps) => {
       switch (token.type) {
         case 'text': {
           let text = token.props.text.replace(/(\r\n|\n|\r)/g, '\n')
+
           if (!disableNyaize && shouldNyaize) {
             text = Misskey.nyaize(text)
           }
 
           if (!props.plain && !props.inline) {
-            return (
-              <>
-                {text.split('\n').map((t, i) => (
-                  <>
-                    {i > 0 && <br />}
-                    {t}
-                  </>
-                ))}
-              </>
-            )
+            return text.split('\n').map((t, i) => (
+              [
+                i > 0 && <br key={Math.random()} />,
+                <span key={Math.random()}>{t}</span>,
+              ]
+            ))
           }
           else {
-            return <>{text.replace(/\n/g, ' ')}</>
+            return (
+              <span key={Math.random()}>
+                {text.replace(/\n/g, ' ')}
+              </span>
+            )
           }
         }
         case 'bold':
-          return <b>{genEl(token.children, scale)}</b>
+          return <b key={Math.random()}>{genEl(token.children, scale)}</b>
         case 'strike':
-          return <del>{genEl(token.children, scale)}</del>
+          return <del key={Math.random()}>{genEl(token.children, scale)}</del>
         case 'italic':
-          return <i style={{ fontStyle: 'oblique' }}>{genEl(token.children, scale)}</i>
+          return <i key={Math.random()} style={{ fontStyle: 'oblique' }}>{genEl(token.children, scale)}</i>
 
         case 'fn': {
           // TODO: CSSを文字列で組み立てていくと token.props.args.~~~ 経由でCSSインジェクションできるのでよしなにやる
@@ -210,11 +211,11 @@ export const MkMfm = (in_props: MfmProps) => {
             }
             case 'x2': {
               if (props.inline) {
-                return <span style={{ fontSize: '120%' }}>{genEl(token.children, scale * 1.2)}</span>
+                return <span key={Math.random()} style={{ fontSize: '120%' }}>{genEl(token.children, scale * 1.2)}</span>
               }
               else {
                 return (
-                  <span className={defaultStore.state.advancedMfm ? 'mfm-x2' : ''}>
+                  <span key={Math.random()} className={defaultStore.state.advancedMfm ? 'mfm-x2' : ''}>
                     {genEl(token.children, scale * 2)}
                   </span>
                 )
@@ -222,11 +223,11 @@ export const MkMfm = (in_props: MfmProps) => {
             }
             case 'x3': {
               if (props.inline) {
-                return <span style={{ fontSize: '120%' }}>{genEl(token.children, scale * 1.2)}</span>
+                return <span key={Math.random()} style={{ fontSize: '120%' }}>{genEl(token.children, scale * 1.2)}</span>
               }
               else {
                 return (
-                  <span className={defaultStore.state.advancedMfm ? 'mfm-x3' : ''}>
+                  <span key={Math.random()} className={defaultStore.state.advancedMfm ? 'mfm-x3' : ''}>
                     {genEl(token.children, scale * 3)}
                   </span>
                 )
@@ -234,11 +235,11 @@ export const MkMfm = (in_props: MfmProps) => {
             }
             case 'x4': {
               if (props.inline) {
-                return <span style={{ fontSize: '120%' }}>{genEl(token.children, scale * 1.2)}</span>
+                return <span key={Math.random()} style={{ fontSize: '120%' }}>{genEl(token.children, scale * 1.2)}</span>
               }
               else {
                 return (
-                  <span className={defaultStore.state.advancedMfm ? 'mfm-x4' : ''}>
+                  <span key={Math.random()} className={defaultStore.state.advancedMfm ? 'mfm-x4' : ''}>
                     {genEl(token.children, scale * 4)}
                   </span>
                 )
@@ -265,11 +266,11 @@ export const MkMfm = (in_props: MfmProps) => {
               break
             }
             case 'blur': {
-              return <span className="_mfm_blur_">{genEl(token.children, scale)}</span>
+              return <span key={Math.random()} className="_mfm_blur_">{genEl(token.children, scale)}</span>
             }
             case 'rainbow': {
               if (!useAnim) {
-                return <span className="_mfm_rainbow_fallback_">{genEl(token.children, scale)}</span>
+                return <span key={Math.random()} className="_mfm_rainbow_fallback_">{genEl(token.children, scale)}</span>
               }
               const speed = validTime(token.props.args.speed) ?? '1s'
               const delay = validTime(token.props.args.delay) ?? '0s'
@@ -283,7 +284,7 @@ export const MkMfm = (in_props: MfmProps) => {
               if (!useAnim) {
                 return genEl(token.children, scale)
               }
-              return <span className="_mfm_sparkle_">{genEl(token.children, scale)}</span>
+              return <span key={Math.random()} className="_mfm_sparkle_">{genEl(token.children, scale)}</span>
             }
             case 'fade': {
               if (!useAnim) {
@@ -425,7 +426,7 @@ export const MkMfm = (in_props: MfmProps) => {
                   text = Misskey.nyaize(text)
                 }
                 return (
-                  <ruby>
+                  <ruby key={Math.random()}>
                     {text.split('|')[0]}
                     <rt>{text.split('|')[1]}</rt>
                   </ruby>
@@ -438,7 +439,7 @@ export const MkMfm = (in_props: MfmProps) => {
                   text = Misskey.nyaize(text)
                 }
                 return (
-                  <ruby>
+                  <ruby key={Math.random()}>
                     {genEl(token.children.slice(0, token.children.length - 1), scale)}
                     <rt>{text.trim()}</rt>
                   </ruby>
@@ -454,7 +455,7 @@ export const MkMfm = (in_props: MfmProps) => {
               const child = token.children[0]
               const unixtime = parseInt(child.type === 'text' ? child.props.text : '')
               return (
-                <span>
+                <span key={Math.random()}>
                   <ClockIcon />
                   <time dateTime={(unixtime * 1000).toString()} />
                 </span>
@@ -467,6 +468,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 break
               }
               <span
+                key={Math.random()}
                 onClick={(ev) => {
                   ev.stopPropagation()
                   ev.preventDefault()
@@ -480,7 +482,7 @@ export const MkMfm = (in_props: MfmProps) => {
           }
           if (style === undefined) {
             return (
-              <span>
+              <span key={Math.random()}>
                 $[
                 {token.props.name}
                 {' '}
@@ -490,23 +492,23 @@ export const MkMfm = (in_props: MfmProps) => {
             )
           }
           else {
-            return <span style={{ display: 'inline-block', ...style }}>{genEl(token.children, scale)}</span>
+            return <span key={Math.random()} style={{ display: 'inline-block', ...style }}>{genEl(token.children, scale)}</span>
           }
         }
 
         case 'small': {
           if (props.inline) {
-            return <span style={{ opacity: 0.7 }}>{genEl(token.children, scale)}</span>
+            return <span key={Math.random()} style={{ opacity: 0.7 }}>{genEl(token.children, scale)}</span>
           }
-          return [<small style={{ opacity: 0.7 }}>{genEl(token.children, scale)}</small>]
+          return <small key={Math.random()} style={{ opacity: 0.7 }}>{genEl(token.children, scale)}</small>
         }
 
         case 'center': {
           if (props.inline) {
-            return <span>{genEl(token.children, scale)}</span>
+            return <span key={Math.random()}>{genEl(token.children, scale)}</span>
           }
           return (
-            <div className="mfm-center text-center">
+            <div key={Math.random()} className="mfm-center text-center">
               <bdi>{genEl(token.children, scale)}</bdi>
             </div>
           )
@@ -514,10 +516,10 @@ export const MkMfm = (in_props: MfmProps) => {
 
         case 'url': {
           if (props.inline) {
-            return <span className="text-blue-500">{token.props.url}</span>
+            return <span key={Math.random()} className="text-blue-500">{token.props.url}</span>
           }
           return (
-            <bdi>
+            <bdi key={Math.random()}>
               <MkUrl
                 key={Math.random()}
                 url={token.props.url}
@@ -530,10 +532,10 @@ export const MkMfm = (in_props: MfmProps) => {
 
         case 'link': {
           if (props.inline) {
-            return <span className="text-blue-500">{genEl(token.children, scale)}</span>
+            return <span key={Math.random()} className="text-blue-500">{genEl(token.children, scale)}</span>
           }
           return (
-            <bdi>
+            <bdi key={Math.random()}>
               <MkUrl
                 key={Math.random()}
                 url={token.props.url}
@@ -553,7 +555,7 @@ export const MkMfm = (in_props: MfmProps) => {
               : token.props.host
 
           return (
-            <bdi>
+            <bdi key={Math.random()}>
               <MkMention
                 key={Math.random()}
                 username={token.props.username}
@@ -567,7 +569,7 @@ export const MkMfm = (in_props: MfmProps) => {
         case 'hashtag': {
           // TODO
           return (
-            <bdi>
+            <bdi key={Math.random()}>
               <MkHashTag name={token.props.hashtag} />
             </bdi>
           )
@@ -578,7 +580,7 @@ export const MkMfm = (in_props: MfmProps) => {
             return <code>{token.props.code.replaceAll('\n', '  ')}</code>
           }
           return (
-            <bdi className="block">
+            <bdi key={Math.random()} className="block">
               <pre>
                 <code>{token.props.code}</code>
               </pre>
@@ -588,7 +590,7 @@ export const MkMfm = (in_props: MfmProps) => {
 
         case 'inlineCode': {
           return (
-            <bdi>
+            <bdi key={Math.random()}>
               <code>{token.props.code}</code>
             </bdi>
           )
@@ -597,7 +599,7 @@ export const MkMfm = (in_props: MfmProps) => {
         case 'quote': {
           if (!props.nowrap) {
             return (
-              <bdi className="block">
+              <bdi key={Math.random()} className="block">
                 <blockquote>
                   <bdi>{genEl(token.children, scale, true)}</bdi>
                 </blockquote>
@@ -606,7 +608,7 @@ export const MkMfm = (in_props: MfmProps) => {
           }
           else {
             return (
-              <bdi>
+              <bdi key={Math.random()}>
                 <i>
                   &gt;
                   {genEl(token.children, scale, true)}
@@ -633,7 +635,7 @@ export const MkMfm = (in_props: MfmProps) => {
           }
           else {
             if (props.emojiUrls && props.emojiUrls[token.props.name] == null) {
-              return <span>{`:${token.props.name}:`}</span>
+              return <span key={Math.random()}>{`:${token.props.name}:`}</span>
             }
             else {
               return (
@@ -663,10 +665,10 @@ export const MkMfm = (in_props: MfmProps) => {
 
         case 'mathInline': {
           if (props.inline) {
-            return <i>{token.props.formula}</i>
+            return <i key={Math.random()}>{token.props.formula}</i>
           }
           return (
-            <bdi>
+            <bdi key={Math.random()}>
               <code>{token.props.formula}</code>
             </bdi>
           )
@@ -674,10 +676,10 @@ export const MkMfm = (in_props: MfmProps) => {
 
         case 'mathBlock': {
           if (props.inline) {
-            return <i>{token.props.formula}</i>
+            return <i key={Math.random()}>{token.props.formula}</i>
           }
           return (
-            <bdi className="block">
+            <bdi key={Math.random()} className="block">
               <pre>{token.props.formula}</pre>
             </bdi>
           )
@@ -686,7 +688,7 @@ export const MkMfm = (in_props: MfmProps) => {
         case 'search': {
           if (props.inline) {
             return (
-              <i>
+              <i key={Math.random()}>
                 [Search]
                 {token.props.query}
               </i>
@@ -701,7 +703,7 @@ export const MkMfm = (in_props: MfmProps) => {
 
         case 'plain': {
           return (
-            <bdi>
+            <bdi key={Math.random()}>
               <span>{genEl(token.children, scale, true)}</span>
             </bdi>
           )

@@ -11,6 +11,7 @@ declare global {
   const QueryClientProvider: typeof import('@tanstack/react-query')['QueryClientProvider']
   const cn: typeof import('./lib/utils')['cn']
   const createRef: typeof import('react')['createRef']
+  const cyrb53: typeof import('./lib/hash')['cyrb53']
   const forwardRef: typeof import('react')['forwardRef']
   const getNoteExcerpt: typeof import('./services/note-excerpt')['getNoteExcerpt']
   const getUserSite: typeof import('./services/inject-misskey-api')['getUserSite']
