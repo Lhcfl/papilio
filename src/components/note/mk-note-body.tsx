@@ -1,21 +1,48 @@
 import clsx from 'clsx'
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
-import type { Note } from 'misskey-js/entities.js'
+import { ChevronDownIcon, ChevronUpIcon, QuoteIcon, ReplyIcon } from 'lucide-react'
+import { type MfmNode, parse } from 'mfm-js'
 import type { HTMLProps } from 'react'
 import { MkMfm } from '@/components/mk-mfm'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import type { NoteWithExtension } from '@/types/note'
+import { MkNoteSimple } from '../mk-note-simple'
 import { Button } from '../ui/button'
 
-const NoteBodyExpanded = (props: { note: Note } & HTMLProps<HTMLDivElement>) => {
-  const { note, ...rest } = props
+type NoteBodyCommonProps = {
+  note: NoteWithExtension
+  showReplyIcon?: boolean
+  stopQuote?: boolean
+  textAst?: MfmNode[]
+  disableLinkPreview?: boolean
+}
+
+const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>) => {
+  const { note, stopQuote, showReplyIcon, textAst, ...rest } = props
+
+  const quote = useNoteSingleton((s) => {
+    if (stopQuote) return null
+    return note.renoteId ? s.notes[note.renoteId] : null
+  })
+
   return (
     <div className="note-body" {...rest}>
-      {note.text && <MkMfm text={note.text} author={note.user} emojiUrls={note.emojis} />}
+      {note.text && (
+        <div className="note-body-text">
+          {showReplyIcon && note.replyId && <ReplyIcon className="mr-1 size-4 inline" />}
+          {stopQuote && note.renoteId && <QuoteIcon className="mr-1 size-4 inline" />}
+          <MkMfm text={note.text} author={note.user} emojiUrls={note.emojis} parsedNodes={textAst} />
+        </div>
+      )}
+      {quote && (
+        <div className="note-body-quote mt-2 border rounded-md">
+          <MkNoteSimple note={quote} />
+        </div>
+      )}
     </div>
   )
 }
 
-const NoteBodyCw = (props: { note: Note }) => {
+const NoteBodyCw = (props: NoteBodyCommonProps) => {
   const { t } = useTranslation()
   const { note } = props
 
@@ -44,21 +71,21 @@ const NoteBodyCw = (props: { note: Note }) => {
           </div>
         </AccordionTrigger>
         <AccordionContent className="text-base">
-          <NoteBodyExpanded note={props.note} />
+          <NoteBodyExpanded {...props} />
         </AccordionContent>
       </AccordionItem>
     </Accordion>
   )
 }
 
-const NoteBodyLong = (props: { note: Note }) => {
+const NoteBodyLong = (props: NoteBodyCommonProps) => {
   const { t } = useTranslation()
   const [expanded, setExpanded] = useState(false)
   return (
     <div className="note-body-long">
       <NoteBodyExpanded
-        note={props.note}
         className={clsx({ 'max-h-50 mb-[-2em] overflow-hidden mask-b-from-0': !expanded })}
+        {...props}
       />
       <div className="sticky bottom-2 w-full text-center">
         <Button onClick={() => setExpanded(!expanded)} variant="outline">
@@ -70,28 +97,46 @@ const NoteBodyLong = (props: { note: Note }) => {
   )
 }
 
-export const MkNoteBody = (props: { note: Note }) => {
-  const { note } = props
+export const MkNoteBody = (props: NoteBodyCommonProps & { className?: string }) => {
+  const { note, className, ...rest } = props
 
-  const isLong = (note.text?.length || 0) + (note.fileIds?.length || 0) * 100 > 500
+  const cls = clsx('mk-note-body p-2', className)
+
+  const textAst = parse(note.text || '')
+
+  const isLong = (note.text?.length || 0) > 400
+    || (note.text?.split('\n').length || 0) > 15
+    || (note.fileIds?.length || 0) >= 5
+    || countAst(textAst, (ast) => {
+      switch (ast.type) {
+        case 'url': return 2
+        case 'link': return 2
+        case 'fn': {
+          if (ast.props.name == 'x2') return 3
+          if (ast.props.name == 'x3') return 5
+          if (ast.props.name == 'x4') return 9
+        }
+      }
+      return 0
+    }) >= 10
 
   if (note.cw) {
     return (
-      <div className="mk-note-body p-2">
-        <NoteBodyCw note={note} />
+      <div className={cls}>
+        <NoteBodyCw note={note} {...rest} />
       </div>
     )
   }
   if (isLong) {
     return (
-      <div className="mk-note-body p-2">
-        <NoteBodyLong note={note} />
+      <div className={cls}>
+        <NoteBodyLong note={note} {...rest} />
       </div>
     )
   }
   return (
-    <div className="mk-note-body p-2">
-      <NoteBodyExpanded note={note} />
+    <div className={cls}>
+      <NoteBodyExpanded note={note} {...rest} />
     </div>
   )
 }

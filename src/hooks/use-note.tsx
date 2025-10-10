@@ -4,7 +4,7 @@ import { create } from 'zustand'
 import type { NoteWithExtension } from '@/types/note'
 
 type NoteSingleton = {
-  notes: Record<string, NoteWithExtension>
+  notes: Record<string, NoteWithExtension | undefined>
   register: (...note: NoteWithExtension[]) => string[]
   unregister: (noteId: string) => void
   patch: (noteId: string, patch: Partial<NoteWithExtension> | ((note: NoteWithExtension) => Partial<NoteWithExtension>)) => void

@@ -70,7 +70,7 @@ export const MkMfm = (in_props: MfmProps) => {
   // const host = null;
   const shouldNyaize = true
   const useAnim = true
-  const rootAst = (props.plain ? mfm.parseSimple : mfm.parse)(props.text)
+  const rootAst = props.parsedNodes || (props.plain ? mfm.parseSimple : mfm.parse)(props.text)
 
   if (props.text == null || props.text === '') return
 
@@ -600,7 +600,7 @@ export const MkMfm = (in_props: MfmProps) => {
           if (!props.nowrap) {
             return (
               <bdi key={Math.random()} className="block">
-                <blockquote>
+                <blockquote className="opacity-80 pl-3 border-l-4 my-1">
                   <bdi>{genEl(token.children, scale, true)}</bdi>
                 </blockquote>
               </bdi>

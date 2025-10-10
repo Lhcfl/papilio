@@ -1,3 +1,4 @@
+import { parse } from 'mfm-js'
 import { MkNoteActions } from './note/mk-note-actions'
 import { MkNoteBody } from './note/mk-note-body'
 import { MkNoteHeader } from './note/mk-note-header'
