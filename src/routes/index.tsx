@@ -7,10 +7,12 @@ export const Route = createFileRoute('/')({
 })
 
 function Index() {
+  const { t } = useTranslation()
   const tabs = useTimelineTabs()
+  const title = t('timeline')
 
   return (
-    <DefaultLayout tabs={tabs}>
+    <DefaultLayout tabs={tabs} title={title}>
       {tab => (<MkTimeline type={tab.value} />)}
     </DefaultLayout>
   )
