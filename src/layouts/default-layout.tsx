@@ -116,7 +116,7 @@ function LayoutCenter(props: DefaultLayoutPropsCommon & {
   children: React.ReactNode
 }) {
   const { title, children,
-    headerLeft = <span>{title}</span>,
+    headerLeft = <span className="text-sm text-muted-foreground">{title}</span>,
     headerCenter, headerRight } = props
   return (
     <ScrollArea className="h-screen">

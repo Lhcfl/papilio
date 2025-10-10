@@ -7,7 +7,7 @@ type NoteSingleton = {
   notes: Record<string, NoteWithExtension>
   register: (...note: NoteWithExtension[]) => string[]
   unregister: (noteId: string) => void
-  startListening: (meId?: string) => () => void
+  startListening: (meId?: string) => { dispose: () => void }
 }
 
 export const useNoteSingleton = create<NoteSingleton>((set) => {
@@ -154,10 +154,10 @@ export const useNoteSingleton = create<NoteSingleton>((set) => {
 
       stream.on('noteUpdated', onNoteUpdated)
 
-      return () => {
+      return { dispose: () => {
         console.log('[useNoteSingleton]: unsubscribing from noteUpdated')
         stream.off('noteUpdated', onNoteUpdated)
-      }
+      } }
     },
   }
 })

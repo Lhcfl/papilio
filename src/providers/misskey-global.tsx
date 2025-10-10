@@ -41,7 +41,8 @@ export const MisskeyGlobalProvider = (props: { children: React.ReactNode }) => {
   useEffect(() => {
     const me = meQuery.data
     if (me) {
-      return noteSingleton.startListening(me.id)
+      const { dispose } = noteSingleton.startListening(me.id)
+      return dispose
     }
   }, [meQuery.data, noteSingleton])
 

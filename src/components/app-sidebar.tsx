@@ -2,34 +2,24 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuItem,
 } from '@/components/ui/sidebar'
+import { AppSidebarFooter } from './sidebar/app-sidebar-footer'
+import { AppSidebarHeader } from './sidebar/app-sidebar-header'
+import { AppSidebarMain } from './sidebar/app-sidebar-main'
 
 export const AppSidebar = () => {
-  const { meta } = useMisskeyGlobal()
-
   return (
     <Sidebar>
-      <SidebarHeader>{meta.name}</SidebarHeader>
+      <SidebarHeader>
+        <AppSidebarHeader />
+      </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>group 1</SidebarGroupLabel>
-          <SidebarGroupContent>
-            content
-            <SidebarMenu>
-              <SidebarMenuItem>111</SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-          g1
-        </SidebarGroup>
-        <SidebarGroup>g2</SidebarGroup>
+        <AppSidebarMain />
       </SidebarContent>
-      <SidebarFooter>footer</SidebarFooter>
+      <SidebarFooter>
+        <AppSidebarFooter />
+      </SidebarFooter>
     </Sidebar>
   )
 }
