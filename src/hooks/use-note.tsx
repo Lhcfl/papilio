@@ -10,7 +10,7 @@ type NoteSingleton = {
   startListening: (meId?: string) => { dispose: () => void }
 }
 
-export const useNoteSingleton = create<NoteSingleton>((set) => {
+export const useNoteSingleton = create<NoteSingleton>((set, get) => {
   const stream = useMisskeyStream()
   const api = useMisskeyApi()
 
@@ -21,6 +21,9 @@ export const useNoteSingleton = create<NoteSingleton>((set) => {
         notes: { ...state.notes, ...Object.fromEntries(note.map(n => [n.id, n])) },
       }))
       return note.map((n) => {
+        if (import.meta.env.DEV) {
+          console.log('[useNoteSingleton]: subscribe', n.id)
+        }
         stream.send('sr', { id: n.id })
         return n.id
       })
@@ -39,6 +42,9 @@ export const useNoteSingleton = create<NoteSingleton>((set) => {
       }
 
       async function onNoteUpdated({ type, id, body }: NoteUpdatedEvent) {
+        if (import.meta.env.DEV) {
+          console.log('[useNoteSingleton]: noteUpdated', { type, id, body })
+        }
         switch (type) {
           // Sharkey have "replied"
           case 'replied' as never: {

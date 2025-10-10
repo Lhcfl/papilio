@@ -36,6 +36,7 @@ declare global {
   const useInsertionEffect: typeof import('react')['useInsertionEffect']
   const useIsMobile: typeof import('./hooks/use-mobile')['useIsMobile']
   const useLayoutEffect: typeof import('react')['useLayoutEffect']
+  const useLikeNoteAction: typeof import('./hooks/note-actions')['useLikeNoteAction']
   const useMemo: typeof import('react')['useMemo']
   const useMisskeyApi: typeof import('./services/use-misskey-api')['useMisskeyApi']
   const useMisskeyGlobal: typeof import('./hooks/use-misskey-global')['useMisskeyGlobal']
@@ -46,6 +47,7 @@ declare global {
   const useParams: typeof import('@tanstack/react-router')['useParams']
   const useQuery: typeof import('@tanstack/react-query')['useQuery']
   const useQueryClient: typeof import('@tanstack/react-query')['useQueryClient']
+  const useReactNoteAction: typeof import('./hooks/note-actions')['useReactNoteAction']
   const useReducer: typeof import('react')['useReducer']
   const useRef: typeof import('react')['useRef']
   const useRenoteAction: typeof import('./hooks/note-actions')['useRenoteAction']
@@ -57,6 +59,7 @@ declare global {
   const useTimelineTabs: typeof import('./hooks/use-timeline-tabs')['useTimelineTabs']
   const useTransition: typeof import('react')['useTransition']
   const useTranslation: typeof import('react-i18next')['useTranslation']
+  const useUndoReactNoteAction: typeof import('./hooks/note-actions')['useUndoReactNoteAction']
   const useUnrenoteAction: typeof import('./hooks/note-actions')['useUnrenoteAction']
 }
 // for type re-export
