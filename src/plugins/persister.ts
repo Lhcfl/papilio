@@ -28,11 +28,12 @@ export const localStoragePersister = createAsyncStoragePersister({
 export const dehydrateOptions: DehydrateOptions = {
   shouldDehydrateMutation: () => false,
   shouldDehydrateQuery: (query) => {
-    if (import.meta.env.DEV) {
-      if (query.gcTime >= PERSIST_GC_TIME) {
-        console.log('[query] persisting:', query.queryKey)
-      }
-    }
+    // Disable logging for now
+    // if (import.meta.env.DEV) {
+    //   if (query.gcTime >= PERSIST_GC_TIME) {
+    //     console.log('[query] persisting:', query.queryKey)
+    //   }
+    // }
     return query.gcTime >= PERSIST_GC_TIME // only persist queries with gcTime >= 24 hours
   },
 }
