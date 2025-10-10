@@ -27,11 +27,21 @@ export const storeUserSite = (site: string) => {
 }
 
 export const injectCurrentSiteOrNull = (): string => {
-  return localStorage.getItem('site') || 'NULL'
+  return injectCurrentSite() || 'NULL'
 }
 
 export const getUserTokenOrNull = (): string => {
-  return localStorage.getItem('token') || 'NULL'
+  return injectUserToken() || 'NULL'
+}
+
+let token: string | null
+
+export const injectUserToken = (): string | null => {
+  if (token) {
+    return token
+  }
+  token = localStorage.getItem('token')
+  return token
 }
 
 let site: string | null

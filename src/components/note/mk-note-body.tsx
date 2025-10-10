@@ -7,12 +7,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import type { NoteWithExtension } from '@/types/note'
 import { MkNoteSimple } from '../mk-note-simple'
 import { Button } from '../ui/button'
+import { MkLinkPreview } from './mk-link-preview'
 
 type NoteBodyCommonProps = {
   note: NoteWithExtension
   showReplyIcon?: boolean
   stopQuote?: boolean
-  textAst?: MfmNode[]
+  textAst: MfmNode[]
   disableLinkPreview?: boolean
 }
 
@@ -23,6 +24,8 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
     if (stopQuote) return null
     return note.renoteId ? s.notes[note.renoteId] : null
   })
+
+  const urls = collectAst(textAst, x => x.type === 'url' ? x.props.url : x.type === 'link' ? x.props.url : undefined)
 
   return (
     <div className="note-body" {...rest}>
@@ -36,6 +39,11 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
       {quote && (
         <div className="note-body-quote mt-2 border rounded-md">
           <MkNoteSimple note={quote} />
+        </div>
+      )}
+      {urls.length > 0 && (
+        <div className="note-body-url-previews">
+          {urls.map(u => <MkLinkPreview className="mt-1" key={u} url={u} />)}
         </div>
       )}
     </div>
@@ -97,7 +105,7 @@ const NoteBodyLong = (props: NoteBodyCommonProps) => {
   )
 }
 
-export const MkNoteBody = (props: NoteBodyCommonProps & { className?: string }) => {
+export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { className?: string }) => {
   const { note, className, ...rest } = props
 
   const cls = clsx('mk-note-body p-2', className)
@@ -123,20 +131,20 @@ export const MkNoteBody = (props: NoteBodyCommonProps & { className?: string }) 
   if (note.cw) {
     return (
       <div className={cls}>
-        <NoteBodyCw note={note} {...rest} />
+        <NoteBodyCw note={note} textAst={textAst} {...rest} />
       </div>
     )
   }
   if (isLong) {
     return (
       <div className={cls}>
-        <NoteBodyLong note={note} {...rest} />
+        <NoteBodyLong note={note} textAst={textAst} {...rest} />
       </div>
     )
   }
   return (
     <div className={cls}>
-      <NoteBodyExpanded note={note} {...rest} />
+      <NoteBodyExpanded note={note} textAst={textAst} {...rest} />
     </div>
   )
 }

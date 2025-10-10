@@ -45,6 +45,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.2.5",
 		"@eslint/js": "^9.36.0",
+		"@misskey-dev/summaly": "^5.2.4",
 		"@stylistic/eslint-plugin": "^5.4.0",
 		"@tailwindcss/vite": "^4.1.14",
 		"@tanstack/react-query-devtools": "^5.90.2",

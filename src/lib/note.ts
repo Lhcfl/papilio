@@ -18,3 +18,13 @@ export function someAst(ast: MfmNode[], pred: (node: MfmNode) => boolean): boole
 export function countAst(ast: MfmNode[], pred: (note: MfmNode) => number | boolean): number {
   return ast.reduce((acc, node) => acc + Number(pred(node)) + (node.children ? countAst(node.children, pred) : 0), 0)
 }
+
+export function collectAst<T>(ast: MfmNode[], pred: (node: MfmNode) => T | undefined): T[] {
+  return ast.flatMap((node) => {
+    const result = []
+    const t = pred(node)
+    if (t) result.push(t)
+    if (node.children) result.push(...collectAst(node.children, pred))
+    return result
+  })
+}

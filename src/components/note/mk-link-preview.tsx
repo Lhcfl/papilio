@@ -1,0 +1,60 @@
+import type { summaly } from '@misskey-dev/summaly'
+import { Avatar, AvatarImage } from '../ui/avatar'
+import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '../ui/item'
+import { Spinner } from '../ui/spinner'
+
+type SummalyResult = Awaited<ReturnType<typeof summaly>>
+
+export const MkLinkPreview = (props: { url: string } & React.ComponentProps<typeof Item>) => {
+  const { url, ...rest } = props
+  const { i18n } = useTranslation()
+
+  const { data } = useQuery({
+    queryKey: ['link-preview', url],
+    queryFn: () => {
+      const urlurl = new URL(url)
+      // TODO: CORS対策
+      const path = new URL('/url', 'https://polished-shape-8bd2.lhcfllinca.workers.dev/')
+      path.searchParams.append('url', urlurl.href)
+      path.searchParams.append('lang', i18n.language)
+      return window.fetch(path).then(r => r.json()) as Promise<SummalyResult>
+    },
+  })
+
+  const title = data?.title || url
+
+  return (
+    <Item variant="outline" {...rest} asChild>
+      <a href={url}>
+        {data
+          ? (
+              <>
+                {data.thumbnail && (
+                  <ItemMedia variant="image">
+                    <img src={data.thumbnail} />
+                  </ItemMedia>
+                )}
+                <ItemContent>
+                  <ItemTitle>{title}</ItemTitle>
+                  <ItemDescription>{data.description}</ItemDescription>
+                  <div className="text-xs flex items-center gap-1 text-muted-foreground">
+                    <Avatar className="size-3">
+                      <AvatarImage src={data.icon ?? undefined} />
+                    </Avatar>
+                    {data.sitename}
+                  </div>
+                </ItemContent>
+              </>
+            )
+          : (
+              <ItemContent>
+                <ItemTitle>{title}</ItemTitle>
+                <ItemDescription>
+                  <Spinner />
+                </ItemDescription>
+              </ItemContent>
+            )}
+      </a>
+    </Item>
+  )
+}
