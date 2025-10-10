@@ -19,10 +19,10 @@ export const useNoteSingleton = create<NoteSingleton>((set) => {
       set(state => ({
         notes: { ...state.notes, ...Object.fromEntries(note.map(n => [n.id, n])) },
       }))
+      if (import.meta.env.DEV) {
+        console.log('[useNoteSingleton]: subscribed:', note.map(n => n.id))
+      }
       return note.map((n) => {
-        if (import.meta.env.DEV) {
-          console.log('[useNoteSingleton]: subscribe', n.id)
-        }
         stream.send('sr', { id: n.id })
         return n.id
       })

@@ -39,6 +39,7 @@ declare global {
   const useIsMobile: typeof import('./hooks/use-mobile')['useIsMobile']
   const useLayoutEffect: typeof import('react')['useLayoutEffect']
   const useLikeNoteAction: typeof import('./hooks/note-actions')['useLikeNoteAction']
+  const useMainChannelListener: typeof import('./hooks/use-main-channel')['useMainChannelListener']
   const useMemo: typeof import('react')['useMemo']
   const useMisskeyGlobal: typeof import('./hooks/use-misskey-global')['useMisskeyGlobal']
   const useMutation: typeof import('@tanstack/react-query')['useMutation']

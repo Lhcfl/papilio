@@ -4,23 +4,24 @@ const TIMELINE_PAGE_SIZE = 30
 
 export type TimelineTypes = 'home' | 'global' | 'local' | 'hybrid'
 
+const timelineQueryKey = (type: TimelineTypes) => ['timeline', type]
+
 export const useTimeline = (type: TimelineTypes) => {
   const api = injectMisskeyApi()
   const stream = injectMisskeyStream()
   const queryClient = useQueryClient()
   const register = useNoteSingleton(s => s.register)
-  const queryKey = ['timeline', type]
 
   const channelName = `${type}Timeline` as const
 
   useEffect(() => {
-    console.log(`subscribing to channel ${channelName}`)
+    console.log(`[timeline] subscribing to channel ${channelName}`)
     const channel = stream.useChannel(channelName)
     channel.on('note', (note) => {
-      console.log('new note received', note)
+      console.log('[timeline] new note received', note)
       const [id] = register(note)
 
-      queryClient.setQueryData(queryKey, (data: (typeof query)['data']) => {
+      queryClient.setQueryData(timelineQueryKey(type), (data: (typeof query)['data']) => {
         console.log(data)
         const [page0, ...other] = data?.pages || [[]]
         const newPages = page0.length >= TIMELINE_PAGE_SIZE
@@ -37,11 +38,11 @@ export const useTimeline = (type: TimelineTypes) => {
     })
     return () => {
       if (import.meta.env.DEV) {
-        console.log(`channel ${channelName} disposed`)
+        console.log(`[timeline] channel ${channelName} disposed`)
       }
       channel.dispose()
     }
-  })
+  }, [channelName, queryClient, type, register, stream])
 
   const fetcher = ({ pageParam }: { pageParam?: string }) => {
     switch (type) {
@@ -69,7 +70,7 @@ export const useTimeline = (type: TimelineTypes) => {
   }
 
   const query = useInfiniteQuery({
-    queryKey,
+    queryKey: timelineQueryKey(type),
     queryFn: async ({ pageParam }) => {
       const notes = await fetcher({ pageParam })
       return register(...notes)
