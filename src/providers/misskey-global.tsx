@@ -6,10 +6,10 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 import { Spinner } from '@/components/ui/spinner'
 import { MisskeyGlobalContext } from '@/hooks/use-misskey-global'
 import { PERSIST_GC_TIME } from '@/plugins/persister'
-import { getUserSite, useMisskeyApi } from '@/services/use-misskey-api'
+import { getUserSite, injectMisskeyApi } from '@/services/inject-misskey-api'
 
 export const MisskeyGlobalProvider = (props: { children: React.ReactNode }) => {
-  const api = useMisskeyApi()
+  const api = injectMisskeyApi()
   const site = getUserSite()
   const { t } = useTranslation()
 
@@ -35,16 +35,6 @@ export const MisskeyGlobalProvider = (props: { children: React.ReactNode }) => {
     gcTime: PERSIST_GC_TIME,
     staleTime: 1000 * 60 * 60, // 1 hour
   })
-
-  const noteSingleton = useNoteSingleton()
-
-  useEffect(() => {
-    const me = meQuery.data
-    if (me) {
-      const { dispose } = noteSingleton.startListening(me.id)
-      return dispose
-    }
-  }, [meQuery.data, noteSingleton])
 
   /** Descriptions and Queries */
   const queries = [

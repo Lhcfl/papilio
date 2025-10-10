@@ -1,5 +1,5 @@
 export const useRenoteAction = (noteId: string) => {
-  const api = useMisskeyApi()
+  const api = injectMisskeyApi()
   return useMutation({
     mutationKey: ['renote', noteId],
     mutationFn: (visibility: 'public' | 'home' | 'followers') =>
@@ -8,7 +8,7 @@ export const useRenoteAction = (noteId: string) => {
 }
 
 export const useUnrenoteAction = (noteId: string) => {
-  const api = useMisskeyApi()
+  const api = injectMisskeyApi()
   return useMutation({
     mutationKey: ['unrenote', noteId],
     mutationFn: () => api.request('notes/unrenote', { noteId }),
@@ -16,7 +16,7 @@ export const useUnrenoteAction = (noteId: string) => {
 }
 
 export const useDeleteNoteAction = (noteId: string) => {
-  const api = useMisskeyApi()
+  const api = injectMisskeyApi()
   return useMutation({
     mutationKey: ['deleteNote', noteId],
     mutationFn: () => api.request('notes/delete', { noteId }),
@@ -24,7 +24,7 @@ export const useDeleteNoteAction = (noteId: string) => {
 }
 
 export const useReactNoteAction = (noteId: string) => {
-  const api = useMisskeyApi()
+  const api = injectMisskeyApi()
   return useMutation({
     mutationKey: ['reactNote', noteId],
     mutationFn: (reaction: string) => api.request('notes/reactions/create', { noteId, reaction }),
@@ -32,7 +32,7 @@ export const useReactNoteAction = (noteId: string) => {
 }
 
 export const useUndoReactNoteAction = (noteId: string) => {
-  const api = useMisskeyApi()
+  const api = injectMisskeyApi()
   return useMutation({
     mutationKey: ['undoReactNote', noteId],
     mutationFn: () => api.request('notes/reactions/delete', { noteId }),

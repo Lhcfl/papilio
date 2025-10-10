@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/input-group'
 import { Spinner } from '@/components/ui/spinner'
 import { LoginLayout } from '@/layouts/login-layout'
-import { storeUserSite, useMisskeyApi } from '@/services/use-misskey-api'
+import { injectMisskeyApi, storeUserSite } from '@/services/inject-misskey-api'
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
@@ -28,7 +28,7 @@ function RouteComponent() {
     try {
       // This is not a react hook, just a function call to check if the user is already logged in.
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const api = useMisskeyApi()
+      const api = injectMisskeyApi()
       if (api != null) {
         navigate({ to: '/' })
       }

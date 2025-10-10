@@ -1,4 +1,4 @@
-import { HeartIcon, MoreHorizontalIcon, QuoteIcon, RepeatIcon, ReplyIcon, SmilePlusIcon } from 'lucide-react'
+import { HeartIcon, MinusIcon, MoreHorizontalIcon, QuoteIcon, RepeatIcon, ReplyIcon, SmilePlusIcon } from 'lucide-react'
 import type { ComponentProps } from 'react'
 import { Button } from '../ui/button'
 import { DropdownMenu, DropdownMenuTrigger } from '../ui/dropdown-menu'
@@ -31,6 +31,8 @@ export const MkNoteActions = (props: { note: NoteWithExtension }) => {
 
   const { mutate: renote, isPending: isRenoting } = useRenoteAction(note.id)
   const { mutate: unrenote, isPending: isUnrenoting } = useUnrenoteAction(note.id)
+  const { mutate: like, isPending: isLiking } = useLikeNoteAction(note.id)
+  const { mutate: unreact, isPending: isUnReacting } = useUndoReactNoteAction(note.id)
 
   return (
     <div className="mk-note-actions p-2">
@@ -61,12 +63,24 @@ export const MkNoteActions = (props: { note: NoteWithExtension }) => {
             />
           )}
       <MkNoteActionButton icon={<QuoteIcon />} onClick={() => console.log('implement quote')} />
-      <MkNoteActionButton icon={<HeartIcon />} onClick={() => console.log('implement heart')} />
-      <MkNoteActionButton
-        count={note.reactionCount}
-        icon={<SmilePlusIcon />}
-        onClick={() => console.log('implement smile')}
-      />
+      {
+        note.myReaction == null
+          ? (
+              <>
+                <MkNoteActionButton icon={<HeartIcon />} onClick={() => like()} loading={isLiking} />
+                <MkNoteActionButton
+                  count={note.reactionCount}
+                  icon={<SmilePlusIcon />}
+                  onClick={() => console.log('implement smile')}
+                  loading={isLiking}
+                />
+              </>
+            )
+          : (
+              <MkNoteActionButton icon={<MinusIcon />} onClick={() => unreact()} loading={isUnReacting} />
+            )
+      }
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <MkNoteActionButton icon={<MoreHorizontalIcon />} />

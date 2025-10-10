@@ -3,10 +3,10 @@ import { MkNote } from './mk-note'
 import { Spinner } from './ui/spinner'
 
 export const MkTimeline = (props: { type: TimelineTypes }) => {
-  const singleton = useNoteSingleton()
+  const singleton = useNoteSingleton(state => state.notes)
   const { data, isError, fetchNextPage, hasNextPage, isLoading } = useTimeline(props.type)
 
-  const notes = data?.pages.flatMap(page => page.map(id => singleton.notes[id])) || []
+  const notes = data?.pages.flatMap(page => page.map(id => singleton[id])) || []
 
   return (
     <div className="mk-timerline w-full">

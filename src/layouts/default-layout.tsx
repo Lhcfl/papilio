@@ -31,7 +31,7 @@ type DefaultLayoutProps<T extends string = string>
     | DefaultLayoutPropsNoTab
 
 export function DefaultLayout<T extends string = string>(props: DefaultLayoutProps<T>) {
-  const stream = useMisskeyStream()
+  const stream = injectMisskeyStream()
 
   useEffect(() => {
     const connection = stream.useChannel('main')
@@ -60,9 +60,10 @@ export function DefaultLayout<T extends string = string>(props: DefaultLayoutPro
 }
 
 function SidebarLayout<T extends string = string>(props: DefaultLayoutProps<T>) {
-  const { meta } = useMisskeyGlobal()
+  const { meta, me } = useMisskeyGlobal()
   const { tabs, title = meta.name ?? 'papilio', children, ...rest } = props
   useTitle(title)
+  useNoteUpdateListener({ meId: me.id })
 
   return (
     <SidebarProvider>

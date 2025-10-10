@@ -1,16 +1,14 @@
-import { DialogFooter, DialogHeader } from '@/components/ui/dialog'
-import { Spinner } from '@/components/ui/spinner'
-import { LoginLayout } from '@/layouts/login-layout'
-import { getUserSite, storeUserToken } from '@/services/use-misskey-api'
-import {
+import { DialogClose } from '@radix-ui/react-dialog'
+import { createFileRoute } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
+import { 
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { createFileRoute } from '@tanstack/react-router'
-import { DialogClose } from '@radix-ui/react-dialog'
-import { Button } from '@/components/ui/button'
+  DialogDescription,DialogFooter, DialogHeader, 
+  DialogTitle,} from '@/components/ui/dialog'
+import { Spinner } from '@/components/ui/spinner'
+import { LoginLayout } from '@/layouts/login-layout'
+import { getUserSite, storeUserToken } from '@/services/inject-misskey-api'
 
 export const Route = createFileRoute('/login-redirect')({
   component: RouteComponent,

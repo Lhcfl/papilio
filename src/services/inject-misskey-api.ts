@@ -2,7 +2,7 @@ import { api, Stream } from 'misskey-js'
 
 let apiClient: api.APIClient | null = null
 
-export const useMisskeyApi = () => {
+export const injectMisskeyApi = () => {
   if (apiClient) {
     return apiClient
   }
@@ -13,7 +13,7 @@ export const useMisskeyApi = () => {
 
 let stream: Stream | null = null
 
-export const useMisskeyStream = () => {
+export const injectMisskeyStream = () => {
   if (stream) {
     return stream
   }

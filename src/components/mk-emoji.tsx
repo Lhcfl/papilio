@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import Twemoji from 'twemoji'
-import { getUserSite } from '@/services/use-misskey-api'
+import { getUserSite } from '@/services/inject-misskey-api'
 
 export const MkCustomEmoji = (props: {
   name: string
