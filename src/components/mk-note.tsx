@@ -4,12 +4,21 @@ import { MkNoteHeader } from './note/mk-note-header'
 import { MkNoteReactions } from './note/mk-note-reactions'
 import { MkNoteRenoteTip } from './note/mk-note-renote-tip'
 
-export const MkNote = (props: { note: NoteWithExtension }) => {
-  const appearNote = props.note.renote ?? props.note
+export const MkNote = (props: { noteId: string }) => {
+  const note = useNoteSingleton(s => s.notes[props.noteId])
+  const appearNote = useAppearNote(props.noteId)
+
+  useDebugger('MkNote', props.noteId)
+
+  if (note == null || appearNote == null) {
+    return <div>[deleted]</div>
+  }
+
+  const pureRenote = isPureRenote(note)
 
   return (
     <div className="mk-note flex flex-col p-2">
-      {props.note.renote && <MkNoteRenoteTip note={props.note} />}
+      {pureRenote && <MkNoteRenoteTip note={note} />}
       <MkNoteHeader note={appearNote} />
       <MkNoteBody note={appearNote} />
       <MkNoteReactions note={appearNote} />

@@ -1,4 +1,4 @@
-import type { EmojiSimple } from 'misskey-js/entities.js'
+import type { EmojiSimple, Note } from 'misskey-js/entities.js'
 import type { NoteUpdatedEvent } from 'misskey-js/streaming.types.js'
 import { create } from 'zustand'
 import type { NoteWithExtension } from '@/types/note'
@@ -10,22 +10,38 @@ type NoteSingleton = {
   patch: (noteId: string, patch: Partial<NoteWithExtension> | ((note: NoteWithExtension) => Partial<NoteWithExtension>)) => void
 }
 
+const flatten = (notes: (NoteWithExtension & Note)[]): NoteWithExtension[] => notes.length == 0
+  ? []
+  : [
+      ...flatten(notes.map(n => n.reply).filter(Boolean) as Note[]),
+      ...flatten(notes.map(n => n.renote).filter(Boolean) as Note[]),
+      ...notes,
+    ]
+
 export const useNoteSingleton = create<NoteSingleton>((set) => {
   const stream = injectMisskeyStream()
 
   return {
     notes: {},
-    register: (...note: NoteWithExtension[]) => {
+    register: (...notes: NoteWithExtension[]) => {
+      const ns = flatten(notes)
+
       set(state => ({
-        notes: { ...state.notes, ...Object.fromEntries(note.map(n => [n.id, n])) },
+        notes: {
+          ...state.notes,
+          ...Object.fromEntries(ns.map(n => [n.id, n])),
+        },
       }))
+
       if (import.meta.env.DEV) {
-        console.log('[useNoteSingleton]: subscribed:', note.map(n => n.id))
+        console.log('[useNoteSingleton]: subscribed:', ns.map(n => n.id))
       }
-      return note.map((n) => {
+
+      for (const n of ns) {
         stream.send('sr', { id: n.id })
-        return n.id
-      })
+      }
+
+      return notes.map(n => n.id)
     },
     unregister: (noteId: string) => {
       set((state) => {
@@ -170,3 +186,12 @@ export function useNoteUpdateListener() {
     }
   }, [api, meId, patch, register, stream, unregister])
 }
+
+export const useAppearNote = (noteId: string) => useNoteSingleton((s) => {
+  const note = s.notes[noteId]
+  if (!note) return undefined
+  if (isPureRenote(note)) {
+    return s.notes[note.renoteId]
+  }
+  return note
+})
