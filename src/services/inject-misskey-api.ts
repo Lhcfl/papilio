@@ -6,7 +6,7 @@ export const injectMisskeyApi = () => {
   if (apiClient) {
     return apiClient
   }
-  const origin = getUserSite()
+  const origin = injectCurrentSite()
   const credential = getUserToken()
   return (apiClient = new api.APIClient({ origin, credential }))
 }
@@ -17,7 +17,7 @@ export const injectMisskeyStream = () => {
   if (stream) {
     return stream
   }
-  const origin = getUserSite()
+  const origin = injectCurrentSite()
   const token = getUserToken()
   return (stream = new Stream(origin, { token }))
 }
@@ -26,7 +26,7 @@ export const storeUserSite = (site: string) => {
   localStorage.setItem('site', site)
 }
 
-export const getUserSiteOrNull = (): string => {
+export const injectCurrentSiteOrNull = (): string => {
   return localStorage.getItem('site') || 'NULL'
 }
 
@@ -34,8 +34,13 @@ export const getUserTokenOrNull = (): string => {
   return localStorage.getItem('token') || 'NULL'
 }
 
-export const getUserSite = (): string => {
-  const site = localStorage.getItem('site')
+let site: string | null
+
+export const injectCurrentSite = (): string => {
+  if (site) {
+    return site
+  }
+  site = localStorage.getItem('site')
   if (!site) {
     throw new Error('Site is not set')
   }
@@ -53,3 +58,5 @@ const getUserToken = (): string => {
 export const storeUserToken = (token: string) => {
   localStorage.setItem('token', token)
 }
+
+export const getRelativeUrl = (href: string) => new URL(href, injectCurrentSite()).toString()

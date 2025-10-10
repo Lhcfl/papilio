@@ -6,7 +6,6 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-  const MisskeyGlobalContext: typeof import('./hooks/use-misskey-global')['MisskeyGlobalContext']
   const QueryClient: typeof import('@tanstack/react-query')['QueryClient']
   const QueryClientProvider: typeof import('@tanstack/react-query')['QueryClientProvider']
   const cn: typeof import('./lib/utils')['cn']
@@ -14,9 +13,10 @@ declare global {
   const cyrb53: typeof import('./lib/hash')['cyrb53']
   const forwardRef: typeof import('react')['forwardRef']
   const getNoteExcerpt: typeof import('./services/note-excerpt')['getNoteExcerpt']
-  const getUserSite: typeof import('./services/inject-misskey-api')['getUserSite']
-  const getUserSiteOrNull: typeof import('./services/inject-misskey-api')['getUserSiteOrNull']
+  const getRelativeUrl: typeof import('./services/inject-misskey-api')['getRelativeUrl']
   const getUserTokenOrNull: typeof import('./services/inject-misskey-api')['getUserTokenOrNull']
+  const injectCurrentSite: typeof import('./services/inject-misskey-api')['injectCurrentSite']
+  const injectCurrentSiteOrNull: typeof import('./services/inject-misskey-api')['injectCurrentSiteOrNull']
   const injectMisskeyApi: typeof import('./services/inject-misskey-api')['injectMisskeyApi']
   const injectMisskeyStream: typeof import('./services/inject-misskey-api')['injectMisskeyStream']
   const lazy: typeof import('react')['lazy']
@@ -31,6 +31,7 @@ declare global {
   const useDeferredValue: typeof import('react')['useDeferredValue']
   const useDeleteNoteAction: typeof import('./hooks/note-actions')['useDeleteNoteAction']
   const useEffect: typeof import('react')['useEffect']
+  const useEmojis: typeof import('./stores/emojis')['useEmojis']
   const useGlobalTimeline: typeof import('./hooks/use-timeline')['useGlobalTimeline']
   const useHomeTimeline: typeof import('./hooks/use-timeline')['useHomeTimeline']
   const useId: typeof import('react')['useId']
@@ -41,8 +42,8 @@ declare global {
   const useLayoutEffect: typeof import('react')['useLayoutEffect']
   const useLikeNoteAction: typeof import('./hooks/note-actions')['useLikeNoteAction']
   const useMainChannelListener: typeof import('./hooks/use-main-channel')['useMainChannelListener']
+  const useMe: typeof import('./stores/me')['useMe']
   const useMemo: typeof import('react')['useMemo']
-  const useMisskeyGlobal: typeof import('./hooks/use-misskey-global')['useMisskeyGlobal']
   const useMutation: typeof import('@tanstack/react-query')['useMutation']
   const useNavigate: typeof import('@tanstack/react-router')['useNavigate']
   const useNoteSingleton: typeof import('./hooks/use-note')['useNoteSingleton']
@@ -56,6 +57,8 @@ declare global {
   const useRenoteAction: typeof import('./hooks/note-actions')['useRenoteAction']
   const useRouter: typeof import('@tanstack/react-router')['useRouter']
   const useSearch: typeof import('@tanstack/react-router')['useSearch']
+  const useSetableSiteMeta: typeof import('./stores/site')['useSetableSiteMeta']
+  const useSiteMeta: typeof import('./stores/site')['useSiteMeta']
   const useState: typeof import('react')['useState']
   const useSyncExternalStore: typeof import('react')['useSyncExternalStore']
   const useTimeline: typeof import('./hooks/use-timeline')['useTimeline']
@@ -67,9 +70,6 @@ declare global {
 }
 // for type re-export
 declare global {
-  // @ts-ignore
-  export type { MisskeyGlobalContextType } from './hooks/use-misskey-global'
-  import('./hooks/use-misskey-global')
   // @ts-ignore
   export type { TimelineTypes } from './hooks/use-timeline'
   import('./hooks/use-timeline')

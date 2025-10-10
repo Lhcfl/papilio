@@ -37,7 +37,7 @@ export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
   const { note } = props
   let reactions = Object.entries(note.reactions)
   let myReaction = note.myReaction
-  const { emojisMap } = useMisskeyGlobal()
+  const emojisMap = useEmojis(s => s.emojisMap)
 
   if (reactions.length === 0) {
     return null

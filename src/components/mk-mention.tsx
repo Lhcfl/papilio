@@ -5,8 +5,7 @@ import { Avatar, AvatarImage } from './ui/avatar'
 
 const MkMentionInner = (props: { username: string, host: string | null }) => {
   const { username, host } = props
-  const { site } = useMisskeyGlobal()
-  const src = `${site}/avatar/@${acct.toString(props)}`
+  const src = getRelativeUrl(`/avatar/@${acct.toString(props)}`)
   return (
     <span className="flex items-center">
       <Avatar className="size-5 mr-1">

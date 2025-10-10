@@ -43,12 +43,13 @@ export const useNoteSingleton = create<NoteSingleton>((set) => {
   }
 })
 
-export function useNoteUpdateListener({ meId }: { meId: string }) {
+export function useNoteUpdateListener() {
   const api = injectMisskeyApi()
   const stream = injectMisskeyStream()
   const patch = useNoteSingleton(s => s.patch)
   const register = useNoteSingleton(s => s.register)
   const unregister = useNoteSingleton(s => s.unregister)
+  const meId = useMe(s => s.me?.id)
 
   useEffect(() => {
     if (import.meta.env.DEV) {

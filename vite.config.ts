@@ -39,7 +39,7 @@ export default defineConfig({
       dirs: ['./src/hooks', './src/lib', './src/services', {
         glob: './src/types',
         types: true,
-      }],
+      }, './src/stores'],
       dtsMode: 'overwrite',
     }),
     react(),

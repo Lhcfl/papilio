@@ -3,8 +3,8 @@ import type { HTMLProps } from 'react'
 
 export const MkVisibilityIcon = (props: { note: NoteWithExtension } & HTMLProps<SVGSVGElement>) => {
   const { note, ...rest } = props
-  const { me } = useMisskeyGlobal()
-  const isPrivate = !note.visibleUserIds?.some(x => x !== me.id)
+  const meId = useMe(s => s.me?.id)
+  const isPrivate = !note.visibleUserIds?.some(x => x !== meId)
   switch (note.visibility) {
     case 'public':
       return <GlobeIcon {...rest} />

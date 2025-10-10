@@ -8,7 +8,7 @@ import {
   DialogTitle,} from '@/components/ui/dialog'
 import { Spinner } from '@/components/ui/spinner'
 import { LoginLayout } from '@/layouts/login-layout'
-import { getUserSite, storeUserToken } from '@/services/inject-misskey-api'
+import { injectCurrentSite, storeUserToken } from '@/services/inject-misskey-api'
 
 export const Route = createFileRoute('/login-redirect')({
   component: RouteComponent,
@@ -29,7 +29,7 @@ function RouteComponent() {
       navigate({ to: '/login' })
       return
     }
-    fetch(new URL(`/api/miauth/${session}/check`, getUserSite()), {
+    fetch(new URL(`/api/miauth/${session}/check`, injectCurrentSite()), {
       method: 'POST',
     })
       .then(res => res.json())

@@ -10,10 +10,11 @@ import type { NoteWithExtension } from '@/types/note'
 
 export const MkNoteMenu = (props: { note: NoteWithExtension }) => {
   const { t } = useTranslation()
-  const { me } = useMisskeyGlobal()
   const { note } = props
+  const meId = useMe(s => s.me?.id)
+  const isAdmin = useMe(s => s.me?.isAdmin)
 
-  const isMine = me.id === note.userId
+  const isMine = meId === note.userId
 
   return (
     <DropdownMenuContent align="start">
@@ -74,7 +75,7 @@ export const MkNoteMenu = (props: { note: NoteWithExtension }) => {
           </DropdownMenuGroup>
         </>
       )}
-      {(isMine || me.isAdmin) && (
+      {(isMine || isAdmin) && (
         <>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>

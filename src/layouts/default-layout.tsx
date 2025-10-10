@@ -5,7 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { Toaster } from '@/components/ui/sonner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { MisskeyGlobalProvider } from '@/providers/misskey-global'
+import { WithLoginLoader } from '@/loaders/with-login'
 
 type DefaultLayoutPropsCommon = {
   title?: string
@@ -30,18 +30,18 @@ type DefaultLayoutProps<T extends string = string>
 
 export function DefaultLayout<T extends string = string>(props: DefaultLayoutProps<T>) {
   return (
-    <MisskeyGlobalProvider>
+    <WithLoginLoader>
       <SidebarLayout {...props} />
       <Toaster />
-    </MisskeyGlobalProvider>
+    </WithLoginLoader>
   )
 }
 
 function SidebarLayout<T extends string = string>(props: DefaultLayoutProps<T>) {
-  const { meta, me } = useMisskeyGlobal()
-  const { tabs, title = meta.name ?? 'papilio', children, ...rest } = props
+  const siteName = useSiteMeta(s => s.name)
+  const { tabs, title = siteName ?? 'papilio', children, ...rest } = props
   useTitle(title)
-  useNoteUpdateListener({ meId: me.id })
+  useNoteUpdateListener()
   useMainChannelListener()
 
   return (

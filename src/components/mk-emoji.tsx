@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import Twemoji from 'twemoji'
-import { getUserSite } from '@/services/inject-misskey-api'
+import { injectCurrentSite } from '@/services/inject-misskey-api'
 
 export const MkCustomEmoji = (props: {
   name: string
@@ -14,7 +14,8 @@ export const MkCustomEmoji = (props: {
   fallbackToImage?: boolean
 }) => {
   const className = clsx('inline align-middle transition-all', props.normal ? 'h-[1.25em] align-[-0.25em]' : 'h-[2em]')
-  const { emojisMap, site } = useMisskeyGlobal()
+  const emojisMap = useEmojis(s => s.emojisMap)
+  const site = injectCurrentSite()
   const [error, setError] = useState(false)
 
   const name = props.name[0] === ':' ? props.name.slice(1, -1) : props.name
@@ -58,7 +59,7 @@ export const MkCustomEmoji = (props: {
 
 export const MkEmoji = (props: { emoji: string, menu?: boolean, menuReaction?: boolean } & { className?: string }) => {
   const parsed = Twemoji.parse(props.emoji, {
-    base: getUserSite(),
+    base: injectCurrentSite(),
     ext: '.svg',
     folder: '/twemoji',
     className: clsx('h-[1.25em] align-[-0.25em] transition-all inline', props.className),

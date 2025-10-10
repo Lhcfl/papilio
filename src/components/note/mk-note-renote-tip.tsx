@@ -12,9 +12,9 @@ import {
 import { MkVisibilityIcon } from './mk-visibility-icon'
 
 export const MkNoteRenoteTip = (props: { note: NoteWithExtension }) => {
-  const { me } = useMisskeyGlobal()
+  const meId = useMe(s => s.me?.id)
 
-  const isMine = props.note.userId === me.id
+  const isMine = props.note.userId === meId
 
   return (
     <div className="mk-note-renote-tip p-2 flex gap-2 items-center text-muted-foreground">
