@@ -5,7 +5,7 @@ import { MkNote } from './mk-note'
 import type { HTMLProps } from 'react'
 import { MkAvatar } from './mk-avatar'
 import { Button } from './ui/button'
-import { CheckIcon, ChevronLeftIcon, MoreHorizontalIcon, XIcon } from 'lucide-react'
+import { CheckIcon, ChevronLeftIcon, MoreHorizontalIcon, UserRoundPlusIcon, XIcon } from 'lucide-react'
 import { MkUserName } from './mk-user-name'
 import { MkI18n } from './mk-i18n'
 import { MkCustomEmoji, MkEmoji } from './mk-emoji'
@@ -37,9 +37,9 @@ export const MkNotification = (props: {
           case 'pollEnded': return <SimpleNotification notification={notification} />
           case 'scheduledNotePosted': return <SimpleNotification notification={notification} />
           case 'scheduledNotePostFailed': return <SimpleNotification notification={notification} />
-          case 'follow': return <SimpleNotification notification={notification} />
+          case 'follow': return <FollowNotification notification={notification} />
           case 'receiveFollowRequest': return <ReceiveFollowRequestNotification notification={notification} />
-          case 'followRequestAccepted': return <div>not impl</div>
+          case 'followRequestAccepted': return <SimpleNotification notification={notification} />
           case 'roleAssigned': return <SimpleNotification notification={notification} />
           case 'chatRoomInvitationReceived': return <SimpleNotification notification={notification} />
           case 'achievementEarned': return <SimpleNotification notification={notification} />
@@ -49,10 +49,50 @@ export const MkNotification = (props: {
           case 'app': return <SimpleNotification notification={notification} />
           case 'reaction:grouped': return <ReactionNotification notification={notification} />
           case 'renote:grouped': return <RenoteNotification notification={notification} />
-          default: return <div>unknown notification</div>
+          default: return <SimpleNotification notification={notification as unknown as Notification} />
         }
       })()}
     </div>
+  )
+}
+
+const FollowNotification = (props: { notification: PickNotification<'follow'> }) => {
+  const { notification } = props
+  const { t } = useTranslation()
+  const { data: user, refetch } = useUserQuery(notification.user.id)
+  const { mutate: follow, isPending: isFollowing } = useFollowAction(notification.user.id)
+  const didNotFollowBack = user != null && !user.isFollowing && !user.hasPendingFollowRequestFromYou
+
+  return (
+    <Item>
+      <NotificationItemMedia notification={notification} />
+      <ItemContent>
+        <ItemTitle className="line-clamp-1">
+          <NotificationTitle notification={notification} />
+        </ItemTitle>
+        <div className="line-clamp-2 text-sm break-all text-muted-foreground">
+          <NotificationDescription notification={notification} />
+        </div>
+      </ItemContent>
+      {didNotFollowBack && (
+        <ItemActions>
+          <Tooltip>
+            <TooltipContent>
+              {t('follow')}
+            </TooltipContent>
+            <TooltipTrigger>
+              <Button variant="outline" size="icon" onClick={() => follow(void null, { onSuccess: () => refetch() })}>
+                {
+                  (isFollowing)
+                    ? <Spinner />
+                    : <UserRoundPlusIcon />
+                }
+              </Button>
+            </TooltipTrigger>
+          </Tooltip>
+        </ItemActions>
+      )}
+    </Item>
   )
 }
 
