@@ -74,7 +74,7 @@ export const MkMfm = (in_props: MfmProps) => {
 
   if (props.text == null || props.text === '') return
 
-  const classList = ['mfm']
+  const classList = ['mfm', 'break-words', 'break-all']
   if (props.isBlock) classList.push('block')
   if (props.inline) classList.push('mfm-inline')
 

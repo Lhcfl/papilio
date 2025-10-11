@@ -10,7 +10,7 @@ export const MkNote = (props: {
   noteId: string
   /** SubNote 左边会空出来一块位置用来连线 */
   isSubNote?: boolean
-  repliesComponent?: React.ReactNode
+  decorationBottomRight?: React.ReactNode
 } & HTMLProps<HTMLDivElement>) => {
   const { noteId, isSubNote, className: classNameProps, ...divProps } = props
   const note = useNoteValue(noteId)
@@ -34,12 +34,16 @@ export const MkNote = (props: {
         <MkNoteReactions note={appearNote} />
         <MkNoteActions onTranslate={translate} note={appearNote} />
       </div>
+      {props.decorationBottomRight && (
+        <div className="absolute bottom-2 right-2">
+          {props.decorationBottomRight}
+        </div>
+      )}
       {/**
         * 回复树构造。
         * 对于每个 subnote, 并且有回复的话，显示左侧的连线。
         */}
       {isSubNote && hasReply && <div className="note-sub-line absolute -bottom-2 top-6 left-9 border-l-2" />}
-      {props.repliesComponent}
     </div>
   )
 }

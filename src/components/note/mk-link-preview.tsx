@@ -2,11 +2,12 @@ import type { summaly } from '@misskey-dev/summaly'
 import { Avatar, AvatarImage } from '../ui/avatar'
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '../ui/item'
 import { Spinner } from '../ui/spinner'
+import clsx from 'clsx'
 
 type SummalyResult = Awaited<ReturnType<typeof summaly>>
 
 export const MkLinkPreview = (props: { url: string } & React.ComponentProps<typeof Item>) => {
-  const { url, ...rest } = props
+  const { url, className, ...rest } = props
   const { i18n } = useTranslation()
 
   const { data } = useQuery({
@@ -25,7 +26,7 @@ export const MkLinkPreview = (props: { url: string } & React.ComponentProps<type
   const thumbnail = data?.thumbnail || data?.icon
 
   return (
-    <Item variant="outline" {...rest} asChild size="sm">
+    <Item variant="outline" className={clsx('break-words break-all', className)} {...rest} asChild size="sm">
       <a href={url}>
         {data
           ? (
