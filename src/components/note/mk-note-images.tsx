@@ -5,6 +5,7 @@ import type { HTMLProps } from 'react'
 import Lightbox from 'react-spring-lightbox'
 import { MkImage } from '../mk-image'
 import { ScrollArea } from '../ui/scroll-area'
+import { MkBlurHash } from '../mk-blurhash'
 
 export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivElement>) => {
   const { images, className: classNameProp, ...rest } = props
@@ -101,6 +102,7 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
             </div>
           </div>
         )}
+        renderImageOverlay={() => <MkBlurHash className="absolute w-full h-full -z-10" id={'image:' + images[currentIndex].id} blurhash={images[currentIndex].blurhash} />}
       />
     </>
   )
