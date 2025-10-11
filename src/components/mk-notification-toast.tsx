@@ -27,7 +27,7 @@ import { MkCustomEmoji, MkEmoji } from './mk-emoji'
 import { MkUserName } from './mk-user-name'
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from './ui/item'
 
-const NotificationMedia = (props: { notification: Notification } & { className?: string }) => {
+export const NotificationMedia = (props: { notification: Notification } & { className?: string }) => {
   const { notification, ...rest } = props
 
   switch (notification.type) {
@@ -87,7 +87,7 @@ const NotificationMedia = (props: { notification: Notification } & { className?:
   }
 }
 
-const NotificationTitle = (props: { notification: Notification }) => {
+export const NotificationTitle = (props: { notification: Notification }) => {
   const { notification } = props
   const { t } = useTranslation()
 
@@ -137,7 +137,7 @@ const NotificationTitle = (props: { notification: Notification }) => {
   }
 }
 
-const NotificationDescription = (props: { notification: Notification }) => {
+export const NotificationDescription = (props: { notification: Notification }) => {
   const { notification } = props
   const { t } = useTranslation()
 
@@ -191,7 +191,7 @@ const NotificationDescription = (props: { notification: Notification }) => {
   }
 }
 
-const NotificationIconColor = (notification: Notification) => {
+export const NotificationIconColor = (notification: Pick<Notification, 'type'>) => {
   switch (notification.type) {
     case 'note':
       return 'bg-emerald-500'

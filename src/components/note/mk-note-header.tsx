@@ -5,6 +5,7 @@ import { MkTime } from '../mk-time'
 import { MkUserName } from '../mk-user-name'
 import { MkVisibilityIcon } from './mk-visibility-icon'
 import { Avatar, AvatarImage } from '../ui/avatar'
+import { Link } from '@tanstack/react-router'
 
 export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
   const { note } = props
@@ -21,10 +22,10 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
           <div className="user-name font-bold flex-grow-1 flex-shrink-1 w-0 line-clamp-1">
             <MkUserName user={note.user} />
           </div>
-          <div className="note-time flex items-center gap-2 flex-shrink-0">
+          <Link className="note-time flex items-center gap-2 flex-shrink-0" to={getNoteRoute(note.id)}>
             <MkTime time={note.createdAt} className="text-sm" />
             <MkVisibilityIcon className="size-4" note={note} />
-          </div>
+          </Link>
         </div>
         <div className="flex justify-between gap-2">
           <div className="user-username text-sm text-gray-500 flex-shrink-0">

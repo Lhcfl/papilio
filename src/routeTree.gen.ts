@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NotesIdRouteImport } from './routes/notes/$id'
 
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRedirectRoute = LoginRedirectRouteImport.update({
   id: '/login-redirect',
   path: '/login-redirect',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
+  '/notifications': typeof NotificationsRoute
   '/notes/$id': typeof NotesIdRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
+  '/notifications': typeof NotificationsRoute
   '/notes/$id': typeof NotesIdRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,34 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
+  '/notifications': typeof NotificationsRoute
   '/notes/$id': typeof NotesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/login' | '/login-redirect' | '/notes/$id'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/login'
+    | '/login-redirect'
+    | '/notifications'
+    | '/notes/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/login' | '/login-redirect' | '/notes/$id'
-  id: '__root__' | '/' | '/about' | '/login' | '/login-redirect' | '/notes/$id'
+  to:
+    | '/'
+    | '/about'
+    | '/login'
+    | '/login-redirect'
+    | '/notifications'
+    | '/notes/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/login'
+    | '/login-redirect'
+    | '/notifications'
+    | '/notes/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,11 +104,19 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   LoginRoute: typeof LoginRoute
   LoginRedirectRoute: typeof LoginRedirectRoute
+  NotificationsRoute: typeof NotificationsRoute
   NotesIdRoute: typeof NotesIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login-redirect': {
       id: '/login-redirect'
       path: '/login-redirect'
@@ -124,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   LoginRoute: LoginRoute,
   LoginRedirectRoute: LoginRedirectRoute,
+  NotificationsRoute: NotificationsRoute,
   NotesIdRoute: NotesIdRoute,
 }
 export const routeTree = rootRouteImport
