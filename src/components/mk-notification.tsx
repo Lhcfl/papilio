@@ -1,4 +1,3 @@
-import type { FetchedNotification } from './mk-notifications'
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from './ui/item'
 import { NotificationDescription, NotificationIconColor, NotificationMedia, NotificationTitle } from './mk-notification-toast'
 import clsx from 'clsx'
@@ -7,7 +6,7 @@ import { MkNote } from './mk-note'
 import type { HTMLProps } from 'react'
 
 export const MkNotification = (props: {
-  notification: FetchedNotification | { type: '_other' }
+  notification: Notification | { type: '_other' }
 } & HTMLProps<HTMLDivElement>,
 ) => {
   const { notification } = props

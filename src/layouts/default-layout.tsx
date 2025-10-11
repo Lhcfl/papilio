@@ -7,6 +7,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { WithLoginLoader } from '@/loaders/with-login'
 import type { Tab } from '@/types/page-header'
+import { atom, useAtom } from 'jotai'
 
 type DefaultLayoutPropsCommon = {
   title?: string
@@ -17,12 +18,16 @@ type DefaultLayoutPropsCommon = {
 type DefaultLayoutPropsTab<Ts extends Tab[]> = DefaultLayoutPropsCommon & {
   tabs: Ts
   children: (tab: Ts[number]) => React.ReactNode
+  onTabChange?: (value: Ts[number]['value']) => void
+  headerRightWhenTab?: (tab: Ts[number]['value']) => React.ReactNode
 }
 
 type DefaultLayoutPropsNoTab = DefaultLayoutPropsCommon & {
   tabs?: undefined
   children?: React.ReactNode
+  onTabChange?: undefined
   headerCenter?: React.ReactNode
+  headerRightWhenTab?: undefined
 }
 
 type DefaultLayoutProps<Ts extends Tab[]>
@@ -40,10 +45,17 @@ export function DefaultLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
 
 function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
   const siteName = useSiteMeta(s => s.name)
-  const { tabs, title = siteName ?? 'papilio', children, ...rest } = props
+  const { tabs, onTabChange, headerRightWhenTab, title = siteName ?? 'papilio', children, ...rest } = props
   useTitle(title)
   useNoteUpdateListener()
   useMainChannelListener()
+  const [tab, setTab] = useState(tabs?.[0].value)
+  const handleTabChange = (value: string) => {
+    setTab(value)
+    if (onTabChange) {
+      onTabChange(value as Ts[number]['value'])
+    }
+  }
 
   return (
     <SidebarProvider>
@@ -52,7 +64,7 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
         <div className="main-container">
           { tabs
             ? (
-                <Tabs defaultValue={tabs[0]?.value}>
+                <Tabs defaultValue={tabs[0]?.value} onValueChange={handleTabChange}>
                   <LayoutMiddle
                     {...rest}
                     title={title}
@@ -65,6 +77,12 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
                           </TabsTrigger>
                         ))}
                       </TabsList>
+                    )}
+                    headerRight={(
+                      <>
+                        {props.headerRight}
+                        {tab && headerRightWhenTab?.(tab)}
+                      </>
                     )}
                   >
                     {tabs.map(tab => (

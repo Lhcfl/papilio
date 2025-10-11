@@ -6,6 +6,7 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const NOTIFICATION_TYPES: typeof import('./lib/notifications')['NOTIFICATION_TYPES']
   const QueryClient: typeof import('@tanstack/react-query')['QueryClient']
   const QueryClientProvider: typeof import('@tanstack/react-query')['QueryClientProvider']
   const cn: typeof import('./lib/utils')['cn']
@@ -90,6 +91,9 @@ declare global {
   // @ts-ignore
   export type { TimelineTypes } from './hooks/use-timeline'
   import('./hooks/use-timeline')
+  // @ts-ignore
+  export type { NotificationIncludeableType } from './lib/notifications'
+  import('./lib/notifications')
   // @ts-ignore
   export type { NoteWithExtension } from './types/note'
   import('./types/note')
