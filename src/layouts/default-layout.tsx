@@ -100,7 +100,7 @@ function LayoutCenter(props: DefaultLayoutPropsCommon & {
     headerCenter, headerRight } = props
   return (
     <ScrollArea className="h-screen">
-      <header className="flex gap-1 items-center p-2 sticky top-0 bg-background border-b z-10">
+      <header className="flex gap-1 items-center p-2 sticky top-0 bg-background border-b z-30">
         <SidebarTrigger className="size-8" />
         <div>
           {headerLeft}
