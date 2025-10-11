@@ -10,7 +10,6 @@ export const useTimeline = (type: TimelineTypes) => {
   const api = injectMisskeyApi()
   const stream = injectMisskeyStream()
   const queryClient = useQueryClient()
-  const register = useNoteSingleton(s => s.register)
 
   const channelName = `${type}Timeline` as const
 
@@ -19,7 +18,7 @@ export const useTimeline = (type: TimelineTypes) => {
     const channel = stream.useChannel(channelName)
     channel.on('note', (note) => {
       console.log('[timeline] new note received', note)
-      const [id] = register(note)
+      const [id] = registerNote(note)
 
       queryClient.setQueryData(timelineQueryKey(type), (data: (typeof query)['data']) => {
         console.log(data)
@@ -42,7 +41,7 @@ export const useTimeline = (type: TimelineTypes) => {
       }
       channel.dispose()
     }
-  }, [channelName, queryClient, type, register, stream])
+  }, [channelName, queryClient, type, stream])
 
   const fetcher = ({ pageParam }: { pageParam?: string }) => {
     switch (type) {
@@ -73,7 +72,7 @@ export const useTimeline = (type: TimelineTypes) => {
     queryKey: timelineQueryKey(type),
     queryFn: async ({ pageParam }) => {
       const notes = await fetcher({ pageParam })
-      return register(...notes)
+      return registerNote(...notes)
     },
     getNextPageParam: lastPage => lastPage.at(-1),
     initialPageParam: 'zzzzzzzzzzzzzzzzzzzzzzzz',

@@ -5,8 +5,8 @@ import { MkNoteReactions } from './note/mk-note-reactions'
 import { MkNoteRenoteTip } from './note/mk-note-renote-tip'
 
 export const MkNote = (props: { noteId: string }) => {
-  const note = useNoteSingleton(s => s.notes[props.noteId])
-  const appearNote = useAppearNote(props.noteId)
+  const note = useNoteValue(props.noteId)
+  const appearNote = useAppearNote(note)
   const { mutate: translate } = useTranslateAction(props.noteId)
 
   useDebugger('MkNote', props.noteId)

@@ -23,10 +23,7 @@ type NoteBodyCommonProps = {
 const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>) => {
   const { note, stopQuote, showReplyIcon, textAst, ...rest } = props
 
-  const quote = useNoteSingleton((s) => {
-    if (stopQuote) return null
-    return note.renoteId ? s.notes[note.renoteId] : null
-  })
+  const quote = useNoteValue(stopQuote ? null : note.renoteId)
 
   const urls = collectAst(textAst, x =>
     x.type === 'url' ? x.props.url : x.type === 'link' ? x.props.url : undefined,
