@@ -16,6 +16,7 @@ declare global {
   const cyrb53: typeof import('./lib/hash')['cyrb53']
   const forwardRef: typeof import('react')['forwardRef']
   const getNoteExcerpt: typeof import('./services/note-excerpt')['getNoteExcerpt']
+  const getNoteRemoteUrl: typeof import('./lib/note')['getNoteRemoteUrl']
   const getNoteRoute: typeof import('./lib/note')['getNoteRoute']
   const getRelativeUrl: typeof import('./services/inject-misskey-api')['getRelativeUrl']
   const getUserTokenOrNull: typeof import('./services/inject-misskey-api')['getUserTokenOrNull']

@@ -28,7 +28,7 @@ export const MkNoteMenu = (props: { note: NoteWithExtension, onTranslate: () => 
   const meId = useMe(me => me.id)
   const isAdmin = useMe(me => me.isAdmin)
   const isMine = meId === note.userId
-  const remoteUrl = note.url || getRelativeUrl(`/notes/${note.id}`)
+  const remoteUrl = getNoteRemoteUrl(note)
 
   function copyContent() {
     copyToClipboard(note.cw + '\n\n' + note.text)

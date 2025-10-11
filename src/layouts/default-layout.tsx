@@ -52,7 +52,7 @@ function SidebarLayout<T extends string = string>(props: DefaultLayoutProps<T>) 
           { tabs
             ? (
                 <Tabs defaultValue={tabs[0]?.value}>
-                  <LayoutCenter
+                  <LayoutMiddle
                     {...rest}
                     title={title}
                     headerCenter={(
@@ -71,14 +71,14 @@ function SidebarLayout<T extends string = string>(props: DefaultLayoutProps<T>) 
                         {children(tab)}
                       </TabsContent>
                     ))}
-                  </LayoutCenter>
+                  </LayoutMiddle>
                 </Tabs>
               )
             : (
                 <div>
-                  <LayoutCenter {...props} title={title} headerCenter={props.headerCenter}>
+                  <LayoutMiddle {...props} title={title} headerCenter={props.headerCenter}>
                     {children}
-                  </LayoutCenter>
+                  </LayoutMiddle>
                 </div>
               )}
         </div>
@@ -90,7 +90,7 @@ function SidebarLayout<T extends string = string>(props: DefaultLayoutProps<T>) 
   )
 }
 
-function LayoutCenter(props: DefaultLayoutPropsCommon & {
+function LayoutMiddle(props: DefaultLayoutPropsCommon & {
   title: string
   headerCenter: React.ReactNode
   children: React.ReactNode
@@ -100,7 +100,7 @@ function LayoutCenter(props: DefaultLayoutPropsCommon & {
     headerCenter, headerRight } = props
   return (
     <ScrollArea className="h-screen">
-      <header className="flex gap-1 items-center p-2 sticky top-0 bg-background border-b z-30">
+      <header className="h-13 flex gap-1 items-center p-2 sticky top-0 bg-background border-b z-30">
         <SidebarTrigger className="size-8" />
         <div>
           {headerLeft}
