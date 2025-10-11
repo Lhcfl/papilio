@@ -8,6 +8,7 @@ import type { NoteWithExtension } from '@/types/note'
 import { MkNoteSimple } from '../mk-note-simple'
 import { Button } from '../ui/button'
 import { MkLinkPreview } from './mk-link-preview'
+import { MkNoteImages } from './mk-note-images'
 
 type NoteBodyCommonProps = {
   note: NoteWithExtension
@@ -26,6 +27,9 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
   })
 
   const urls = collectAst(textAst, x => x.type === 'url' ? x.props.url : x.type === 'link' ? x.props.url : undefined)
+
+  const images = note.files?.filter(f => f.type.startsWith('image/')) || []
+  const otherFiles = note.files?.filter(f => !f.type.startsWith('image/')) || []
 
   return (
     <div className="note-body" {...rest}>
@@ -46,6 +50,11 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
           {urls.map(u => <MkLinkPreview className="mt-1" key={u} url={u} />)}
         </div>
       )}
+      {images.length > 0 && (
+        <MkNoteImages images={images} className="mt-2" />
+      )}
+      {/* todo */}
+      {otherFiles.length > 0 && <div className="file">[文件]</div>}
     </div>
   )
 }
