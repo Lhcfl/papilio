@@ -29,6 +29,7 @@ declare global {
   const lazy: typeof import('react')['lazy']
   const memo: typeof import('react')['memo']
   const normalizeEmojiName: typeof import('./lib/emojis')['normalizeEmojiName']
+  const onlyWhenNonInteractableContentClicked: typeof import('./lib/utils')['onlyWhenNonInteractableContentClicked']
   const patchNote: typeof import('./hooks/use-note')['patchNote']
   const registerNote: typeof import('./hooks/use-note')['registerNote']
   const someAst: typeof import('./lib/note')['someAst']
@@ -82,6 +83,7 @@ declare global {
   const useTranslation: typeof import('react-i18next')['useTranslation']
   const useUndoReactNoteAction: typeof import('./hooks/note-actions')['useUndoReactNoteAction']
   const useUnrenoteAction: typeof import('./hooks/note-actions')['useUnrenoteAction']
+  const withStopPrevent: typeof import('./lib/utils')['withStopPrevent']
 }
 // for type re-export
 declare global {

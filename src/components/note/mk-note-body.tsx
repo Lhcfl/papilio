@@ -22,6 +22,7 @@ type NoteBodyCommonProps = {
 
 const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>) => {
   const { note, stopQuote, showReplyIcon, textAst, ...rest } = props
+  const navigate = useNavigate()
 
   const quote = useNoteValue(stopQuote ? null : note.renoteId)
 
@@ -35,7 +36,10 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
   return (
     <div className="note-body" {...rest}>
       {note.text && (
-        <div className="note-body-text">
+        <div
+          className="note-body-text"
+          onClick={onlyWhenNonInteractableContentClicked(() => navigate({ to: getNoteRoute(note.id) }))}
+        >
           {showReplyIcon && note.replyId && <ReplyIcon className="mr-1 size-4 inline" />}
           {stopQuote && note.renoteId && <QuoteIcon className="mr-1 size-4 inline" />}
           <MkMfm text={note.text} author={note.user} emojiUrls={note.emojis} parsedNodes={textAst} />
