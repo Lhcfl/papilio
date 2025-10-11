@@ -1,5 +1,6 @@
 import { HeartIcon, MinusIcon, MoreHorizontalIcon, QuoteIcon, RepeatIcon, ReplyIcon, SmilePlusIcon } from 'lucide-react'
 import type { ComponentProps } from 'react'
+import { toast } from 'sonner'
 import { Button } from '../ui/button'
 import { DropdownMenu, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Spinner } from '../ui/spinner'
@@ -26,6 +27,7 @@ const MkNoteActionButton = (
 
 export const MkNoteActions = (props: { note: NoteWithExtension, onTranslate: () => void }) => {
   const { note, onTranslate } = props
+  const { t } = useTranslation()
 
   const isRenoted = note.isRenoted
 
@@ -50,7 +52,9 @@ export const MkNoteActions = (props: { note: NoteWithExtension, onTranslate: () 
               icon={<RepeatIcon />}
               count={note.renoteCount}
               loading={isUnrenoting}
-              onClick={() => unrenote()}
+              onClick={() => unrenote(void null, {
+                onSuccess: () => toast.success(t('unrenote')),
+              })}
             />
           )
         : (
@@ -59,27 +63,28 @@ export const MkNoteActions = (props: { note: NoteWithExtension, onTranslate: () 
               count={note.renoteCount}
               disabled={note.visibility !== 'public' && note.visibility !== 'home'}
               loading={isRenoting}
-              onClick={() => renote(props.note.visibility as 'public' | 'home')}
+              onClick={() =>
+                renote(props.note.visibility as 'public' | 'home', {
+                  onSuccess: () => toast.success(t('renoted')),
+                })}
             />
           )}
       <MkNoteActionButton icon={<QuoteIcon />} onClick={() => console.log('implement quote')} />
-      {
-        note.myReaction == null
-          ? (
-              <>
-                <MkNoteActionButton icon={<HeartIcon />} onClick={() => like()} loading={isLiking} />
-                <MkNoteActionButton
-                  count={note.reactionCount}
-                  icon={<SmilePlusIcon />}
-                  onClick={() => console.log('implement smile')}
-                  loading={isLiking}
-                />
-              </>
-            )
-          : (
-              <MkNoteActionButton icon={<MinusIcon />} onClick={() => unreact()} loading={isUnReacting} />
-            )
-      }
+      {note.myReaction == null
+        ? (
+            <>
+              <MkNoteActionButton icon={<HeartIcon />} onClick={() => like()} loading={isLiking} />
+              <MkNoteActionButton
+                count={note.reactionCount}
+                icon={<SmilePlusIcon />}
+                onClick={() => console.log('implement smile')}
+                loading={isLiking}
+              />
+            </>
+          )
+        : (
+            <MkNoteActionButton icon={<MinusIcon />} onClick={() => unreact()} loading={isUnReacting} />
+          )}
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
