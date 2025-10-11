@@ -1,11 +1,11 @@
 import { DialogClose } from '@radix-ui/react-dialog'
 import { createFileRoute } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import { 
+import {
   Dialog,
   DialogContent,
-  DialogDescription,DialogFooter, DialogHeader, 
-  DialogTitle,} from '@/components/ui/dialog'
+  DialogDescription, DialogFooter, DialogHeader,
+  DialogTitle } from '@/components/ui/dialog'
 import { Spinner } from '@/components/ui/spinner'
 import { LoginLayout } from '@/layouts/login-layout'
 import { injectCurrentSite, storeUserToken } from '@/services/inject-misskey-api'

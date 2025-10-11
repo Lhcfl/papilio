@@ -1,7 +1,7 @@
 import { CircleXIcon } from 'lucide-react'
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from './ui/empty'
+import { type APIError, isAPIError } from 'misskey-js/api.js'
 import { Button } from './ui/button'
-import { isAPIError, type APIError } from 'misskey-js/api.js'
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from './ui/empty'
 
 export function MkError(props: { error: Error | APIError, retry?: () => void }) {
   const { error, retry } = props

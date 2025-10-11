@@ -47,7 +47,6 @@
 		"zustand": "^5.0.8"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.2.5",
 		"@eslint/js": "^9.36.0",
 		"@misskey-dev/summaly": "^5.2.4",
 		"@stylistic/eslint-plugin": "^5.4.0",

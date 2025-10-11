@@ -1,4 +1,4 @@
-import { api, Stream } from 'misskey-js'
+import { Stream, api } from 'misskey-js'
 
 let apiClient: api.APIClient | null = null
 

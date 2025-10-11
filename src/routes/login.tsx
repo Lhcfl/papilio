@@ -27,7 +27,7 @@ function RouteComponent() {
   useEffect(() => {
     try {
       // This is not a react hook, just a function call to check if the user is already logged in.
-      // eslint-disable-next-line react-hooks/rules-of-hooks
+
       const api = injectMisskeyApi()
       if (api != null) {
         navigate({ to: '/' })
