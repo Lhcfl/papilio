@@ -100,7 +100,7 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
                 </div>
               )}
         </div>
-        <div className="right-card-container p-2 border-l max-lg:hidden">
+        <div className="right-card-container border-l max-lg:hidden">
           <AppRightCard />
         </div>
       </SidebarInset>

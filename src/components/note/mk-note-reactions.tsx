@@ -26,7 +26,7 @@ const NoteReaction = (props: { reaction: string, count: number, url?: string, me
             <MkCustomEmoji name={name} host={host} url={url} fallbackToImage />
           )
         : (
-            <MkEmoji emoji={name} className="h-[2em]" />
+            <MkEmoji emoji={name} innerClassName="h-[2em]" />
           )}
       <span className="ml-1 text-xs text-muted-foreground">{count}</span>
     </button>

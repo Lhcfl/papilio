@@ -1,15 +1,19 @@
-import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from './ui/item'
-import { NotificationDescription, NotificationIconColor, NotificationMedia, NotificationTitle } from './mk-notification-toast'
+import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from './ui/item'
 import clsx from 'clsx'
 import type { Notification } from 'misskey-js/entities.js'
 import { MkNote } from './mk-note'
 import type { HTMLProps } from 'react'
 import { MkAvatar } from './mk-avatar'
 import { Button } from './ui/button'
-import { ChevronLeftIcon, MoreHorizontalIcon, SmilePlusIcon } from 'lucide-react'
+import { CheckIcon, ChevronLeftIcon, MoreHorizontalIcon, XIcon } from 'lucide-react'
 import { MkUserName } from './mk-user-name'
 import { MkI18n } from './mk-i18n'
 import { MkCustomEmoji, MkEmoji } from './mk-emoji'
+import { Spinner } from './ui/spinner'
+import { Tooltip, TooltipContent } from './ui/tooltip'
+import { TooltipTrigger } from '@radix-ui/react-tooltip'
+import { NotificationItemMedia, ReactionEmoji } from './notification/item-media'
+import { NotificationDescription, NotificationTitle } from './notification/item-text'
 
 type PickNotification<T extends Notification['type']> = Extract<Notification, { type: T }>
 
@@ -27,14 +31,14 @@ export const MkNotification = (props: {
           case 'note': return <MkNote noteId={notification.note.id} />
           case 'mention': return <MkNote noteId={notification.note.id} />
           case 'reply': return <MkNote noteId={notification.note.id} />
-          case 'renote': return <RenoteNotification notification={notification} />
+          case 'renote': return <SimpleNotification notification={notification} />
           case 'quote': return <MkNote noteId={notification.note.id} />
-          case 'reaction': return <ReactionNotification notification={notification} />
+          case 'reaction': return <SimpleNotification notification={notification} />
           case 'pollEnded': return <SimpleNotification notification={notification} />
           case 'scheduledNotePosted': return <SimpleNotification notification={notification} />
           case 'scheduledNotePostFailed': return <SimpleNotification notification={notification} />
-          case 'follow': return <div>not impl</div>
-          case 'receiveFollowRequest': return <div>not impl</div>
+          case 'follow': return <SimpleNotification notification={notification} />
+          case 'receiveFollowRequest': return <ReceiveFollowRequestNotification notification={notification} />
           case 'followRequestAccepted': return <div>not impl</div>
           case 'roleAssigned': return <SimpleNotification notification={notification} />
           case 'chatRoomInvitationReceived': return <SimpleNotification notification={notification} />
@@ -52,6 +56,53 @@ export const MkNotification = (props: {
   )
 }
 
+const ReceiveFollowRequestNotification = (props: { notification: PickNotification<'receiveFollowRequest'> }) => {
+  const { notification } = props
+  const { t } = useTranslation()
+  const [hidden, setHidden] = useState(false)
+  const { mutate: accept, isPending: isAccepting } = useAcceptFollowRequestAction(notification.user.id)
+  const { mutate: reject, isPending: isRejecting } = useRejectFollowRequestAction(notification.user.id)
+  return (
+    <Item>
+      <NotificationItemMedia notification={notification} />
+      <ItemContent>
+        <ItemTitle className="line-clamp-1">
+          <MkUserName user={notification.user} />
+        </ItemTitle>
+        <ItemDescription className="line-clamp-2 text-xs">
+          {t('_notification.youReceivedFollowRequest')}
+        </ItemDescription>
+      </ItemContent>
+      <ItemActions hidden={hidden}>
+        <Tooltip>
+          <TooltipContent>
+            {t('accept')}
+          </TooltipContent>
+          <TooltipTrigger>
+            <Button variant="outline" size="icon" onClick={() => accept(void null, { onSuccess: () => setHidden(true) })}>
+              {isAccepting
+                ? <Spinner />
+                : <CheckIcon />}
+            </Button>
+          </TooltipTrigger>
+        </Tooltip>
+        <Tooltip>
+          <TooltipContent>
+            {t('reject')}
+          </TooltipContent>
+          <TooltipTrigger>
+            <Button variant="outline" size="icon" onClick={() => reject(void null, { onSuccess: () => setHidden(true) })}>
+              {isRejecting
+                ? <Spinner />
+                : <XIcon className="text-destructive!" />}
+            </Button>
+          </TooltipTrigger>
+        </Tooltip>
+      </ItemActions>
+    </Item>
+  )
+}
+
 const ReactionNotification = (props: { notification: PickNotification<'reaction' | 'reaction:grouped'> }) => {
   const { notification } = props
   const [expand, setExpand] = useState(false)
@@ -59,36 +110,15 @@ const ReactionNotification = (props: { notification: PickNotification<'reaction'
   const reactersLess = reacters.slice(0, 3)
   const hasMore = reacters.length > 3
 
-  const ReactionEmoji = ({ reaction, ...rest }: { reaction: string, innerClassName?: string }) => {
-    if (reaction.startsWith(':')) {
-      const url = notification.note.reactionEmojis[reaction]
-      return <MkCustomEmoji name={reaction} url={url} {...rest} />
-    }
-    else {
-      return <MkEmoji emoji={reaction} {...rest} />
-    }
-  }
-
   return (
-    <div className="flex p-4 gap-4">
-      <div>
-        <span
-          className={clsx(
-            'text-primary-foreground size-11 rounded-md p-1 flex items-center justify-center',
-            NotificationIconColor(notification),
-          )}
-        >
-          <SmilePlusIcon className="size-6" />
-        </span>
-      </div>
-      <div>
+    <Item className="items-start">
+      <NotificationItemMedia notification={notification} className="items-start" />
+      <ItemContent>
         <div className="flex flex-wrap gap-2 mt-1">
           {(expand ? reacters : reactersLess).map((r, i) => (
             <div className="reacter relative" key={i}>
               <MkAvatar user={r.user} className="mr-1 size-10" />
-              <span className="absolute bottom-0 right-0 w-6 h-6 overflow-hidden bg-primary-foreground rounded-full flex items-center justify-center">
-                <ReactionEmoji reaction={r.reaction} innerClassName="h-[1em]!" />
-              </span>
+              <ReactionEmoji reaction={r.reaction} note={notification.note} />
             </div>
           ))}
           {hasMore && !expand && (
@@ -115,8 +145,8 @@ const ReactionNotification = (props: { notification: PickNotification<'reaction'
         <div className="line-clamp-2 text-sm text-muted-foreground mt-2">
           {getNoteExcerpt(notification.note)}
         </div>
-      </div>
-    </div>
+      </ItemContent>
+    </Item>
   )
 }
 
@@ -131,18 +161,9 @@ const RenoteNotification = (props: {
   const hasMore = renoters.length > 3
 
   return (
-    <div className="flex p-4 gap-4">
-      <div>
-        <span
-          className={clsx(
-            'text-primary-foreground size-11 rounded-md p-1 flex items-center justify-center',
-            NotificationIconColor(notification),
-          )}
-        >
-          <NotificationMedia notification={notification} className="size-6" />
-        </span>
-      </div>
-      <div>
+    <Item className="items-start">
+      <NotificationItemMedia notification={notification} className="items-start" />
+      <ItemContent>
         <div className="text-sm line-clamp-1">
           <MkI18n
             i18nKey="renotedBy"
@@ -196,33 +217,23 @@ const RenoteNotification = (props: {
         <div className="line-clamp-2 text-sm text-muted-foreground mt-2">
           {getNoteExcerpt(notification.note)}
         </div>
-      </div>
-    </div>
+      </ItemContent>
+    </Item>
   )
 }
 
-const SimpleNotification = (props: { notification: Notification }) => {
-  const { notification } = props
+export const SimpleNotification = (props: { notification: Notification } & React.ComponentProps<typeof Item>) => {
+  const { notification, ...itemProps } = props
   return (
-    <Item>
-      <ItemMedia>
-        <span
-          className={clsx(
-            'text-primary-foreground size-11 rounded-md p-1 flex items-center justify-center',
-            NotificationIconColor(notification),
-          )}
-        >
-          <NotificationMedia notification={notification} className="size-6" />
-        </span>
-      </ItemMedia>
-
+    <Item {...itemProps}>
+      <NotificationItemMedia notification={notification} />
       <ItemContent>
         <ItemTitle className="line-clamp-1">
           <NotificationTitle notification={notification} />
         </ItemTitle>
-        <ItemDescription className="line-clamp-2">
+        <div className="line-clamp-2 text-sm break-all text-muted-foreground">
           <NotificationDescription notification={notification} />
-        </ItemDescription>
+        </div>
       </ItemContent>
     </Item>
   )

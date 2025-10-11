@@ -59,7 +59,7 @@ export const MkNotificationsFilter = (props: {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         {hasIncludedAll
           ? (
               <Button variant="ghost">
