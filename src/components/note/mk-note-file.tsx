@@ -1,11 +1,29 @@
 import clsx from 'clsx'
-import { CodeXmlIcon, FileArchiveIcon, FileIcon, FileMusicIcon, FileTextIcon } from 'lucide-react'
+import { CodeXmlIcon, FileArchiveIcon, FileIcon, FileImageIcon, FileMusicIcon, FileTextIcon, FileVideo2Icon } from 'lucide-react'
 import type { DriveFile } from 'misskey-js/entities.js'
 import type { HTMLProps } from 'react'
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '../ui/item'
 
-const guessFileIcon = (fileName: string) => {
-  const ext = fileName.split('.').pop()?.toLowerCase()
+const guessFileIcon = (file: DriveFile) => {
+  if (file.type.startsWith('image/')) return <FileImageIcon />
+  if (file.type.startsWith('video/')) return <FileVideo2Icon />
+  if (file.type.startsWith('audio/')) return <FileMusicIcon />
+  if (file.type.startsWith('text/')) return <FileTextIcon />
+  if (file.type.endsWith('/pdf')) return <FileTextIcon />
+  if ([
+    'application/zip',
+    'application/x-cpio',
+    'application/x-bzip',
+    'application/x-bzip2',
+    'application/java-archive',
+    'application/x-rar-compressed',
+    'application/x-tar',
+    'application/gzip',
+    'application/x-7z-compressed',
+  ].some(archiveType => archiveType === file.type)) return <FileArchiveIcon />
+
+  // Fallback to extension
+  const ext = file.name.split('.').pop()?.toLowerCase()
   switch (ext) {
     case '7z':
     case 'rar':
@@ -64,7 +82,7 @@ export const MkNoteFile = (props: { file: DriveFile } & HTMLProps<HTMLDivElement
     <Item className={className} {...rest} size="sm" variant="muted" asChild>
       <a href={file.url} target="_blank" rel="noopener noreferrer">
         <ItemMedia variant="icon">
-          {guessFileIcon(file.name)}
+          {guessFileIcon(file)}
         </ItemMedia>
         <ItemContent>
           <ItemTitle>{file.name}</ItemTitle>
