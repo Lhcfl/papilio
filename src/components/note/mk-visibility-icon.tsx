@@ -1,10 +1,10 @@
-import { EyeOffIcon, GlobeIcon, HomeIcon, LockIcon, MessageSquareIcon } from 'lucide-react'
+import { EyeOffIcon, GlobeIcon, HomeIcon, LockIcon, MailIcon } from 'lucide-react'
 import type { HTMLProps } from 'react'
 
 export const MkVisibilityIcon = (props: { note: NoteWithExtension } & HTMLProps<SVGSVGElement>) => {
   const { note, ...rest } = props
   const meId = useMe(me => me.id)
-  const isPrivate = !note.visibleUserIds?.some(x => x !== meId)
+  const isPrivate = ![...(note.visibleUserIds || []), note.user.id]?.some(x => x !== meId)
   switch (note.visibility) {
     case 'public':
       return <GlobeIcon {...rest} />
@@ -13,6 +13,6 @@ export const MkVisibilityIcon = (props: { note: NoteWithExtension } & HTMLProps<
     case 'followers':
       return <LockIcon {...rest} />
     case 'specified':
-      return isPrivate ? <EyeOffIcon {...rest} /> : <MessageSquareIcon {...rest} />
+      return isPrivate ? <EyeOffIcon {...rest} /> : <MailIcon {...rest} />
   }
 }

@@ -6,6 +6,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import { Toaster } from '@/components/ui/sonner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { WithLoginLoader } from '@/loaders/with-login'
+import type { Tab } from '@/types/page-header'
 
 type DefaultLayoutPropsCommon = {
   title?: string
@@ -13,9 +14,9 @@ type DefaultLayoutPropsCommon = {
   headerRight?: React.ReactNode
 }
 
-type DefaultLayoutPropsTab<T extends string = string> = DefaultLayoutPropsCommon & {
-  tabs: Tab<T>[]
-  children: (tab: Tab<T>) => React.ReactNode
+type DefaultLayoutPropsTab<Ts extends Tab[]> = DefaultLayoutPropsCommon & {
+  tabs: Ts
+  children: (tab: Ts[number]) => React.ReactNode
 }
 
 type DefaultLayoutPropsNoTab = DefaultLayoutPropsCommon & {
@@ -24,11 +25,11 @@ type DefaultLayoutPropsNoTab = DefaultLayoutPropsCommon & {
   headerCenter?: React.ReactNode
 }
 
-type DefaultLayoutProps<T extends string = string>
-  = | DefaultLayoutPropsTab<T>
+type DefaultLayoutProps<Ts extends Tab[]>
+  = | DefaultLayoutPropsTab<Ts>
     | DefaultLayoutPropsNoTab
 
-export function DefaultLayout<T extends string = string>(props: DefaultLayoutProps<T>) {
+export function DefaultLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
   return (
     <WithLoginLoader>
       <SidebarLayout {...props} />
@@ -37,7 +38,7 @@ export function DefaultLayout<T extends string = string>(props: DefaultLayoutPro
   )
 }
 
-function SidebarLayout<T extends string = string>(props: DefaultLayoutProps<T>) {
+function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
   const siteName = useSiteMeta(s => s.name)
   const { tabs, title = siteName ?? 'papilio', children, ...rest } = props
   useTitle(title)
@@ -68,7 +69,7 @@ function SidebarLayout<T extends string = string>(props: DefaultLayoutProps<T>) 
                   >
                     {tabs.map(tab => (
                       <TabsContent key={tab.value} value={tab.value}>
-                        {children(tab)}
+                        {(children as (tab: Tab) => React.ReactNode)(tab)}
                       </TabsContent>
                     ))}
                   </LayoutMiddle>
@@ -76,8 +77,8 @@ function SidebarLayout<T extends string = string>(props: DefaultLayoutProps<T>) 
               )
             : (
                 <div>
-                  <LayoutMiddle {...props} title={title} headerCenter={props.headerCenter}>
-                    {children}
+                  <LayoutMiddle {...props} title={title}>
+                    {children as React.ReactNode}
                   </LayoutMiddle>
                 </div>
               )}
@@ -92,7 +93,7 @@ function SidebarLayout<T extends string = string>(props: DefaultLayoutProps<T>) 
 
 function LayoutMiddle(props: DefaultLayoutPropsCommon & {
   title: string
-  headerCenter: React.ReactNode
+  headerCenter?: React.ReactNode
   children: React.ReactNode
 }) {
   const { title, children,
