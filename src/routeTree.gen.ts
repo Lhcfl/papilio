@@ -13,6 +13,7 @@ import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as NotesIdRouteImport } from './routes/notes/$id'
 
 const LoginRedirectRoute = LoginRedirectRouteImport.update({
   id: '/login-redirect',
@@ -34,18 +35,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NotesIdRoute = NotesIdRouteImport.update({
+  id: '/notes/$id',
+  path: '/notes/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
+  '/notes/$id': typeof NotesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
+  '/notes/$id': typeof NotesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
+  '/notes/$id': typeof NotesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/login' | '/login-redirect'
+  fullPaths: '/' | '/about' | '/login' | '/login-redirect' | '/notes/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/login' | '/login-redirect'
-  id: '__root__' | '/' | '/about' | '/login' | '/login-redirect'
+  to: '/' | '/about' | '/login' | '/login-redirect' | '/notes/$id'
+  id: '__root__' | '/' | '/about' | '/login' | '/login-redirect' | '/notes/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   LoginRoute: typeof LoginRoute
   LoginRedirectRoute: typeof LoginRedirectRoute
+  NotesIdRoute: typeof NotesIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/notes/$id': {
+      id: '/notes/$id'
+      path: '/notes/$id'
+      fullPath: '/notes/$id'
+      preLoaderRoute: typeof NotesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   LoginRoute: LoginRoute,
   LoginRedirectRoute: LoginRedirectRoute,
+  NotesIdRoute: NotesIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

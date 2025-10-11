@@ -28,3 +28,7 @@ export function collectAst<T>(ast: MfmNode[], pred: (node: MfmNode) => T | undef
     return result
   })
 }
+
+export function getNoteRoute(id: string) {
+  return `/notes/${id}`
+}

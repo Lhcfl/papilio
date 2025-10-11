@@ -1,5 +1,21 @@
-import { BellIcon, HomeIcon, MegaphoneIcon, MessageSquareIcon, MoreHorizontalIcon, SearchIcon, StarIcon, UserPlusIcon } from 'lucide-react'
-import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
+import {
+  BellIcon,
+  HomeIcon,
+  MegaphoneIcon,
+  MessageSquareIcon,
+  MoreHorizontalIcon,
+  SearchIcon,
+  StarIcon,
+  UserPlusIcon,
+} from 'lucide-react'
+import {
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@/components/ui/sidebar'
+import { Link } from '@tanstack/react-router'
 
 export const AppSidebarMain = () => {
   const { t } = useTranslation()
@@ -20,9 +36,11 @@ export const AppSidebarMain = () => {
         <SidebarMenu>
           {data.map(item => (
             <SidebarMenuItem key={item.key}>
-              <SidebarMenuButton size="lg">
-                <item.icon />
-                {item.title}
+              <SidebarMenuButton size="lg" asChild>
+                <Link to={item.to}>
+                  <item.icon />
+                  {item.title}
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

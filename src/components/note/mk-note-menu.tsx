@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import {
   BellOffIcon,
   CopyIcon,
@@ -46,13 +47,15 @@ export const MkNoteMenu = (props: { note: NoteWithExtension, onTranslate: () => 
 
   function share() {
     if (navigator.share) {
-      navigator.share({
-        title: t('shareWithNote'),
-        text: getNoteExcerpt(note),
-        url: remoteUrl,
-      }).catch(() => {
-        /* no-op */
-      })
+      navigator
+        .share({
+          title: t('shareWithNote'),
+          text: getNoteExcerpt(note),
+          url: remoteUrl,
+        })
+        .catch(() => {
+          /* no-op */
+        })
     }
   }
 
@@ -60,9 +63,11 @@ export const MkNoteMenu = (props: { note: NoteWithExtension, onTranslate: () => 
     <DropdownMenuContent align="start">
       <DropdownMenuGroup>
         <DropdownMenuLabel className="text-sm text-muted-foreground">{t('note')}</DropdownMenuLabel>
-        <DropdownMenuItem>
-          <InfoIcon />
-          {t('details')}
+        <DropdownMenuItem asChild>
+          <Link to={getNoteRoute(note.id)}>
+            <InfoIcon />
+            {t('details')}
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={copyContent}>
           <CopyIcon />

@@ -24,11 +24,12 @@
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "single",
-			"semicolons": "asNeeded"
+			"semicolons": "asNeeded",
+			"arrowParentheses": "asNeeded"
 		}
 	},
 	"assist": {
-		"enabled": true,
+		"enabled": false,
 		"actions": {
 			"source": {
 				"organizeImports": "on"

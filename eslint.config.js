@@ -20,6 +20,7 @@ export default defineConfig([
 			{
 				rules: {
 					"@stylistic/jsx-self-closing-comp": "error",
+					"@/sort-imports": "error",
 				}
 			}
 		],
