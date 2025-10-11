@@ -1,6 +1,7 @@
 import { MkAlert } from '@/components/mk-alert'
 import { MkError } from '@/components/mk-error'
 import { MkNote } from '@/components/mk-note'
+import { MkNoteReplies } from '@/components/mk-note-replies'
 import { MkNoteSkeleton } from '@/components/mk-note-skeleton'
 import { Button } from '@/components/ui/button'
 import { Empty, EmptyContent, EmptyHeader, EmptyMedia } from '@/components/ui/empty'
@@ -32,10 +33,11 @@ function LoadedMain(props: { noteId: string }) {
   const note = useNoteValue(noteId)
   const { t } = useTranslation()
   const api = injectMisskeyApi()
+  const isReply = note?.replyId != null
 
   const { data: conversation, isPending: isConversationPending } = useQuery({
     queryKey: ['note-conversation', noteId],
-    queryFn: () => note?.replyId ? api.request('notes/conversation', { noteId: noteId }).then(ns => registerNote(...ns)) : Promise.resolve(null),
+    queryFn: () => isReply ? api.request('notes/conversation', { noteId: noteId }).then(ns => registerNote(...ns)) : Promise.resolve(null),
   })
 
   if (note == null) {
@@ -64,7 +66,8 @@ function LoadedMain(props: { noteId: string }) {
     if (el == null) return
     if (note?.replyId == null) return
     const scroller = el.closest('[data-slot="scroll-area-viewport"]')
-    scroller?.scrollBy(0, 1)
+    console.log({ scroller }, 'scroll')
+    scroller?.scrollBy(0, Math.max(0, el.clientHeight - 100))
   }
 
   const isRemoteNote = note.user.host != null
@@ -77,20 +80,28 @@ function LoadedMain(props: { noteId: string }) {
           <a className="text-tertiary hover:underline" href={getNoteRemoteUrl(note)}>{t('showOnRemote')}</a>
         </MkAlert>
       )}
-      <div className="note-conversations w-full">
-        {isConversationPending
-          && (
-            <div className="w-full text-center">
-              <Spinner />
-            </div>
-          )}
-        {conversation?.map(n => (
-          <MkNote key={n} noteId={n} isSubNote className="-mb-4" />
-        ))}
-      </div>
-      <div ref={onMounted}>
+      {isReply
+        && (
+          <div className="w-full">
+            {isConversationPending
+              ? (
+                  <div className="w-full p-2 flex justify-center items-baseline">
+                    <Spinner />
+                  </div>
+                )
+              : (
+                  <div className="note-conversations" ref={onMounted}>
+                    {conversation?.map(n => (
+                      <MkNote key={n} noteId={n} isSubNote className="-mb-4" />
+                    ))}
+                  </div>
+                )}
+          </div>
+        )}
+      <div>
         <MkNote noteId={noteId} />
       </div>
+      <MkNoteReplies noteId={noteId} />
     </div>
   )
 }

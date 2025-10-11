@@ -1,13 +1,16 @@
+import type { HTMLProps } from 'react'
+
 export const LoadingTrigger = (props: {
   onShow: () => void
   children?: React.ReactNode
-}) => {
+} & HTMLProps<HTMLDivElement>) => {
   const ref = useRef<HTMLDivElement>(null)
+  const { onShow, children, ...divProps } = props
 
   useEffect(() => {
     const observer = new IntersectionObserver((ent) => {
       if (ent[0].isIntersecting) {
-        props.onShow()
+        onShow()
       }
     })
 
@@ -18,7 +21,7 @@ export const LoadingTrigger = (props: {
     return () => {
       observer.disconnect()
     }
-  }, [props])
+  }, [onShow])
 
-  return <div ref={ref}>{props.children}</div>
+  return <div ref={ref} {...divProps}>{children}</div>
 }
