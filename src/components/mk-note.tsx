@@ -16,13 +16,17 @@ export const MkNote = (props: { noteId: string }) => {
 
   const pureRenote = isPureRenote(note)
 
+  function translate() {
+    console.log('implement translate')
+  }
+
   return (
     <div className="mk-note flex flex-col p-2">
       {pureRenote && <MkNoteRenoteTip note={note} />}
       <MkNoteHeader note={appearNote} />
       <MkNoteBody note={appearNote} />
       <MkNoteReactions note={appearNote} />
-      <MkNoteActions note={appearNote} />
+      <MkNoteActions onTranslate={translate} note={appearNote} />
     </div>
   )
 }

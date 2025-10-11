@@ -1,4 +1,17 @@
-import { BellOffIcon, CopyIcon, ExternalLinkIcon, FlagIcon, InfoIcon, LanguagesIcon, LinkIcon, PaperclipIcon, ShareIcon, StarIcon, Trash2Icon } from 'lucide-react'
+import {
+  BellOffIcon,
+  CopyIcon,
+  ExternalLinkIcon,
+  FlagIcon,
+  InfoIcon,
+  LanguagesIcon,
+  LinkIcon,
+  PaperclipIcon,
+  ShareIcon,
+  StarIcon,
+  Trash2Icon,
+} from 'lucide-react'
+import { toast } from 'sonner'
 import {
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -8,13 +21,40 @@ import {
 } from '@/components/ui/dropdown-menu'
 import type { NoteWithExtension } from '@/types/note'
 
-export const MkNoteMenu = (props: { note: NoteWithExtension }) => {
+export const MkNoteMenu = (props: { note: NoteWithExtension, onTranslate: () => void }) => {
   const { t } = useTranslation()
-  const { note } = props
+  const { note, onTranslate } = props
   const meId = useMe(me => me.id)
   const isAdmin = useMe(me => me.isAdmin)
-
   const isMine = meId === note.userId
+  const remoteUrl = note.url || getRelativeUrl(`/notes/${note.id}`)
+
+  function copyContent() {
+    copyToClipboard(note.cw + '\n\n' + note.text)
+    toast.success(t('copiedToClipboard'))
+  }
+
+  function copyLink() {
+    copyToClipboard(new URL('/notes/' + note.id, window.location.origin).toString())
+    toast.success(t('copiedToClipboard'))
+  }
+
+  function copyRemoteLink() {
+    copyToClipboard(remoteUrl)
+    toast.success(t('copiedToClipboard'))
+  }
+
+  function share() {
+    if (navigator.share) {
+      navigator.share({
+        title: t('shareWithNote'),
+        text: getNoteExcerpt(note),
+        url: remoteUrl,
+      }).catch(() => {
+        /* no-op */
+      })
+    }
+  }
 
   return (
     <DropdownMenuContent align="start">
@@ -24,27 +64,29 @@ export const MkNoteMenu = (props: { note: NoteWithExtension }) => {
           <InfoIcon />
           {t('details')}
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={copyContent}>
           <CopyIcon />
           {t('copyContent')}
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={copyLink}>
           <LinkIcon />
           {t('copyLink')}
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={copyRemoteLink}>
           <LinkIcon />
           {t('copyRemoteLink')}
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <ExternalLinkIcon />
-          {t('showOnRemote')}
+        <DropdownMenuItem asChild>
+          <a href={remoteUrl} target="_blank" rel="noopener noreferrer">
+            <ExternalLinkIcon />
+            {t('showOnRemote')}
+          </a>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={share}>
           <ShareIcon />
           {t('share')}
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={onTranslate}>
           <LanguagesIcon />
           {t('translate')}
         </DropdownMenuItem>
@@ -64,7 +106,7 @@ export const MkNoteMenu = (props: { note: NoteWithExtension }) => {
           {t('muteThread')}
         </DropdownMenuItem>
       </DropdownMenuGroup>
-      {(!isMine) && (
+      {!isMine && (
         <>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>

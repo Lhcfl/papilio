@@ -24,8 +24,8 @@ const MkNoteActionButton = (
   )
 }
 
-export const MkNoteActions = (props: { note: NoteWithExtension }) => {
-  const { note } = props
+export const MkNoteActions = (props: { note: NoteWithExtension, onTranslate: () => void }) => {
+  const { note, onTranslate } = props
 
   const isRenoted = note.isRenoted
 
@@ -85,7 +85,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension }) => {
         <DropdownMenuTrigger asChild>
           <MkNoteActionButton icon={<MoreHorizontalIcon />} />
         </DropdownMenuTrigger>
-        <MkNoteMenu note={note} />
+        <MkNoteMenu onTranslate={onTranslate} note={note} />
       </DropdownMenu>
     </div>
   )

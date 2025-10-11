@@ -10,6 +10,7 @@ declare global {
   const QueryClientProvider: typeof import('@tanstack/react-query')['QueryClientProvider']
   const cn: typeof import('./lib/utils')['cn']
   const collectAst: typeof import('./lib/note')['collectAst']
+  const copyToClipboard: typeof import('./lib/utils')['copyToClipboard']
   const countAst: typeof import('./lib/note')['countAst']
   const createRef: typeof import('react')['createRef']
   const cyrb53: typeof import('./lib/hash')['cyrb53']
