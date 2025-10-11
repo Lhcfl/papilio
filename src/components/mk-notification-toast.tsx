@@ -42,12 +42,13 @@ export const NotificationMedia = (props: { notification: Notification } & { clas
     case 'quote':
       return <QuoteIcon {...rest} />
     case 'reaction': {
+      const { className } = rest
       if (notification.reaction.startsWith(':')) {
         const url = notification.note.reactionEmojis[notification.reaction]
-        return <MkCustomEmoji name={notification.reaction} url={url} {...rest} />
+        return <MkCustomEmoji name={notification.reaction} url={url} innerClassName={className} {...rest} />
       }
       else {
-        return <MkEmoji emoji={notification.reaction} {...rest} />
+        return <MkEmoji emoji={notification.reaction} innerClassName={className} {...rest} />
       }
     }
     case 'receiveFollowRequest':

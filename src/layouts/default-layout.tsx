@@ -7,7 +7,6 @@ import { Toaster } from '@/components/ui/sonner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { WithLoginLoader } from '@/loaders/with-login'
 import type { Tab } from '@/types/page-header'
-import { atom, useAtom } from 'jotai'
 
 type DefaultLayoutPropsCommon = {
   title?: string

@@ -12,8 +12,13 @@ export const MkCustomEmoji = (props: {
   menu?: boolean
   menuReaction?: boolean
   fallbackToImage?: boolean
+  innerClassName?: string
 }) => {
-  const className = clsx('inline align-middle transition-all', props.normal ? 'h-[1.25em] align-[-0.25em]' : 'h-[2em]')
+  const className = clsx(
+    'inline align-middle transition-all',
+    props.normal ? 'h-[1.25em] align-[-0.25em]' : 'h-[2em]',
+    props.innerClassName,
+  )
   const emojisMap = useEmojis(s => s.emojisMap)
   const site = injectCurrentSite()
   const [error, setError] = useState(false)
@@ -57,12 +62,12 @@ export const MkCustomEmoji = (props: {
   return <span className="mk-custom-emoji error">{alt}</span>
 }
 
-export const MkEmoji = (props: { emoji: string, menu?: boolean, menuReaction?: boolean } & { className?: string }) => {
+export const MkEmoji = (props: { emoji: string, menu?: boolean, menuReaction?: boolean } & { className?: string, innerClassName?: string }) => {
   const parsed = Twemoji.parse(props.emoji, {
     base: injectCurrentSite(),
     ext: '.svg',
     folder: '/twemoji',
-    className: clsx('h-[1.25em] align-[-0.25em] transition-all inline', props.className),
+    className: clsx('h-[1.25em] align-[-0.25em] transition-all inline', props.innerClassName),
   })
-  return <span className="mk-emoji" dangerouslySetInnerHTML={{ __html: parsed }} />
+  return <span className={clsx('mk-emoji', props.className)} dangerouslySetInnerHTML={{ __html: parsed }} />
 }
