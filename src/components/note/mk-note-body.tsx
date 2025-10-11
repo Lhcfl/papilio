@@ -10,6 +10,7 @@ import { Button } from '../ui/button'
 import { MkLinkPreview } from './mk-link-preview'
 import { MkNoteFile } from './mk-note-file'
 import { MkNoteImages } from './mk-note-images'
+import { MkNoteTranslation } from './mk-note-translation'
 
 type NoteBodyCommonProps = {
   note: NoteWithExtension
@@ -48,6 +49,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
           <MkNoteSimple note={quote} />
         </div>
       )}
+      <MkNoteTranslation note={note} />
       {urls.length > 0 && (
         <div className="note-body-url-previews">
           {urls.map(u => (

@@ -7,6 +7,7 @@ import { MkNoteRenoteTip } from './note/mk-note-renote-tip'
 export const MkNote = (props: { noteId: string }) => {
   const note = useNoteSingleton(s => s.notes[props.noteId])
   const appearNote = useAppearNote(props.noteId)
+  const { mutate: translate } = useTranslateAction(props.noteId)
 
   useDebugger('MkNote', props.noteId)
 
@@ -15,10 +16,6 @@ export const MkNote = (props: { noteId: string }) => {
   }
 
   const pureRenote = isPureRenote(note)
-
-  function translate() {
-    console.log('implement translate')
-  }
 
   return (
     <div className="mk-note flex flex-col p-2">

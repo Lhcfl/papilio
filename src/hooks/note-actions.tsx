@@ -49,3 +49,12 @@ export const useLikeNoteAction = (noteId: string) => {
     mutate: (...args: RestArgumentsOf<typeof res.mutate>) => res.mutate('❤️', ...args),
   }
 }
+
+export const useTranslateAction = (noteId: string) => {
+  const api = injectMisskeyApi()
+  const { i18n } = useTranslation()
+  return useMutation({
+    mutationKey: ['translateNote', noteId],
+    mutationFn: () => api.request('notes/translate', { noteId, targetLang: i18n.language }),
+  })
+}

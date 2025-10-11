@@ -73,6 +73,7 @@ declare global {
   const useTimeline: typeof import('./hooks/use-timeline')['useTimeline']
   const useTimelineTabs: typeof import('./hooks/use-timeline-tabs')['useTimelineTabs']
   const useTransition: typeof import('react')['useTransition']
+  const useTranslateAction: typeof import('./hooks/note-actions')['useTranslateAction']
   const useTranslation: typeof import('react-i18next')['useTranslation']
   const useUndoReactNoteAction: typeof import('./hooks/note-actions')['useUndoReactNoteAction']
   const useUnrenoteAction: typeof import('./hooks/note-actions')['useUnrenoteAction']
