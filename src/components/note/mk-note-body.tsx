@@ -11,6 +11,7 @@ import { MkLinkPreview } from './mk-link-preview'
 import { MkNoteFile } from './mk-note-file'
 import { MkNoteImages } from './mk-note-images'
 import { MkNoteTranslation } from './mk-note-translation'
+import { Link } from '@tanstack/react-router'
 
 type NoteBodyCommonProps = {
   note: NoteWithExtension
@@ -21,7 +22,7 @@ type NoteBodyCommonProps = {
 }
 
 const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>) => {
-  const { note, stopQuote, showReplyIcon, textAst, ...rest } = props
+  const { note, stopQuote, showReplyIcon, disableLinkPreview, textAst, ...rest } = props
   const navigate = useNavigate()
 
   const quote = useNoteValue(stopQuote ? null : note.renoteId)
@@ -40,8 +41,8 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
           className="note-body-text"
           onClick={onlyWhenNonInteractableContentClicked(() => navigate({ to: getNoteRoute(note.id) }))}
         >
-          {showReplyIcon && note.replyId && <ReplyIcon className="mr-1 size-4 inline" />}
-          {stopQuote && note.renoteId && <QuoteIcon className="mr-1 size-4 inline" />}
+          {showReplyIcon && note.replyId && <Link className="text-tertiary mr-1 hover:underline" to={getNoteRoute(note.replyId)}><ReplyIcon className="size-4 inline" /></Link>}
+          {stopQuote && note.renoteId && <Link className="text-tertiary mr-1 hover:underline" to={getNoteRoute(note.renoteId)}><QuoteIcon className="size-4 inline" /></Link>}
           <MkMfm text={note.text} author={note.user} emojiUrls={note.emojis} parsedNodes={textAst} />
         </div>
       )}
@@ -51,7 +52,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
         </div>
       )}
       <MkNoteTranslation note={note} />
-      {urls.length > 0 && (
+      {urls.length > 0 && !disableLinkPreview && (
         <div className="note-body-url-previews">
           {urls.map(u => (
             <MkLinkPreview className="mt-1" key={u} url={u} />

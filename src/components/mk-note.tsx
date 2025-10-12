@@ -30,7 +30,7 @@ export const MkNote = (props: {
       {isPureRenote(note) && <MkNoteRenoteTip note={note} />}
       <MkNoteHeader note={appearNote} />
       <div className={clsx({ 'pl-12': isSubNote })}>
-        <MkNoteBody note={appearNote} />
+        <MkNoteBody note={appearNote} disableLinkPreview={isSubNote} />
         <MkNoteReactions note={appearNote} />
         <MkNoteActions onTranslate={translate} note={appearNote} />
       </div>

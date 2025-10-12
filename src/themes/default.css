@@ -1,11 +1,11 @@
   :root {
     /* Tertiary - 舒适的紫色(亮色模式) */
-    --tertiary: oklch(0.50 0.20 290);
+    --tertiary: oklch(53.677% 0.20404 304.83);
     --tertiary-foreground: oklch(0.985 0 0);
   }
 
   .dark {
     /* Tertiary - 舒适的紫色(暗色模式) */
-    --tertiary: oklch(0.70 0.18 290);
+    --tertiary: oklch(74.368% 0.18254 311.277);
     --tertiary-foreground: oklch(0.145 0 0);
   }
