@@ -1,7 +1,6 @@
 import type { DefaultError, QueryKey, UseQueryOptions } from '@tanstack/react-query';
 import { CircleXIcon } from 'lucide-react';
 import type { EmojisResponse } from 'misskey-js/entities.js';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { Spinner } from '@/components/ui/spinner';
@@ -35,7 +34,6 @@ function useLoaderQuery<
 
 export const WithLoginLoader = (props: { children: React.ReactNode }) => {
   const api = injectMisskeyApi();
-  const { t } = useTranslation();
 
   const setMe = useSetableMe((s) => s.setMe);
   const setEmojis = useEmojis((s) => s.setEmojis);
@@ -82,7 +80,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
             <EmptyMedia variant="icon">
               <CircleXIcon />
             </EmptyMedia>
-            <EmptyTitle>{t('error')}</EmptyTitle>
+            <EmptyTitle>Error</EmptyTitle>
             <EmptyDescription>
               <ul>
                 {queries.map(
@@ -101,7 +99,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <Button onClick={reload}>{t('reload')}</Button>
+            <Button onClick={reload}>Reload</Button>
           </EmptyContent>
         </Empty>
       </div>

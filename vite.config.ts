@@ -1,17 +1,13 @@
 import path from 'node:path';
 import TailWindCSS from '@tailwindcss/vite';
 import TanStackRouter from '@tanstack/router-plugin/vite';
-import react from '@vitejs/plugin-react';
-import UnoCSS from 'unocss/vite';
+import React from '@vitejs/plugin-react';
 import AutoImport from 'unplugin-auto-import/vite';
 import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    TailWindCSS(),
-    UnoCSS(),
-    TanStackRouter(),
     AutoImport({
       imports: [
         'react',
@@ -42,7 +38,11 @@ export default defineConfig({
       ],
       dtsMode: 'overwrite',
     }),
-    react(),
+    TailWindCSS(),
+    TanStackRouter({
+      // autoCodeSplitting: true,
+    }),
+    React(),
   ],
   resolve: {
     alias: {

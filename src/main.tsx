@@ -1,9 +1,8 @@
 import { createRoot } from 'react-dom/client';
-import 'virtual:uno.css';
 import './tailwind.css';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
-import './plugins/i18n';
+import i18n from './plugins/i18n';
 
 import { StrictMode } from 'react';
 import { dehydrateOptions, localStoragePersister, queryClient } from './plugins/persister';
@@ -33,3 +32,5 @@ createRoot(document.getElementById('root')!).render(
     </PersistQueryClientProvider>
   </StrictMode>,
 );
+
+console.log(i18n.isInitialized);

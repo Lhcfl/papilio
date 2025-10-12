@@ -17,7 +17,9 @@ export const MkBlurHash = (
 
   useEffect(() => {
     const worker = new drawBlurHash();
-    console.log('MkBlurHash: drawing', { id, blurhash });
+    if (import.meta.env.DEV) {
+      console.log('MkBlurHash: drawing', { id, blurhash });
+    }
     worker.postMessage({
       id,
       hash: blurhash,

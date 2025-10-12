@@ -143,11 +143,11 @@ export function build() {
 
 const locales = build();
 
-fs.mkdirSync('src/locales', { recursive: true });
+fs.mkdirSync('public/locales', { recursive: true });
 
 for (const [key, val] of Object.entries(locales)) {
   console.log('building', key);
-  fs.writeFileSync(`src/locales/${key}.json`, JSON.stringify(val, undefined, 2));
+  fs.writeFileSync(`public/locales/${key}.json`, JSON.stringify(val, undefined, 2));
 }
 
-fs.writeFileSync(`src/locales/index.json`, JSON.stringify(Object.keys(locales)));
+fs.writeFileSync(`src/assets/langs.json`, JSON.stringify(Object.keys(locales)));
