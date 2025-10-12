@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [
     TailWindCSS(),
     TanStackRouter({
-      // autoCodeSplitting: true,
+      autoCodeSplitting: true,
     }),
     React(),
   ],
