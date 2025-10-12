@@ -5,6 +5,8 @@ import { ScrollArea } from './ui/scroll-area'
 import type { EmojiSimple } from 'misskey-js/entities.js'
 import { FolderIcon, SearchIcon } from 'lucide-react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
+import { useDebounce } from 'react-use'
+import { Spinner } from './ui/spinner'
 
 type RecurisveEmojiCategories = {
   [name: string]:
@@ -27,8 +29,15 @@ export const MkEmojiPicker = (props: {
   const { onEmojiChoose, ...rest } = props
   const emojis = useEmojis(s => s.emojis)
   const [search, setSearch] = useState('')
+  const [query, setQuery] = useState('')
   const { t } = useTranslation()
   const OTHER_CATEGORY_I18N = t('other')
+
+  useDebounce(() => {
+    setSearch(query.toLocaleLowerCase())
+  }, 300, [query])
+
+  const debouncing = query !== search
 
   const emojisByCategory = useMemo(() => {
     const ret: EmojisByCategory = {}
@@ -84,7 +93,12 @@ export const MkEmojiPicker = (props: {
         <InputGroupAddon>
           <SearchIcon />
         </InputGroupAddon>
-        <InputGroupInput onInput={e => setSearch(e.currentTarget.value.toLocaleLowerCase())} />
+        <InputGroupInput onInput={e => setQuery(e.currentTarget.value)} />
+        {debouncing && (
+          <InputGroupAddon align="inline-end">
+            <Spinner />
+          </InputGroupAddon>
+        )}
       </InputGroup>
       <ScrollArea className="mt-2 h-100 w-100 max-h-100 max-w-100 lg:w-120 lg:h-120 lg:max-h-120 lg:max-w-120">
         {searchedEmojis
