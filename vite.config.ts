@@ -11,7 +11,11 @@ export default defineConfig({
     TanStackRouter({
       autoCodeSplitting: true,
     }),
-    React(),
+    React({
+      babel: {
+        plugins: ['babel-plugin-react-compiler'],
+      },
+    }),
   ],
   resolve: {
     alias: {
