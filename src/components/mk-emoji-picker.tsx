@@ -1,5 +1,5 @@
 import type { HTMLProps } from 'react'
-import { MkCustomEmoji } from './mk-emoji'
+import { MkCustomEmoji, MkEmoji } from './mk-emoji'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
 import { ScrollArea } from './ui/scroll-area'
 import type { EmojiSimple } from 'misskey-js/entities.js'
@@ -7,6 +7,8 @@ import { FolderIcon, SearchIcon } from 'lucide-react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { useDebounce } from 'react-use'
 import { Spinner } from './ui/spinner'
+import { emojiCharByCategory, emojilist as UnicodeEmojiList } from '@/assets/emojilist'
+import { Separator } from '@/components/ui/separator'
 
 type RecurisveEmojiCategories = {
   [name: string]:
@@ -24,35 +26,36 @@ const UNCATEGORIZED = '__uncategorized_key'
 const UNNAMED = '__unnamed_key'
 
 export const MkEmojiPicker = (props: {
-  onEmojiChoose: (emoji: EmojiSimple) => void
+  onEmojiChoose: (emoji: EmojiSimple | string) => void
 } & HTMLProps<HTMLDivElement>) => {
   const { onEmojiChoose, ...rest } = props
-  const emojis = useEmojis(s => s.emojis)
+  const customEmojis = useEmojis(s => s.emojis)
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [search, setSearch] = useState('')
-  const [query, setQuery] = useState('')
   const { t } = useTranslation()
+
   const OTHER_CATEGORY_I18N = t('other')
 
   useDebounce(() => {
-    setSearch(query.toLocaleLowerCase())
-  }, 300, [query])
+    setDebouncedSearch(search.toLocaleLowerCase())
+  }, 300, [search])
 
-  const debouncing = query !== search
+  const debouncing = search !== debouncedSearch
 
   const emojisByCategory = useMemo(() => {
     const ret: EmojisByCategory = {}
-    for (const emoji of emojis) {
+    for (const emoji of customEmojis) {
       const category = emoji.category || OTHER_CATEGORY_I18N
       ret[category] = ret[category] || []
       ret[category].push(emoji)
     }
     return ret
-  }, [emojis, OTHER_CATEGORY_I18N])
+  }, [customEmojis, OTHER_CATEGORY_I18N])
 
-  const emojisRecursiveByCategory = useMemo(() => {
+  const customEmojisRecursiveByCategory = useMemo(() => {
     const ret: RecurisveEmojiCategories = { }
 
-    const emojisSorted = [...emojis].sort((a, b) =>
+    const emojisSorted = [...customEmojis].sort((a, b) =>
       a.category == null
         ? 1
         : b.category == null
@@ -73,19 +76,27 @@ export const MkEmojiPicker = (props: {
     }
 
     return ret
-  }, [emojis])
+  }, [customEmojis])
 
   const searchedEmojis = useMemo(() => {
-    if (search.trim() === '') {
+    if (debouncedSearch.trim() === '') {
       return null
     }
-    const nameHit = emojis.filter(e =>
-      e.name.toLocaleLowerCase().includes(search)
-      || e.aliases.some(a => a.toLocaleLowerCase().includes(search)),
+
+    const customNameHit = customEmojis.filter(e =>
+      e.name.toLocaleLowerCase().includes(debouncedSearch)
+      || e.aliases.some(a => a.toLocaleLowerCase().includes(debouncedSearch)),
     ).slice(0, 200)
-    const categoryHit = Object.keys(emojisByCategory).filter(c => c.toLocaleLowerCase().includes(search))
-    return { nameHit, categoryHit }
-  }, [search, emojis, emojisByCategory])
+
+    const unicodeNameHit = UnicodeEmojiList.filter(e =>
+      // they are already lowercased
+      e.name.includes(debouncedSearch),
+    ).slice(0, 200).map(e => e.char)
+
+    const categoryHit = Object.keys(emojisByCategory).filter(c => c.toLocaleLowerCase().includes(debouncedSearch))
+
+    return { customNameHit, unicodeNameHit, categoryHit }
+  }, [debouncedSearch, customEmojis, emojisByCategory])
 
   return (
     <div className="mk-emoji-picker" {...rest}>
@@ -93,7 +104,7 @@ export const MkEmojiPicker = (props: {
         <InputGroupAddon>
           <SearchIcon />
         </InputGroupAddon>
-        <InputGroupInput onInput={e => setQuery(e.currentTarget.value)} />
+        <InputGroupInput onInput={e => setSearch(e.currentTarget.value)} />
         {debouncing && (
           <InputGroupAddon align="inline-end">
             <Spinner />
@@ -104,13 +115,19 @@ export const MkEmojiPicker = (props: {
         {searchedEmojis
           ? (
               <div>
-                {searchedEmojis.nameHit.length > 0 && (
+                {searchedEmojis.unicodeNameHit.length > 0 && (
                   <MkEmojiPickerEmojis
-                    emojis={searchedEmojis.nameHit}
+                    unicodeEmojis={searchedEmojis.unicodeNameHit}
                     onEmojiChoose={onEmojiChoose}
                   />
                 )}
-                {searchedEmojis?.categoryHit.length > 0 && (
+                {searchedEmojis.customNameHit.length > 0 && (
+                  <MkEmojiPickerEmojis
+                    emojis={searchedEmojis.customNameHit}
+                    onEmojiChoose={onEmojiChoose}
+                  />
+                )}
+                {searchedEmojis.categoryHit.length > 0 && (
                   <Accordion type="multiple" className="w-full mt-2">
                     {searchedEmojis.categoryHit.map(c => (
                       <MkEmojiPickerFolder
@@ -127,7 +144,7 @@ export const MkEmojiPicker = (props: {
             )
           : (
               <Accordion type="multiple" className="w-full">
-                {Object.entries(emojisRecursiveByCategory).map(([k, v]) => (
+                {Object.entries(customEmojisRecursiveByCategory).map(([k, v]) => (
                   <MkEmojiPickerFolder
                     key={k}
                     name={k}
@@ -135,6 +152,23 @@ export const MkEmojiPicker = (props: {
                     onEmojiChoose={onEmojiChoose}
                     value={k || UNNAMED}
                   />
+                ))}
+                <Separator />
+                {[...emojiCharByCategory.entries()].map(([k, v]) => (
+                  <AccordionItem key={k} value={k}>
+                    <AccordionTrigger className="p-1">
+                      <div className="flex items-center gap-2 w-full">
+                        <MkEmoji emoji={v[0]} className="min-w-8" />
+                        <span>{k}</span>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <MkEmojiPickerEmojis
+                        unicodeEmojis={v}
+                        onEmojiChoose={onEmojiChoose}
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
                 ))}
               </Accordion>
             )}
@@ -146,7 +180,7 @@ export const MkEmojiPicker = (props: {
 const MkEmojiPickerFolder = (props: {
   name: string
   ctnt: RecurisveEmojiCategories[string]
-  onEmojiChoose: (emoji: EmojiSimple) => void
+  onEmojiChoose: (emoji: EmojiSimple | string) => void
 } & React.ComponentProps<typeof AccordionItem>) => {
   const { name, ctnt, onEmojiChoose, ...rest } = props
   const { t } = useTranslation()
@@ -185,18 +219,28 @@ const MkEmojiPickerFolder = (props: {
   )
 }
 
-const MkEmojiPickerEmojis = ({ emojis, onEmojiChoose }: {
-  emojis: EmojiSimple[]
-  onEmojiChoose: (emoji: EmojiSimple) => void
+const MkEmojiPickerEmojis = ({ emojis, unicodeEmojis, onEmojiChoose }: {
+  emojis?: EmojiSimple[]
+  unicodeEmojis?: string[]
+  onEmojiChoose: (emoji: EmojiSimple | string) => void
 }) => (
   <div className="grid grid-cols-[repeat(auto-fit,calc(var(--spacing)_*_14))] gap-1">
-    {emojis.map(emoji => (
+    {emojis?.map(emoji => (
       <button
         key={emoji.name}
         className="p-1 rounded-md hover:bg-muted size-14"
         onClick={() => onEmojiChoose(emoji)}
       >
         <MkCustomEmoji name={emoji.name} fallbackToImage />
+      </button>
+    ))}
+    {unicodeEmojis?.map(emoji => (
+      <button
+        key={emoji}
+        className="p-1 rounded-md hover:bg-muted size-14 overflow-hidden"
+        onClick={() => onEmojiChoose(emoji)}
+      >
+        <MkEmoji emoji={emoji} innerClassName="h-[2em]" />
       </button>
     ))}
   </div>

@@ -76,7 +76,13 @@ export const MkNoteActions = (props: { note: NoteWithExtension, onTranslate: () 
         ? (
             <>
               <MkNoteActionButton icon={<HeartIcon />} onClick={() => like()} loading={isReacting} />
-              <MkEmojiPickerPopup onEmojiChoose={emoji => react(`:${emoji.name}:`)} autoClose>
+              <MkEmojiPickerPopup
+                onEmojiChoose={emoji => react(
+                  typeof emoji === 'string'
+                    ? emoji
+                    : `:${emoji.name}:`)}
+                autoClose
+              >
                 <MkNoteActionButton
                   count={note.reactionCount}
                   icon={<SmilePlusIcon />}

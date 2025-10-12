@@ -3,13 +3,13 @@ import { MkEmojiPicker } from './mk-emoji-picker'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 
 export const MkEmojiPickerPopup = (props: {
-  onEmojiChoose: (emoji: EmojiSimple) => void
+  onEmojiChoose: (emoji: EmojiSimple | string) => void
   autoClose?: boolean
   children: React.ReactNode
 }) => {
   const [show, setShow] = useState(false)
 
-  function onEmojiChoose(emoji: EmojiSimple) {
+  function onEmojiChoose(emoji: EmojiSimple | string) {
     props.onEmojiChoose(emoji)
     if (props.autoClose)
       setShow(false)
