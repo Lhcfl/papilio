@@ -31,7 +31,7 @@ export const storeUserSite = (site: string) => {
 };
 
 export const injectCurrentSiteOrNull = (): string => {
-  return injectCurrentSite() || 'NULL';
+  return localStorage.getItem('site') || 'NULL';
 };
 
 export const getUserTokenOrNull = (): string => {
