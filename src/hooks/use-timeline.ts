@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
-import { useQuery, useQueryClient, QueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { injectMisskeyApi, injectMisskeyStream } from '@/services/inject-misskey-api';
+import { registerNote } from './use-note';
 
 const TIMELINE_PAGE_SIZE = 30;
 

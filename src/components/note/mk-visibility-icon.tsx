@@ -1,3 +1,5 @@
+import { useMe } from '@/stores/me';
+import type { NoteWithExtension } from '@/types/note';
 import { EyeOffIcon, GlobeIcon, HomeIcon, LockIcon, MailIcon } from 'lucide-react';
 import type { HTMLProps } from 'react';
 

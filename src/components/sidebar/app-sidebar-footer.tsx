@@ -2,6 +2,7 @@ import { ChevronsUpDownIcon } from 'lucide-react';
 import { MkAvatar } from '@/components/mk-avatar';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { MkUserName } from '../mk-user-name';
+import { useMe } from '@/stores/me';
 
 export const AppSidebarFooter = () => {
   const me = useMe();

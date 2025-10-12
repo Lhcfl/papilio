@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useQuery, useQueryClient, QueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { DefaultError, QueryKey, UseQueryOptions } from '@tanstack/react-query';
 import { CircleXIcon } from 'lucide-react';
@@ -9,6 +9,9 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 import { Spinner } from '@/components/ui/spinner';
 import { PERSIST_GC_TIME } from '@/plugins/persister';
 import { injectMisskeyApi } from '@/services/inject-misskey-api';
+import { useSetableMe } from '@/stores/me';
+import { useEmojis } from '@/stores/emojis';
+import { useSetableSiteMeta } from '@/stores/site';
 
 function useLoaderQuery<
   TQueryFnData = unknown,

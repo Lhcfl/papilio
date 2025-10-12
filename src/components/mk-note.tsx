@@ -5,6 +5,10 @@ import { MkNoteHeader } from './note/mk-note-header';
 import { MkNoteReactions } from './note/mk-note-reactions';
 import { MkNoteRenoteTip } from './note/mk-note-renote-tip';
 import type { HTMLProps } from 'react';
+import { useAppearNote, useNoteValue } from '@/hooks/use-note';
+import { useTranslateAction } from '@/hooks/note-actions';
+import { useDebugger } from '@/debug/debug';
+import { isPureRenote } from 'misskey-js/note.js';
 
 export const MkNote = (
   props: {

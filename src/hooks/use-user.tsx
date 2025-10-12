@@ -1,3 +1,4 @@
+import { injectMisskeyApi } from '@/services/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
 
 export const useUserQuery = (userId: string) =>

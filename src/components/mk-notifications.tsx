@@ -18,8 +18,10 @@ import {
 import { FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon } from 'lucide-react';
 import { useAtom, type PrimitiveAtom } from 'jotai';
 import { Button } from './ui/button';
-import type { NotificationIncludeableType } from '@/lib/notifications';
+import { NOTIFICATION_TYPES, type NotificationIncludeableType } from '@/lib/notifications';
 import { MkError } from './mk-error';
+import { injectMisskeyApi } from '@/services/inject-misskey-api';
+import { registerNote } from '@/hooks/use-note';
 
 export const MkNotifications = (props: {
   excludeTypes?: NotificationIncludeableType[];

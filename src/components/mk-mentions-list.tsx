@@ -1,8 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-
 import { LoadingTrigger } from './loading-trigger';
 import { MkNote } from './mk-note';
 import { Spinner } from './ui/spinner';
+import { injectMisskeyApi } from '@/services/inject-misskey-api';
+import { registerNote } from '@/hooks/use-note';
 
 export const MkMentionsList = (props: { visibility?: 'specified' }) => {
   const api = injectMisskeyApi();

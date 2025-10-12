@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-
 import { Link } from '@tanstack/react-router';
 import {
   BellOffIcon,
@@ -23,6 +22,10 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import type { NoteWithExtension } from '@/types/note';
+import { useMe } from '@/stores/me';
+import { getNoteRemoteUrl, getNoteRoute } from '@/lib/note';
+import { copyToClipboard } from '@/lib/utils';
+import { getNoteExcerpt } from '@/services/note-excerpt';
 
 export const MkNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void }) => {
   const { t } = useTranslation();

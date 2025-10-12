@@ -6,6 +6,8 @@ import { MkUserName } from '../mk-user-name';
 import { MkVisibilityIcon } from './mk-visibility-icon';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { Link } from '@tanstack/react-router';
+import { useSiteMeta } from '@/stores/site';
+import { getNoteRoute } from '@/lib/note';
 
 export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
   const { note } = props;

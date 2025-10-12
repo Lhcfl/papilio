@@ -9,6 +9,9 @@ import { Toaster } from '@/components/ui/sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { WithLoginLoader } from '@/loaders/with-login';
 import type { Tab } from '@/types/page-header';
+import { useSiteMeta } from '@/stores/site';
+import { useNoteUpdateListener } from '@/hooks/use-note';
+import { useMainChannelListener } from '@/hooks/use-main-channel';
 
 type DefaultLayoutPropsCommon = {
   title?: string;

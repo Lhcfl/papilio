@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-
 import clsx from 'clsx';
 import { ChevronDownIcon, ChevronUpIcon, QuoteIcon, ReplyIcon } from 'lucide-react';
 import { type MfmNode, parse } from 'mfm-js';
@@ -16,6 +15,9 @@ import { MkNoteFile } from './mk-note-file';
 import { MkNoteImages } from './mk-note-images';
 import { MkNoteTranslation } from './mk-note-translation';
 import { Link } from '@tanstack/react-router';
+import { useNoteValue } from '@/hooks/use-note';
+import { collectAst, countAst, getNoteRoute } from '@/lib/note';
+import { onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 
 type NoteBodyCommonProps = {
   note: NoteWithExtension;

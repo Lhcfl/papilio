@@ -2,6 +2,8 @@ import { SiteLogo } from '@/components/site-logo';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { Button } from '../ui/button';
 import { SunMoonIcon } from 'lucide-react';
+import { useSiteMeta } from '@/stores/site';
+import { injectCurrentSite } from '@/services/inject-misskey-api';
 
 export const AppSidebarHeader = () => {
   const metaName = useSiteMeta((m) => m.name);

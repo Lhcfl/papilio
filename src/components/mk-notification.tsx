@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from './ui/item';
 import clsx from 'clsx';
 import type { Notification } from 'misskey-js/entities.js';
@@ -16,6 +15,9 @@ import { Tooltip, TooltipContent } from './ui/tooltip';
 import { TooltipTrigger } from '@radix-ui/react-tooltip';
 import { NotificationItemMedia, ReactionEmoji } from './notification/item-media';
 import { NotificationDescription, NotificationTitle } from './notification/item-text';
+import { useUserQuery } from '@/hooks/use-user';
+import { useAcceptFollowRequestAction, useFollowAction, useRejectFollowRequestAction } from '@/hooks/user-action';
+import { getNoteExcerpt } from '@/services/note-excerpt';
 
 type PickNotification<T extends Notification['type']> = Extract<Notification, { type: T }>;
 

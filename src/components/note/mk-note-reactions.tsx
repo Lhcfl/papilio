@@ -1,5 +1,9 @@
 import clsx from 'clsx';
 import { MkCustomEmoji, MkEmoji } from '../mk-emoji';
+import { normalizeEmojiName } from '@/lib/emojis';
+import { useReactNoteAction, useUndoReactNoteAction } from '@/hooks/note-actions';
+import type { NoteWithExtension } from '@/types/note';
+import { useEmojis } from '@/stores/emojis';
 
 const NoteReaction = (props: {
   reaction: string;

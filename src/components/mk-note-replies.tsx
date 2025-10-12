@@ -4,6 +4,8 @@ import type { HTMLProps } from 'react';
 import { MkNote } from './mk-note';
 import clsx from 'clsx';
 import { LoadingTrigger } from './loading-trigger';
+import { injectMisskeyApi } from '@/services/inject-misskey-api';
+import { registerNote } from '@/hooks/use-note';
 
 export const MkNoteReplies = (
   props: {

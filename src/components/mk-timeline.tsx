@@ -1,3 +1,4 @@
+import { useTimeline, type TimelineTypes } from '@/hooks/use-timeline';
 import { LoadingTrigger } from './loading-trigger';
 import { MkNote } from './mk-note';
 import { Spinner } from './ui/spinner';

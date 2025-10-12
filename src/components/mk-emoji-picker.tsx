@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { HTMLProps } from 'react';
@@ -12,6 +12,7 @@ import { useDebounce } from 'react-use';
 import { Spinner } from './ui/spinner';
 import { emojiCharByCategory, emojilist as UnicodeEmojiList } from '@/assets/emojilist';
 import { Separator } from '@/components/ui/separator';
+import { useEmojis } from '@/stores/emojis';
 
 type RecurisveEmojiCategories = {
   [name: string]: {

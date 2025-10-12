@@ -1,3 +1,4 @@
+import { injectMisskeyApi } from '@/services/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
 
 export const useRejectFollowRequestAction = (userId: string) => {

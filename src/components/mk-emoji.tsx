@@ -3,6 +3,7 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import Twemoji from 'twemoji';
 import { injectCurrentSite } from '@/services/inject-misskey-api';
+import { useEmojis } from '@/stores/emojis';
 
 export const MkCustomEmoji = (props: {
   name: string;

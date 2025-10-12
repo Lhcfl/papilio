@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-
 import { MoreVerticalIcon, RepeatIcon, Trash2Icon } from 'lucide-react';
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkTime } from '@/components/mk-time';
@@ -12,6 +11,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { MkVisibilityIcon } from './mk-visibility-icon';
+import type { NoteWithExtension } from '@/types/note';
+import { useMe } from '@/stores/me';
+import { useDeleteNoteAction } from '@/hooks/note-actions';
 
 export const MkNoteRenoteTip = (props: { note: NoteWithExtension }) => {
   const meId = useMe((me) => me.id);
