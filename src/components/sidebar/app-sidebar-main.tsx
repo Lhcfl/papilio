@@ -7,18 +7,18 @@ import {
   SearchIcon,
   StarIcon,
   UserPlusIcon,
-} from 'lucide-react'
+} from 'lucide-react';
 import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar'
-import { Link } from '@tanstack/react-router'
+} from '@/components/ui/sidebar';
+import { Link } from '@tanstack/react-router';
 
 export const AppSidebarMain = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const data = [
     { key: 'home', title: t('home'), icon: HomeIcon, to: '/' },
@@ -28,13 +28,13 @@ export const AppSidebarMain = () => {
     { key: 'announcements', title: t('announcements'), icon: MegaphoneIcon, to: '/announcements' },
     { key: 'chat', title: t('chat'), icon: MessageSquareIcon, to: '/chat' },
     { key: 'search', title: t('search'), icon: SearchIcon, to: '/search' },
-  ]
+  ];
 
   return (
     <SidebarGroup>
       <SidebarGroupContent>
         <SidebarMenu>
-          {data.map(item => (
+          {data.map((item) => (
             <SidebarMenuItem key={item.key}>
               <SidebarMenuButton size="lg" asChild>
                 <Link to={item.to}>
@@ -53,5 +53,5 @@ export const AppSidebarMain = () => {
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
-  )
-}
+  );
+};

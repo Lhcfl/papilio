@@ -1,5 +1,5 @@
-import { AlertCircleIcon } from 'lucide-react'
-import { Item, ItemContent, ItemMedia } from './ui/item'
+import { AlertCircleIcon } from 'lucide-react';
+import { Item, ItemContent, ItemMedia } from './ui/item';
 
 export const MkAlert = (props: { children: React.ReactNode }) => {
   return (
@@ -7,9 +7,7 @@ export const MkAlert = (props: { children: React.ReactNode }) => {
       <ItemMedia variant="icon">
         <AlertCircleIcon />
       </ItemMedia>
-      <ItemContent>
-        {props.children}
-      </ItemContent>
+      <ItemContent>{props.children}</ItemContent>
     </Item>
-  )
-}
+  );
+};

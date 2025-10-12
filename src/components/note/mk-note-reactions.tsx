@@ -1,13 +1,19 @@
-import clsx from 'clsx'
-import { MkCustomEmoji, MkEmoji } from '../mk-emoji'
+import clsx from 'clsx';
+import { MkCustomEmoji, MkEmoji } from '../mk-emoji';
 
-const NoteReaction = (props: { reaction: string, count: number, url?: string, meReacted?: boolean, noteId: string }) => {
-  const { reaction, count, url, meReacted, noteId } = props
-  const isCustomEmoji = reaction[0] === ':'
-  const [name, host] = normalizeEmojiName(reaction)
+const NoteReaction = (props: {
+  reaction: string;
+  count: number;
+  url?: string;
+  meReacted?: boolean;
+  noteId: string;
+}) => {
+  const { reaction, count, url, meReacted, noteId } = props;
+  const isCustomEmoji = reaction[0] === ':';
+  const [name, host] = normalizeEmojiName(reaction);
 
-  const { mutate: undoReact, isPending: isUndoPending } = useUndoReactNoteAction(noteId)
-  const { mutate: react, isPending: isReactPending } = useReactNoteAction(noteId)
+  const { mutate: undoReact, isPending: isUndoPending } = useUndoReactNoteAction(noteId);
+  const { mutate: react, isPending: isReactPending } = useReactNoteAction(noteId);
 
   return (
     <button
@@ -19,58 +25,67 @@ const NoteReaction = (props: { reaction: string, count: number, url?: string, me
         'border-tertiary bg-tertiary/10': meReacted,
         'animate-pulse': isReactPending || isUndoPending,
       })}
-      onClick={host == null ? () => meReacted ? undoReact() : react(reaction) : undefined}
+      onClick={host == null ? () => (meReacted ? undoReact() : react(reaction)) : undefined}
     >
-      {isCustomEmoji
-        ? (
-            <MkCustomEmoji name={name} host={host} url={url} fallbackToImage />
-          )
-        : (
-            <MkEmoji emoji={name} innerClassName="h-[2em]" />
-          )}
+      {isCustomEmoji ? (
+        <MkCustomEmoji name={name} host={host} url={url} fallbackToImage />
+      ) : (
+        <MkEmoji emoji={name} innerClassName="h-[2em]" />
+      )}
       <span className="ml-1 text-xs text-muted-foreground">{count}</span>
     </button>
-  )
-}
+  );
+};
 
 export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
-  const { note } = props
-  let reactions = Object.entries(note.reactions)
-  let myReaction = note.myReaction
-  const emojisMap = useEmojis(s => s.emojisMap)
+  const { note } = props;
+  let reactions = Object.entries(note.reactions);
+  let myReaction = note.myReaction;
+  const emojisMap = useEmojis((s) => s.emojisMap);
 
   if (reactions.length === 0) {
-    return null
+    return null;
   }
 
   // todo: make this configurable
-  const mergeSiteReactions = true
+  const mergeSiteReactions = true;
 
   if (mergeSiteReactions) {
-    const map = reactions.reduce((acc, [reaction, count]) => {
-      const [normalizedName] = normalizeEmojiName(reaction)
-      const emoji = emojisMap.get(normalizedName)
-      if (emoji) {
-        const name = `:${normalizedName}:`
-        if (myReaction === reaction) {
-          myReaction = name
+    const map = reactions.reduce(
+      (acc, [reaction, count]) => {
+        const [normalizedName] = normalizeEmojiName(reaction);
+        const emoji = emojisMap.get(normalizedName);
+        if (emoji) {
+          const name = `:${normalizedName}:`;
+          if (myReaction === reaction) {
+            myReaction = name;
+          }
+          acc[name] ||= 0;
+          acc[name] += count;
+        } else {
+          acc[reaction] = count;
         }
-        acc[name] ||= 0
-        acc[name] += count
-      }
-      else {
-        acc[reaction] = count
-      }
-      return acc
-    }, {} as Record<string, number>)
-    reactions = Object.entries(map)
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+    reactions = Object.entries(map);
   }
 
   return (
     <div className="mk-note-reactions flex flex-wrap px-2 mt-2 gap-1">
-      {reactions.sort(([, a], [, b]) => b - a).map(([reaction, count]) => (
-        <NoteReaction key={reaction} reaction={reaction} count={count} url={note.reactionEmojis[reaction]} meReacted={myReaction === reaction} noteId={note.id} />
-      ))}
+      {reactions
+        .sort(([, a], [, b]) => b - a)
+        .map(([reaction, count]) => (
+          <NoteReaction
+            key={reaction}
+            reaction={reaction}
+            count={count}
+            url={note.reactionEmojis[reaction]}
+            meReacted={myReaction === reaction}
+            noteId={note.id}
+          />
+        ))}
     </div>
-  )
-}
+  );
+};

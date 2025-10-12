@@ -1,6 +1,6 @@
-import type { NoteWithExtension } from '@/types/note'
-import { MkNoteBody } from './note/mk-note-body'
-import { MkNoteHeader } from './note/mk-note-header'
+import type { NoteWithExtension } from '@/types/note';
+import { MkNoteBody } from './note/mk-note-body';
+import { MkNoteHeader } from './note/mk-note-header';
 
 export const MkNoteSimple = (props: { note: NoteWithExtension }) => {
   return (
@@ -8,5 +8,5 @@ export const MkNoteSimple = (props: { note: NoteWithExtension }) => {
       <MkNoteHeader note={props.note} />
       <MkNoteBody note={props.note} showReplyIcon stopQuote disableLinkPreview />
     </div>
-  )
-}
+  );
+};

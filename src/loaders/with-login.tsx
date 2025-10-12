@@ -1,12 +1,12 @@
-import type { DefaultError, QueryKey, UseQueryOptions } from '@tanstack/react-query'
-import { CircleXIcon } from 'lucide-react'
-import type { EmojisResponse } from 'misskey-js/entities.js'
-import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty'
-import { Spinner } from '@/components/ui/spinner'
-import { PERSIST_GC_TIME } from '@/plugins/persister'
-import { injectMisskeyApi } from '@/services/inject-misskey-api'
+import type { DefaultError, QueryKey, UseQueryOptions } from '@tanstack/react-query';
+import { CircleXIcon } from 'lucide-react';
+import type { EmojisResponse } from 'misskey-js/entities.js';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
+import { Spinner } from '@/components/ui/spinner';
+import { PERSIST_GC_TIME } from '@/plugins/persister';
+import { injectMisskeyApi } from '@/services/inject-misskey-api';
 
 function useLoaderQuery<
   TQueryFnData = unknown,
@@ -15,31 +15,31 @@ function useLoaderQuery<
   TQueryKey extends QueryKey = QueryKey,
 >(
   options: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey> & {
-    onData: (data: TData) => void
+    onData: (data: TData) => void;
   },
 ) {
-  const { onData, ...opts } = options
-  const { data, ...res } = useQuery(opts)
-  const key = options.queryKey
+  const { onData, ...opts } = options;
+  const { data, ...res } = useQuery(opts);
+  const key = options.queryKey;
 
-  if (data != null) onData(data)
+  if (data != null) onData(data);
 
   useEffect(() => {
     if (data != null) {
-      onData(data)
+      onData(data);
     }
-  }, [data, onData])
+  }, [data, onData]);
 
-  return { key, data, ...res }
+  return { key, data, ...res };
 }
 
 export const WithLoginLoader = (props: { children: React.ReactNode }) => {
-  const api = injectMisskeyApi()
-  const { t } = useTranslation()
+  const api = injectMisskeyApi();
+  const { t } = useTranslation();
 
-  const setMe = useSetableMe(s => s.setMe)
-  const setEmojis = useEmojis(s => s.setEmojis)
-  const setMeta = useSetableSiteMeta(s => s.setMeta)
+  const setMe = useSetableMe((s) => s.setMe);
+  const setEmojis = useEmojis((s) => s.setEmojis);
+  const setMeta = useSetableSiteMeta((s) => s.setMeta);
 
   const queries = [
     useLoaderQuery({
@@ -52,8 +52,8 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
     useLoaderQuery({
       queryKey: ['custom-emojis'],
       refetchInterval: 1000 * 60 * 60, // 1 hours
-      queryFn: () => fetch(new URL('/api/emojis', api.origin)).then(r => r.json()) as Promise<EmojisResponse>,
-      select: data => data.emojis,
+      queryFn: () => fetch(new URL('/api/emojis', api.origin)).then((r) => r.json()) as Promise<EmojisResponse>,
+      select: (data) => data.emojis,
       gcTime: PERSIST_GC_TIME,
       staleTime: 1000 * 60 * 60, // 1 hour
       onData: setEmojis,
@@ -65,16 +65,16 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
       onData: setMeta,
       // staleTime: 1000 * 60 * 60, // 1 hour
     }),
-  ]
+  ];
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   function reload() {
-    queryClient.invalidateQueries()
-    window.location.reload()
+    queryClient.invalidateQueries();
+    window.location.reload();
   }
 
-  if (queries.some(q => q.isError)) {
+  if (queries.some((q) => q.isError)) {
     return (
       <div className="w-screen h-screen flex items-center justify-center">
         <Empty>
@@ -86,7 +86,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
             <EmptyDescription>
               <ul>
                 {queries.map(
-                  query =>
+                  (query) =>
                     query.error && (
                       <li key={query.key.join('/')}>
                         <b>
@@ -105,10 +105,10 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
           </EmptyContent>
         </Empty>
       </div>
-    )
+    );
   }
 
-  if (queries.some(q => !q.data)) {
+  if (queries.some((q) => !q.data)) {
     return (
       <div className="w-screen h-screen">
         <div className="absolute w-screen h-screen flex justify-center items-center">
@@ -116,24 +116,22 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
         </div>
         <ul className="font-mono text-sm p-4">
           <li>Booting Papilio...</li>
-          {queries.map(query => (
+          {queries.map((query) => (
             <li key={query.key.join('/')}>
-              {query.isLoading
-                ? (
-                    <span className="text-yellow-500">[LOADING]</span>
-                  )
-                : (
-                    <span className="text-green-500">[OK]</span>
-                  )}
+              {query.isLoading ? (
+                <span className="text-yellow-500">[LOADING]</span>
+              ) : (
+                <span className="text-green-500">[OK]</span>
+              )}
               &nbsp;
               {query.key.join('/')}
             </li>
           ))}
         </ul>
       </div>
-    )
+    );
   }
 
   // all loaded
-  return props.children
-}
+  return props.children;
+};

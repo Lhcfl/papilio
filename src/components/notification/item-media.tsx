@@ -1,7 +1,7 @@
-import type { Notification } from 'misskey-js/entities.js'
-import { ItemMedia } from '../ui/item'
-import { MkAvatar } from '../mk-avatar'
-import clsx from 'clsx'
+import type { Notification } from 'misskey-js/entities.js';
+import { ItemMedia } from '../ui/item';
+import { MkAvatar } from '../mk-avatar';
+import clsx from 'clsx';
 import {
   AtSignIcon,
   BellIcon,
@@ -23,123 +23,131 @@ import {
   UserPlusIcon,
   UserRoundPlusIcon,
   Users2Icon,
-} from 'lucide-react'
-import { MkCustomEmoji, MkEmoji } from '../mk-emoji'
-import type { NoteWithExtension } from '@/types/note'
+} from 'lucide-react';
+import { MkCustomEmoji, MkEmoji } from '../mk-emoji';
+import type { NoteWithExtension } from '@/types/note';
 
 export const NotificationItemIcon = (type: Notification['type']) => {
   switch (type) {
     case 'note':
-      return PlusIcon
+      return PlusIcon;
     case 'mention':
-      return AtSignIcon
+      return AtSignIcon;
     case 'reply':
-      return MessageSquareReplyIcon
+      return MessageSquareReplyIcon;
     case 'renote':
-      return RepeatIcon
+      return RepeatIcon;
     case 'quote':
-      return QuoteIcon
+      return QuoteIcon;
     case 'reaction':
-      return SmilePlusIcon
+      return SmilePlusIcon;
     case 'receiveFollowRequest':
-      return UserPlusIcon
+      return UserPlusIcon;
     case 'followRequestAccepted':
-      return UserCheckIcon
+      return UserCheckIcon;
     case 'follow':
-      return Users2Icon
+      return Users2Icon;
     case 'pollEnded':
-      return ChartColumnBigIcon
+      return ChartColumnBigIcon;
     case 'scheduledNotePosted':
-      return CalendarCheck2Icon
+      return CalendarCheck2Icon;
     case 'scheduledNotePostFailed':
-      return CalendarX2Icon
+      return CalendarX2Icon;
     case 'roleAssigned':
-      return UserRoundPlusIcon
+      return UserRoundPlusIcon;
     case 'chatRoomInvitationReceived':
-      return MessageCircleMoreIcon
+      return MessageCircleMoreIcon;
     case 'achievementEarned':
-      return TrophyIcon
+      return TrophyIcon;
     case 'exportCompleted':
-      return DownloadIcon
+      return DownloadIcon;
     case 'login':
-      return KeyRoundIcon
+      return KeyRoundIcon;
     case 'createToken':
-      return KeyRoundIcon
+      return KeyRoundIcon;
     case 'app':
-      return LayoutGridIcon
+      return LayoutGridIcon;
     case 'reaction:grouped':
-      return SmilePlusIcon
+      return SmilePlusIcon;
     case 'renote:grouped':
-      return RepeatIcon
+      return RepeatIcon;
     case 'test':
-      return FlaskConicalIcon
+      return FlaskConicalIcon;
     default:
-      return BellIcon
+      return BellIcon;
   }
-}
+};
 
 const NotificationIconColor = (type: Notification['type']) => {
   switch (type) {
     case 'note':
-      return 'bg-emerald-500'
+      return 'bg-emerald-500';
     case 'mention':
-      return 'bg-sky-500'
+      return 'bg-sky-500';
     case 'reply':
-      return 'bg-amber-500'
+      return 'bg-amber-500';
     case 'renote':
-      return 'bg-violet-500'
+      return 'bg-violet-500';
     case 'quote':
-      return 'bg-rose-500'
+      return 'bg-rose-500';
     case 'reaction':
-      return 'bg-red-400'
+      return 'bg-red-400';
     case 'receiveFollowRequest':
-      return 'bg-indigo-500'
+      return 'bg-indigo-500';
     case 'followRequestAccepted':
-      return 'bg-teal-500'
+      return 'bg-teal-500';
     case 'follow':
-      return 'bg-orange-500'
+      return 'bg-orange-500';
     case 'pollEnded':
-      return 'bg-fuchsia-500'
+      return 'bg-fuchsia-500';
     case 'scheduledNotePosted':
-      return 'bg-pink-400'
+      return 'bg-pink-400';
     case 'scheduledNotePostFailed':
-      return 'bg-red-600'
+      return 'bg-red-600';
     case 'roleAssigned':
-      return 'bg-cyan-500'
+      return 'bg-cyan-500';
     case 'chatRoomInvitationReceived':
-      return 'bg-lime-500'
+      return 'bg-lime-500';
     case 'achievementEarned':
-      return 'bg-yellow-400'
+      return 'bg-yellow-400';
     case 'exportCompleted':
-      return 'bg-blue-400'
+      return 'bg-blue-400';
     case 'login':
-      return 'bg-stone-500'
+      return 'bg-stone-500';
     case 'createToken':
-      return 'bg-neutral-500'
+      return 'bg-neutral-500';
     case 'app':
-      return 'bg-zinc-500'
+      return 'bg-zinc-500';
     case 'reaction:grouped':
-      return 'bg-red-300'
+      return 'bg-red-300';
     case 'renote:grouped':
-      return 'bg-purple-400'
+      return 'bg-purple-400';
     case 'test':
-      return 'bg-gray-400'
+      return 'bg-gray-400';
     default:
-      return 'bg-primary'
+      return 'bg-primary';
   }
-}
+};
 
-export const ReactionEmoji = (props: { reaction: string, note: NoteWithExtension }) => (
+export const ReactionEmoji = (props: { reaction: string; note: NoteWithExtension }) => (
   <span className="absolute right-0 bottom-0 text-primary-foreground size-6 rounded-sm p-0.5 flex items-center justify-center backdrop-blur-sm bg-secondary/40 overflow-hidden">
-    {props.reaction.startsWith(':')
-      ? <MkCustomEmoji name={props.reaction} url={props.note.reactionEmojis[props.reaction]} innerClassName="h-[1.2em]!" />
-      : <MkEmoji emoji={props.reaction} innerClassName="h-[1.2em]!" />}
+    {props.reaction.startsWith(':') ? (
+      <MkCustomEmoji
+        name={props.reaction}
+        url={props.note.reactionEmojis[props.reaction]}
+        innerClassName="h-[1.2em]!"
+      />
+    ) : (
+      <MkEmoji emoji={props.reaction} innerClassName="h-[1.2em]!" />
+    )}
   </span>
-)
+);
 
-export const NotificationItemMedia = (props: { notification: Notification } & React.ComponentProps<typeof ItemMedia>) => {
-  const { notification, ...mediaProps } = props
-  const ItemIcon = NotificationItemIcon(notification.type)
+export const NotificationItemMedia = (
+  props: { notification: Notification } & React.ComponentProps<typeof ItemMedia>,
+) => {
+  const { notification, ...mediaProps } = props;
+  const ItemIcon = NotificationItemIcon(notification.type);
 
   switch (notification.type) {
     case 'follow':
@@ -160,7 +168,7 @@ export const NotificationItemMedia = (props: { notification: Notification } & Re
             </span>
           </div>
         </ItemMedia>
-      )
+      );
     case 'reaction': {
       return (
         <ItemMedia {...mediaProps}>
@@ -169,7 +177,7 @@ export const NotificationItemMedia = (props: { notification: Notification } & Re
             <ReactionEmoji reaction={notification.reaction} note={notification.note} />
           </div>
         </ItemMedia>
-      )
+      );
     }
   }
 
@@ -184,5 +192,5 @@ export const NotificationItemMedia = (props: { notification: Notification } & Re
         <ItemIcon className="size-6" />
       </span>
     </ItemMedia>
-  )
-}
+  );
+};

@@ -3,57 +3,57 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { ClockIcon } from 'lucide-react'
-import * as mfm from 'mfm-js'
-import * as Misskey from 'misskey-js'
-import type { CSSProperties } from 'react'
-import { MkCustomEmoji, MkEmoji } from './mk-emoji'
-import { MkHashTag } from './mk-hashtag'
-import { MkMention } from './mk-mention'
-import { MkUrl } from './mk-url'
+import { ClockIcon } from 'lucide-react';
+import * as mfm from 'mfm-js';
+import * as Misskey from 'misskey-js';
+import type { CSSProperties } from 'react';
+import { MkCustomEmoji, MkEmoji } from './mk-emoji';
+import { MkHashTag } from './mk-hashtag';
+import { MkMention } from './mk-mention';
+import { MkUrl } from './mk-url';
 
 function safeParseFloat(str: unknown): number | null {
-  if (typeof str !== 'string' || str === '') return null
-  const num = parseFloat(str)
-  if (Number.isNaN(num)) return null
-  return num
+  if (typeof str !== 'string' || str === '') return null;
+  const num = parseFloat(str);
+  if (Number.isNaN(num)) return null;
+  return num;
 }
 
 type MfmProps = {
-  text: string
-  plain?: boolean
-  inline?: boolean
-  nowrap?: boolean
-  author?: Misskey.entities.UserLite
-  isNote?: boolean
-  emojiUrls?: Record<string, string>
-  rootScale?: number
-  nyaize?: boolean | 'respect'
-  parsedNodes?: mfm.MfmNode[] | null
-  enableEmojiMenu?: boolean
-  enableEmojiMenuReaction?: boolean
-  isAnim?: boolean
-  isBlock?: boolean
-  linkNavigationBehavior?: unknown
-  clickEv?: (clickEv: string) => void
-}
+  text: string;
+  plain?: boolean;
+  inline?: boolean;
+  nowrap?: boolean;
+  author?: Misskey.entities.UserLite;
+  isNote?: boolean;
+  emojiUrls?: Record<string, string>;
+  rootScale?: number;
+  nyaize?: boolean | 'respect';
+  parsedNodes?: mfm.MfmNode[] | null;
+  enableEmojiMenu?: boolean;
+  enableEmojiMenuReaction?: boolean;
+  isAnim?: boolean;
+  isBlock?: boolean;
+  linkNavigationBehavior?: unknown;
+  clickEv?: (clickEv: string) => void;
+};
 
 const defaultStore = {
   state: {
     advancedMfm: true,
   },
-}
+};
 
 const validTime = (t: string | boolean | null | undefined) => {
-  if (t == null) return null
-  if (typeof t === 'boolean') return null
-  return t.match(/^-?[0-9.]+s$/) ? t : null
-}
+  if (t == null) return null;
+  if (typeof t === 'boolean') return null;
+  return t.match(/^-?[0-9.]+s$/) ? t : null;
+};
 
 const validColor = (c: unknown): string | null => {
-  if (typeof c !== 'string') return null
-  return c.match(/^[0-9a-f]{3,6}$/i) ? c : null
-}
+  if (typeof c !== 'string') return null;
+  return c.match(/^[0-9a-f]{3,6}$/i) ? c : null;
+};
 
 export const MkMfm = (in_props: MfmProps) => {
   const props: MfmProps = {
@@ -65,59 +65,55 @@ export const MkMfm = (in_props: MfmProps) => {
     parsedNodes: undefined,
     linkNavigationBehavior: undefined,
     ...in_props,
-  }
+  };
 
   // const host = null;
-  const shouldNyaize = true
-  const useAnim = true
-  const rootAst = props.parsedNodes || (props.plain ? mfm.parseSimple : mfm.parse)(props.text)
+  const shouldNyaize = true;
+  const useAnim = true;
+  const rootAst = props.parsedNodes || (props.plain ? mfm.parseSimple : mfm.parse)(props.text);
 
-  if (props.text == null || props.text === '') return
+  if (props.text == null || props.text === '') return;
 
-  const classList = ['mfm', 'break-words', 'break-all']
-  if (props.isBlock) classList.push('block')
-  if (props.inline) classList.push('mfm-inline')
+  const classList = ['mfm', 'break-words', 'break-all'];
+  if (props.isBlock) classList.push('block');
+  if (props.inline) classList.push('mfm-inline');
 
   const genEl = (ast: mfm.MfmNode[], scale: number, disableNyaize = false) =>
     ast.map((token): React.ReactNode => {
       switch (token.type) {
         case 'text': {
-          let text = token.props.text.replace(/(\r\n|\n|\r)/g, '\n')
+          let text = token.props.text.replace(/(\r\n|\n|\r)/g, '\n');
 
           if (!disableNyaize && shouldNyaize) {
-            text = Misskey.nyaize(text)
+            text = Misskey.nyaize(text);
           }
 
           if (!props.plain && !props.inline) {
-            return text.split('\n').map((t, i) => (
-              [
-                i > 0 && <br key={Math.random()} />,
-                <span key={Math.random()}>{t}</span>,
-              ]
-            ))
-          }
-          else {
-            return (
-              <span key={Math.random()}>
-                {text.replace(/\n/g, ' ')}
-              </span>
-            )
+            return text
+              .split('\n')
+              .map((t, i) => [i > 0 && <br key={Math.random()} />, <span key={Math.random()}>{t}</span>]);
+          } else {
+            return <span key={Math.random()}>{text.replace(/\n/g, ' ')}</span>;
           }
         }
         case 'bold':
-          return <b key={Math.random()}>{genEl(token.children, scale)}</b>
+          return <b key={Math.random()}>{genEl(token.children, scale)}</b>;
         case 'strike':
-          return <del key={Math.random()}>{genEl(token.children, scale)}</del>
+          return <del key={Math.random()}>{genEl(token.children, scale)}</del>;
         case 'italic':
-          return <i key={Math.random()} style={{ fontStyle: 'oblique' }}>{genEl(token.children, scale)}</i>
+          return (
+            <i key={Math.random()} style={{ fontStyle: 'oblique' }}>
+              {genEl(token.children, scale)}
+            </i>
+          );
 
         case 'fn': {
           // TODO: CSSを文字列で組み立てていくと token.props.args.~~~ 経由でCSSインジェクションできるのでよしなにやる
-          let style: CSSProperties | undefined
+          let style: CSSProperties | undefined;
           switch (token.props.name) {
             case 'tada': {
-              const speed = validTime(token.props.args.speed) ?? '1s'
-              const delay = validTime(token.props.args.delay) ?? '0s'
+              const speed = validTime(token.props.args.speed) ?? '1s';
+              const delay = validTime(token.props.args.delay) ?? '0s';
               style = {
                 fontSize: '150%',
                 ...(useAnim
@@ -126,123 +122,132 @@ export const MkMfm = (in_props: MfmProps) => {
                       animationDelay: delay,
                     }
                   : {}),
-              }
-              break
+              };
+              break;
             }
             case 'jelly': {
-              const speed = validTime(token.props.args.speed) ?? '1s'
-              const delay = validTime(token.props.args.delay) ?? '0s'
+              const speed = validTime(token.props.args.speed) ?? '1s';
+              const delay = validTime(token.props.args.delay) ?? '0s';
               style = {
                 animation: `mfm-rubberBand ${speed} linear infinite both`,
                 animationDelay: delay,
-              }
-              break
+              };
+              break;
             }
             case 'twitch': {
-              const speed = validTime(token.props.args.speed) ?? '0.5s'
-              const delay = validTime(token.props.args.delay) ?? '0s'
+              const speed = validTime(token.props.args.speed) ?? '0.5s';
+              const delay = validTime(token.props.args.delay) ?? '0s';
               style = useAnim
                 ? {
                     animation: `mfm-twitch ${speed} ease infinite`,
                     animationDelay: delay,
                   }
-                : {}
-              break
+                : {};
+              break;
             }
             case 'shake': {
-              const speed = validTime(token.props.args.speed) ?? '0.5s'
-              const delay = validTime(token.props.args.delay) ?? '0s'
+              const speed = validTime(token.props.args.speed) ?? '0.5s';
+              const delay = validTime(token.props.args.delay) ?? '0s';
               style = useAnim
                 ? {
                     animation: `mfm-shake ${speed} ease infinite`,
                     animationDelay: delay,
                   }
-                : {}
-              break
+                : {};
+              break;
             }
             case 'spin': {
-              const direction = token.props.args.left ? 'reverse' : token.props.args.alternate ? 'alternate' : 'normal'
-              const anime = token.props.args.x ? 'mfm-spinX' : token.props.args.y ? 'mfm-spinY' : 'mfm-spin'
-              const speed = validTime(token.props.args.speed) ?? '1.5s'
-              const delay = validTime(token.props.args.delay) ?? '0s'
+              const direction = token.props.args.left ? 'reverse' : token.props.args.alternate ? 'alternate' : 'normal';
+              const anime = token.props.args.x ? 'mfm-spinX' : token.props.args.y ? 'mfm-spinY' : 'mfm-spin';
+              const speed = validTime(token.props.args.speed) ?? '1.5s';
+              const delay = validTime(token.props.args.delay) ?? '0s';
               style = useAnim
                 ? {
                     animation: `${anime} ${speed} linear infinite`,
                     animationDirection: direction,
                     animationDelay: delay,
                   }
-                : {}
-              break
+                : {};
+              break;
             }
             case 'jump': {
-              const speed = validTime(token.props.args.speed) ?? '0.75s'
-              const delay = validTime(token.props.args.delay) ?? '0s'
+              const speed = validTime(token.props.args.speed) ?? '0.75s';
+              const delay = validTime(token.props.args.delay) ?? '0s';
               style = useAnim
                 ? {
                     animation: `mfm-jump ${speed} linear infinite`,
                     animationDelay: delay,
                   }
-                : {}
-              break
+                : {};
+              break;
             }
             case 'bounce': {
-              const speed = validTime(token.props.args.speed) ?? '0.75s'
-              const delay = validTime(token.props.args.delay) ?? '0s'
+              const speed = validTime(token.props.args.speed) ?? '0.75s';
+              const delay = validTime(token.props.args.delay) ?? '0s';
               style = useAnim
                 ? {
                     animation: `mfm-bounce ${speed} linear infinite`,
                     transformOrigin: 'center bottom',
                     animationDelay: delay,
                   }
-                : {}
-              break
+                : {};
+              break;
             }
             case 'flip': {
-              const transform
-                = token.props.args.h && token.props.args.v
+              const transform =
+                token.props.args.h && token.props.args.v
                   ? 'scale(-1, -1)'
                   : token.props.args.v
                     ? 'scaleY(-1)'
-                    : 'scaleX(-1)'
+                    : 'scaleX(-1)';
               style = {
                 transform: `${transform}`,
-              }
-              break
+              };
+              break;
             }
             case 'x2': {
               if (props.inline) {
-                return <span key={Math.random()} style={{ fontSize: '120%' }}>{genEl(token.children, scale * 1.2)}</span>
-              }
-              else {
+                return (
+                  <span key={Math.random()} style={{ fontSize: '120%' }}>
+                    {genEl(token.children, scale * 1.2)}
+                  </span>
+                );
+              } else {
                 return (
                   <span key={Math.random()} className={defaultStore.state.advancedMfm ? 'mfm-x2' : ''}>
                     {genEl(token.children, scale * 2)}
                   </span>
-                )
+                );
               }
             }
             case 'x3': {
               if (props.inline) {
-                return <span key={Math.random()} style={{ fontSize: '120%' }}>{genEl(token.children, scale * 1.2)}</span>
-              }
-              else {
+                return (
+                  <span key={Math.random()} style={{ fontSize: '120%' }}>
+                    {genEl(token.children, scale * 1.2)}
+                  </span>
+                );
+              } else {
                 return (
                   <span key={Math.random()} className={defaultStore.state.advancedMfm ? 'mfm-x3' : ''}>
                     {genEl(token.children, scale * 3)}
                   </span>
-                )
+                );
               }
             }
             case 'x4': {
               if (props.inline) {
-                return <span key={Math.random()} style={{ fontSize: '120%' }}>{genEl(token.children, scale * 1.2)}</span>
-              }
-              else {
+                return (
+                  <span key={Math.random()} style={{ fontSize: '120%' }}>
+                    {genEl(token.children, scale * 1.2)}
+                  </span>
+                );
+              } else {
                 return (
                   <span key={Math.random()} className={defaultStore.state.advancedMfm ? 'mfm-x4' : ''}>
                     {genEl(token.children, scale * 4)}
                   </span>
-                )
+                );
               }
             }
             case 'font': {
@@ -258,61 +263,73 @@ export const MkMfm = (in_props: MfmProps) => {
                         ? 'emoji'
                         : token.props.args.math
                           ? 'math'
-                          : null
+                          : null;
               if (family) {
-                style ||= {}
-                style.fontFamily = family
+                style ||= {};
+                style.fontFamily = family;
               }
-              break
+              break;
             }
             case 'blur': {
-              return <span key={Math.random()} className="_mfm_blur_">{genEl(token.children, scale)}</span>
+              return (
+                <span key={Math.random()} className="_mfm_blur_">
+                  {genEl(token.children, scale)}
+                </span>
+              );
             }
             case 'rainbow': {
               if (!useAnim) {
-                return <span key={Math.random()} className="_mfm_rainbow_fallback_">{genEl(token.children, scale)}</span>
+                return (
+                  <span key={Math.random()} className="_mfm_rainbow_fallback_">
+                    {genEl(token.children, scale)}
+                  </span>
+                );
               }
-              const speed = validTime(token.props.args.speed) ?? '1s'
-              const delay = validTime(token.props.args.delay) ?? '0s'
+              const speed = validTime(token.props.args.speed) ?? '1s';
+              const delay = validTime(token.props.args.delay) ?? '0s';
               style = {
                 animation: `mfm-rainbow ${speed} linear infinite`,
                 animationDelay: delay,
-              }
-              break
+              };
+              break;
             }
             case 'sparkle': {
               if (!useAnim) {
-                return genEl(token.children, scale)
+                return genEl(token.children, scale);
               }
-              return <span key={Math.random()} className="_mfm_sparkle_">{genEl(token.children, scale)}</span>
+              return (
+                <span key={Math.random()} className="_mfm_sparkle_">
+                  {genEl(token.children, scale)}
+                </span>
+              );
             }
             case 'fade': {
               if (!useAnim) {
-                style = {}
-                break
+                style = {};
+                break;
               }
 
-              const direction = token.props.args.out ? 'alternate-reverse' : 'alternate'
-              const speed = validTime(token.props.args.speed) ?? '1.5s'
-              const delay = validTime(token.props.args.delay) ?? '0s'
-              const loop = safeParseFloat(token.props.args.loop) ?? 'infinite'
+              const direction = token.props.args.out ? 'alternate-reverse' : 'alternate';
+              const speed = validTime(token.props.args.speed) ?? '1.5s';
+              const delay = validTime(token.props.args.delay) ?? '0s';
+              const loop = safeParseFloat(token.props.args.loop) ?? 'infinite';
               style = {
                 animation: `mfm-fade ${speed} ${delay} linear ${loop}`,
                 animationDirection: direction,
-              }
-              break
+              };
+              break;
             }
             case 'rotate': {
               if (props.inline) {
-                style = { fontStyle: 'italic' }
-                break
+                style = { fontStyle: 'italic' };
+                break;
               }
-              const degrees = safeParseFloat(token.props.args.deg) ?? 90
+              const degrees = safeParseFloat(token.props.args.deg) ?? 90;
               style = {
                 transform: `rotate(${degrees}deg)`,
                 transformOrigin: 'center center',
-              }
-              break
+              };
+              break;
             }
             // // This is a sharkey extension and is currently disabled
             // case 'followmouse': {
@@ -347,176 +364,187 @@ export const MkMfm = (in_props: MfmProps) => {
             // }
             case 'position': {
               if (props.inline) {
-                style = { fontStyle: 'italic' }
-                break
+                style = { fontStyle: 'italic' };
+                break;
               }
-              if (!defaultStore.state.advancedMfm) break
-              const x = safeParseFloat(token.props.args.x) ?? 0
-              const y = safeParseFloat(token.props.args.y) ?? 0
+              if (!defaultStore.state.advancedMfm) break;
+              const x = safeParseFloat(token.props.args.x) ?? 0;
+              const y = safeParseFloat(token.props.args.y) ?? 0;
               style = {
                 transform: `translateX(${x}em) translateY(${y}em)`,
-              }
-              break
+              };
+              break;
             }
             case 'crop': {
-              const top = Number.parseFloat((token.props.args.top ?? '0').toString())
-              const right = Number.parseFloat((token.props.args.right ?? '0').toString())
-              const bottom = Number.parseFloat((token.props.args.bottom ?? '0').toString())
-              const left = Number.parseFloat((token.props.args.left ?? '0').toString())
+              const top = Number.parseFloat((token.props.args.top ?? '0').toString());
+              const right = Number.parseFloat((token.props.args.right ?? '0').toString());
+              const bottom = Number.parseFloat((token.props.args.bottom ?? '0').toString());
+              const left = Number.parseFloat((token.props.args.left ?? '0').toString());
               style = {
                 clipPath: `inset(${top}% ${right}% ${bottom}% ${left}%)`,
-              }
-              break
+              };
+              break;
             }
             case 'scale': {
               if (props.inline) {
-                style = { fontStyle: 'italic' }
-                break
+                style = { fontStyle: 'italic' };
+                break;
               }
               if (!defaultStore.state.advancedMfm) {
-                style = {}
-                break
+                style = {};
+                break;
               }
-              const x = Math.min(safeParseFloat(token.props.args.x) ?? 1, 5)
-              const y = Math.min(safeParseFloat(token.props.args.y) ?? 1, 5)
-              style = { transform: `scale(${x}, ${y})` }
-              scale = scale * Math.max(x, y)
-              break
+              const x = Math.min(safeParseFloat(token.props.args.x) ?? 1, 5);
+              const y = Math.min(safeParseFloat(token.props.args.y) ?? 1, 5);
+              style = { transform: `scale(${x}, ${y})` };
+              scale = scale * Math.max(x, y);
+              break;
             }
             case 'fg': {
-              let color = validColor(token.props.args.color)
-              color = color ?? 'f00'
-              style = { color: `#${color}`, overflowWrap: 'anywhere' }
-              break
+              let color = validColor(token.props.args.color);
+              color = color ?? 'f00';
+              style = { color: `#${color}`, overflowWrap: 'anywhere' };
+              break;
             }
             case 'bg': {
-              let color = validColor(token.props.args.color)
-              color = color ?? 'f00'
+              let color = validColor(token.props.args.color);
+              color = color ?? 'f00';
               style = {
                 backgroundColor: `#${color}`,
                 overflowWrap: 'anywhere',
-              }
-              break
+              };
+              break;
             }
             case 'border': {
-              let color = validColor(token.props.args.color)
-              color = color ? `#${color}` : 'var(--MI_THEME-accent)'
-              let b_style = token.props.args.style
+              let color = validColor(token.props.args.color);
+              color = color ? `#${color}` : 'var(--MI_THEME-accent)';
+              let b_style = token.props.args.style;
               if (
-                typeof b_style !== 'string'
-                || !['hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset'].includes(
+                typeof b_style !== 'string' ||
+                !['hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset'].includes(
                   b_style,
                 )
               )
-                b_style = 'solid'
-              const width = safeParseFloat(token.props.args.width) ?? 1
-              const radius = safeParseFloat(token.props.args.radius) ?? 0
+                b_style = 'solid';
+              const width = safeParseFloat(token.props.args.width) ?? 1;
+              const radius = safeParseFloat(token.props.args.radius) ?? 0;
               style = {
                 border: `${width}px ${b_style} ${color}`,
                 borderRadius: `${radius}px`,
                 overflow: token.props.args.noclip ? 'visible' : 'clip',
-              }
-              break
+              };
+              break;
             }
             case 'ruby': {
               if (token.children.length === 1) {
-                const child = token.children[0]
-                let text = child.type === 'text' ? child.props.text : ''
+                const child = token.children[0];
+                let text = child.type === 'text' ? child.props.text : '';
                 if (!disableNyaize && shouldNyaize) {
-                  text = Misskey.nyaize(text)
+                  text = Misskey.nyaize(text);
                 }
                 return (
                   <ruby key={Math.random()}>
                     {text.split('|')[0]}
                     <rt>{text.split('|')[1]}</rt>
                   </ruby>
-                )
-              }
-              else {
-                const rt = token.children.at(-1)!
-                let text = rt.type === 'text' ? rt.props.text : ''
+                );
+              } else {
+                const rt = token.children.at(-1)!;
+                let text = rt.type === 'text' ? rt.props.text : '';
                 if (!disableNyaize && shouldNyaize) {
-                  text = Misskey.nyaize(text)
+                  text = Misskey.nyaize(text);
                 }
                 return (
                   <ruby key={Math.random()}>
                     {genEl(token.children.slice(0, token.children.length - 1), scale)}
                     <rt>{text.trim()}</rt>
                   </ruby>
-                )
+                );
               }
             }
             case 'group': {
               // this is mostly a hack for the insides of `ruby`
-              style = {}
-              break
+              style = {};
+              break;
             }
             case 'unixtime': {
-              const child = token.children[0]
-              const unixtime = parseInt(child.type === 'text' ? child.props.text : '')
+              const child = token.children[0];
+              const unixtime = parseInt(child.type === 'text' ? child.props.text : '');
               return (
                 <span key={Math.random()}>
                   <ClockIcon />
                   <time dateTime={(unixtime * 1000).toString()} />
                 </span>
-              )
+              );
             }
 
             case 'clickable': {
               if (props.inline) {
-                style = { fontStyle: 'italic' }
-                break
+                style = { fontStyle: 'italic' };
+                break;
               }
               <span
                 key={Math.random()}
                 onClick={(ev) => {
-                  ev.stopPropagation()
-                  ev.preventDefault()
-                  const clickEv = typeof token.props.args.ev === 'string' ? token.props.args.ev : ''
-                  props.clickEv?.(clickEv)
+                  ev.stopPropagation();
+                  ev.preventDefault();
+                  const clickEv = typeof token.props.args.ev === 'string' ? token.props.args.ev : '';
+                  props.clickEv?.(clickEv);
                 }}
               >
                 {genEl(token.children, scale)}
-              </span>
+              </span>;
             }
           }
           if (style === undefined) {
             return (
               <span key={Math.random()}>
                 $[
-                {token.props.name}
-                {' '}
-                {genEl(token.children, scale)}
-                ]
+                {token.props.name} {genEl(token.children, scale)}]
               </span>
-            )
-          }
-          else {
-            return <span key={Math.random()} style={{ display: 'inline-block', ...style }}>{genEl(token.children, scale)}</span>
+            );
+          } else {
+            return (
+              <span key={Math.random()} style={{ display: 'inline-block', ...style }}>
+                {genEl(token.children, scale)}
+              </span>
+            );
           }
         }
 
         case 'small': {
           if (props.inline) {
-            return <span key={Math.random()} style={{ opacity: 0.7 }}>{genEl(token.children, scale)}</span>
+            return (
+              <span key={Math.random()} style={{ opacity: 0.7 }}>
+                {genEl(token.children, scale)}
+              </span>
+            );
           }
-          return <small key={Math.random()} style={{ opacity: 0.7 }}>{genEl(token.children, scale)}</small>
+          return (
+            <small key={Math.random()} style={{ opacity: 0.7 }}>
+              {genEl(token.children, scale)}
+            </small>
+          );
         }
 
         case 'center': {
           if (props.inline) {
-            return <span key={Math.random()}>{genEl(token.children, scale)}</span>
+            return <span key={Math.random()}>{genEl(token.children, scale)}</span>;
           }
           return (
             <div key={Math.random()} className="mfm-center text-center">
               <bdi>{genEl(token.children, scale)}</bdi>
             </div>
-          )
+          );
         }
 
         case 'url': {
           if (props.inline) {
-            return <span key={Math.random()} className="text-blue-500">{token.props.url}</span>
+            return (
+              <span key={Math.random()} className="text-blue-500">
+                {token.props.url}
+              </span>
+            );
           }
           return (
             <bdi key={Math.random()}>
@@ -527,12 +555,16 @@ export const MkMfm = (in_props: MfmProps) => {
                 navigationBehavior={props.linkNavigationBehavior}
               />
             </bdi>
-          )
+          );
         }
 
         case 'link': {
           if (props.inline) {
-            return <span key={Math.random()} className="text-blue-500">{genEl(token.children, scale)}</span>
+            return (
+              <span key={Math.random()} className="text-blue-500">
+                {genEl(token.children, scale)}
+              </span>
+            );
           }
           return (
             <bdi key={Math.random()}>
@@ -545,14 +577,14 @@ export const MkMfm = (in_props: MfmProps) => {
                 {genEl(token.children, scale, true)}
               </MkUrl>
             </bdi>
-          )
+          );
         }
 
         case 'mention': {
-          const mentionHost
-            = token.props.host == null && props.author && props.author.host != null
+          const mentionHost =
+            token.props.host == null && props.author && props.author.host != null
               ? props.author.host
-              : token.props.host
+              : token.props.host;
 
           return (
             <bdi key={Math.random()}>
@@ -563,7 +595,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 noNavigate={props.inline}
               />
             </bdi>
-          )
+          );
         }
 
         case 'hashtag': {
@@ -572,12 +604,12 @@ export const MkMfm = (in_props: MfmProps) => {
             <bdi key={Math.random()}>
               <MkHashTag name={token.props.hashtag} />
             </bdi>
-          )
+          );
         }
 
         case 'blockCode': {
           if (props.inline) {
-            return <code>{token.props.code.replaceAll('\n', '  ')}</code>
+            return <code>{token.props.code.replaceAll('\n', '  ')}</code>;
           }
           return (
             <bdi key={Math.random()} className="block">
@@ -585,7 +617,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 <code>{token.props.code}</code>
               </pre>
             </bdi>
-          )
+          );
         }
 
         case 'inlineCode': {
@@ -593,7 +625,7 @@ export const MkMfm = (in_props: MfmProps) => {
             <bdi key={Math.random()}>
               <code>{token.props.code}</code>
             </bdi>
-          )
+          );
         }
 
         case 'quote': {
@@ -604,9 +636,8 @@ export const MkMfm = (in_props: MfmProps) => {
                   <bdi>{genEl(token.children, scale, true)}</bdi>
                 </blockquote>
               </bdi>
-            )
-          }
-          else {
+            );
+          } else {
             return (
               <bdi key={Math.random()}>
                 <i>
@@ -614,7 +645,7 @@ export const MkMfm = (in_props: MfmProps) => {
                   {genEl(token.children, scale, true)}
                 </i>
               </bdi>
-            )
+            );
           }
         }
 
@@ -631,13 +662,11 @@ export const MkMfm = (in_props: MfmProps) => {
                 menuReaction={props.enableEmojiMenuReaction}
                 fallbackToImage={false}
               />
-            )
-          }
-          else {
+            );
+          } else {
             if (props.emojiUrls && props.emojiUrls[token.props.name] == null) {
-              return <span key={Math.random()}>{`:${token.props.name}:`}</span>
-            }
-            else {
+              return <span key={Math.random()}>{`:${token.props.name}:`}</span>;
+            } else {
               return (
                 <MkCustomEmoji
                   key={Math.random()}
@@ -647,7 +676,7 @@ export const MkMfm = (in_props: MfmProps) => {
                   host={props.author.host}
                   useOriginalSize={scale >= 2.5}
                 />
-              )
+              );
             }
           }
         }
@@ -660,29 +689,29 @@ export const MkMfm = (in_props: MfmProps) => {
               menu={props.enableEmojiMenu}
               menuReaction={props.enableEmojiMenuReaction}
             />
-          )
+          );
         }
 
         case 'mathInline': {
           if (props.inline) {
-            return <i key={Math.random()}>{token.props.formula}</i>
+            return <i key={Math.random()}>{token.props.formula}</i>;
           }
           return (
             <bdi key={Math.random()}>
               <code>{token.props.formula}</code>
             </bdi>
-          )
+          );
         }
 
         case 'mathBlock': {
           if (props.inline) {
-            return <i key={Math.random()}>{token.props.formula}</i>
+            return <i key={Math.random()}>{token.props.formula}</i>;
           }
           return (
             <bdi key={Math.random()} className="block">
               <pre>{token.props.formula}</pre>
             </bdi>
-          )
+          );
         }
 
         case 'search': {
@@ -692,13 +721,13 @@ export const MkMfm = (in_props: MfmProps) => {
                 [Search]
                 {token.props.query}
               </i>
-            )
+            );
           }
           return (
             <span key={Math.random()} data-query={token.props.query}>
               {token.props.query}
             </span>
-          )
+          );
         }
 
         case 'plain': {
@@ -706,17 +735,17 @@ export const MkMfm = (in_props: MfmProps) => {
             <bdi key={Math.random()}>
               <span>{genEl(token.children, scale, true)}</span>
             </bdi>
-          )
+          );
         }
 
         default: {
           // @ts-expect-error 存在しないASTタイプ
-          console.error('unrecognized ast type:', token.type)
+          console.error('unrecognized ast type:', token.type);
 
-          return []
+          return [];
         }
       }
-    })
+    });
 
   return (
     <bdi className={classList.join(' ')}>
@@ -724,5 +753,5 @@ export const MkMfm = (in_props: MfmProps) => {
         {genEl(rootAst, props.rootScale ?? 1)}
       </span>
     </bdi>
-  )
-}
+  );
+};

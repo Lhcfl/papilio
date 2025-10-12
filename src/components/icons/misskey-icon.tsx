@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { SVGProps } from 'react';
 
 export const MisskeyIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -20,4 +20,4 @@ export const MisskeyIcon = (props: SVGProps<SVGSVGElement>) => (
       transform="translate(-54.705 -30.77)scale(.28948)"
     />
   </svg>
-)
+);

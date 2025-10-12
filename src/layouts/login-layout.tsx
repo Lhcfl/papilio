@@ -1,4 +1,4 @@
-import { MisskeyIcon } from '@/components/icons/misskey-icon'
+import { MisskeyIcon } from '@/components/icons/misskey-icon';
 
 export const LoginLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -24,5 +24,5 @@ export const LoginLayout = ({ children }: { children: React.ReactNode }) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};

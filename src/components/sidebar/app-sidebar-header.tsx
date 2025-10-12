@@ -1,12 +1,12 @@
-import { SiteLogo } from '@/components/site-logo'
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
-import { Button } from '../ui/button'
-import { SunMoonIcon } from 'lucide-react'
+import { SiteLogo } from '@/components/site-logo';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Button } from '../ui/button';
+import { SunMoonIcon } from 'lucide-react';
 
 export const AppSidebarHeader = () => {
-  const metaName = useSiteMeta(m => m.name)
-  const site = injectCurrentSite()
-  const domain = new URL(site).origin
+  const metaName = useSiteMeta((m) => m.name);
+  const site = injectCurrentSite();
+  const domain = new URL(site).origin;
 
   return (
     <SidebarMenu>
@@ -22,12 +22,12 @@ export const AppSidebarHeader = () => {
           variant="outline"
           size="icon"
           onClick={() => {
-            document.body.classList.toggle('dark')
+            document.body.classList.toggle('dark');
           }}
         >
           <SunMoonIcon />
         </Button>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
-}
+  );
+};

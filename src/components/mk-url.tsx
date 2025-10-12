@@ -1,11 +1,11 @@
-import { LinkIcon } from 'lucide-react'
-import type { HTMLAttributes } from 'react'
+import { LinkIcon } from 'lucide-react';
+import type { HTMLAttributes } from 'react';
 
 export const MkUrl = (
   props: {
-    url: string
-    navigationBehavior?: unknown
-    children?: React.ReactNode
+    url: string;
+    navigationBehavior?: unknown;
+    children?: React.ReactNode;
   } & HTMLAttributes<HTMLAnchorElement>,
 ) => {
   return (
@@ -13,5 +13,5 @@ export const MkUrl = (
       <LinkIcon className="size-4 inline mr-1 align-[-0.13em]" />
       {props.children || props.url}
     </a>
-  )
-}
+  );
+};

@@ -1,20 +1,20 @@
-import { MoreVerticalIcon, RepeatIcon, Trash2Icon } from 'lucide-react'
-import { MkAvatar } from '@/components/mk-avatar'
-import { MkTime } from '@/components/mk-time'
-import { MkUserName } from '@/components/mk-user-name'
-import { Button } from '@/components/ui/button'
+import { MoreVerticalIcon, RepeatIcon, Trash2Icon } from 'lucide-react';
+import { MkAvatar } from '@/components/mk-avatar';
+import { MkTime } from '@/components/mk-time';
+import { MkUserName } from '@/components/mk-user-name';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { MkVisibilityIcon } from './mk-visibility-icon'
+} from '@/components/ui/dropdown-menu';
+import { MkVisibilityIcon } from './mk-visibility-icon';
 
 export const MkNoteRenoteTip = (props: { note: NoteWithExtension }) => {
-  const meId = useMe(me => me.id)
+  const meId = useMe((me) => me.id);
 
-  const isMine = props.note.userId === meId
+  const isMine = props.note.userId === meId;
 
   return (
     <div className="mk-note-renote-tip p-2 flex gap-2 items-center text-muted-foreground">
@@ -27,14 +27,14 @@ export const MkNoteRenoteTip = (props: { note: NoteWithExtension }) => {
         <MkVisibilityIcon note={props.note} className="size-4" />
       </div>
     </div>
-  )
-}
+  );
+};
 
 const RenoteMore = (props: { note: NoteWithExtension }) => {
-  const { note } = props
-  const { t } = useTranslation()
+  const { note } = props;
+  const { t } = useTranslation();
 
-  const { mutate: unrenote } = useDeleteNoteAction(note.id)
+  const { mutate: unrenote } = useDeleteNoteAction(note.id);
 
   return (
     <DropdownMenu>
@@ -50,5 +50,5 @@ const RenoteMore = (props: { note: NoteWithExtension }) => {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
+  );
+};

@@ -1,8 +1,8 @@
-import type { Notification } from 'misskey-js/entities.js'
-import { SimpleNotification } from './mk-notification'
+import type { Notification } from 'misskey-js/entities.js';
+import { SimpleNotification } from './mk-notification';
 
 export const MkNotificationToast = (props: { notification: Notification }) => {
-  const { notification } = props
+  const { notification } = props;
   return (
     <SimpleNotification
       notification={notification}
@@ -10,5 +10,5 @@ export const MkNotificationToast = (props: { notification: Notification }) => {
       size="sm"
       variant="outline"
     />
-  )
-}
+  );
+};

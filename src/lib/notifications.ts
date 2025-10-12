@@ -22,6 +22,6 @@ export const NOTIFICATION_TYPES = [
   'test',
   'pollVote',
   'groupInvited',
-] as const
+] as const;
 
-export type NotificationIncludeableType = (typeof NOTIFICATION_TYPES)[number]
+export type NotificationIncludeableType = (typeof NOTIFICATION_TYPES)[number];

@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router';
 import {
   BellOffIcon,
   CopyIcon,
@@ -11,38 +11,38 @@ import {
   ShareIcon,
   StarIcon,
   Trash2Icon,
-} from 'lucide-react'
-import { toast } from 'sonner'
+} from 'lucide-react';
+import { toast } from 'sonner';
 import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu'
-import type { NoteWithExtension } from '@/types/note'
+} from '@/components/ui/dropdown-menu';
+import type { NoteWithExtension } from '@/types/note';
 
-export const MkNoteMenu = (props: { note: NoteWithExtension, onTranslate: () => void }) => {
-  const { t } = useTranslation()
-  const { note, onTranslate } = props
-  const meId = useMe(me => me.id)
-  const isAdmin = useMe(me => me.isAdmin)
-  const isMine = meId === note.userId
-  const remoteUrl = getNoteRemoteUrl(note)
+export const MkNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void }) => {
+  const { t } = useTranslation();
+  const { note, onTranslate } = props;
+  const meId = useMe((me) => me.id);
+  const isAdmin = useMe((me) => me.isAdmin);
+  const isMine = meId === note.userId;
+  const remoteUrl = getNoteRemoteUrl(note);
 
   function copyContent() {
-    copyToClipboard(note.cw + '\n\n' + note.text)
-    toast.success(t('copiedToClipboard'))
+    copyToClipboard(note.cw + '\n\n' + note.text);
+    toast.success(t('copiedToClipboard'));
   }
 
   function copyLink() {
-    copyToClipboard(new URL('/notes/' + note.id, window.location.origin).toString())
-    toast.success(t('copiedToClipboard'))
+    copyToClipboard(new URL('/notes/' + note.id, window.location.origin).toString());
+    toast.success(t('copiedToClipboard'));
   }
 
   function copyRemoteLink() {
-    copyToClipboard(remoteUrl)
-    toast.success(t('copiedToClipboard'))
+    copyToClipboard(remoteUrl);
+    toast.success(t('copiedToClipboard'));
   }
 
   function share() {
@@ -55,7 +55,7 @@ export const MkNoteMenu = (props: { note: NoteWithExtension, onTranslate: () => 
         })
         .catch(() => {
           /* no-op */
-        })
+        });
     }
   }
 
@@ -134,5 +134,5 @@ export const MkNoteMenu = (props: { note: NoteWithExtension, onTranslate: () => 
         </>
       )}
     </DropdownMenuContent>
-  )
-}
+  );
+};

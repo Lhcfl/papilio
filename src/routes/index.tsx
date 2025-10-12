@@ -1,19 +1,19 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { MkTimeline } from '@/components/mk-timeline'
-import { DefaultLayout } from '@/layouts/default-layout'
+import { createFileRoute } from '@tanstack/react-router';
+import { MkTimeline } from '@/components/mk-timeline';
+import { DefaultLayout } from '@/layouts/default-layout';
 
 export const Route = createFileRoute('/')({
   component: Index,
-})
+});
 
 function Index() {
-  const { t } = useTranslation()
-  const tabs = useTimelineTabs()
-  const title = t('timeline')
+  const { t } = useTranslation();
+  const tabs = useTimelineTabs();
+  const title = t('timeline');
 
   return (
     <DefaultLayout tabs={tabs} title={title}>
-      {tab => (<MkTimeline type={tab.value} />)}
+      {(tab) => <MkTimeline type={tab.value} />}
     </DefaultLayout>
-  )
+  );
 }

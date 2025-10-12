@@ -1,18 +1,17 @@
-import clsx from 'clsx'
-import type { HTMLProps } from 'react'
-import { useTranslation } from 'react-i18next'
+import clsx from 'clsx';
+import type { HTMLProps } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function getDateSafe(n: Date | string | number) {
   try {
     if (n instanceof Date) {
-      return n
+      return n;
     }
-    return new Date(n)
-  }
-  catch {
+    return new Date(n);
+  } catch {
     return {
       getTime: () => NaN,
-    }
+    };
   }
 }
 
@@ -23,34 +22,34 @@ const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
   hour: 'numeric',
   minute: 'numeric',
   second: 'numeric',
-})
+});
 
 export const MkTime = (
   props: {
-    time: Date | string | number | null
-    origin?: Date | null
-    mode?: 'relative' | 'absolute' | 'detail'
-    colored?: boolean
+    time: Date | string | number | null;
+    origin?: Date | null;
+    mode?: 'relative' | 'absolute' | 'detail';
+    colored?: boolean;
   } & HTMLProps<HTMLTimeElement>,
 ) => {
-  const { time, origin = null, mode = 'relative', colored = true, ...rest } = props
-  const { t } = useTranslation()
+  const { time, origin = null, mode = 'relative', colored = true, ...rest } = props;
+  const { t } = useTranslation();
 
-  const [realNow, setNow] = useState(Date.now())
-  const datetime = time == null ? NaN : getDateSafe(time).getTime()
-  const invalid = isNaN(datetime)
-  const absolute = invalid ? t('nothing') : dateTimeFormat.format(datetime)
-  const now = origin?.getTime() ?? realNow
-  const ago = (now - datetime) / 1000
+  const [realNow, setNow] = useState(Date.now());
+  const datetime = time == null ? NaN : getDateSafe(time).getTime();
+  const invalid = isNaN(datetime);
+  const absolute = invalid ? t('nothing') : dateTimeFormat.format(datetime);
+  const now = origin?.getTime() ?? realNow;
+  const ago = (now - datetime) / 1000;
 
   useEffect(() => {
-    const nextInterval = ago < 60 ? 10000 : ago < 3600 ? 60000 : 180000
-    const id = setTimeout(() => setNow(Date.now()), nextInterval)
-    return () => clearTimeout(id)
-  }, [ago, realNow])
+    const nextInterval = ago < 60 ? 10000 : ago < 3600 ? 60000 : 180000;
+    const id = setTimeout(() => setNow(Date.now()), nextInterval);
+    return () => clearTimeout(id);
+  }, [ago, realNow]);
 
-  const relative
-    = mode === 'absolute'
+  const relative =
+    mode === 'absolute'
       ? ''
       : invalid
         ? t('nothing')
@@ -96,10 +95,10 @@ export const MkTime = (
                                       })
                                     : t('_timeIn.seconds', {
                                         n: (~~(-ago % 60)).toString(),
-                                      })
+                                      });
 
-  const old = ago >= 60 * 60 * 24 * 90
-  const veryOld = ago > 60 * 60 * 24 * 180
+  const old = ago >= 60 * 60 * 24 * 90;
+  const veryOld = ago > 60 * 60 * 24 * 180;
 
   return (
     <time
@@ -116,14 +115,9 @@ export const MkTime = (
       {mode === 'detail' && (
         <>
           {' '}
-          {absolute}
-          {' '}
-          (
-          {relative}
-          )
-          {' '}
+          {absolute} ({relative}){' '}
         </>
       )}
     </time>
-  )
-}
+  );
+};

@@ -1,70 +1,59 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { permissions } from 'misskey-js'
-import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
-import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from '@/components/ui/input-group'
-import { Spinner } from '@/components/ui/spinner'
-import { LoginLayout } from '@/layouts/login-layout'
-import { injectMisskeyApi, storeUserSite } from '@/services/inject-misskey-api'
+import { createFileRoute } from '@tanstack/react-router';
+import { permissions } from 'misskey-js';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+import { Spinner } from '@/components/ui/spinner';
+import { LoginLayout } from '@/layouts/login-layout';
+import { injectMisskeyApi, storeUserSite } from '@/services/inject-misskey-api';
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
-  const [domain, updateDomain] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [domain, updateDomain] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate({ from: '/login' })
+  const navigate = useNavigate({ from: '/login' });
 
   useEffect(() => {
     try {
       // This is not a react hook, just a function call to check if the user is already logged in.
 
-      const api = injectMisskeyApi()
+      const api = injectMisskeyApi();
       if (api != null) {
-        navigate({ to: '/' })
+        navigate({ to: '/' });
       }
+    } catch {
+      return;
     }
-    catch {
-      return
-    }
-  })
+  });
 
   const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
 
-    const session = `${crypto.randomUUID()}`
+    const session = `${crypto.randomUUID()}`;
 
-    const site
-      = domain.startsWith('https://') || domain.startsWith('http://')
-        ? domain
-        : `https://${domain}`
+    const site = domain.startsWith('https://') || domain.startsWith('http://') ? domain : `https://${domain}`;
 
-    storeUserSite(site)
+    storeUserSite(site);
 
-    const url = new URL(`/miauth/${session}`, site)
+    const url = new URL(`/miauth/${session}`, site);
 
-    url.searchParams.append('name', 'Papilio the another Misskey Client')
-    url.searchParams.append(
-      'callback',
-      `${window.location.origin}/login-redirect`,
-    )
-    url.searchParams.append('permission', permissions.join(','))
+    url.searchParams.append('name', 'Papilio the another Misskey Client');
+    url.searchParams.append('callback', `${window.location.origin}/login-redirect`);
+    url.searchParams.append('permission', permissions.join(','));
 
-    console.log(url.toString())
+    console.log(url.toString());
 
-    setLoading(true)
-    window.location.href = url.toString()
-  }
+    setLoading(true);
+    window.location.href = url.toString();
+  };
 
   return (
     <LoginLayout>
@@ -82,7 +71,7 @@ function RouteComponent() {
                 type="text"
                 placeholder="example.com"
                 required
-                onChange={e => updateDomain(e.target.value)}
+                onChange={(e) => updateDomain(e.target.value)}
               />
             </InputGroup>
           </Field>
@@ -95,5 +84,5 @@ function RouteComponent() {
         </FieldGroup>
       </form>
     </LoginLayout>
-  )
+  );
 }

@@ -1,18 +1,18 @@
-import { acct } from 'misskey-js'
-import type { NoteWithExtension } from '@/types/note'
-import { MkAvatar } from '../mk-avatar'
-import { MkTime } from '../mk-time'
-import { MkUserName } from '../mk-user-name'
-import { MkVisibilityIcon } from './mk-visibility-icon'
-import { Avatar, AvatarImage } from '../ui/avatar'
-import { Link } from '@tanstack/react-router'
+import { acct } from 'misskey-js';
+import type { NoteWithExtension } from '@/types/note';
+import { MkAvatar } from '../mk-avatar';
+import { MkTime } from '../mk-time';
+import { MkUserName } from '../mk-user-name';
+import { MkVisibilityIcon } from './mk-visibility-icon';
+import { Avatar, AvatarImage } from '../ui/avatar';
+import { Link } from '@tanstack/react-router';
 
 export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
-  const { note } = props
-  const metaName = useSiteMeta(s => s.name)
-  const metaIcon = useSiteMeta(s => s.iconUrl)
-  const instanceName = note.user.instance?.name || metaName || undefined
-  const instanceIcon = note.user.instance?.iconUrl || metaIcon || undefined
+  const { note } = props;
+  const metaName = useSiteMeta((s) => s.name);
+  const metaIcon = useSiteMeta((s) => s.iconUrl);
+  const instanceName = note.user.instance?.name || metaName || undefined;
+  const instanceIcon = note.user.instance?.iconUrl || metaIcon || undefined;
 
   return (
     <div className="mk-note-header flex items-center gap-2 p-2">
@@ -28,22 +28,17 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
           </Link>
         </div>
         <div className="flex justify-between gap-2">
-          <div className="user-username text-sm text-gray-500 flex-shrink-0">
-            @
-            {acct.toString(note.user)}
-          </div>
+          <div className="user-username text-sm text-gray-500 flex-shrink-0">@{acct.toString(note.user)}</div>
           <div className="flex-grow-1 flex-shrink-1 w-0">
             <div className="note-instance ml-auto max-w-full text-xs flex items-center gap-1 px-1 py-0.5 bg-muted rounded-xl w-fit">
               <Avatar className="size-3">
                 <AvatarImage src={instanceIcon} />
               </Avatar>
-              <span className="truncate">
-                {instanceName}
-              </span>
+              <span className="truncate">{instanceName}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

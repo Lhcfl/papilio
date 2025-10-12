@@ -1,36 +1,38 @@
-import drawBlurHash from '@/workers/draw-blurhash?worker'
-import type { HTMLProps } from 'react'
+import drawBlurHash from '@/workers/draw-blurhash?worker';
+import type { HTMLProps } from 'react';
 
-export const MkBlurHash = (props: {
-  id: string
-  blurhash: string | null
-  width?: number | null
-  height?: number | null
-} & HTMLProps<HTMLCanvasElement>) => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const { id, blurhash, width = null, height = null, ...rest } = props
-  const ratio = width && height ? width / height : 1
-  const drawWidth = ratio > 1 ? Math.round(64 * ratio) : 64
-  const drawHeight = ratio > 1 ? 64 : Math.round(64 / ratio)
+export const MkBlurHash = (
+  props: {
+    id: string;
+    blurhash: string | null;
+    width?: number | null;
+    height?: number | null;
+  } & HTMLProps<HTMLCanvasElement>,
+) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { id, blurhash, width = null, height = null, ...rest } = props;
+  const ratio = width && height ? width / height : 1;
+  const drawWidth = ratio > 1 ? Math.round(64 * ratio) : 64;
+  const drawHeight = ratio > 1 ? 64 : Math.round(64 / ratio);
 
   useEffect(() => {
-    const worker = new drawBlurHash()
-    console.log('MkBlurHash: drawing', { id, blurhash })
+    const worker = new drawBlurHash();
+    console.log('MkBlurHash: drawing', { id, blurhash });
     worker.postMessage({
       id,
       hash: blurhash,
-    })
+    });
     worker.addEventListener('message', (ev) => {
-      const bitmap = ev.data.bitmap
-      if (!canvasRef.current) return
-      const ctx = canvasRef.current.getContext('2d')
-      if (!ctx) return
-      ctx.drawImage(bitmap, 0, 0, drawWidth, drawHeight)
-    })
+      const bitmap = ev.data.bitmap;
+      if (!canvasRef.current) return;
+      const ctx = canvasRef.current.getContext('2d');
+      if (!ctx) return;
+      ctx.drawImage(bitmap, 0, 0, drawWidth, drawHeight);
+    });
     return () => {
-      worker.terminate()
-    }
-  }, [blurhash, drawHeight, drawWidth, height, id])
+      worker.terminate();
+    };
+  }, [blurhash, drawHeight, drawWidth, height, id]);
 
   return (
     <canvas
@@ -42,5 +44,5 @@ export const MkBlurHash = (props: {
       height={drawHeight}
       {...rest}
     />
-  )
-}
+  );
+};

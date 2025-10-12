@@ -1,4 +1,4 @@
-import { Skeleton } from './ui/skeleton'
+import { Skeleton } from './ui/skeleton';
 
 export const MkNoteSkeleton = () => {
   return (
@@ -29,5 +29,5 @@ export const MkNoteSkeleton = () => {
         <Skeleton className="h-8 w-8 rounded-full mr-2" />
       </div>
     </div>
-  )
-}
+  );
+};

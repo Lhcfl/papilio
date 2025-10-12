@@ -1,11 +1,11 @@
-import { CircleXIcon } from 'lucide-react'
-import { type APIError, isAPIError } from 'misskey-js/api.js'
-import { Button } from './ui/button'
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from './ui/empty'
+import { CircleXIcon } from 'lucide-react';
+import { type APIError, isAPIError } from 'misskey-js/api.js';
+import { Button } from './ui/button';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from './ui/empty';
 
-export function MkError(props: { error: Error | APIError, retry?: () => void }) {
-  const { error, retry } = props
-  const { t } = useTranslation()
+export function MkError(props: { error: Error | APIError; retry?: () => void }) {
+  const { error, retry } = props;
+  const { t } = useTranslation();
 
   return (
     <Empty>
@@ -22,5 +22,5 @@ export function MkError(props: { error: Error | APIError, retry?: () => void }) 
       </EmptyHeader>
       <EmptyContent>{retry && <Button onClick={retry}>{t('retry')}</Button>}</EmptyContent>
     </Empty>
-  )
+  );
 }
