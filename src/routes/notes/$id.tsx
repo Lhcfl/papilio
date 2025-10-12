@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
 import { MkAlert } from '@/components/mk-alert';
@@ -13,6 +12,10 @@ import { Spinner } from '@/components/ui/spinner';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { HomeIcon, Trash2Icon } from 'lucide-react';
+import { useNoteQuery } from '@/hooks/use-note-query';
+import { registerNote, useNoteValue } from '@/hooks/use-note';
+import { injectMisskeyApi } from '@/services/inject-misskey-api';
+import { getNoteRemoteUrl } from '@/lib/note';
 
 export const Route = createFileRoute('/notes/$id')({
   component: RouteComponent,
