@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import languages from '@/assets/langs.json';
-import HttpBackend from 'i18next-http-backend';
+import HttpBackend, { type HttpBackendOptions } from 'i18next-http-backend';
 
 // the translations
 // (tip move them in a JSON file and import them,
@@ -9,11 +9,11 @@ import HttpBackend from 'i18next-http-backend';
 i18n
   .use(HttpBackend)
   .use(initReactI18next) // passes i18n down to react-i18next
-  .init({
-    resources: {},
+  .init<HttpBackendOptions>({
     supportedLngs: languages,
     backend: {
       loadPath: `/locales/{{lng}}.json`,
+      // queryStringParams: { v: "" },
     },
     lng: 'en-US', // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
     // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
