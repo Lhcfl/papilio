@@ -5,6 +5,7 @@ import { Button } from '../ui/button'
 import { DropdownMenu, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Spinner } from '../ui/spinner'
 import { MkNoteMenu } from './mk-note-menu'
+import { MkEmojiPickerPopup } from '../mk-emoji-picker-popup'
 
 const MkNoteActionButton = (
   props: {
@@ -33,8 +34,9 @@ export const MkNoteActions = (props: { note: NoteWithExtension, onTranslate: () 
 
   const { mutate: renote, isPending: isRenoting } = useRenoteAction(note.id)
   const { mutate: unrenote, isPending: isUnrenoting } = useUnrenoteAction(note.id)
-  const { mutate: like, isPending: isLiking } = useLikeNoteAction(note.id)
+  const { mutate: like, isPending: isReacting } = useLikeNoteAction(note.id)
   const { mutate: unreact, isPending: isUnReacting } = useUndoReactNoteAction(note.id)
+  const { mutate: react } = useReactNoteAction(note.id)
 
   return (
     <div className="mk-note-actions p-2">
@@ -73,13 +75,14 @@ export const MkNoteActions = (props: { note: NoteWithExtension, onTranslate: () 
       {note.myReaction == null
         ? (
             <>
-              <MkNoteActionButton icon={<HeartIcon />} onClick={() => like()} loading={isLiking} />
-              <MkNoteActionButton
-                count={note.reactionCount}
-                icon={<SmilePlusIcon />}
-                onClick={() => console.log('implement smile')}
-                loading={isLiking}
-              />
+              <MkNoteActionButton icon={<HeartIcon />} onClick={() => like()} loading={isReacting} />
+              <MkEmojiPickerPopup onEmojiChoose={emoji => react(`:${emoji.name}:`)} autoClose>
+                <MkNoteActionButton
+                  count={note.reactionCount}
+                  icon={<SmilePlusIcon />}
+                  loading={isReacting}
+                />
+              </MkEmojiPickerPopup>
             </>
           )
         : (
