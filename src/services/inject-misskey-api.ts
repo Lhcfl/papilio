@@ -19,7 +19,11 @@ export const injectMisskeyStream = () => {
   }
   const origin = injectCurrentSite()
   const token = getUserToken()
-  return (stream = new Stream(origin, { token }))
+  stream = new Stream(origin, { token })
+  setInterval(() => {
+    stream!.heartbeat()
+  }, 10000)
+  return stream
 }
 
 export const storeUserSite = (site: string) => {
