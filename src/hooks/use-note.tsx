@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { atom, getDefaultStore, useAtomValue } from 'jotai';
 import type { EmojiSimple, Note } from 'misskey-js/entities.js';
 import type { NoteUpdatedEvent } from 'misskey-js/streaming.types.js';

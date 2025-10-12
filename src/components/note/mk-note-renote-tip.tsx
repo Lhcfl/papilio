@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { MoreVerticalIcon, RepeatIcon, Trash2Icon } from 'lucide-react';
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkTime } from '@/components/mk-time';

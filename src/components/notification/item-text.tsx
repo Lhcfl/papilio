@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import type { Notification } from 'misskey-js/entities.js';
 import { MkUserName } from '../mk-user-name';
 

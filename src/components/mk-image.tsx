@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import { Image } from '@heroui/image';
 import clsx from 'clsx';
 import type { DriveFile } from 'misskey-js/entities.js';

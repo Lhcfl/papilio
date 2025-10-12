@@ -1,3 +1,5 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
+
 import type { HTMLProps } from 'react';
 import { MkNote } from './mk-note';
 import clsx from 'clsx';

@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { MkMentionsList } from '@/components/mk-mentions-list';
 import { MkNotifications, MkNotificationsFilter } from '@/components/mk-notifications';
 import { DefaultLayout } from '@/layouts/default-layout';

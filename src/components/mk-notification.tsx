@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from './ui/item';
 import clsx from 'clsx';
 import type { Notification } from 'misskey-js/entities.js';

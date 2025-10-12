@@ -1,3 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
+
 export const useNoteQuery = (noteId: string) => {
   const api = injectMisskeyApi();
   const data = useQuery({

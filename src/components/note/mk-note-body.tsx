@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+
 import clsx from 'clsx';
 import { ChevronDownIcon, ChevronUpIcon, QuoteIcon, ReplyIcon } from 'lucide-react';
 import { type MfmNode, parse } from 'mfm-js';

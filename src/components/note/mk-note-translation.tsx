@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { type MutationState, useMutationState } from '@tanstack/react-query';
 import { LanguagesIcon } from 'lucide-react';
 import type { NoteWithExtension } from '@/types/note';

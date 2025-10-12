@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import clsx from 'clsx';
 import { ChevronLeftIcon, ChevronRightIcon, XIcon } from 'lucide-react';
 import type { DriveFile } from 'misskey-js/entities.js';

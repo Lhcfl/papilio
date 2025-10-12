@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 /* eslint-disable react-hooks/rules-of-hooks */
 const DEBUG_CONFIG = {
   enable_rerender_log: true,

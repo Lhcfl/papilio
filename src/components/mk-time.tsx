@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import clsx from 'clsx';
 import type { HTMLProps } from 'react';
 import { useTranslation } from 'react-i18next';

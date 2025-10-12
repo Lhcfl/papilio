@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { createFileRoute } from '@tanstack/react-router';
 import { MkTimeline } from '@/components/mk-timeline';
 import { DefaultLayout } from '@/layouts/default-layout';

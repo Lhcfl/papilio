@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import type { EmojiSimple } from 'misskey-js/entities.js';
 import { MkEmojiPicker } from './mk-emoji-picker';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';

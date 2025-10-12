@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import drawBlurHash from '@/workers/draw-blurhash?worker';
 import type { HTMLProps } from 'react';
 

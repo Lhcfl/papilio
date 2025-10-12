@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import type { HTMLProps } from 'react';
 
 export const LoadingTrigger = (

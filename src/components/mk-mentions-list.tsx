@@ -1,3 +1,5 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
+
 import { LoadingTrigger } from './loading-trigger';
 import { MkNote } from './mk-note';
 import { Spinner } from './ui/spinner';

@@ -1,3 +1,6 @@
+import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+
 import type { summaly } from '@misskey-dev/summaly';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '../ui/item';

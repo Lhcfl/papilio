@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import type { HTMLProps } from 'react';
 import { MkCustomEmoji, MkEmoji } from './mk-emoji';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';

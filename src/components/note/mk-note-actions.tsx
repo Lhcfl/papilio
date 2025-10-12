@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import {
   HeartIcon,
   MinusIcon,
@@ -14,6 +16,14 @@ import { DropdownMenu, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { Spinner } from '../ui/spinner';
 import { MkNoteMenu } from './mk-note-menu';
 import { MkEmojiPickerPopup } from '../mk-emoji-picker-popup';
+import type { NoteWithExtension } from '@/types/note';
+import {
+  useLikeNoteAction,
+  useReactNoteAction,
+  useRenoteAction,
+  useUndoReactNoteAction,
+  useUnrenoteAction,
+} from '@/hooks/note-actions';
 
 const MkNoteActionButton = (
   props: {

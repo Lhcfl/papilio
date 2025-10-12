@@ -1,3 +1,6 @@
+import { useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+
 export const useRenoteAction = (noteId: string) => {
   const api = injectMisskeyApi();
   return useMutation({
