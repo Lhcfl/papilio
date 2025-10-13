@@ -9,7 +9,7 @@ export const MkTimeline = (props: { type: TimelineTypes }) => {
   return (
     <div className="mk-timerline w-full">
       {isError && <div>Error</div>}
-      {data?.pages.flatMap((page) => page.map((id) => <MkNote key={id} noteId={id} />))}
+      {data?.pages.flatMap((page) => page.map((id) => <MkNote key={id} noteId={id} showReply />))}
       {(isLoading || hasNextPage) && (
         <div className="w-full flex justify-center my-4">
           <LoadingTrigger onShow={fetchNextPage}>

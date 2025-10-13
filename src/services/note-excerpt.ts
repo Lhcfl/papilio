@@ -6,10 +6,11 @@ export const getNoteExcerpt = (note: Note | NoteDraft) => {
     text += 'CW: ';
     text += note.cw;
     text += '\n\n';
-  }
-  if (note.text) {
-    text += note.text;
-    text += '\n\n';
+  } else {
+    if (note.text) {
+      text += note.text;
+      text += '\n\n';
+    }
   }
   if (note.files?.length) {
     text += `(${note.files.length} files)`;

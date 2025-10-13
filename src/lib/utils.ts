@@ -41,6 +41,17 @@ export function withStopPrevent<
   };
 }
 
+export function withNoSelection<F extends (...args: never[]) => unknown>(
+  fn: F,
+): (...args: Parameters<F>) => ReturnType<F> | undefined {
+  return (...args: Parameters<F>) => {
+    if (window.getSelection()?.toString()) {
+      return;
+    }
+    return fn(...args) as ReturnType<F>;
+  };
+}
+
 export function onlyWhenNonInteractableContentClicked<
   Ev extends {
     stopPropagation: () => void;

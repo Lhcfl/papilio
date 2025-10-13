@@ -24,7 +24,10 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
           <div className="user-name font-bold flex-grow-1 flex-shrink-1 w-0 line-clamp-1">
             <MkUserName user={note.user} />
           </div>
-          <Link className="note-time flex items-center gap-2 flex-shrink-0" to={getNoteRoute(note.id)}>
+          <Link
+            className="note-time flex items-center gap-2 flex-shrink-0 text-muted-foreground"
+            to={getNoteRoute(note.id)}
+          >
             <MkTime time={note.createdAt} className="text-sm" />
             <MkVisibilityIcon className="size-4" note={note} />
           </Link>

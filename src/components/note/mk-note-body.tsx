@@ -21,17 +21,17 @@ import { onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 
 type NoteBodyCommonProps = {
   note: NoteWithExtension;
-  showReplyIcon?: boolean;
-  stopQuote?: boolean;
+  showReplyAsIcon?: boolean;
+  showQuoteAsIcon?: boolean;
   textAst: MfmNode[];
   disableLinkPreview?: boolean;
 };
 
 const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>) => {
-  const { note, stopQuote, showReplyIcon, disableLinkPreview, textAst, ...rest } = props;
+  const { note, showQuoteAsIcon, showReplyAsIcon, disableLinkPreview, textAst, ...rest } = props;
   const navigate = useNavigate();
 
-  const quote = useNoteValue(stopQuote ? null : note.renoteId);
+  const quote = useNoteValue(showQuoteAsIcon ? null : note.renoteId);
 
   const urls = collectAst(textAst, (x) =>
     x.type === 'url' ? x.props.url : x.type === 'link' ? x.props.url : undefined,
@@ -47,12 +47,12 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
           className="note-body-text"
           onClick={onlyWhenNonInteractableContentClicked(() => navigate({ to: getNoteRoute(note.id) }))}
         >
-          {showReplyIcon && note.replyId && (
+          {showReplyAsIcon && note.replyId && (
             <Link className="text-tertiary mr-1 hover:underline" to={getNoteRoute(note.replyId)}>
               <ReplyIcon className="size-4 inline" />
             </Link>
           )}
-          {stopQuote && note.renoteId && (
+          {showQuoteAsIcon && note.renoteId && (
             <Link className="text-tertiary mr-1 hover:underline" to={getNoteRoute(note.renoteId)}>
               <QuoteIcon className="size-4 inline" />
             </Link>
@@ -60,7 +60,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
           <MkMfm text={note.text} author={note.user} emojiUrls={note.emojis} parsedNodes={textAst} />
         </div>
       )}
-      {quote && (
+      {quote && !showQuoteAsIcon && (
         <div className="note-body-quote mt-2 border rounded-md">
           <MkNoteSimple note={quote} />
         </div>
