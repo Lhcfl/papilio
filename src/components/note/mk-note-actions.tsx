@@ -1,8 +1,7 @@
 import { useTranslation } from 'react-i18next';
-
 import {
   HeartIcon,
-  MinusIcon,
+  HeartMinusIcon,
   MoreHorizontalIcon,
   QuoteIcon,
   RepeatIcon,
@@ -24,6 +23,7 @@ import {
   useUndoReactNoteAction,
   useUnrenoteAction,
 } from '@/hooks/note-actions';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 const MkNoteActionButton = (
   props: {
@@ -31,16 +31,26 @@ const MkNoteActionButton = (
     count?: number;
     loading?: boolean;
     disabled?: boolean;
-    className?: string;
+    tooltip?: string;
     onClick?: () => void;
   } & ComponentProps<typeof Button>,
 ) => {
-  const { loading, icon, count = 0, ...rest } = props;
+  const { loading, icon, count = 0, tooltip, ...rest } = props;
   return (
-    <Button variant="ghost" size={count > 0 ? 'default' : 'icon'} disabled={props.disabled || props.loading} {...rest}>
-      {loading ? <Spinner /> : icon}
-      {count > 0 && <span className="ml-1 text-sm">{count}</span>}
-    </Button>
+    <Tooltip delayDuration={1000}>
+      <TooltipTrigger asChild>
+        <Button
+          variant="ghost"
+          size={count > 0 ? 'default' : 'icon'}
+          disabled={props.disabled || props.loading}
+          {...rest}
+        >
+          {loading ? <Spinner /> : icon}
+          {count > 0 && <span className="ml-1 text-sm">{count}</span>}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{tooltip}</TooltipContent>
+    </Tooltip>
   );
 };
 
@@ -63,6 +73,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
         count={note.repliesCount}
         disabled={false}
         loading={false}
+        tooltip={t('reply')}
         onClick={() => console.log('implement reply')}
       />
       {isRenoted ? (
@@ -71,6 +82,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           icon={<RepeatIcon />}
           count={note.renoteCount}
           loading={isUnrenoting}
+          tooltip={t('unrenote')}
           onClick={() =>
             unrenote(void null, {
               onSuccess: () => toast.success(t('unrenote')),
@@ -83,6 +95,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           count={note.renoteCount}
           disabled={note.visibility !== 'public' && note.visibility !== 'home'}
           loading={isRenoting}
+          tooltip={t('renote')}
           onClick={() =>
             renote(props.note.visibility as 'public' | 'home', {
               onSuccess: () => toast.success(t('renoted')),
@@ -90,24 +103,37 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           }
         />
       )}
-      <MkNoteActionButton icon={<QuoteIcon />} onClick={() => console.log('implement quote')} />
+      <MkNoteActionButton icon={<QuoteIcon />} onClick={() => console.log('implement quote')} tooltip={t('quote')} />
       {note.myReaction == null ? (
         <>
-          <MkNoteActionButton icon={<HeartIcon />} onClick={() => like()} loading={isReacting} />
-          <MkEmojiPickerPopup
-            onEmojiChoose={(emoji) => react(typeof emoji === 'string' ? emoji : `:${emoji.name}:`)}
-            autoClose
-          >
-            <MkNoteActionButton count={note.reactionCount} icon={<SmilePlusIcon />} loading={isReacting} />
-          </MkEmojiPickerPopup>
+          <MkNoteActionButton icon={<HeartIcon />} onClick={() => like()} loading={isReacting} tooltip={t('like')} />
+          {!isReacting && (
+            <MkEmojiPickerPopup
+              onEmojiChoose={(emoji) => react(typeof emoji === 'string' ? emoji : `:${emoji.name}:`)}
+              autoClose
+            >
+              <MkNoteActionButton
+                count={note.reactionCount}
+                icon={<SmilePlusIcon />}
+                loading={isReacting}
+                tooltip={t('doReaction')}
+              />
+            </MkEmojiPickerPopup>
+          )}
         </>
       ) : (
-        <MkNoteActionButton icon={<MinusIcon />} onClick={() => unreact()} loading={isUnReacting} />
+        <MkNoteActionButton
+          className="text-tertiary hover:bg-tertiary/10"
+          icon={<HeartMinusIcon />}
+          onClick={() => unreact()}
+          loading={isUnReacting}
+          tooltip={t('unlike')}
+        />
       )}
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <MkNoteActionButton icon={<MoreHorizontalIcon />} />
+          <MkNoteActionButton icon={<MoreHorizontalIcon />} tooltip={t('menu')} />
         </DropdownMenuTrigger>
         <MkNoteMenu onTranslate={onTranslate} note={note} />
       </DropdownMenu>

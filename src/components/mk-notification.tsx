@@ -35,15 +35,15 @@ export const MkNotification = (
           case 'test':
             return <SimpleNotification notification={notification} />;
           case 'note':
-            return <MkNote noteId={notification.note.id} />;
+            return <MkNote noteId={notification.note.id} showReply />;
           case 'mention':
-            return <MkNote noteId={notification.note.id} />;
+            return <MkNote noteId={notification.note.id} showReply />;
           case 'reply':
-            return <MkNote noteId={notification.note.id} />;
+            return <MkNote noteId={notification.note.id} showReply />;
           case 'renote':
             return <SimpleNotification notification={notification} />;
           case 'quote':
-            return <MkNote noteId={notification.note.id} />;
+            return <MkNote noteId={notification.note.id} showReply />;
           case 'reaction':
             return <SimpleNotification notification={notification} />;
           case 'pollEnded':
