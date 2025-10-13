@@ -109,7 +109,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
           <div className="user-field mt-2 grid grid-cols-[auto_1fr] text-sm gap-2">
             {user.fields.map((f) => (
               <>
-                <span className="text-muted-foreground">
+                <span className="text-muted-foreground max-w-30 @md:max-w-50 @lg:max-w-70 ">
                   <MkMfm text={f.name} author={user} emojiUrls={user.emojis} />
                 </span>
                 <span>

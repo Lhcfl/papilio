@@ -1,4 +1,5 @@
 import { MkNotifications } from './mk-notifications';
+import { MkUserCardSkeleton } from './mk-user-card-skeleton';
 import { MkClock } from './note/mk-clock';
 import { ScrollArea } from './ui/scroll-area';
 import { Separator } from './ui/separator';
@@ -11,6 +12,7 @@ export const AppRightCard = () => {
       <ScrollArea className="h-100">
         <MkNotifications />
       </ScrollArea>
+      <MkUserCardSkeleton />
     </ScrollArea>
   );
 };
