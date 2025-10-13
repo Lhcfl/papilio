@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useIsFetching, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
 import { MkAlert } from '@/components/mk-alert';
@@ -25,9 +25,10 @@ function RouteComponent() {
   const { t } = useTranslation();
   const { id } = Route.useParams();
   const { data, isPending, error, refetch } = useNoteQuery(id);
+  const isLoading = useIsFetching({ predicate: (q) => q.queryKey[0] == 'note-replies' }) > 0;
 
   return (
-    <DefaultLayout title={t('note')}>
+    <DefaultLayout title={t('note')} headerRight={isLoading && <Spinner />}>
       {isPending && <MkNoteSkeleton />}
       {error && <MkError error={error} retry={() => refetch()} />}
       {data && <LoadedMain noteId={id} />}
@@ -57,7 +58,7 @@ function LoadedMain(props: { noteId: string }) {
           <EmptyMedia variant="icon">
             <Trash2Icon />
           </EmptyMedia>
-          <EmptyHeader>{t('deleted')}</EmptyHeader>
+          <EmptyHeader>{t('removed')}</EmptyHeader>
         </EmptyHeader>
         <EmptyContent>
           <Button asChild>
