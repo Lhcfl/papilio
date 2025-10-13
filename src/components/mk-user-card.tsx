@@ -74,7 +74,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
           ))}
       </div>
       <MkUserCardBanner url={user.bannerUrl} blurhash={user.bannerBlurhash} className="h-48 @md:h-64" />
-      <div className="mt-2 px-2 md:px-4 flex justify-between relative">
+      <div className="mt-2 px-2 @md:px-4 @lg:px-6 flex justify-between relative">
         <MkAvatar
           user={user}
           disableRouteLink
@@ -89,7 +89,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
           </Button>
         </ButtonGroup>
       </div>
-      <div className="p-2 @md:p-4">
+      <div className="p-2 @md:p-4 @lg:px-6">
         <div>
           <MkUserName user={user} className="font-bold text-lg @md:text-xl" />
           <div className="text-sm text-muted-foreground">@{acct.toString(user)}</div>
