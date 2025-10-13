@@ -1,8 +1,12 @@
 import { useTranslation } from 'react-i18next';
 
-export const MkI18n = (props: { i18nKey: string; values?: Record<string, React.ReactNode> }) => {
+export const MkI18n = (props: {
+  i18nKey?: string;
+  i18nValue?: string | null;
+  values?: Record<string, React.ReactNode>;
+}) => {
   const { t } = useTranslation();
-  let ts: React.ReactNode[] = [t(props.i18nKey)];
+  let ts: React.ReactNode[] = [props.i18nKey ? t(props.i18nKey) : (props.i18nValue ?? '')];
 
   Object.entries(props.values ?? {}).forEach(([key, value]) => {
     ts = ts.flatMap((s) => {

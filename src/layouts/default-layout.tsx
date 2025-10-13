@@ -15,6 +15,7 @@ import { useMainChannelListener } from '@/hooks/use-main-channel';
 
 type DefaultLayoutPropsCommon = {
   title?: string;
+  pageTitle?: string;
   headerLeft?: React.ReactNode;
   headerRight?: React.ReactNode;
 };
@@ -47,8 +48,16 @@ export function DefaultLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
 
 function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
   const siteName = useSiteMeta((s) => s.name);
-  const { tabs, onTabChange, headerRightWhenTab, title = siteName ?? 'papilio', children, ...rest } = props;
-  useTitle(title);
+  const {
+    tabs,
+    onTabChange,
+    headerRightWhenTab,
+    title = siteName ?? 'papilio',
+    pageTitle = title,
+    children,
+    ...rest
+  } = props;
+  useTitle(pageTitle);
   useNoteUpdateListener();
   useMainChannelListener();
   const [tab, setTab] = useState(tabs?.[0].value);

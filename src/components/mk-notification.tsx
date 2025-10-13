@@ -88,7 +88,7 @@ const FollowNotification = (props: { notification: PickNotification<'follow'> })
   const { notification } = props;
   const { t } = useTranslation();
   const { data: user, refetch } = useUserQuery(notification.user.id);
-  const { mutate: follow, isPending: isFollowing } = useFollowAction(notification.user.id);
+  const { mutate: follow, isPending: isFollowing } = useFollowAction(notification.user);
   const didNotFollowBack = user != null && !user.isFollowing && !user.hasPendingFollowRequestFromYou;
 
   return (
@@ -122,8 +122,9 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
   const { notification } = props;
   const { t } = useTranslation();
   const [hidden, setHidden] = useState(false);
-  const { mutate: accept, isPending: isAccepting } = useAcceptFollowRequestAction(notification.user.id);
-  const { mutate: reject, isPending: isRejecting } = useRejectFollowRequestAction(notification.user.id);
+  const { mutate: accept, isPending: isAccepting } = useAcceptFollowRequestAction(notification.user);
+  const { mutate: reject, isPending: isRejecting } = useRejectFollowRequestAction(notification.user);
+
   return (
     <Item>
       <NotificationItemMedia notification={notification} />
@@ -179,7 +180,7 @@ const ReactionNotification = (props: { notification: PickNotification<'reaction'
         <div className="flex flex-wrap gap-2 mt-1">
           {(expand ? reacters : reactersLess).map((r, i) => (
             <div className="reacter relative" key={i}>
-              <MkAvatar user={r.user} className="mr-1 size-10" />
+              <MkAvatar user={r.user} avatarProps={{ className: 'mr-1 size-10' }} />
               <ReactionEmoji reaction={r.reaction} note={notification.note} />
             </div>
           ))}
@@ -240,7 +241,7 @@ const RenoteNotification = (props: { notification: PickNotification<'renote' | '
         </div>
         <div className="flex flex-wrap gap-2 mt-1">
           {(expand ? renoters : renotersLess).map((u) => (
-            <MkAvatar key={u.id} user={u} className="mr-1 size-10" />
+            <MkAvatar key={u.id} user={u} avatarProps={{ className: 'mr-1 size-10' }} />
           ))}
           {hasMore && !expand && (
             <Button variant="outline" size="icon-lg" className="rounded-full" onClick={() => setExpand(true)}>

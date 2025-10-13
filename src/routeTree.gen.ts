@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as AboutRouteImport } from './routes/about'
+import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NotesIdRouteImport } from './routes/notes/$id'
 
@@ -31,9 +31,9 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const AtChar123acctChar125Route = AtChar123acctChar125RouteImport.update({
+  id: '/@{$acct}',
+  path: '/@{$acct}',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -49,7 +49,7 @@ const NotesIdRoute = NotesIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/@{$acct}': typeof AtChar123acctChar125Route
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/notifications': typeof NotificationsRoute
@@ -57,7 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/@{$acct}': typeof AtChar123acctChar125Route
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/notifications': typeof NotificationsRoute
@@ -66,7 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/@{$acct}': typeof AtChar123acctChar125Route
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/notifications': typeof NotificationsRoute
@@ -76,7 +76,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
+    | '/@{$acct}'
     | '/login'
     | '/login-redirect'
     | '/notifications'
@@ -84,7 +84,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/about'
+    | '/@{$acct}'
     | '/login'
     | '/login-redirect'
     | '/notifications'
@@ -92,7 +92,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/about'
+    | '/@{$acct}'
     | '/login'
     | '/login-redirect'
     | '/notifications'
@@ -101,7 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  AtChar123acctChar125Route: typeof AtChar123acctChar125Route
   LoginRoute: typeof LoginRoute
   LoginRedirectRoute: typeof LoginRedirectRoute
   NotificationsRoute: typeof NotificationsRoute
@@ -131,11 +131,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/@{$acct}': {
+      id: '/@{$acct}'
+      path: '/@{$acct}'
+      fullPath: '/@{$acct}'
+      preLoaderRoute: typeof AtChar123acctChar125RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -157,7 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  AtChar123acctChar125Route: AtChar123acctChar125Route,
   LoginRoute: LoginRoute,
   LoginRedirectRoute: LoginRedirectRoute,
   NotificationsRoute: NotificationsRoute,

@@ -18,7 +18,7 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
 
   return (
     <div className="mk-note-header flex items-center gap-2 p-2">
-      <MkAvatar user={note.user} className="size-10 z-10" />
+      <MkAvatar user={note.user} className="z-10" avatarProps={{ className: 'size-10' }} />
       <div className="flex-grow-1 flex-shrink-1 w-0 flex flex-col">
         <div className="flex justify-between gap-1">
           <div className="user-name font-bold flex-grow-1 flex-shrink-1 w-0 line-clamp-1">

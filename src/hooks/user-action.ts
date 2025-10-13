@@ -1,74 +1,101 @@
 import { injectMisskeyApi } from '@/services/inject-misskey-api';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, type MutationFunctionContext } from '@tanstack/react-query';
+import type { UserDetailed } from 'misskey-js/entities.js';
 
-export const useRejectFollowRequestAction = (userId: string) => {
+const patch = (v: Partial<UserDetailed>) => (old: UserDetailed | undefined) => (old ? { ...old, ...v } : old);
+
+type CommonProps = {
+  id: string;
+  username: string;
+  host: string | null;
+};
+
+const cs =
+  (props: CommonProps, v: Partial<UserDetailed>) =>
+  (_0: unknown, _1: unknown, _2: unknown, context: MutationFunctionContext) => {
+    context.client.setQueryData(['user', props.id], patch(v));
+    context.client.setQueryData(['user', props.username, props.host], patch(v));
+    context.client.invalidateQueries({ queryKey: ['user', props.id] });
+    context.client.invalidateQueries({ queryKey: ['user', props.username, props.host] });
+  };
+
+export const useRejectFollowRequestAction = (props: CommonProps) => {
   const api = injectMisskeyApi();
   return useMutation({
-    mutationKey: ['rejectFollowRequest', userId],
-    mutationFn: () => api.request('following/requests/reject', { userId }),
+    mutationKey: ['rejectFollowRequest', props.id],
+    mutationFn: () => api.request('following/requests/reject', { userId: props.id }),
+    onSuccess: cs(props, { hasPendingFollowRequestToYou: false }),
   });
 };
 
-export const useAcceptFollowRequestAction = (userId: string) => {
+export const useAcceptFollowRequestAction = (props: CommonProps) => {
   const api = injectMisskeyApi();
   return useMutation({
-    mutationKey: ['acceptFollowRequest', userId],
-    mutationFn: () => api.request('following/requests/accept', { userId }),
+    mutationKey: ['acceptFollowRequest', props.id],
+    mutationFn: () => api.request('following/requests/accept', { userId: props.id }),
+    onSuccess: cs(props, { hasPendingFollowRequestToYou: false, isFollowed: true }),
   });
 };
 
-export const useCancelFollowRequestAction = (userId: string) => {
+export const useCancelFollowRequestAction = (props: CommonProps) => {
   const api = injectMisskeyApi();
   return useMutation({
-    mutationKey: ['cancelFollowRequest', userId],
-    mutationFn: () => api.request('following/requests/cancel', { userId }),
+    mutationKey: ['cancelFollowRequest', props.id],
+    mutationFn: () => api.request('following/requests/cancel', { userId: props.id }),
+    onSuccess: cs(props, { hasPendingFollowRequestFromYou: false }),
   });
 };
 
-export const useFollowAction = (userId: string) => {
+export const useFollowAction = (props: CommonProps) => {
   const api = injectMisskeyApi();
   return useMutation({
-    mutationKey: ['follow', userId],
-    mutationFn: () => api.request('following/create', { userId }),
+    mutationKey: ['follow', props.id],
+    mutationFn: () => api.request('following/create', { userId: props.id }),
+    onSuccess: cs(props, { hasPendingFollowRequestFromYou: true }),
   });
 };
 
-export const useUnfollowAction = (userId: string) => {
+export const useUnfollowAction = (props: CommonProps) => {
   const api = injectMisskeyApi();
   return useMutation({
-    mutationKey: ['unfollow', userId],
-    mutationFn: () => api.request('following/delete', { userId }),
+    mutationKey: ['unfollow', props.id],
+    mutationFn: () => api.request('following/delete', { userId: props.id }),
+    onSuccess: cs(props, { isFollowing: false }),
   });
 };
 
-export const useBlockAction = (userId: string) => {
+export const useBlockAction = (props: CommonProps) => {
   const api = injectMisskeyApi();
   return useMutation({
-    mutationKey: ['block', userId],
-    mutationFn: () => api.request('blocking/create', { userId }),
+    mutationKey: ['block', props.id],
+    mutationFn: () => api.request('blocking/create', { userId: props.id }),
+    onSuccess: cs(props, { isBlocking: true }),
   });
 };
 
-export const useUnblockAction = (userId: string) => {
+export const useUnblockAction = (props: CommonProps) => {
   const api = injectMisskeyApi();
   return useMutation({
-    mutationKey: ['unblock', userId],
-    mutationFn: () => api.request('blocking/delete', { userId }),
+    mutationKey: ['unblock', props.id],
+    mutationFn: () => api.request('blocking/delete', { userId: props.id }),
+    onSuccess: cs(props, { isBlocking: false }),
   });
 };
 
-export const useMuteAction = (userId: string) => {
+export const useMuteAction = (props: CommonProps) => {
   const api = injectMisskeyApi();
   return useMutation({
-    mutationKey: ['mute', userId],
-    mutationFn: (expiresAt: number | null) => api.request('mute/create', { userId, expiresAt }),
+    mutationKey: ['mute', props.id],
+    mutationFn: (expiresAt: number | null) => api.request('mute/create', { userId: props.id, expiresAt }),
+    onSuccess: cs(props, { isMuted: true }),
   });
 };
 
-export const useUnmuteAction = (userId: string) => {
+export const useUnmuteAction = (props: CommonProps) => {
   const api = injectMisskeyApi();
   return useMutation({
-    mutationKey: ['unmute', userId],
-    mutationFn: () => api.request('mute/delete', { userId }),
+    mutationKey: ['unmute', props.id],
+    mutationFn: () => api.request('mute/delete', { userId: props.id }),
+    onSuccess: cs(props, { isMuted: false }),
   });
 };

@@ -157,7 +157,7 @@ export const NotificationItemMedia = (
       return (
         <ItemMedia {...mediaProps}>
           <div className="relative">
-            <MkAvatar user={notification.user} className="size-11 rounded-md" />
+            <MkAvatar user={notification.user} avatarProps={{ className: 'size-11 rounded-md' }} />
             <span
               className={clsx(
                 'absolute right-0 bottom-0 text-primary-foreground size-6 rounded-sm p-1 flex items-center justify-center',
@@ -173,7 +173,7 @@ export const NotificationItemMedia = (
       return (
         <ItemMedia {...mediaProps}>
           <div className="relative">
-            <MkAvatar user={notification.user} className="size-11 rounded-md" />
+            <MkAvatar user={notification.user} avatarProps={{ className: 'size-11 rounded-md' }} />
             <ReactionEmoji reaction={notification.reaction} note={notification.note} />
           </div>
         </ItemMedia>

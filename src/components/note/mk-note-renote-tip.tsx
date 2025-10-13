@@ -23,7 +23,7 @@ export const MkNoteRenoteTip = (props: { note: NoteWithExtension }) => {
   return (
     <div className="mk-note-renote-tip p-2 flex gap-2 items-center text-muted-foreground">
       <RepeatIcon />
-      <MkAvatar user={props.note.user} className="size-6" />
+      <MkAvatar user={props.note.user} avatarProps={{ className: 'size-6' }} />
       <MkUserName user={props.note.user} className="flex-grow-1" />
       <div className="renote-info flex gap-2 items-center">
         {isMine && <RenoteMore note={props.note} />}
