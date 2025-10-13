@@ -106,7 +106,7 @@ const FollowNotification = (props: { notification: PickNotification<'follow'> })
         <ItemActions>
           <Tooltip>
             <TooltipContent>{t('follow')}</TooltipContent>
-            <TooltipTrigger>
+            <TooltipTrigger asChild>
               <Button variant="outline" size="icon" onClick={() => follow(void null, { onSuccess: () => refetch() })}>
                 {isFollowing ? <Spinner /> : <UserRoundPlusIcon />}
               </Button>
@@ -139,7 +139,7 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
       <ItemActions hidden={hidden}>
         <Tooltip>
           <TooltipContent>{t('accept')}</TooltipContent>
-          <TooltipTrigger>
+          <TooltipTrigger asChild>
             <Button
               variant="outline"
               size="icon"
@@ -151,7 +151,7 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
         </Tooltip>
         <Tooltip>
           <TooltipContent>{t('reject')}</TooltipContent>
-          <TooltipTrigger>
+          <TooltipTrigger asChild>
             <Button
               variant="outline"
               size="icon"

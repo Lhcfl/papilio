@@ -25,11 +25,11 @@ export const MkAvatar = (
   return (
     <div className="mk-avatar" {...rest}>
       {disableHoverCard ? (
-        <MkAvatarMain user={user} avatarProps={avatarProps} disableRouteLink={disableRouteLink} />
+        <MkAvatarMain user={user} {...avatarProps} disableRouteLink={disableRouteLink} />
       ) : (
         <HoverCard>
-          <HoverCardTrigger>
-            <MkAvatarMain user={user} avatarProps={avatarProps} disableRouteLink={disableRouteLink} />
+          <HoverCardTrigger asChild>
+            <MkAvatarMain user={user} {...avatarProps} disableRouteLink={disableRouteLink} />
           </HoverCardTrigger>
           <HoverCardContent asChild className="w-80 h-100 p-0">
             <ScrollArea>
@@ -42,13 +42,14 @@ export const MkAvatar = (
   );
 };
 
-const MkAvatarMain = (props: {
-  user: User;
-  avatarProps?: React.ComponentProps<typeof Avatar>;
-  disableRouteLink?: boolean;
-}) => {
-  const { user, avatarProps, disableRouteLink } = props;
-  const { className: avatarClassNameProps, ...avatarPropsRest } = avatarProps || {};
+const MkAvatarMain = (
+  props: {
+    user: User;
+    disableRouteLink?: boolean;
+  } & React.ComponentProps<typeof Avatar>,
+) => {
+  const { user, disableRouteLink, ...avatarProps } = props;
+  const { className: avatarClassNameProps, ...avatarPropsRest } = avatarProps;
   return (
     <Avatar className={cn('rounded-md', avatarClassNameProps)} {...avatarPropsRest} asChild>
       <Link to={getUserRoute(user)} disabled={disableRouteLink}>

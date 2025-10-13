@@ -77,6 +77,8 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
       <div className="mt-2 px-2 md:px-4 flex justify-between relative">
         <MkAvatar
           user={user}
+          disableRouteLink
+          disableHoverCard
           className="-mt-10 @md:-mt-20"
           avatarProps={{ className: 'size-20 @md:size-30 rounded-lg' }}
         />
