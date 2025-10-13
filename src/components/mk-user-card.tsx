@@ -12,6 +12,7 @@ import {
   CircleSlashIcon,
   CircleXIcon,
   HourglassIcon,
+  MessageSquareHeartIcon,
   MinusIcon,
   MoreVerticalIcon,
   PlusIcon,
@@ -32,17 +33,20 @@ import {
   useUnfollowAction,
 } from '@/hooks/user-action';
 import { Spinner } from './ui/spinner';
-import {
-  Dialog,
-  DialogClose,
-  DialogFooter,
-  DialogHeader,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-} from './ui/dialog';
 import { MkI18n } from './mk-i18n';
 import { Separator } from './ui/separator';
+import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from './ui/alert-dialog';
 
 export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElement>) => {
   const { user, className: classNameProps, ...divProps } = props;
@@ -58,7 +62,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
   ];
 
   return (
-    <div className={cn('mk-user-card relative', classNameProps)} {...divProps}>
+    <div className={cn('mk-user-card relative @container', classNameProps)} {...divProps}>
       <div className="flex gap-1 absolute top-2 left-2 z-10">
         {badges
           .filter((b) => b.condition)
@@ -69,12 +73,12 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
             </Badge>
           ))}
       </div>
-      <MkUserCardBanner url={user.bannerUrl} blurhash={user.bannerBlurhash} />
+      <MkUserCardBanner url={user.bannerUrl} blurhash={user.bannerBlurhash} className="h-48 @md:h-64" />
       <div className="mt-2 px-2 md:px-4 flex justify-between relative">
         <MkAvatar
           user={user}
-          className="-mt-10 md:-mt-20"
-          avatarProps={{ className: 'size-20 md:size-30 rounded-lg' }}
+          className="-mt-10 @md:-mt-20"
+          avatarProps={{ className: 'size-20 @md:size-30 rounded-lg' }}
         />
         <ButtonGroup>
           <MkUserFollowButton user={user} />
@@ -83,15 +87,52 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
           </Button>
         </ButtonGroup>
       </div>
-      <div className="p-2 md:p-4">
+      <div className="p-2 @md:p-4">
         <div>
-          <MkUserName user={user} className="font-bold text-lg md:text-xl" />
+          <MkUserName user={user} className="font-bold text-lg @md:text-xl" />
           <div className="text-sm text-muted-foreground">@{acct.toString(user)}</div>
         </div>
-        <div className="py-2 text-sm">
+        {user.followedMessage && (
+          <Alert className="bg-muted mt-2">
+            <MessageSquareHeartIcon />
+            <AlertTitle>{t('messageToFollower')}</AlertTitle>
+            <AlertDescription>
+              <MkMfm text={user.followedMessage} author={user} emojiUrls={user.emojis} />
+            </AlertDescription>
+          </Alert>
+        )}
+        <div className="py-4 text-sm @md:py-2 @md:text-base">
           <MkMfm text={user.description || ''} author={user} emojiUrls={user.emojis} />
         </div>
         <Separator />
+        {user.fields.length > 0 && (
+          <div className="user-field mt-2 grid grid-cols-[auto_1fr] text-sm gap-2">
+            {user.fields.map((f) => (
+              <>
+                <span className="text-muted-foreground">
+                  <MkMfm text={f.name} author={user} emojiUrls={user.emojis} />
+                </span>
+                <span>
+                  <MkMfm text={f.value} author={user} emojiUrls={user.emojis} />
+                </span>
+              </>
+            ))}
+          </div>
+        )}
+        <div className="info mt-2">
+          <span className="mr-4">
+            <span className="font-bold mr-2">{user.notesCount}</span>
+            <span>{t('notes')}</span>
+          </span>
+          <span className="mr-4">
+            <span className="font-bold mr-2">{user.followersCount}</span>
+            <span>{t('followers')}</span>
+          </span>
+          <span>
+            <span className="font-bold mr-2">{user.followingCount}</span>
+            <span>{t('following')}</span>
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -170,47 +211,43 @@ const MkUserFollowButton = (props: { user: UserDetailed }) => {
   }
 
   return (
-    <>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button {...btnProps}>
-            {loading ? <Spinner /> : <ButtonIcon />}
-            {label}
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{actionName}</DialogTitle>
-          </DialogHeader>
-          <div>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button {...btnProps}>
+          {loading ? <Spinner /> : <ButtonIcon />}
+          {label}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{actionName}</AlertDialogTitle>
+          <AlertDialogDescription>
             <MkI18n i18nValue={confirm} values={{ name: <MkUserName user={user} /> }} />
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">
-                <XIcon />
-                {t('cancel')}
-              </Button>
-            </DialogClose>
-            <DialogClose asChild onClick={handleAction}>
-              <Button {...btnProps} type="submit">
-                <ActionIcon />
-                {t('yes')}
-              </Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>
+            <XIcon />
+            {t('cancel')}
+          </AlertDialogCancel>
+          <AlertDialogAction asChild onClick={handleAction}>
+            <Button {...btnProps}>
+              <ActionIcon />
+              {t('yes')}
+            </Button>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 
-const MkUserCardBanner = (props: { url: string | null; blurhash: string | null }) => {
-  const { url, blurhash } = props;
+const MkUserCardBanner = (props: { url: string | null; blurhash: string | null } & HTMLProps<HTMLDivElement>) => {
+  const { url, blurhash, className, ...rest } = props;
   const [loading, setLoading] = useState(true);
 
   return (
-    <div className="mk-user-card-thumbnail relative w-full h-64">
+    <div className={cn('mk-user-card-thumbnail relative w-full', className)} {...rest}>
       {url && (
         <img
           src={url}
