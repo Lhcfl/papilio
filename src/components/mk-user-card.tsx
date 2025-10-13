@@ -42,6 +42,7 @@ import {
   DialogTitle,
 } from './ui/dialog';
 import { MkI18n } from './mk-i18n';
+import { Separator } from './ui/separator';
 
 export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElement>) => {
   const { user, className: classNameProps, ...divProps } = props;
@@ -87,9 +88,10 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
           <MkUserName user={user} className="font-bold text-lg md:text-xl" />
           <div className="text-sm text-muted-foreground">@{acct.toString(user)}</div>
         </div>
-        <div>
+        <div className="py-2 text-sm">
           <MkMfm text={user.description || ''} author={user} emojiUrls={user.emojis} />
         </div>
+        <Separator />
       </div>
     </div>
   );

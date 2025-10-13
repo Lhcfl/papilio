@@ -1,5 +1,7 @@
+import { MkAvatar } from '@/components/mk-avatar';
 import { MkError } from '@/components/mk-error';
 import { MkUserCard } from '@/components/mk-user-card';
+import { MkUserName } from '@/components/mk-user-name';
 import { Spinner } from '@/components/ui/spinner';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { injectMisskeyApi } from '@/services/inject-misskey-api';
@@ -31,7 +33,18 @@ function RouteComponent() {
   const pageTitle = user?.name || user?.username || title;
 
   return (
-    <DefaultLayout title={t('user')} pageTitle={pageTitle}>
+    <DefaultLayout
+      title={t('user')}
+      pageTitle={pageTitle}
+      headerLeft={
+        user && (
+          <div className="flex gap-1 items-center">
+            <MkAvatar user={user} avatarProps={{ className: 'size-6' }} />
+            <MkUserName user={user} className="text-sm max-w-40 line-clamp-1" />
+          </div>
+        )
+      }
+    >
       <UserMain user={user} error={error} isPending={isPending} />
     </DefaultLayout>
   );
