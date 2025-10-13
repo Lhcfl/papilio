@@ -21,35 +21,14 @@ export const merge = (...args: any[]) =>
     {} as Record<string, any>,
   );
 
+const locales_folders = [`locales`, `sharkey-locales`, `stpv-locales`, `sukerbuka-locales`];
+
 const languages = [
-  'ar-SA',
-  'ca-ES',
-  'cs-CZ',
-  'da-DK',
-  'de-DE',
-  'en-US',
-  'es-ES',
-  'fr-FR',
-  'id-ID',
-  'it-IT',
-  'ja-JP',
-  'ja-KS',
-  'kab-KAB',
-  'kn-IN',
-  'ko-KR',
-  'nl-NL',
-  'no-NO',
-  'pl-PL',
-  'pt-PT',
-  'ru-RU',
-  'sk-SK',
-  'th-TH',
-  'ug-CN',
-  'uk-UA',
-  'vi-VN',
-  'zh-CN',
-  'zh-TW',
-  'zh-WY',
+  ...new Set(
+    locales_folders
+      .flatMap((x) => fs.readdirSync(new URL(`locales-source/${x}`, PROJECT_ROOT)))
+      .map((f) => f.replace(/\.yml$/, '')),
+  ),
 ];
 
 const primaries: Record<string, string> = {
@@ -74,8 +53,6 @@ export const tryReadFile = (...rfsArgs: Parameters<typeof fs.readFileSync>) => {
     return '';
   }
 };
-
-const locales_folders = [`locales`, `sharkey-locales`, `stpv-locales`, `sukerbuka-locales`];
 
 function readLocale(locale: string) {
   return Object.fromEntries(
@@ -150,4 +127,7 @@ for (const [key, val] of Object.entries(locales)) {
   fs.writeFileSync(`public/locales/${key}.json`, JSON.stringify(val, undefined, 2));
 }
 
-fs.writeFileSync(`src/assets/langs.json`, JSON.stringify(Object.keys(locales)));
+fs.writeFileSync(
+  `src/assets/langs.json`,
+  JSON.stringify(Object.fromEntries(Object.entries(locales).map(([k, v]) => [k, v._lang_])), undefined, 2),
+);

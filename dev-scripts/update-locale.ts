@@ -6,7 +6,7 @@ import { writeFile } from 'fs/promises';
 // you can provide your github token
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? '';
 const GITHUB_REPO = 'Lhcfl/sharkey-stelpolva';
-const branch = 'stelpolva';
+const BRANCH = 'stelpolva';
 const PROJECT_ROOT = new URL('..', import.meta.url);
 
 async function githubRequest(url: string) {
@@ -22,8 +22,11 @@ async function githubRequest(url: string) {
   return res.json();
 }
 
-async function listFiles(folder: string) {
-  const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${folder}?ref=${branch}`;
+async function listFiles(folder: string, override?: { repo: string; branch?: string }) {
+  const { repo: override_repo, branch: override_branch } = override ?? {};
+  const repo = override_repo ?? GITHUB_REPO;
+  const branch = override_branch ?? BRANCH;
+  const apiUrl = `https://api.github.com/repos/${repo}/contents/${folder}?ref=${branch}`;
   const data = await githubRequest(apiUrl);
 
   return data as {
@@ -63,7 +66,15 @@ async function withRetry<T>(fn: () => Promise<T>, retries = 3, delay = 5000): Pr
 
 const promises = ['locales', 'sharkey-locales', 'stpv-locales'].map(async (folderPath) => {
   console.log(`[INFO]: Fetching ${folderPath}`);
-  const files = await listFiles(folderPath);
+  const files = await listFiles(
+    folderPath,
+    folderPath === 'locales'
+      ? {
+          repo: 'misskey-dev/misskey',
+          branch: 'develop',
+        }
+      : undefined,
+  );
   const yamls = files.filter((x) => x.name.endsWith('.yml') && x.type === 'file' && x.download_url);
   return Promise.allSettled(
     yamls.map(async (f) => {

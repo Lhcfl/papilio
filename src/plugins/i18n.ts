@@ -10,7 +10,7 @@ i18n
   .use(HttpBackend)
   .use(initReactI18next) // passes i18n down to react-i18next
   .init<HttpBackendOptions>({
-    supportedLngs: languages,
+    supportedLngs: Object.keys(languages),
     backend: {
       loadPath: `/locales/{{lng}}.json`,
       // queryStringParams: { v: "" },
