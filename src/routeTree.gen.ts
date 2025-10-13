@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PostingRouteImport } from './routes/posting'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
 import { Route as LoginRouteImport } from './routes/login'
@@ -16,6 +17,11 @@ import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NotesIdRouteImport } from './routes/notes/$id'
 
+const PostingRoute = PostingRouteImport.update({
+  id: '/posting',
+  path: '/posting',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/notifications': typeof NotificationsRoute
+  '/posting': typeof PostingRoute
   '/notes/$id': typeof NotesIdRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/notifications': typeof NotificationsRoute
+  '/posting': typeof PostingRoute
   '/notes/$id': typeof NotesIdRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/notifications': typeof NotificationsRoute
+  '/posting': typeof PostingRoute
   '/notes/$id': typeof NotesIdRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/login-redirect'
     | '/notifications'
+    | '/posting'
     | '/notes/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/login-redirect'
     | '/notifications'
+    | '/posting'
     | '/notes/$id'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/login-redirect'
     | '/notifications'
+    | '/posting'
     | '/notes/$id'
   fileRoutesById: FileRoutesById
 }
@@ -105,11 +117,19 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   LoginRedirectRoute: typeof LoginRedirectRoute
   NotificationsRoute: typeof NotificationsRoute
+  PostingRoute: typeof PostingRoute
   NotesIdRoute: typeof NotesIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/posting': {
+      id: '/posting'
+      path: '/posting'
+      fullPath: '/posting'
+      preLoaderRoute: typeof PostingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/notifications': {
       id: '/notifications'
       path: '/notifications'
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   LoginRedirectRoute: LoginRedirectRoute,
   NotificationsRoute: NotificationsRoute,
+  PostingRoute: PostingRoute,
   NotesIdRoute: NotesIdRoute,
 }
 export const routeTree = rootRouteImport

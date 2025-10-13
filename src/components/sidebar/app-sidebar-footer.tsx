@@ -1,14 +1,22 @@
-import { ChevronsUpDownIcon } from 'lucide-react';
+import { ChevronsUpDownIcon, PencilIcon } from 'lucide-react';
 import { MkAvatar } from '@/components/mk-avatar';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { MkUserName } from '../mk-user-name';
 import { useMe } from '@/stores/me';
+import { useTranslation } from 'react-i18next';
 
 export const AppSidebarFooter = () => {
   const me = useMe();
+  const { t } = useTranslation();
 
   return (
     <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton size="lg" variant="outline">
+          <PencilIcon />
+          {t('note')}
+        </SidebarMenuButton>
+      </SidebarMenuItem>
       <SidebarMenuItem>
         <SidebarMenuButton size="lg">
           <MkAvatar user={me} />
