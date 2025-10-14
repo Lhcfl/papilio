@@ -20,7 +20,6 @@ import {
   UserRoundPlusIcon,
   UsersRoundIcon,
   VolumeOffIcon,
-  XIcon,
 } from 'lucide-react';
 import { ButtonGroup } from './ui/button-group';
 import { MkMfm } from './mk-mfm';
@@ -36,17 +35,7 @@ import { Spinner } from './ui/spinner';
 import { MkI18n } from './mk-i18n';
 import { Separator } from './ui/separator';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from './ui/alert-dialog';
+import { useAfterConfirm } from '@/stores/confirm-dialog';
 
 export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElement>) => {
   const { user, className: classNameProps, ...divProps } = props;
@@ -180,7 +169,7 @@ const MkUserFollowButton = (props: { user: UserDetailed }) => {
         icon: BanIcon,
         label: t('blocked'),
         actionName: t('unblock'),
-        btnProps: { variant: 'destructive' as const },
+        variant: 'destructive' as const,
         actionIcon: CheckIcon,
         confirm: t('unblockConfirm'),
       };
@@ -205,42 +194,30 @@ const MkUserFollowButton = (props: { user: UserDetailed }) => {
     };
   };
 
-  const { action, actionName, btnProps, icon: ButtonIcon, actionIcon: ActionIcon, label, confirm } = getKind();
+  const { action, actionName, variant, icon: ButtonIcon, actionIcon: ActionIcon, label, confirm } = getKind();
 
   function handleAction() {
     if (action == null) return;
     actions[action].mutate(void null);
   }
 
+  const onClick = useAfterConfirm(
+    {
+      title: actionName,
+      description: <MkI18n i18nValue={confirm} values={{ name: <MkUserName user={user} /> }} />,
+      confirmText: `${t('yes')} (${actionName})`,
+      confirmIcon: <ActionIcon />,
+      variant,
+      cancelText: t('cancel'),
+    },
+    () => handleAction(),
+  );
+
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button {...btnProps}>
-          {loading ? <Spinner /> : <ButtonIcon />}
-          {label}
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{actionName}</AlertDialogTitle>
-          <AlertDialogDescription>
-            <MkI18n i18nValue={confirm} values={{ name: <MkUserName user={user} /> }} />
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>
-            <XIcon />
-            {t('cancel')}
-          </AlertDialogCancel>
-          <AlertDialogAction asChild onClick={handleAction}>
-            <Button {...btnProps}>
-              <ActionIcon />
-              {t('yes')}
-            </Button>
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <Button variant={variant} onClick={onClick}>
+      {loading ? <Spinner /> : <ButtonIcon />}
+      {label}
+    </Button>
   );
 };
 

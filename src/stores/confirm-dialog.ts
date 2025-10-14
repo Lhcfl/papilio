@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
 export type DialogConfig = {
-  title: string;
-  description: string;
-  confirmText?: string;
+  title: React.ReactNode;
+  description: React.ReactNode;
+  confirmText?: React.ReactNode;
   confirmIcon?: React.ReactNode;
-  cancelText?: string;
+  cancelText?: React.ReactNode;
   cancelIcon?: React.ReactNode;
   variant?: 'default' | 'destructive';
   onConfirm: () => void | Promise<void>;
