@@ -160,12 +160,12 @@ export const MkPostForm = (
     mutationKey: ['post', draftKey],
     mutationFn: (data: DraftData) =>
       editId
-        ? misskeyApi('notes/edit', {
+        ? (misskeyApi('notes/edit', {
             editId,
             cw: data.hasCw ? data.cw : undefined,
             text: data.text,
             fileIds: data.files.length > 0 ? data.files.map((f) => f.id) : undefined,
-          })
+          }) as Promise<unknown>)
         : misskeyApi('notes/create', {
             visibility: data.visibility,
             visibleUserIds: data.visibility === 'specified' ? data.visibleUsers.map((u) => u.id) : undefined,

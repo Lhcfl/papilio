@@ -1,6 +1,5 @@
-import type { Endpoints } from '@/types/sharkey-api';
+import type { Endpoints, SwitchCaseResponseType } from '@/types/sharkey-api';
 import { Stream, api } from 'misskey-js';
-import type { SwitchCaseResponseType } from 'misskey-js/api.types.js';
 
 let apiClient: api.APIClient | null = null;
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import { ChevronDownIcon, ChevronUpIcon, QuoteIcon, ReplyIcon } from 'lucide-react';
+import { ChevronDownIcon, ChevronUpIcon, MailIcon, QuoteIcon, ReplyIcon } from 'lucide-react';
 import { type MfmNode, parse } from 'mfm-js';
 import type { HTMLProps } from 'react';
 import { MkMfm } from '@/components/mk-mfm';
@@ -17,6 +17,12 @@ import { MkNoteTranslation } from './mk-note-translation';
 import { Link } from '@tanstack/react-router';
 import { collectAst, countAst, getNoteRoute } from '@/lib/note';
 import { onlyWhenNonInteractableContentClicked } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import { injectCurrentSite, misskeyApi } from '@/services/inject-misskey-api';
+import type { UserDetailed } from 'misskey-js/entities.js';
+import { matchFirst } from '@/lib/match';
+import { MkMention } from '../mk-mention';
+import { acct } from 'misskey-js';
 
 type NoteBodyCommonProps = {
   note: NoteWithExtension;
@@ -138,7 +144,30 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
 
   const cls = clsx('mk-note-body p-2', className);
 
+  const { t } = useTranslation();
   const textAst = parse(note.text || '');
+
+  const { data: visibleUsers } = useQuery({
+    queryKey: ['users', note.visibleUserIds],
+    queryFn: () =>
+      note.visibleUserIds
+        ? (misskeyApi('users/show', { userIds: note.visibleUserIds }) as unknown as Promise<UserDetailed[]>)
+        : Promise.resolve([]),
+  });
+
+  const site = injectCurrentSite();
+  const siteDomain = new URL(site).host;
+  const mentions = collectAst(textAst, (ast) => (ast.type === 'mention' ? ast.props : undefined));
+  const extraVisibleUsers = visibleUsers?.filter((u) =>
+    mentions.every(
+      (m) =>
+        acct.toString(u) != acct.toString(m) &&
+        acct.toString({
+          username: u.username,
+          host: u.host || siteDomain,
+        }) != acct.toString(m),
+    ),
+  );
 
   const isLong =
     (note.text?.length || 0) > 400 ||
@@ -159,23 +188,22 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
       return 0;
     }) >= 10;
 
-  if (note.cw) {
-    return (
-      <div className={cls}>
-        <NoteBodyCw note={note} textAst={textAst} {...rest} />
-      </div>
-    );
-  }
-  if (isLong) {
-    return (
-      <div className={cls}>
-        <NoteBodyLong note={note} textAst={textAst} {...rest} />
-      </div>
-    );
-  }
   return (
     <div className={cls}>
-      <NoteBodyExpanded note={note} textAst={textAst} {...rest} />
+      {extraVisibleUsers && extraVisibleUsers.length > 0 && (
+        <div className="text-sm text-muted-foreground px-2 pb-2 mb-2 flex items-center flex-wrap gap-1 border-b">
+          <MailIcon className="size-3" />
+          {t('recipient')}:
+          {(visibleUsers || []).map((u) => (
+            <MkMention key={u.id} username={u.username} host={u.host} />
+          ))}
+        </div>
+      )}
+      {matchFirst([
+        [note.cw != null, () => <NoteBodyCw note={note} textAst={textAst} {...rest} />],
+        [isLong, () => <NoteBodyLong note={note} textAst={textAst} {...rest} />],
+        [true, () => <NoteBodyExpanded note={note} textAst={textAst} {...rest} />],
+      ])()}
     </div>
   );
 };
