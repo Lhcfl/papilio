@@ -26,8 +26,17 @@ import { useMe } from '@/stores/me';
 import { getNoteRemoteUrl, getNoteRoute } from '@/lib/note';
 import { copyToClipboard } from '@/lib/utils';
 import { getNoteExcerpt } from '@/services/note-excerpt';
-import { useDeleteNoteAction } from '@/hooks/note-actions';
+import {
+  useDeleteNoteAction,
+  useFavoriteNoteAction,
+  useThreadMuteAction,
+  useThreadUnmuteAction,
+  useUnfavoriteNoteAction,
+} from '@/hooks/note-actions';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
+
+const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }) => () =>
+  props.mutateAsync().catch((e: Error) => toast.error(e.message));
 
 export const MkNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void }) => {
   const { t } = useTranslation();
@@ -38,6 +47,11 @@ export const MkNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => 
   const remoteUrl = getNoteRemoteUrl(note);
 
   const deleteNoteAction = useDeleteNoteAction(note.id);
+  const favorite = withToast(useFavoriteNoteAction(note.id));
+  const unfavorite = withToast(useUnfavoriteNoteAction(note.id));
+  const muteThread = withToast(useThreadMuteAction(note.id));
+  const unmuteThread = withToast(useThreadUnmuteAction(note.id));
+
   const onDelete = useAfterConfirm(
     {
       title: t('deleteConfirm'),
@@ -115,20 +129,34 @@ export const MkNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => 
           {t('translate')}
         </DropdownMenuItem>
       </DropdownMenuGroup>
-      <DropdownMenuSeparator />
       <DropdownMenuGroup>
-        <DropdownMenuItem>
-          <StarIcon />
-          {t('favorite')}
-        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        {note.isFavorited ? (
+          <DropdownMenuItem onClick={() => unfavorite()}>
+            <StarIcon />
+            {t('unfavorite')}
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem onClick={() => favorite()}>
+            <StarIcon />
+            {t('favorite')}
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem>
           <PaperclipIcon />
           {t('clip')}
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <BellOffIcon />
-          {t('muteThread')}
-        </DropdownMenuItem>
+        {note.isMutingThread ? (
+          <DropdownMenuItem onClick={() => unmuteThread()}>
+            <BellOffIcon />
+            {t('unmuteThread')}
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem onClick={() => muteThread()}>
+            <BellOffIcon />
+            {t('muteThread')}
+          </DropdownMenuItem>
+        )}
       </DropdownMenuGroup>
       {!isMine && (
         <>
