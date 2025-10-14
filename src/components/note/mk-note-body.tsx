@@ -158,9 +158,19 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
   const site = injectCurrentSite();
   const siteDomain = new URL(site).host;
   const mentions = collectAst(textAst, (ast) => (ast.type === 'mention' ? ast.props : undefined));
-  const extraVisibleUsers = visibleUsers?.filter((u) =>
+  const extraVisibleUsers = (visibleUsers || [])?.filter((u) =>
     mentions.every(
       (m) =>
+        acct.toString(u) != acct.toString(m) &&
+        acct.toString({
+          username: u.username,
+          host: u.host || siteDomain,
+        }) != acct.toString(m),
+    ),
+  );
+  const invisibleMentions = mentions.filter((m) =>
+    visibleUsers?.every(
+      (u) =>
         acct.toString(u) != acct.toString(m) &&
         acct.toString({
           username: u.username,
@@ -190,7 +200,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
 
   return (
     <div className={cls}>
-      {extraVisibleUsers && extraVisibleUsers.length > 0 && (
+      {(extraVisibleUsers.length > 0 || invisibleMentions.length > 0) && (
         <div className="text-sm text-muted-foreground px-2 pb-2 mb-2 flex items-center flex-wrap gap-1 border-b">
           <MailIcon className="size-3" />
           {t('recipient')}:
