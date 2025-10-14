@@ -27,6 +27,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { useRightbarOrPopup } from '@/stores/rightbar-or-poup';
 import { MkPostForm } from '../mk-post-form';
 import { MkNoteSimple } from '../mk-note-simple';
+import { VISIBILITIES } from '@/lib/note';
 
 const MkNoteActionButton = (
   props: {
@@ -72,12 +73,10 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const { mutate: react } = useReactNoteAction(note.id);
 
   const openForm = ({
-    noteId,
     icon,
     title,
     postFormProps,
   }: {
-    noteId: string;
     icon: React.ReactNode;
     title: React.ReactNode;
     postFormProps: React.ComponentProps<typeof MkPostForm>;
@@ -91,17 +90,22 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
       ),
       node: (
         <div className="p-2">
-          <MkNoteSimple noteId={noteId} className="border text-sm rounded-md mb-2" />
-          <MkPostForm {...postFormProps} autoFocus className="border" onSuccess={closeRightbarOrPopup} />,
+          <MkNoteSimple noteId={note.id} className="border text-sm rounded-md mb-2" />
+          <MkPostForm
+            {...postFormProps}
+            autoFocus
+            className="border"
+            onSuccess={closeRightbarOrPopup}
+            visibilityRestrict={VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility))}
+            relatedNote={note}
+          />
         </div>
       ),
     });
 
-  const openQuoteForm = (noteId = note.id) =>
-    openForm({ noteId, icon: <QuoteIcon />, title: t('quote'), postFormProps: { quoteId: noteId } });
+  const openQuoteForm = () => openForm({ icon: <QuoteIcon />, title: t('quote'), postFormProps: { quoteId: note.id } });
 
-  const openReplyForm = (noteId = note.id) =>
-    openForm({ noteId, icon: <ReplyIcon />, title: t('reply'), postFormProps: { replyId: noteId } });
+  const openReplyForm = () => openForm({ icon: <ReplyIcon />, title: t('reply'), postFormProps: { replyId: note.id } });
 
   return (
     <div className="mk-note-actions p-2 flex">

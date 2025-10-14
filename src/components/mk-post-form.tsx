@@ -27,7 +27,7 @@ import { cn, withDefer } from '@/lib/utils';
 import { MkUserName } from './mk-user-name';
 import { MkEmojiPickerPopup } from './mk-emoji-picker-popup';
 import type { EmojiSimple } from 'misskey-js/entities.js';
-import { useEffect, useRef, useState, type HTMLProps } from 'react';
+import { useRef, useState, type HTMLProps } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,6 +38,11 @@ import { useMutation } from '@tanstack/react-query';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { Spinner } from './ui/spinner';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
+import type { NoteWithExtension } from '@/types/note';
+import { matchFirst } from '@/lib/match';
+import * as mfm from 'mfm-js';
+import { acct } from 'misskey-js';
+import { collectAst } from '@/lib/note';
 
 function useRandomPostFormPlaceholder() {
   const { t } = useTranslation();
@@ -52,22 +57,54 @@ function useRandomPostFormPlaceholder() {
   return samples.at(Math.floor(Math.random() * samples.length));
 }
 
+function extractMention(note: NoteWithExtension | undefined, me: { username: string; host: string | null }) {
+  if (!note) return '';
+  const mentions = [`@${acct.toString(note.user)}`];
+  if (note.text) {
+    const ast = mfm.parse(note.text);
+    mentions.push(
+      ...collectAst(ast, (node) => (node.type === 'mention' ? `@${acct.toString(node.props)}` : undefined)),
+    );
+  }
+  const res = new Set(mentions);
+  res.delete(`@${acct.toString(me)}`);
+  res.delete(`@${me.username}`);
+  return [...res, ''].join(' ');
+}
+
 export const MkPostForm = (
   props: DraftKeyProps & {
     onSuccess?: () => void;
     autoFocus?: boolean;
+    visibilityRestrict?: DraftData['visibility'][];
+    relatedNote?: NoteWithExtension;
   } & HTMLProps<HTMLDivElement>,
 ) => {
-  const { replyId, editId, quoteId, onSuccess, autoFocus, className, ...rest } = props;
+  const { replyId, editId, quoteId, onSuccess, autoFocus, relatedNote, visibilityRestrict, className, ...rest } = props;
 
-  const draftKey = getDraftKey({ replyId, editId, quoteId });
-  const draft = useDraft(draftKey);
   const { t } = useTranslation();
   const me = useMe();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const cwRef = useRef<HTMLTextAreaElement>(null);
   const [currentFocusTextarea, setCurrentFocusTextarea] = useState<'text' | 'cw'>('text');
   const placeholder = useRandomPostFormPlaceholder();
+
+  const draftKey = getDraftKey({ replyId, editId, quoteId });
+  const draft = useDraft(draftKey, {
+    visibility: visibilityRestrict?.at(0),
+    cw:
+      matchFirst([
+        [editId != null, relatedNote?.cw],
+        [replyId != null, relatedNote?.cw],
+        [true, null],
+      ]) ?? undefined,
+    text:
+      matchFirst([
+        [editId != null, relatedNote?.text],
+        [replyId != null, extractMention(relatedNote, me)],
+        [true, null],
+      ]) ?? undefined,
+  });
 
   const { mutate: send, isPending: isSending } = useMutation({
     mutationKey: ['post', draftKey],
@@ -132,6 +169,7 @@ export const MkPostForm = (
           <VisibilityPicker
             visibility={draft.visibility}
             setVisibility={(v) => draft.update({ visibility: v })}
+            visibilityRestrict={visibilityRestrict}
             disabled={!!editId}
           />
         </div>
@@ -163,6 +201,7 @@ export const MkPostForm = (
               if (el && autoFocus) {
                 el.focus();
               }
+              el?.setSelectionRange(draft.text.length, draft.text.length);
             }}
             placeholder={placeholder}
             value={draft.text}
@@ -270,8 +309,11 @@ const VisibilityPicker = (props: {
   visibility: DraftData['visibility'];
   setVisibility: (v: DraftData['visibility']) => void;
   disabled?: boolean;
+  visibilityRestrict?: DraftData['visibility'][];
 }) => {
   const { t } = useTranslation();
+
+  const disabled = props.disabled || props.visibilityRestrict?.length === 0;
 
   const visibilities = {
     public: {
@@ -299,14 +341,18 @@ const VisibilityPicker = (props: {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" disabled={props.disabled}>
+        <Button variant="ghost" disabled={disabled}>
           {visibilities[props.visibility].icon}
           {visibilities[props.visibility].label}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {Object.entries(visibilities).map(([key, v]) => (
-          <DropdownMenuItem key={key} onClick={() => props.setVisibility(key as DraftData['visibility'])}>
+          <DropdownMenuItem
+            key={key}
+            onClick={() => props.setVisibility(key as DraftData['visibility'])}
+            disabled={props.visibilityRestrict && !props.visibilityRestrict.includes(key as DraftData['visibility'])}
+          >
             {v.icon}
             <div>
               <div>{v.label}</div>

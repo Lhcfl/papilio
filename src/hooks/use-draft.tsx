@@ -3,6 +3,7 @@ import * as IDB from 'idb-keyval';
 import { getCurrentUserSiteIDB } from '@/plugins/idb';
 import { useDebounce } from 'react-use';
 import type { DriveFile } from 'misskey-js/entities.js';
+import { deepEqual } from '@/lib/object';
 
 export type DraftKeyProps = { replyId?: string | null; quoteId?: string | null; editId?: string | null };
 
@@ -41,7 +42,14 @@ const DefaultDraftData = {
 export type DraftData = typeof DefaultDraftData;
 
 export const useDraft = (draftKey: string, defaults?: Partial<DraftData>) => {
-  const defaultsWithFallback = { ...DefaultDraftData, ...defaults };
+  const defaultsWithFallback = { ...DefaultDraftData };
+
+  for (const k of Object.keys(DefaultDraftData) as (keyof DraftData)[]) {
+    if (defaults?.[k]) {
+      defaultsWithFallback[k] = defaults[k] as never;
+    }
+  }
+
   const [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState(defaultsWithFallback);
 
@@ -87,7 +95,11 @@ export const useDraft = (draftKey: string, defaults?: Partial<DraftData>) => {
   useDebounce(
     () => {
       const idbStore = getCurrentUserSiteIDB();
-      IDB.set(draftKey, draft, idbStore);
+      if (deepEqual(draft, defaultsWithFallback)) {
+        remove();
+      } else {
+        IDB.set(draftKey, draft, idbStore);
+      }
     },
     300,
     [draft],
