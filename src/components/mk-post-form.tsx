@@ -20,6 +20,8 @@ import {
   ReplyIcon,
   SendIcon,
   SmilePlusIcon,
+  WifiIcon,
+  WifiOffIcon,
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { MkMfm } from './mk-mfm';
@@ -27,7 +29,7 @@ import { cn, withDefer } from '@/lib/utils';
 import { MkUserName } from './mk-user-name';
 import { MkEmojiPickerPopup } from './mk-emoji-picker-popup';
 import type { EmojiSimple } from 'misskey-js/entities.js';
-import { useRef, useState, type HTMLProps } from 'react';
+import { useRef, useState, type ComponentProps, type HTMLProps } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,6 +45,7 @@ import { matchFirst } from '@/lib/match';
 import * as mfm from 'mfm-js';
 import { acct } from 'misskey-js';
 import { collectAst } from '@/lib/note';
+import { ButtonGroup } from './ui/button-group';
 
 function useRandomPostFormPlaceholder() {
   const { t } = useTranslation();
@@ -167,11 +170,26 @@ export const MkPostForm = (
         <MkAvatar user={me} />
         <div className="mk-post-form__control">
           <VisibilityPicker
+            className="-mr-2"
             visibility={draft.visibility}
             setVisibility={(v) => draft.update({ visibility: v })}
             visibilityRestrict={visibilityRestrict}
             disabled={!!editId}
           />
+          {draft.localOnly ? (
+            <PostFormButton
+              label={t('localOnly')}
+              onClick={() => draft.update({ localOnly: false })}
+              variant="ghost"
+              className="text-destructive! hover:bg-destructive/10"
+            >
+              <WifiOffIcon />
+            </PostFormButton>
+          ) : (
+            <PostFormButton label={t('federating')} onClick={() => draft.update({ localOnly: true })} variant="ghost">
+              <WifiIcon />
+            </PostFormButton>
+          )}
         </div>
       </div>
       {draft.hasCw && (
@@ -181,7 +199,7 @@ export const MkPostForm = (
               <span className="text-xs text-muted-foreground">{t('cw')}</span>
             </InputGroupAddon>
             <InputGroupTextarea
-              className="min-h-2"
+              className="min-h-2 @max-sm:text-sm"
               ref={cwRef}
               name="text"
               value={draft.cw}
@@ -203,6 +221,7 @@ export const MkPostForm = (
               }
               el?.setSelectionRange(draft.text.length, draft.text.length);
             }}
+            className="@max-sm:text-sm"
             placeholder={placeholder}
             value={draft.text}
             onChange={(e) => draft.update({ text: e.target.value })}
@@ -236,36 +255,32 @@ export const MkPostForm = (
       )}
       <div className="mk-post-form__footer border-t flex justify-between p-2">
         <div className="mk-post-form__action flex @md:gap-1">
-          <PostFormFooterButton label={t('addFile')}>
+          <PostFormButton label={t('addFile')}>
             <ImageIcon />
-          </PostFormFooterButton>
-          <PostFormFooterButton
-            label={t('cw')}
-            active={draft.hasCw}
-            onClick={() => draft.update({ hasCw: !draft.hasCw })}
-          >
+          </PostFormButton>
+          <PostFormButton label={t('cw')} active={draft.hasCw} onClick={() => draft.update({ hasCw: !draft.hasCw })}>
             <MessageSquareWarningIcon />
-          </PostFormFooterButton>
-          <PostFormFooterButton label={t('poll')}>
+          </PostFormButton>
+          <PostFormButton label={t('poll')}>
             <ChartColumnIcon />
-          </PostFormFooterButton>
+          </PostFormButton>
           <MkEmojiPickerPopup onEmojiChoose={onEmojiChoose} onClose={withDefer(() => textareaRef.current?.focus())}>
-            <PostFormFooterButton label={t('emoji')}>
+            <PostFormButton label={t('emoji')}>
               <SmilePlusIcon />
-            </PostFormFooterButton>
+            </PostFormButton>
           </MkEmojiPickerPopup>
-          <PostFormFooterButton label={t('other')}>
+          <PostFormButton label={t('other')}>
             <MoreHorizontalIcon />
-          </PostFormFooterButton>
+          </PostFormButton>
         </div>
         <div className="flex gap-1">
-          <PostFormFooterButton
+          <PostFormButton
             label={t('previewNoteText')}
             onClick={() => draft.update({ showPreview: !draft.showPreview })}
             active={draft.showPreview}
           >
             <EyeIcon />
-          </PostFormFooterButton>
+          </PostFormButton>
           <Button onClick={() => send(draft)} disabled={!sendable || isSending}>
             {isSending ? <Spinner /> : <PostBtnIcon />}
             <span className="@max-sm:hidden">{postBtnLabel}</span>
@@ -276,7 +291,7 @@ export const MkPostForm = (
   );
 };
 
-const PostFormFooterButton = (
+const PostFormButton = (
   props: { children: React.ReactNode; label: string; active?: boolean } & React.ComponentProps<typeof Button>,
 ) => {
   const { children, label, active, className, ...rest } = props;
@@ -305,15 +320,23 @@ const MkPostFormSkeleton = () => (
   </div>
 );
 
-const VisibilityPicker = (props: {
-  visibility: DraftData['visibility'];
-  setVisibility: (v: DraftData['visibility']) => void;
-  disabled?: boolean;
-  visibilityRestrict?: DraftData['visibility'][];
-}) => {
+const VisibilityPicker = (
+  props: {
+    visibility: DraftData['visibility'];
+    setVisibility: (v: DraftData['visibility']) => void;
+    disabled?: boolean;
+    visibilityRestrict?: DraftData['visibility'][];
+  } & ComponentProps<typeof Button>,
+) => {
   const { t } = useTranslation();
 
-  const disabled = props.disabled || props.visibilityRestrict?.length === 0;
+  const {
+    visibility,
+    setVisibility,
+    disabled = props.visibilityRestrict?.length === 0,
+    visibilityRestrict,
+    ...btnProps
+  } = props;
 
   const visibilities = {
     public: {
@@ -341,17 +364,17 @@ const VisibilityPicker = (props: {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" disabled={disabled}>
-          {visibilities[props.visibility].icon}
-          {visibilities[props.visibility].label}
+        <Button variant="ghost" disabled={disabled} {...btnProps}>
+          {visibilities[visibility].icon}
+          {visibilities[visibility].label}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {Object.entries(visibilities).map(([key, v]) => (
           <DropdownMenuItem
             key={key}
-            onClick={() => props.setVisibility(key as DraftData['visibility'])}
-            disabled={props.visibilityRestrict && !props.visibilityRestrict.includes(key as DraftData['visibility'])}
+            onClick={() => setVisibility(key as DraftData['visibility'])}
+            disabled={visibilityRestrict && !visibilityRestrict.includes(key as DraftData['visibility'])}
           >
             {v.icon}
             <div>

@@ -90,7 +90,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
       ),
       node: (
         <div className="p-2">
-          <MkNoteSimple noteId={note.id} className="border text-sm rounded-md mb-2" />
+          <MkNoteSimple noteId={note.id} disableRouteOnClick className="border text-sm rounded-md mb-2" />
           <MkPostForm
             {...postFormProps}
             autoFocus

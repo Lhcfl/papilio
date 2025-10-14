@@ -24,10 +24,11 @@ type NoteBodyCommonProps = {
   showQuoteAsIcon?: boolean;
   textAst: MfmNode[];
   disableLinkPreview?: boolean;
+  disableRouteOnClick?: boolean;
 };
 
 const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>) => {
-  const { note, showQuoteAsIcon, showReplyAsIcon, disableLinkPreview, textAst, ...rest } = props;
+  const { note, showQuoteAsIcon, showReplyAsIcon, disableLinkPreview, textAst, disableRouteOnClick, ...rest } = props;
   const navigate = useNavigate();
 
   const urls = collectAst(textAst, (x) =>
@@ -36,14 +37,14 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
 
   const images = note.files?.filter((f) => f.type.startsWith('image/')) || [];
   const otherFiles = note.files?.filter((f) => !f.type.startsWith('image/')) || [];
+  const onContentClick = disableRouteOnClick
+    ? undefined
+    : onlyWhenNonInteractableContentClicked(() => navigate({ to: getNoteRoute(note.id) }));
 
   return (
     <div className="note-body" {...rest}>
       {note.text && (
-        <div
-          className="note-body-text"
-          onClick={onlyWhenNonInteractableContentClicked(() => navigate({ to: getNoteRoute(note.id) }))}
-        >
+        <div className="note-body-text" onClick={onContentClick}>
           {showReplyAsIcon && note.replyId && (
             <Link className="text-tertiary mr-1 hover:underline" to={getNoteRoute(note.replyId)}>
               <ReplyIcon className="size-4 inline" />

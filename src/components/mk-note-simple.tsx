@@ -5,14 +5,22 @@ import { useNoteValue } from '@/hooks/use-note';
 import type { HTMLProps } from 'react';
 import { cn } from '@/lib/utils';
 
-export const MkNoteSimple = (props: { noteId: NoteWithExtension['id'] } & HTMLProps<HTMLDivElement>) => {
-  const { noteId, className, ...rest } = props;
+export const MkNoteSimple = (
+  props: { noteId: NoteWithExtension['id']; disableRouteOnClick?: boolean } & HTMLProps<HTMLDivElement>,
+) => {
+  const { noteId, className, disableRouteOnClick, ...rest } = props;
   const note = useNoteValue(noteId);
   if (!note) return null;
   return (
     <div className={cn('mk-note-simple p-2', className)} {...rest}>
       <MkNoteHeader note={note} />
-      <MkNoteBody note={note} showReplyAsIcon showQuoteAsIcon disableLinkPreview />
+      <MkNoteBody
+        note={note}
+        showReplyAsIcon
+        showQuoteAsIcon
+        disableLinkPreview
+        disableRouteOnClick={disableRouteOnClick}
+      />
     </div>
   );
 };
