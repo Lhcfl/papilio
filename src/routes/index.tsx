@@ -4,6 +4,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { MkTimeline } from '@/components/mk-timeline';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { useTimelineTabs } from '@/hooks/use-timeline-tabs';
+import { MkPostForm } from '@/components/mk-post-form';
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -16,7 +17,12 @@ function Index() {
 
   return (
     <DefaultLayout tabs={tabs} title={title}>
-      {(tab) => <MkTimeline type={tab.value} />}
+      {(tab) => (
+        <div>
+          <MkPostForm />
+          <MkTimeline type={tab.value} />
+        </div>
+      )}
     </DefaultLayout>
   );
 }

@@ -1,6 +1,16 @@
+import type { Endpoints } from '@/types/sharkey-api';
 import { Stream, api } from 'misskey-js';
+import type { SwitchCaseResponseType } from 'misskey-js/api.types.js';
 
 let apiClient: api.APIClient | null = null;
+
+// to fix misskey-js typing issue
+export function misskeyApi<E extends keyof Endpoints>(
+  endpoint: E,
+  params: Endpoints[E]['req'],
+): Promise<SwitchCaseResponseType<E, Endpoints[E]['req']>> {
+  return injectMisskeyApi().request(endpoint as never, params as never);
+}
 
 export const injectMisskeyApi = () => {
   if (apiClient) {
@@ -8,7 +18,8 @@ export const injectMisskeyApi = () => {
   }
   const origin = injectCurrentSite();
   const credential = getUserToken();
-  return (apiClient = new api.APIClient({ origin, credential }));
+  apiClient = new api.APIClient({ origin, credential });
+  return apiClient;
 };
 
 let stream: Stream | null = null;

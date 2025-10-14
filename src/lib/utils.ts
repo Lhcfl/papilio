@@ -80,3 +80,13 @@ export function onlyWhenNonInteractableContentClicked<
     return fn(ev);
   };
 }
+
+export function withDefer<Args extends unknown[], R>(
+  fn: (...args: Args) => R,
+  delay = 0,
+): (...args: Args) => Promise<Awaited<R>> {
+  return (...args: Args) =>
+    new Promise((resolve) => {
+      return setTimeout(() => resolve(Promise.resolve(fn(...args))), delay);
+    });
+}

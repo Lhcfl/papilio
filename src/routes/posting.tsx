@@ -1,3 +1,4 @@
+import { MkPostForm } from '@/components/mk-post-form';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { createFileRoute } from '@tanstack/react-router';
 
@@ -6,5 +7,9 @@ export const Route = createFileRoute('/posting')({
 });
 
 function RouteComponent() {
-  return <DefaultLayout>posting</DefaultLayout>;
+  return (
+    <DefaultLayout>
+      <MkPostForm />
+    </DefaultLayout>
+  );
 }

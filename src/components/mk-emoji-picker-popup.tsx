@@ -8,8 +8,14 @@ export const MkEmojiPickerPopup = (props: {
   onEmojiChoose: (emoji: EmojiSimple | string) => void;
   autoClose?: boolean;
   children: React.ReactNode;
+  onClose?: () => void;
 }) => {
   const [show, setShow] = useState(false);
+
+  function onOpenChange(open: boolean) {
+    setShow(open);
+    if (!open && props.onClose) props.onClose();
+  }
 
   function onEmojiChoose(emoji: EmojiSimple | string) {
     props.onEmojiChoose(emoji);
@@ -17,7 +23,7 @@ export const MkEmojiPickerPopup = (props: {
   }
 
   return (
-    <Popover open={show} onOpenChange={setShow}>
+    <Popover open={show} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>{props.children}</PopoverTrigger>
       <PopoverContent className="w-fit h-fit">
         <MkEmojiPicker onEmojiChoose={onEmojiChoose} />
