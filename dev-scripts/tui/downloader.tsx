@@ -59,9 +59,9 @@ const FileDownloader = (props: { url: string; to: string; filename: string }) =>
         throw new Error(`${props.url} - ${res.status} ${await res.text()}`);
       }
       const buf = Buffer.from(await res.arrayBuffer());
-      await mkdir(new URL(props.to, PROJECT_ROOT), { recursive: true });
-      const filePath = new URL(new URL(props.to + '/' + props.filename, PROJECT_ROOT), props.to);
-      await writeFile(filePath, buf);
+      await mkdir(downloadDir, { recursive: true });
+      await writeFile(fileUrl, buf);
+      return true;
     },
   });
 

@@ -69,7 +69,7 @@ export const MkPostForm = (props: DraftKeyProps & HTMLProps<HTMLDivElement>) => 
     mutationFn: (data: DraftData) =>
       editId
         ? misskeyApi('notes/edit', {
-            noteId: editId,
+            editId,
             cw: data.hasCw ? data.cw : undefined,
             text: data.text,
             fileIds: data.files.length > 0 ? data.files.map((f) => f.id) : undefined,
@@ -123,7 +123,11 @@ export const MkPostForm = (props: DraftKeyProps & HTMLProps<HTMLDivElement>) => 
       <div className="mk-post-form__title p-2 border-b flex items-center justify-between">
         <MkAvatar user={me} />
         <div className="mk-post-form__control">
-          <VisibilityPicker visibility={draft.visibility} setVisibility={(v) => draft.update({ visibility: v })} />
+          <VisibilityPicker
+            visibility={draft.visibility}
+            setVisibility={(v) => draft.update({ visibility: v })}
+            disabled={!!editId}
+          />
         </div>
       </div>
       {draft.hasCw && (
@@ -254,6 +258,7 @@ const MkPostFormSkeleton = () => (
 const VisibilityPicker = (props: {
   visibility: DraftData['visibility'];
   setVisibility: (v: DraftData['visibility']) => void;
+  disabled?: boolean;
 }) => {
   const { t } = useTranslation();
 
@@ -283,7 +288,7 @@ const VisibilityPicker = (props: {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" disabled={props.disabled}>
           {visibilities[props.visibility].icon}
           {visibilities[props.visibility].label}
         </Button>
