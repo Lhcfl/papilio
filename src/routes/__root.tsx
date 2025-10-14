@@ -1,3 +1,4 @@
+import { ConfirmDialogProvider } from '@/providers/confirm-dialog-provider';
 import { injectUserToken } from '@/services/inject-misskey-api';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Outlet, createRootRoute, redirect } from '@tanstack/react-router';
@@ -14,6 +15,7 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <Outlet />
+      <ConfirmDialogProvider />
       <TanStackRouterDevtools position="bottom-right" />
       <ReactQueryDevtools />
     </>

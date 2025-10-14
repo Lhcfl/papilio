@@ -1,6 +1,7 @@
 import { injectMisskeyApi } from '@/services/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { patchNote } from './use-note';
 
 export const useRenoteAction = (noteId: string) => {
   const api = injectMisskeyApi();
@@ -24,6 +25,9 @@ export const useDeleteNoteAction = (noteId: string) => {
   return useMutation({
     mutationKey: ['deleteNote', noteId],
     mutationFn: () => api.request('notes/delete', { noteId }),
+    onSuccess: () => {
+      patchNote(noteId, { isDeleted: true });
+    },
   });
 };
 

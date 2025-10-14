@@ -26,6 +26,8 @@ import { useMe } from '@/stores/me';
 import { getNoteRemoteUrl, getNoteRoute } from '@/lib/note';
 import { copyToClipboard } from '@/lib/utils';
 import { getNoteExcerpt } from '@/services/note-excerpt';
+import { useDeleteNoteAction } from '@/hooks/note-actions';
+import { useAfterConfirm } from '@/stores/confirm-dialog';
 
 export const MkNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void }) => {
   const { t } = useTranslation();
@@ -34,6 +36,18 @@ export const MkNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => 
   const isAdmin = useMe((me) => me.isAdmin);
   const isMine = meId === note.userId;
   const remoteUrl = getNoteRemoteUrl(note);
+
+  const deleteNoteAction = useDeleteNoteAction(note.id);
+  const onDelete = useAfterConfirm(
+    {
+      title: t('deleteConfirm'),
+      description: t('noteDeleteConfirm'),
+      variant: 'destructive',
+      confirmText: t('delete'),
+      confirmIcon: <Trash2Icon />,
+    },
+    () => deleteNoteAction.mutateAsync().then(() => toast.success(t('deleted'))),
+  );
 
   function copyContent() {
     copyToClipboard(note.cw + '\n\n' + note.text);
@@ -131,7 +145,7 @@ export const MkNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => 
         <>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem variant="destructive">
+            <DropdownMenuItem variant="destructive" onClick={onDelete}>
               <Trash2Icon />
               {t('delete')}
             </DropdownMenuItem>
