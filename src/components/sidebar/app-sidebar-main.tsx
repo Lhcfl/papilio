@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import {
   BellIcon,
+  CogIcon,
   HomeIcon,
   MegaphoneIcon,
   MessageSquareIcon,
@@ -30,6 +31,7 @@ export const AppSidebarMain = () => {
     { key: 'announcements', title: t('announcements'), icon: MegaphoneIcon, to: '/announcements' },
     { key: 'chat', title: t('chat'), icon: MessageSquareIcon, to: '/chat' },
     { key: 'search', title: t('search'), icon: SearchIcon, to: '/search' },
+    { key: 'settings', title: t('settings'), icon: CogIcon, to: '/settings' },
   ];
 
   return (
