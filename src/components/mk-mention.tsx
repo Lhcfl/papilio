@@ -5,8 +5,8 @@ import { Avatar, AvatarImage } from './ui/avatar';
 import { getRelativeUrl } from '@/services/inject-misskey-api';
 import { cn } from '@/lib/utils';
 
-const MkMentionInner = (props: { username: string; host: string | null }) => {
-  const { username, host } = props;
+const MkMentionInner = (props: { username: string; host: string | null; children?: React.ReactNode }) => {
+  const { username, host, children } = props;
   const src = getRelativeUrl(`/avatar/@${acct.toString(props)}`);
   return (
     <span className="flex items-center">
@@ -15,6 +15,7 @@ const MkMentionInner = (props: { username: string; host: string | null }) => {
       </Avatar>
       @{username}
       {host && <span className="opacity-70">@{host}</span>}
+      {children}
     </span>
   );
 };
@@ -24,9 +25,10 @@ export const MkMention = (
     username: string;
     host: string | null;
     noNavigate?: boolean;
+    children?: React.ReactNode;
   } & HTMLAttributes<HTMLSpanElement>,
 ) => {
-  const { username, host, noNavigate, className, ...rest } = props;
+  const { username, host, noNavigate, className, children, ...rest } = props;
 
   return (
     <span
@@ -35,11 +37,15 @@ export const MkMention = (
     >
       {noNavigate ? (
         <span>
-          <MkMentionInner username={username} host={host} />
+          <MkMentionInner username={username} host={host}>
+            {children}
+          </MkMentionInner>
         </span>
       ) : (
         <Link to={`/@${acct.toString({ username, host })}` as never}>
-          <MkMentionInner username={username} host={host} />
+          <MkMentionInner username={username} host={host}>
+            {children}
+          </MkMentionInner>
         </Link>
       )}
     </span>

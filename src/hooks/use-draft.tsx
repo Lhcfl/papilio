@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import * as IDB from 'idb-keyval';
 import { getCurrentUserSiteIDB } from '@/plugins/idb';
 import { useDebounce } from 'react-use';
-import type { DriveFile } from 'misskey-js/entities.js';
+import type { DriveFile, User } from 'misskey-js/entities.js';
 import { deepEqual } from '@/lib/object';
 
 export type DraftKeyProps = { replyId?: string | null; quoteId?: string | null; editId?: string | null };
@@ -17,7 +17,7 @@ export const getDraftKey = (props: DraftKeyProps) => {
 
 const DefaultDraftData = {
   visibility: 'public' as 'public' | 'home' | 'followers' | 'specified',
-  visibleUserIds: [] as string[],
+  visibleUsers: [] as User[],
   reactionAcceptance: null as
     | null
     | 'likeOnly'
@@ -41,7 +41,13 @@ const DefaultDraftData = {
 
 export type DraftData = typeof DefaultDraftData;
 
-export const useDraft = (draftKey: string, defaults?: Partial<DraftData>) => {
+export const useDraft = (
+  draftKey: string,
+  defaults?: Partial<DraftData>,
+  opts?: {
+    onFirstLoad?: (data: DraftData) => void;
+  },
+) => {
   const defaultsWithFallback = { ...DefaultDraftData };
 
   for (const k of Object.keys(DefaultDraftData) as (keyof DraftData)[]) {
@@ -83,10 +89,12 @@ export const useDraft = (draftKey: string, defaults?: Partial<DraftData>) => {
         return !!d;
       }
 
+      let d = draft;
       if (hasData(data)) {
-        setDraft({ ...defaultsWithFallback, ...data });
+        d = { ...defaultsWithFallback, ...data };
+        setDraft(d);
       }
-
+      opts?.onFirstLoad?.(d);
       setLoading(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

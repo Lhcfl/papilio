@@ -13,6 +13,7 @@ import {
   ImageIcon,
   LockIcon,
   MailIcon,
+  MailWarningIcon,
   MessageSquareWarningIcon,
   MoreHorizontalIcon,
   PencilIcon,
@@ -22,22 +23,23 @@ import {
   SmilePlusIcon,
   WifiIcon,
   WifiOffIcon,
+  XIcon,
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { MkMfm } from './mk-mfm';
 import { cn, withDefer } from '@/lib/utils';
 import { MkUserName } from './mk-user-name';
 import { MkEmojiPickerPopup } from './mk-emoji-picker-popup';
-import type { EmojiSimple } from 'misskey-js/entities.js';
-import { useRef, useState, type ComponentProps, type HTMLProps } from 'react';
+import type { EmojiSimple, User } from 'misskey-js/entities.js';
+import { useEffect, useRef, useState, type ComponentProps, type HTMLProps } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useMutation } from '@tanstack/react-query';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { injectCurrentSite, misskeyApi } from '@/services/inject-misskey-api';
 import { Spinner } from './ui/spinner';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import type { NoteWithExtension } from '@/types/note';
@@ -45,7 +47,8 @@ import { matchFirst } from '@/lib/match';
 import * as mfm from 'mfm-js';
 import { acct } from 'misskey-js';
 import { collectAst } from '@/lib/note';
-import { ButtonGroup } from './ui/button-group';
+import { MkMention } from './mk-mention';
+import { getAcctUserQueryOptions } from '@/hooks/use-user';
 
 function useRandomPostFormPlaceholder() {
   const { t } = useTranslation();
@@ -85,28 +88,72 @@ export const MkPostForm = (
 ) => {
   const { replyId, editId, quoteId, onSuccess, autoFocus, relatedNote, visibilityRestrict, className, ...rest } = props;
 
+  const site = injectCurrentSite();
+  const siteDomain = new URL(site).hostname;
   const { t } = useTranslation();
   const me = useMe();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const cwRef = useRef<HTMLTextAreaElement>(null);
   const [currentFocusTextarea, setCurrentFocusTextarea] = useState<'text' | 'cw'>('text');
   const placeholder = useRandomPostFormPlaceholder();
+  const queryClient = useQueryClient();
 
   const draftKey = getDraftKey({ replyId, editId, quoteId });
-  const draft = useDraft(draftKey, {
-    visibility: visibilityRestrict?.at(0),
-    cw:
-      matchFirst([
-        [editId != null, relatedNote?.cw],
-        [replyId != null, relatedNote?.cw],
-        [true, null],
-      ]) ?? undefined,
-    text:
-      matchFirst([
-        [editId != null, relatedNote?.text],
-        [replyId != null, extractMention(relatedNote, me)],
-        [true, null],
-      ]) ?? undefined,
+  const draft = useDraft(
+    draftKey,
+    {
+      visibility: visibilityRestrict?.at(0),
+      cw:
+        matchFirst([
+          [editId != null, relatedNote?.cw],
+          [replyId != null, relatedNote?.cw],
+          [true, null],
+        ]) ?? undefined,
+      text:
+        matchFirst([
+          [editId != null, relatedNote?.text],
+          [replyId != null, extractMention(relatedNote, me)],
+          [true, null],
+        ]) ?? undefined,
+    },
+    {
+      onFirstLoad: withDefer((data) => {
+        const textarea = textareaRef.current;
+        if (textarea && autoFocus) {
+          textarea.focus();
+        }
+        textarea?.setSelectionRange(data.text.length, data.text.length);
+      }, 10),
+    },
+  );
+
+  useEffect(() => {
+    if (draft?.visibility == 'specified' && unspecifiedMentions.length > 0) {
+      addUnspecifiedMentionUser();
+    }
+    // we only want to run this when visibility changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draft?.visibility]);
+
+  const parsedText = mfm.parse(draft?.text || '');
+  const mentionedUsers = collectAst(parsedText, (node) => (node.type === 'mention' ? node.props : undefined));
+  const unspecifiedMentions = mentionedUsers.filter((u) =>
+    draft?.visibleUsers.every((vu) => u.username != vu.username || (u.host != siteDomain && u.host != vu.host)),
+  );
+
+  const { mutate: addUnspecifiedMentionUser, isPending: isAddingUser } = useMutation({
+    mutationKey: ['add-unspecified-mention-user', draftKey],
+    mutationFn: () =>
+      Promise.all(unspecifiedMentions.map((u) => queryClient.ensureQueryData(getAcctUserQueryOptions(u)))),
+    onSuccess: (users) => {
+      const dedumplicater = new Map<string, User>(draft?.visibleUsers.map((u) => [u.id, u]));
+      for (const u of users) {
+        if (u) {
+          dedumplicater.set(u.id, u);
+        }
+      }
+      draft?.update({ visibleUsers: [...dedumplicater.values()] });
+    },
   });
 
   const { mutate: send, isPending: isSending } = useMutation({
@@ -121,7 +168,7 @@ export const MkPostForm = (
           })
         : misskeyApi('notes/create', {
             visibility: data.visibility,
-            visibleUserIds: data.visibility === 'specified' ? data.visibleUserIds : undefined,
+            visibleUserIds: data.visibility === 'specified' ? data.visibleUsers.map((u) => u.id) : undefined,
             cw: data.hasCw ? data.cw : undefined,
             localOnly: data.localOnly,
             reactionAcceptance: data.reactionAcceptance,
@@ -212,15 +259,43 @@ export const MkPostForm = (
       )}
       <div className="w-full">
         <InputGroup className="border-none rounded-none shadow-none">
+          {draft.visibility === 'specified' && (
+            <InputGroupAddon align="block-start" className="flex-col items-baseline">
+              <div className="flex flex-wrap gap-1 items-center">
+                <MailIcon className="size-3" />
+                {t('recipient')}:
+                {draft.visibleUsers.map((u) => (
+                  <MkMention
+                    key={u.id}
+                    host={u.host}
+                    username={u.username}
+                    noNavigate
+                    className="cursor-pointer"
+                    onClick={() => {
+                      draft.update({ visibleUsers: draft.visibleUsers.filter((x) => x.id != u.id) });
+                    }}
+                  >
+                    <XIcon className="size-4 ml-1" />
+                  </MkMention>
+                ))}
+              </div>
+              {unspecifiedMentions.length > 0 && (
+                <div className="flex flex-wrap gap-1 items-center">
+                  <MailWarningIcon className="size-3" />
+                  {t('notSpecifiedMentionWarning')}:
+                  {unspecifiedMentions.map((u) => (
+                    <MkMention key={u.acct} {...u} noNavigate />
+                  ))}
+                  <button className="hover:underline" onClick={() => addUnspecifiedMentionUser()}>
+                    {isAddingUser ? <Spinner /> : t('add')}
+                  </button>
+                </div>
+              )}
+            </InputGroupAddon>
+          )}
           <InputGroupTextarea
             name="text"
-            ref={(el) => {
-              textareaRef.current = el;
-              if (el && autoFocus) {
-                el.focus();
-              }
-              el?.setSelectionRange(draft.text.length, draft.text.length);
-            }}
+            ref={textareaRef}
             className="@max-sm:text-sm"
             placeholder={placeholder}
             value={draft.text}
@@ -243,7 +318,7 @@ export const MkPostForm = (
                     <MkMfm text={draft.cw} />
                   </AccordionTrigger>
                   <AccordionContent>
-                    <MkMfm text={draft.text} />
+                    <MkMfm text={draft.text} parsedNodes={parsedText} />
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

@@ -12,7 +12,7 @@ export default defineConfig([
 	globalIgnores(["dist"]),
 	{
 		files: ["**/*.{ts,tsx}"],
-		ignores: ["src/components/ui/*.tsx"],
+		ignores: ["src/components/ui/*.tsx", "sharkey-js/**/*"],
 		plugins: {
 			prettier, // 加入 Prettier 插件
 		},

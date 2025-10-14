@@ -2,4 +2,4 @@
 import type { Endpoints as MisskeyEndPoints } from 'misskey-js';
 import type { Endpoints as SharkeyEndPoints } from '@@/sharkey-js/index';
 
-export type Endpoints = MisskeyEndPoints & SharkeyEndPoints;
+export type Endpoints = MisskeyEndPoints & Omit<SharkeyEndPoints, keyof MisskeyEndPoints>;
