@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { useTitle } from 'react-use';
-import { AppRightCard } from '@/components/app-right-card';
 import { AppSidebar } from '@/components/app-sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
@@ -12,6 +11,7 @@ import type { Tab } from '@/types/page-header';
 import { useSiteMeta } from '@/stores/site';
 import { useNoteUpdateListener } from '@/hooks/use-note';
 import { useMainChannelListener } from '@/hooks/use-main-channel';
+import { RightbarOrPopupProvider } from '@/providers/rightbar-or-popup';
 
 type DefaultLayoutPropsCommon = {
   title?: string;
@@ -110,9 +110,7 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
             </div>
           )}
         </div>
-        <div className="right-card-container border-l max-lg:hidden">
-          <AppRightCard />
-        </div>
+        <RightbarOrPopupProvider />
       </SidebarInset>
     </SidebarProvider>
   );

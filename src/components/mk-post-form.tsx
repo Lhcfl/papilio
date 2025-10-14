@@ -27,7 +27,7 @@ import { cn, withDefer } from '@/lib/utils';
 import { MkUserName } from './mk-user-name';
 import { MkEmojiPickerPopup } from './mk-emoji-picker-popup';
 import type { EmojiSimple } from 'misskey-js/entities.js';
-import { useRef, useState, type HTMLProps } from 'react';
+import { useEffect, useRef, useState, type HTMLProps } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -52,8 +52,13 @@ function useRandomPostFormPlaceholder() {
   return samples.at(Math.floor(Math.random() * samples.length));
 }
 
-export const MkPostForm = (props: DraftKeyProps & HTMLProps<HTMLDivElement>) => {
-  const { replyId, editId, quoteId, className, ...rest } = props;
+export const MkPostForm = (
+  props: DraftKeyProps & {
+    onSuccess?: () => void;
+    autoFocus?: boolean;
+  } & HTMLProps<HTMLDivElement>,
+) => {
+  const { replyId, editId, quoteId, onSuccess, autoFocus, className, ...rest } = props;
 
   const draftKey = getDraftKey({ replyId, editId, quoteId });
   const draft = useDraft(draftKey);
@@ -89,6 +94,7 @@ export const MkPostForm = (props: DraftKeyProps & HTMLProps<HTMLDivElement>) => 
             poll: data.poll,
           }),
     onSuccess: () => {
+      onSuccess?.();
       if (props.editId || props.quoteId || props.replyId) {
         draft?.remove();
       } else {
@@ -119,7 +125,7 @@ export const MkPostForm = (props: DraftKeyProps & HTMLProps<HTMLDivElement>) => 
   const postBtnLabel = props.replyId ? t('reply') : props.quoteId ? t('quote') : props.editId ? t('edit') : t('note');
 
   return (
-    <div className={cn('mk-post-form', className)} {...rest}>
+    <div className={cn('mk-post-form rounded-md @container', className)} {...rest}>
       <div className="mk-post-form__title p-2 border-b flex items-center justify-between">
         <MkAvatar user={me} />
         <div className="mk-post-form__control">
@@ -152,7 +158,12 @@ export const MkPostForm = (props: DraftKeyProps & HTMLProps<HTMLDivElement>) => 
         <InputGroup className="border-none rounded-none shadow-none">
           <InputGroupTextarea
             name="text"
-            ref={textareaRef}
+            ref={(el) => {
+              textareaRef.current = el;
+              if (el && autoFocus) {
+                el.focus();
+              }
+            }}
             placeholder={placeholder}
             value={draft.text}
             onChange={(e) => draft.update({ text: e.target.value })}
@@ -185,7 +196,7 @@ export const MkPostForm = (props: DraftKeyProps & HTMLProps<HTMLDivElement>) => 
         </div>
       )}
       <div className="mk-post-form__footer border-t flex justify-between p-2">
-        <div className="mk-post-form__action flex gap-1">
+        <div className="mk-post-form__action flex @md:gap-1">
           <PostFormFooterButton label={t('addFile')}>
             <ImageIcon />
           </PostFormFooterButton>
@@ -218,7 +229,7 @@ export const MkPostForm = (props: DraftKeyProps & HTMLProps<HTMLDivElement>) => 
           </PostFormFooterButton>
           <Button onClick={() => send(draft)} disabled={!sendable || isSending}>
             {isSending ? <Spinner /> : <PostBtnIcon />}
-            {postBtnLabel}
+            <span className="@max-sm:hidden">{postBtnLabel}</span>
           </Button>
         </div>
       </div>

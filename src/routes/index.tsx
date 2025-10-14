@@ -19,7 +19,7 @@ function Index() {
     <DefaultLayout tabs={tabs} title={title}>
       {(tab) => (
         <div>
-          <MkPostForm />
+          <MkPostForm className="border" />
           <MkTimeline type={tab.value} />
         </div>
       )}

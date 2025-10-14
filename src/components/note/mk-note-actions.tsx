@@ -24,6 +24,9 @@ import {
   useUnrenoteAction,
 } from '@/hooks/note-actions';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { useRightbarOrPopup } from '@/stores/rightbar-or-poup';
+import { MkPostForm } from '../mk-post-form';
+import { MkNoteSimple } from '../mk-note-simple';
 
 const MkNoteActionButton = (
   props: {
@@ -46,7 +49,7 @@ const MkNoteActionButton = (
           {...rest}
         >
           {loading ? <Spinner /> : icon}
-          {count > 0 && <span className="ml-1 text-sm">{count}</span>}
+          {count > 0 && <span>{count}</span>}
         </Button>
       </TooltipTrigger>
       <TooltipContent>{tooltip}</TooltipContent>
@@ -60,21 +63,55 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
 
   const isRenoted = note.isRenoted;
 
+  const openRightbarOrPopup = useRightbarOrPopup((s) => s.push);
+  const closeRightbarOrPopup = useRightbarOrPopup((s) => s.close);
   const { mutate: renote, isPending: isRenoting } = useRenoteAction(note.id);
   const { mutate: unrenote, isPending: isUnrenoting } = useUnrenoteAction(note.id);
   const { mutate: like, isPending: isReacting } = useLikeNoteAction(note.id);
   const { mutate: unreact, isPending: isUnReacting } = useUndoReactNoteAction(note.id);
   const { mutate: react } = useReactNoteAction(note.id);
 
+  const openForm = ({
+    noteId,
+    icon,
+    title,
+    postFormProps,
+  }: {
+    noteId: string;
+    icon: React.ReactNode;
+    title: React.ReactNode;
+    postFormProps: React.ComponentProps<typeof MkPostForm>;
+  }) =>
+    openRightbarOrPopup({
+      title: (
+        <div className="flex gap-2">
+          {icon}
+          {title}
+        </div>
+      ),
+      node: (
+        <div className="p-2">
+          <MkNoteSimple noteId={noteId} className="border text-sm rounded-md mb-2" />
+          <MkPostForm {...postFormProps} autoFocus className="border" onSuccess={closeRightbarOrPopup} />,
+        </div>
+      ),
+    });
+
+  const openQuoteForm = (noteId = note.id) =>
+    openForm({ noteId, icon: <QuoteIcon />, title: t('quote'), postFormProps: { quoteId: noteId } });
+
+  const openReplyForm = (noteId = note.id) =>
+    openForm({ noteId, icon: <ReplyIcon />, title: t('reply'), postFormProps: { replyId: noteId } });
+
   return (
-    <div className="mk-note-actions p-2">
+    <div className="mk-note-actions p-2 flex">
       <MkNoteActionButton
         icon={<ReplyIcon />}
         count={note.repliesCount}
         disabled={false}
         loading={false}
         tooltip={t('reply')}
-        onClick={() => console.log('implement reply')}
+        onClick={() => openReplyForm()}
       />
       {isRenoted ? (
         <MkNoteActionButton
@@ -103,7 +140,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           }
         />
       )}
-      <MkNoteActionButton icon={<QuoteIcon />} onClick={() => console.log('implement quote')} tooltip={t('quote')} />
+      <MkNoteActionButton icon={<QuoteIcon />} onClick={() => openQuoteForm()} tooltip={t('quote')} />
       {note.myReaction == null ? (
         <>
           <MkNoteActionButton icon={<HeartIcon />} onClick={() => like()} loading={isReacting} tooltip={t('like')} />

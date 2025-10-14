@@ -15,7 +15,6 @@ import { MkNoteFile } from './mk-note-file';
 import { MkNoteImages } from './mk-note-images';
 import { MkNoteTranslation } from './mk-note-translation';
 import { Link } from '@tanstack/react-router';
-import { useNoteValue } from '@/hooks/use-note';
 import { collectAst, countAst, getNoteRoute } from '@/lib/note';
 import { onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 
@@ -30,8 +29,6 @@ type NoteBodyCommonProps = {
 const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>) => {
   const { note, showQuoteAsIcon, showReplyAsIcon, disableLinkPreview, textAst, ...rest } = props;
   const navigate = useNavigate();
-
-  const quote = useNoteValue(showQuoteAsIcon ? null : note.renoteId);
 
   const urls = collectAst(textAst, (x) =>
     x.type === 'url' ? x.props.url : x.type === 'link' ? x.props.url : undefined,
@@ -60,9 +57,9 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
           <MkMfm text={note.text} author={note.user} emojiUrls={note.emojis} parsedNodes={textAst} />
         </div>
       )}
-      {quote && !showQuoteAsIcon && (
+      {note.renoteId && !showQuoteAsIcon && (
         <div className="note-body-quote mt-2 border rounded-md">
-          <MkNoteSimple note={quote} />
+          <MkNoteSimple noteId={note.renoteId} />
         </div>
       )}
       <MkNoteTranslation note={note} />

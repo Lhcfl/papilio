@@ -1,12 +1,18 @@
 import type { NoteWithExtension } from '@/types/note';
 import { MkNoteBody } from './note/mk-note-body';
 import { MkNoteHeader } from './note/mk-note-header';
+import { useNoteValue } from '@/hooks/use-note';
+import type { HTMLProps } from 'react';
+import { cn } from '@/lib/utils';
 
-export const MkNoteSimple = (props: { note: NoteWithExtension }) => {
+export const MkNoteSimple = (props: { noteId: NoteWithExtension['id'] } & HTMLProps<HTMLDivElement>) => {
+  const { noteId, className, ...rest } = props;
+  const note = useNoteValue(noteId);
+  if (!note) return null;
   return (
-    <div className="mk-note-simple p-2">
-      <MkNoteHeader note={props.note} />
-      <MkNoteBody note={props.note} showReplyAsIcon showQuoteAsIcon disableLinkPreview />
+    <div className={cn('mk-note-simple p-2', className)} {...rest}>
+      <MkNoteHeader note={note} />
+      <MkNoteBody note={note} showReplyAsIcon showQuoteAsIcon disableLinkPreview />
     </div>
   );
 };

@@ -51,6 +51,7 @@
 		"styled-components": "^6.1.19",
 		"tailwind-merge": "^3.3.1",
 		"twemoji": "^14.0.2",
+		"vaul": "^1.1.2",
 		"zustand": "^5.0.8"
 	},
 	"devDependencies": {
