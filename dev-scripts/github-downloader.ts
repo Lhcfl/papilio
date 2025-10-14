@@ -1,7 +1,7 @@
 /**
  * Update shareky-js
  */
-import { writeFile } from 'fs/promises';
+import { writeFile, mkdir } from 'fs/promises';
 
 // you can provide your github token
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? '';
@@ -9,7 +9,7 @@ const GITHUB_REPO = 'Lhcfl/sharkey-stelpolva';
 const BRANCH = 'stelpolva';
 const PROJECT_ROOT = new URL('..', import.meta.url);
 
-async function githubRequest(url: string) {
+export async function githubRequest(url: string) {
   const res = await fetch(url, {
     headers: {
       Accept: 'application/vnd.github.v3+json',
@@ -22,7 +22,7 @@ async function githubRequest(url: string) {
   return res.json();
 }
 
-async function listFiles(folder: string, override?: { repo: string; branch?: string }) {
+export async function listFiles(folder: string, override?: { repo: string; branch?: string }) {
   const { repo: override_repo, branch: override_branch } = override ?? {};
   const repo = override_repo ?? GITHUB_REPO;
   const branch = override_branch ?? BRANCH;
@@ -37,15 +37,15 @@ async function listFiles(folder: string, override?: { repo: string; branch?: str
   }[];
 }
 
-async function downloadFile(fileUrl: string, savePath: URL) {
-  console.log(`[INFO]: Downloading ${fileUrl}\n\t-> ${savePath}`);
+export async function downloadFile(fileUrl: string, savePath: URL, fileName: string) {
   const res = await fetch(fileUrl);
   if (!res.ok) {
-    throw new Error(`[ERR]: ${fileUrl} - ${res.status} ${await res.text()}`);
+    throw new Error(`${fileUrl} - ${res.status} ${await res.text()}`);
   }
   const buf = Buffer.from(await res.arrayBuffer());
-  await writeFile(savePath, buf);
-  console.log(`Downloaded: ${savePath}`);
+  await mkdir(savePath, { recursive: true });
+  const filePath = new URL(fileName, savePath);
+  await writeFile(filePath, buf);
 }
 
 async function withRetry<T>(fn: () => Promise<T>, retries = 3, delay = 5000): Promise<T> {
@@ -64,27 +64,23 @@ async function withRetry<T>(fn: () => Promise<T>, retries = 3, delay = 5000): Pr
   throw new Error('Unreachable');
 }
 
-const downloader = async (folderPath: string): Promise<PromiseSettledResult<void>[]> => {
-  console.log(`[INFO]: Fetching ${folderPath}`);
-  const items = await listFiles(folderPath);
+const singleDownloader = async (from: string, to: string): Promise<PromiseSettledResult<void>[]> => {
+  console.log(`[INFO]: Fetching ${from}`);
+  const items = await listFiles(from);
   const files = items.filter((x) => x.type === 'file' && x.download_url);
   const folders = items.filter((x) => x.type === 'dir');
-  const rec = folders.map((f) => downloader(folderPath + '/' + f.name));
+  const rec = Promise.all(folders.map((f) => singleDownloader(from + '/' + f.name, to + '/' + f.name)));
   return [
     ...(await Promise.allSettled(
       files.map(async (f) => {
-        const path = new URL(`sharkey-js/${folderPath}/${f.name}`, PROJECT_ROOT);
-        withRetry(() => downloadFile(f.download_url!, path));
+        const path = new URL(to + '/', PROJECT_ROOT);
+        withRetry(() => downloadFile(f.download_url!, path, f.name));
       }),
     )),
-    ...(await rec),
+    ...(await rec).flat(),
   ];
 };
 
-const promises = ['packages/misskey-js/src'].map(downloader);
-
-const res = await Promise.all(promises);
-const failed = res.flat().filter((x) => x.status === 'rejected');
-if (failed.length > 0) {
-  console.error(`${failed.length} files failed to download.`);
-}
+export const downloader = async (pathMap: Record<string, string>) => {
+  return (await Promise.all(Object.entries(pathMap).flatMap(([from, to]) => singleDownloader(from, to)))).flat();
+};
