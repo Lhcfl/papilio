@@ -200,7 +200,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
 
   return (
     <div className={cls}>
-      {(extraVisibleUsers.length > 0 || invisibleMentions.length > 0) && (
+      {note.visibility == 'specified' && (extraVisibleUsers.length > 0 || invisibleMentions.length > 0) && (
         <div className="text-sm text-muted-foreground px-2 pb-2 mb-2 flex items-center flex-wrap gap-1 border-b">
           <MailIcon className="size-3" />
           {t('recipient')}:
