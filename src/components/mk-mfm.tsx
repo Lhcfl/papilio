@@ -6,7 +6,7 @@
 import { ClockIcon } from 'lucide-react';
 import * as mfm from 'mfm-js';
 import * as Misskey from 'misskey-js';
-import type { CSSProperties } from 'react';
+import { useMemo, type CSSProperties } from 'react';
 import { MkCustomEmoji, MkEmoji } from './mk-emoji';
 import { MkHashTag } from './mk-hashtag';
 import { MkMention } from './mk-mention';
@@ -21,12 +21,14 @@ function safeParseFloat(str: unknown): number | null {
 
 interface MfmProps {
   text: string;
+  /** only process emojis */
   plain?: boolean;
+  /** parse as inline elements */
   inline?: boolean;
   nowrap?: boolean;
   author?: Misskey.entities.UserLite;
   isNote?: boolean;
-  emojiUrls?: Record<string, string>;
+  emojiUrls?: Record<string, string | undefined>;
   rootScale?: number;
   nyaize?: boolean | 'respect';
   parsedNodes?: mfm.MfmNode[] | null;
@@ -67,16 +69,25 @@ export const MkMfm = (in_props: MfmProps) => {
     ...in_props,
   };
 
-  // const host = null;
-  const shouldNyaize = true;
-  const useAnim = true;
-  const rootAst = props.parsedNodes || (props.plain ? mfm.parseSimple : mfm.parse)(props.text);
+  const { plain: plainMode = false, inline: inlineMode = false } = props;
 
-  if (props.text == null || props.text === '') return;
+  // const host = null;
+
+  // TODO: make this configurable
+  const shouldNyaize = true as boolean;
+  // TODO: make this configurable
+  const useAnim = true as boolean;
+
+  const rootAst = useMemo(
+    () => props.parsedNodes ?? (plainMode ? mfm.parseSimple : mfm.parse)(props.text),
+    [props.parsedNodes, props.text, plainMode],
+  );
+
+  if (!props.text) return null;
 
   const classList = ['mfm', 'break-words', 'break-all'];
   if (props.isBlock) classList.push('block');
-  if (props.inline) classList.push('mfm-inline');
+  if (inlineMode) classList.push('mfm-inline');
 
   const genEl = (ast: mfm.MfmNode[], scale: number, disableNyaize = false) =>
     ast.map((token): React.ReactNode => {
@@ -88,7 +99,7 @@ export const MkMfm = (in_props: MfmProps) => {
             text = Misskey.nyaize(text);
           }
 
-          if (!props.plain && !props.inline) {
+          if (!plainMode && !inlineMode) {
             return text
               .split('\n')
               .map((t, i) => [i > 0 && <br key={Math.random()} />, <span key={Math.random()}>{t}</span>]);
@@ -206,7 +217,7 @@ export const MkMfm = (in_props: MfmProps) => {
               break;
             }
             case 'x2': {
-              if (props.inline) {
+              if (inlineMode) {
                 return (
                   <span key={Math.random()} style={{ fontSize: '120%' }}>
                     {genEl(token.children, scale * 1.2)}
@@ -221,7 +232,7 @@ export const MkMfm = (in_props: MfmProps) => {
               }
             }
             case 'x3': {
-              if (props.inline) {
+              if (inlineMode) {
                 return (
                   <span key={Math.random()} style={{ fontSize: '120%' }}>
                     {genEl(token.children, scale * 1.2)}
@@ -236,7 +247,7 @@ export const MkMfm = (in_props: MfmProps) => {
               }
             }
             case 'x4': {
-              if (props.inline) {
+              if (inlineMode) {
                 return (
                   <span key={Math.random()} style={{ fontSize: '120%' }}>
                     {genEl(token.children, scale * 1.2)}
@@ -265,7 +276,7 @@ export const MkMfm = (in_props: MfmProps) => {
                           ? 'math'
                           : null;
               if (family) {
-                style ||= {};
+                style ??= {};
                 style.fontFamily = family;
               }
               break;
@@ -320,7 +331,7 @@ export const MkMfm = (in_props: MfmProps) => {
               break;
             }
             case 'rotate': {
-              if (props.inline) {
+              if (inlineMode) {
                 style = { fontStyle: 'italic' };
                 break;
               }
@@ -333,7 +344,7 @@ export const MkMfm = (in_props: MfmProps) => {
             }
             // // This is a sharkey extension and is currently disabled
             // case 'followmouse': {
-            //   if (props.inline) {
+            //   if (inlineMode) {
             //     style = 'font-style: italic;'
             //     break
             //   }
@@ -363,7 +374,7 @@ export const MkMfm = (in_props: MfmProps) => {
             //   )
             // }
             case 'position': {
-              if (props.inline) {
+              if (inlineMode) {
                 style = { fontStyle: 'italic' };
                 break;
               }
@@ -376,17 +387,17 @@ export const MkMfm = (in_props: MfmProps) => {
               break;
             }
             case 'crop': {
-              const top = Number.parseFloat((token.props.args.top ?? '0').toString());
-              const right = Number.parseFloat((token.props.args.right ?? '0').toString());
-              const bottom = Number.parseFloat((token.props.args.bottom ?? '0').toString());
-              const left = Number.parseFloat((token.props.args.left ?? '0').toString());
+              const top = Number.parseFloat((token.props.args.top || '0').toString());
+              const right = Number.parseFloat((token.props.args.right || '0').toString());
+              const bottom = Number.parseFloat((token.props.args.bottom || '0').toString());
+              const left = Number.parseFloat((token.props.args.left || '0').toString());
               style = {
                 clipPath: `inset(${top}% ${right}% ${bottom}% ${left}%)`,
               };
               break;
             }
             case 'scale': {
-              if (props.inline) {
+              if (inlineMode) {
                 style = { fontStyle: 'italic' };
                 break;
               }
@@ -479,7 +490,7 @@ export const MkMfm = (in_props: MfmProps) => {
             }
 
             case 'clickable': {
-              if (props.inline) {
+              if (inlineMode) {
                 style = { fontStyle: 'italic' };
                 break;
               }
@@ -513,7 +524,7 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'small': {
-          if (props.inline) {
+          if (inlineMode) {
             return (
               <span key={Math.random()} style={{ opacity: 0.7 }}>
                 {genEl(token.children, scale)}
@@ -528,7 +539,7 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'center': {
-          if (props.inline) {
+          if (inlineMode) {
             return <span key={Math.random()}>{genEl(token.children, scale)}</span>;
           }
           return (
@@ -539,7 +550,7 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'url': {
-          if (props.inline) {
+          if (inlineMode) {
             return (
               <span key={Math.random()} className="text-blue-500">
                 {token.props.url}
@@ -559,7 +570,7 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'link': {
-          if (props.inline) {
+          if (inlineMode) {
             return (
               <span key={Math.random()} className="text-blue-500">
                 {genEl(token.children, scale)}
@@ -590,7 +601,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 key={Math.random()}
                 username={token.props.username}
                 host={mentionHost}
-                noNavigate={props.inline}
+                noNavigate={inlineMode}
               />
             </bdi>
           );
@@ -606,8 +617,8 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'blockCode': {
-          if (props.inline) {
-            return <code>{token.props.code.replaceAll('\n', '  ')}</code>;
+          if (inlineMode) {
+            return <code key={Math.random()}>{token.props.code.replaceAll('\n', '  ')}</code>;
           }
           return (
             <bdi key={Math.random()} className="block">
@@ -653,7 +664,7 @@ export const MkMfm = (in_props: MfmProps) => {
               <MkCustomEmoji
                 key={Math.random()}
                 name={token.props.name}
-                normal={props.plain || props.inline}
+                normal={plainMode || inlineMode}
                 host={null}
                 useOriginalSize={scale >= 2.5}
                 menu={props.enableEmojiMenu}
@@ -670,7 +681,7 @@ export const MkMfm = (in_props: MfmProps) => {
                   key={Math.random()}
                   name={token.props.name}
                   url={props.emojiUrls?.[token.props.name]}
-                  normal={props.plain || props.inline}
+                  normal={plainMode || inlineMode}
                   host={props.author.host}
                   useOriginalSize={scale >= 2.5}
                 />
@@ -691,7 +702,7 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'mathInline': {
-          if (props.inline) {
+          if (inlineMode) {
             return <i key={Math.random()}>{token.props.formula}</i>;
           }
           return (
@@ -702,7 +713,7 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'mathBlock': {
-          if (props.inline) {
+          if (inlineMode) {
             return <i key={Math.random()}>{token.props.formula}</i>;
           }
           return (
@@ -713,7 +724,7 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'search': {
-          if (props.inline) {
+          if (inlineMode) {
             return (
               <i key={Math.random()}>
                 [Search]
