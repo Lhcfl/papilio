@@ -198,6 +198,11 @@ const ReactionNotification = (props: { notification: PickNotification<'reaction'
       <ItemContent>
         <div className="flex flex-wrap gap-2 mt-1">
           {(expand ? reacters : reactersLess).map((r, i) => (
+            // It's misskey API design that there's no ID for each reaction.
+            // But for some times, the same user can react with the same emoji to one note.
+            // We just can't distinguish them.
+            // So here we use index as part of key.
+            // eslint-disable-next-line react-x/no-array-index-key
             <div className="reacter relative" key={i}>
               <MkAvatar user={r.user} avatarProps={{ className: 'mr-1 size-10' }} />
               <ReactionEmoji reaction={r.reaction} note={notification.note} />

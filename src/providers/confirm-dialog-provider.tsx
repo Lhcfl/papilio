@@ -32,7 +32,7 @@ export const ConfirmDialogProvider = () => {
   if (!dialog) return null;
 
   return (
-    <AlertDialog key={dialog?.uuid} open={open}>
+    <AlertDialog key={dialog.uuid} open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{dialog.title}</AlertDialogTitle>
@@ -46,20 +46,23 @@ export const ConfirmDialogProvider = () => {
             }}
           >
             {dialog.cancelIcon ?? <XIcon />}
-            {dialog.cancelText || t('no')}
+            {dialog.cancelText ?? t('no')}
           </AlertDialogCancel>
           <Button
             variant={dialog.variant}
             onClick={() => {
               setConfirming(true);
-              Promise.resolve(dialog.onConfirm()).finally(() => {
-                setConfirming(false);
-                closeDialog();
-              });
+              void Promise.resolve(dialog.onConfirm())
+                .then(() => {
+                  closeDialog();
+                })
+                .finally(() => {
+                  setConfirming(false);
+                });
             }}
           >
             {confirming ? <Spinner /> : (dialog.confirmIcon ?? <CheckIcon />)}
-            {dialog.confirmText || t('yes')}
+            {dialog.confirmText ?? t('yes')}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

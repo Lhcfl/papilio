@@ -97,7 +97,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
                           {query.key.join('/')}
                           :&nbsp;
                         </b>
-                        <span>{query.error?.message}</span>
+                        <span>{query.error.message}</span>
                       </li>
                     ),
                 )}

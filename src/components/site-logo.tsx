@@ -8,7 +8,7 @@ export const SiteLogo = () => {
   const faviconUrl = getRelativeUrl('/favicon.ico');
   return (
     <Avatar className="rounded-none">
-      <AvatarImage src={logoImageUrl || iconUrl || faviconUrl} />
+      <AvatarImage src={logoImageUrl ?? iconUrl ?? faviconUrl} />
     </Avatar>
   );
 };

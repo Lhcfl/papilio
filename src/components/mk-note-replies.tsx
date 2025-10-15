@@ -22,6 +22,9 @@ export const MkNoteReplies = (
   const api = injectMisskeyApi();
   const { t } = useTranslation();
 
+  // TODO: maybe we can estimate the total count of replies from note.repliesCount?
+  // but is's not accurate. You may be blocked to see some replies. And sometimes the note may be outdated.
+  // So we just load until there's no more replies.
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ['note-replies', noteId],
     queryFn: ({ pageParam: sinceId }) =>
@@ -31,7 +34,7 @@ export const MkNoteReplies = (
     initialPageParam: '0',
   });
 
-  const replies = data?.pages.flat() || [];
+  const replies = data?.pages.flat() ?? [];
   const justOneReply = replies.length === 1;
   const reachLimit = depth >= 11 || indent >= 5;
 
@@ -65,7 +68,7 @@ export const MkNoteReplies = (
               <div className="note-replies-line absolute top-0 left-0 -bottom-4 border-l-2" />
             )}
             <MkNote key={n} noteId={n} isSubNote hideReplyIcon showReply={false} />
-            {!reachLimit && <MkNoteReplies className="-mt-4" noteId={n} indent={realIndent + 1} depth={depth + 1} />}
+            <MkNoteReplies className="-mt-4" noteId={n} indent={realIndent + 1} depth={depth + 1} />
           </div>
         ))}
       {reachLimit && replies.length > 0 && (
@@ -83,14 +86,7 @@ export const MkNoteReplies = (
           </Button>
         </div>
       )}
-      {!reachLimit && hasNextPage && (
-        <LoadingTrigger
-          className="w-2 h-1"
-          onShow={() => {
-            if (hasNextPage) fetchNextPage();
-          }}
-        />
-      )}
+      {!reachLimit && hasNextPage && <LoadingTrigger className="w-2 h-1" onShow={() => fetchNextPage()} />}
     </div>
   );
 };

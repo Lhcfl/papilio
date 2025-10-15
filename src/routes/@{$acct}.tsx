@@ -37,7 +37,7 @@ function RouteComponent() {
   });
 
   const title = t('user');
-  const pageTitle = user?.name || user?.username || title;
+  const pageTitle = user?.name ?? user?.username ?? title;
 
   return (
     <DefaultLayout

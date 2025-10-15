@@ -13,8 +13,8 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
   const { note } = props;
   const metaName = useSiteMeta((s) => s.name);
   const metaIcon = useSiteMeta((s) => s.iconUrl);
-  const instanceName = note.user.instance?.name || metaName || undefined;
-  const instanceIcon = note.user.instance?.iconUrl || metaIcon || undefined;
+  const instanceName = note.user.instance?.name ?? metaName ?? undefined;
+  const instanceIcon = note.user.instance?.iconUrl ?? metaIcon ?? undefined;
 
   return (
     <div className="mk-note-header flex items-center gap-2 p-2">

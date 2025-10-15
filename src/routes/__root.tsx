@@ -8,7 +8,7 @@ export const Route = createRootRoute({
   beforeLoad: (ctx) => {
     if (!ctx.location.href.startsWith('/login')) {
       if (!injectUserToken()) {
-        throw redirect({ to: '/login' });
+        return redirect({ to: '/login' });
       }
     }
   },

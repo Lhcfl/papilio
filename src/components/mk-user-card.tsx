@@ -2,7 +2,7 @@ import type { UserDetailed } from 'misskey-js/entities.js';
 import { MkUserName } from './mk-user-name';
 import { acct } from 'misskey-js';
 import { MkBlurHash } from './mk-blurhash';
-import { useState, type HTMLProps } from 'react';
+import { Fragment, useState, type HTMLProps } from 'react';
 import { cn } from '@/lib/utils';
 import { MkAvatar } from './mk-avatar';
 import { Button } from './ui/button';
@@ -41,6 +41,9 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
   const { user, className: classNameProps, ...divProps } = props;
   const { t } = useTranslation();
 
+  // isXXXed means you are XXXed by the user
+  // isXXXing means you are XXXing the user
+  // e.g. isBlocking means you are blocking the user
   const badges = [
     { condition: user.isFollowed && user.isFollowing, label: t('mutualFollow'), icon: UsersRoundIcon },
     { condition: user.isFollowed && !user.isFollowing, label: t('followsYou'), icon: UserRoundPlusIcon },
@@ -56,7 +59,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
         {badges
           .filter((b) => b.condition)
           .map((badge) => (
-            <Badge>
+            <Badge key={badge.label}>
               <badge.icon />
               {badge.label}
             </Badge>
@@ -93,20 +96,20 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
           </Alert>
         )}
         <div className="py-4 text-sm @md:py-2 @md:text-base">
-          <MkMfm text={user.description || ''} author={user} emojiUrls={user.emojis} />
+          <MkMfm text={user.description ?? t('noDescription')} author={user} emojiUrls={user.emojis} />
         </div>
         <Separator />
         {user.fields.length > 0 && (
           <div className="user-field mt-2 grid grid-cols-[auto_1fr] text-sm gap-2">
             {user.fields.map((f) => (
-              <>
+              <Fragment key={`${f.name}-${f.value}`}>
                 <span className="text-muted-foreground max-w-30 @md:max-w-50 @lg:max-w-70 ">
                   <MkMfm text={f.name} author={user} emojiUrls={user.emojis} />
                 </span>
                 <span>
                   <MkMfm text={f.value} author={user} emojiUrls={user.emojis} />
                 </span>
-              </>
+              </Fragment>
             ))}
           </div>
         )}
@@ -174,7 +177,7 @@ const MkUserFollowButton = (props: { user: UserDetailed }) => {
         confirm: t('unblockConfirm'),
       };
     }
-    if (user.isBlocking) {
+    if (user.isBlocked) {
       return {
         action: null,
         icon: CircleSlashIcon,

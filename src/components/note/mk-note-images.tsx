@@ -36,9 +36,9 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
 
   const lightboxImages = images.map((img) => ({
     src: img.url,
-    alt: img.comment || img.name,
-    width: img.properties.width || 800,
-    height: img.properties.height || 600,
+    alt: img.comment ?? img.name,
+    width: img.properties.width ?? 800,
+    height: img.properties.height ?? 600,
   }));
 
   const handleNext = () => {
@@ -109,7 +109,7 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
           <div className="w-full flex justify-center absolute bottom-0 left-0 z-999 mb-3">
             <div className="px-2 py-1 rounded-md bg-black/40 text-white backdrop-blur-sm max-w-[80%] max-h-20 overflow-hidden">
               <ScrollArea>
-                <p>{images[currentIndex].comment || images[currentIndex].name}</p>
+                <p>{images[currentIndex].comment ?? images[currentIndex].name}</p>
               </ScrollArea>
             </div>
           </div>

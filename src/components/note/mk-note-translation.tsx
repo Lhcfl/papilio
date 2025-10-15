@@ -24,7 +24,7 @@ export const MkNoteTranslation = (props: { note: NoteWithExtension }) => {
       <ItemContent>
         <ItemTitle>
           <span className="flex items-center ">
-            <LanguagesIcon className="size-4" /> {t('translatedFrom', { x: data?.sourceLang || '...' })}
+            <LanguagesIcon className="size-4" /> {t('translatedFrom', { x: data?.sourceLang ?? '...' })}
           </span>
         </ItemTitle>
         <div className="text-muted-foreground">

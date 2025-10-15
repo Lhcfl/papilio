@@ -11,7 +11,7 @@ export const MkUrl = (
   return (
     <a href={props.url} {...props} className="break-all break-words text-tertiary hover:underline">
       <LinkIcon className="size-4 inline mr-1 align-[-0.13em]" />
-      {props.children || props.url}
+      {props.children ?? props.url}
     </a>
   );
 };
