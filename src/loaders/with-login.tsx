@@ -50,7 +50,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
       queryKey: ['me'],
       queryFn: () => api.request('i', {}).then(),
       gcTime: PERSIST_GC_TIME,
-      // staleTime: 1000 * 60 * 60, // 1 hour
+      staleTime: 1000 * 60 * 60, // 1 hour
       onData: setMe,
     }),
     useLoaderQuery({
@@ -67,7 +67,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
       queryFn: () => api.request('meta', {}),
       gcTime: PERSIST_GC_TIME,
       onData: setMeta,
-      // staleTime: 1000 * 60 * 60, // 1 hour
+      staleTime: 1000 * 60 * 60, // 1 hour
     }),
   ];
 

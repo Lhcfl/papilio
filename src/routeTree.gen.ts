@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PostingRouteImport } from './routes/posting'
-import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as FavoritesRouteImport } from './routes/favorites'
@@ -20,15 +19,12 @@ import { Route as MissingRouteImport } from './routes/$missing'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as NotesIdRouteImport } from './routes/notes/$id'
+import { Route as MyNotificationsRouteImport } from './routes/my/notifications'
+import { Route as MyFollowRequestsRouteImport } from './routes/my/follow-requests'
 
 const PostingRoute = PostingRouteImport.update({
   id: '/posting',
   path: '/posting',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NotificationsRoute = NotificationsRouteImport.update({
-  id: '/notifications',
-  path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRedirectRoute = LoginRedirectRouteImport.update({
@@ -76,6 +72,16 @@ const NotesIdRoute = NotesIdRouteImport.update({
   path: '/notes/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MyNotificationsRoute = MyNotificationsRouteImport.update({
+  id: '/my/notifications',
+  path: '/my/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyFollowRequestsRoute = MyFollowRequestsRouteImport.update({
+  id: '/my/follow-requests',
+  path: '/my/follow-requests',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -85,8 +91,9 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
-  '/notifications': typeof NotificationsRoute
   '/posting': typeof PostingRoute
+  '/my/follow-requests': typeof MyFollowRequestsRoute
+  '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
   '/settings': typeof SettingsIndexRoute
 }
@@ -98,8 +105,9 @@ export interface FileRoutesByTo {
   '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
-  '/notifications': typeof NotificationsRoute
   '/posting': typeof PostingRoute
+  '/my/follow-requests': typeof MyFollowRequestsRoute
+  '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
   '/settings': typeof SettingsIndexRoute
 }
@@ -112,8 +120,9 @@ export interface FileRoutesById {
   '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
-  '/notifications': typeof NotificationsRoute
   '/posting': typeof PostingRoute
+  '/my/follow-requests': typeof MyFollowRequestsRoute
+  '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
   '/settings/': typeof SettingsIndexRoute
 }
@@ -127,8 +136,9 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/login'
     | '/login-redirect'
-    | '/notifications'
     | '/posting'
+    | '/my/follow-requests'
+    | '/my/notifications'
     | '/notes/$id'
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
@@ -140,8 +150,9 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/login'
     | '/login-redirect'
-    | '/notifications'
     | '/posting'
+    | '/my/follow-requests'
+    | '/my/notifications'
     | '/notes/$id'
     | '/settings'
   id:
@@ -153,8 +164,9 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/login'
     | '/login-redirect'
-    | '/notifications'
     | '/posting'
+    | '/my/follow-requests'
+    | '/my/notifications'
     | '/notes/$id'
     | '/settings/'
   fileRoutesById: FileRoutesById
@@ -167,8 +179,9 @@ export interface RootRouteChildren {
   FavoritesRoute: typeof FavoritesRoute
   LoginRoute: typeof LoginRoute
   LoginRedirectRoute: typeof LoginRedirectRoute
-  NotificationsRoute: typeof NotificationsRoute
   PostingRoute: typeof PostingRoute
+  MyFollowRequestsRoute: typeof MyFollowRequestsRoute
+  MyNotificationsRoute: typeof MyNotificationsRoute
   NotesIdRoute: typeof NotesIdRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
 }
@@ -180,13 +193,6 @@ declare module '@tanstack/react-router' {
       path: '/posting'
       fullPath: '/posting'
       preLoaderRoute: typeof PostingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/notifications': {
-      id: '/notifications'
-      path: '/notifications'
-      fullPath: '/notifications'
-      preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login-redirect': {
@@ -252,6 +258,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/my/notifications': {
+      id: '/my/notifications'
+      path: '/my/notifications'
+      fullPath: '/my/notifications'
+      preLoaderRoute: typeof MyNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my/follow-requests': {
+      id: '/my/follow-requests'
+      path: '/my/follow-requests'
+      fullPath: '/my/follow-requests'
+      preLoaderRoute: typeof MyFollowRequestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -263,8 +283,9 @@ const rootRouteChildren: RootRouteChildren = {
   FavoritesRoute: FavoritesRoute,
   LoginRoute: LoginRoute,
   LoginRedirectRoute: LoginRedirectRoute,
-  NotificationsRoute: NotificationsRoute,
   PostingRoute: PostingRoute,
+  MyFollowRequestsRoute: MyFollowRequestsRoute,
+  MyNotificationsRoute: MyNotificationsRoute,
   NotesIdRoute: NotesIdRoute,
   SettingsIndexRoute: SettingsIndexRoute,
 }
