@@ -18,6 +18,7 @@ import { NotificationDescription, NotificationTitle } from './notification/item-
 import { useUserQuery } from '@/hooks/use-user';
 import { useAcceptFollowRequestAction, useFollowAction, useRejectFollowRequestAction } from '@/hooks/user-action';
 import { getNoteExcerpt } from '@/services/note-excerpt';
+import { MkMfm } from './mk-mfm';
 
 type PickNotification<T extends Notification['type']> = Extract<Notification, { type: T }>;
 
@@ -195,7 +196,9 @@ const ReactionNotification = (props: { notification: PickNotification<'reaction'
             </Button>
           )}
         </div>
-        <div className="line-clamp-2 text-sm text-muted-foreground mt-2">{getNoteExcerpt(notification.note)}</div>
+        <div className="line-clamp-2 text-sm text-muted-foreground mt-2">
+          <MkMfm text={getNoteExcerpt(notification.note)} inline />
+        </div>
       </ItemContent>
     </Item>
   );
@@ -254,7 +257,9 @@ const RenoteNotification = (props: { notification: PickNotification<'renote' | '
             </Button>
           )}
         </div>
-        <div className="line-clamp-2 text-sm text-muted-foreground mt-2">{getNoteExcerpt(notification.note)}</div>
+        <div className="line-clamp-2 text-sm text-muted-foreground mt-2">
+          <MkMfm text={getNoteExcerpt(notification.note.renote!)} inline />
+        </div>
       </ItemContent>
     </Item>
   );
