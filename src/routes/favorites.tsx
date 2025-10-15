@@ -6,7 +6,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { registerNote } from '@/hooks/use-note';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { misskeyApi } from '@/services/inject-misskey-api';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { StarIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
