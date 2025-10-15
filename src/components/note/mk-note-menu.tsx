@@ -57,7 +57,7 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
       confirmText: t('delete'),
       confirmIcon: <Trash2Icon />,
     },
-    () => deleteNoteAction.mutateAsync().then(() => toast.success(t('deleted'))),
+    () => deleteNoteAction.mutateAsync().then(() => void toast.success(t('deleted'))),
   );
 
   function share() {

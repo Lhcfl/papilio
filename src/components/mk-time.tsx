@@ -39,7 +39,7 @@ export const MkTime = (
   const { time, origin = null, mode = 'relative', colored = true, prepend, append, className, ...rest } = props;
   const { t } = useTranslation();
 
-  const [realNow, setNow] = useState(Date.now());
+  const [realNow, setNow] = useState(() => Date.now());
   const datetime = time == null ? NaN : getDateSafe(time).getTime();
   const invalid = isNaN(datetime);
   const absolute = invalid ? t('nothing') : dateTimeFormat.format(datetime);

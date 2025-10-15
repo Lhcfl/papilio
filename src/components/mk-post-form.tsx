@@ -50,19 +50,6 @@ import { collectAst } from '@/lib/note';
 import { MkMention } from './mk-mention';
 import { getAcctUserQueryOptions } from '@/hooks/use-user';
 
-function useRandomPostFormPlaceholder() {
-  const { t } = useTranslation();
-  const samples = [
-    t('_postForm._placeholders.a'),
-    t('_postForm._placeholders.b'),
-    t('_postForm._placeholders.c'),
-    t('_postForm._placeholders.d'),
-    t('_postForm._placeholders.e'),
-    t('_postForm._placeholders.f'),
-  ];
-  return samples.at(Math.floor(Math.random() * samples.length));
-}
-
 function extractMention(note: NoteWithExtension | undefined, me: { username: string; host: string | null }) {
   if (!note) return '';
   const mentions = [`@${acct.toString(note.user)}`];
@@ -113,7 +100,7 @@ export const MkPostForm = (
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const cwRef = useRef<HTMLTextAreaElement>(null);
   const [currentFocusTextarea, setCurrentFocusTextarea] = useState<'text' | 'cw'>('text');
-  const placeholder = useRandomPostFormPlaceholder();
+  const placeholder = t('_postForm._placeholders.f');
   const queryClient = useQueryClient();
 
   const draftKey = getDraftKey({ replyId, editId, quoteId });
