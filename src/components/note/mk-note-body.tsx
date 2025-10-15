@@ -99,7 +99,7 @@ const NoteBodyCw = (props: NoteBodyCommonProps) => {
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1">
-        <AccordionTrigger className="text-base">
+        <AccordionTrigger className="text-base py-0">
           <div className="note-body-cw">
             <MkMfm text={props.note.cw!} author={props.note.user} emojiUrls={props.note.emojis} />
             <div className="note-info">
@@ -110,7 +110,7 @@ const NoteBodyCw = (props: NoteBodyCommonProps) => {
           </div>
         </AccordionTrigger>
         <AccordionContent className="text-base">
-          <NoteBodyExpanded {...props} />
+          <NoteBodyExpanded className="pt-2" {...props} />
         </AccordionContent>
       </AccordionItem>
     </Accordion>
