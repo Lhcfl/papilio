@@ -12,6 +12,7 @@ import { useSiteMeta } from '@/stores/site';
 import { useNoteUpdateListener } from '@/hooks/use-note';
 import { useMainChannelListener } from '@/hooks/use-main-channel';
 import { RightbarOrPopupProvider } from '@/providers/rightbar-or-popup';
+import { cn } from '@/lib/utils';
 
 type DefaultLayoutPropsCommon = {
   title?: string;
@@ -60,7 +61,7 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
   useTitle(pageTitle);
   useNoteUpdateListener();
   useMainChannelListener();
-  const [tab, setTab] = useState(tabs?.[0].value);
+  const [currentTab, setTab] = useState(tabs?.[0].value);
   const handleTabChange = (value: string) => {
     setTab(value);
     if (onTabChange) {
@@ -83,7 +84,13 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
                     {tabs.map((tab) => (
                       <TabsTrigger key={tab.value} value={tab.value}>
                         {tab.icon}
-                        {tab.label}
+                        <span
+                          className={cn({
+                            'max-sm:hidden': tab.value != currentTab,
+                          })}
+                        >
+                          {tab.label}
+                        </span>
                       </TabsTrigger>
                     ))}
                   </TabsList>
@@ -91,7 +98,7 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
                 headerRight={
                   <>
                     {props.headerRight}
-                    {tab && headerRightWhenTab?.(tab)}
+                    {currentTab && headerRightWhenTab?.(currentTab)}
                   </>
                 }
               >
@@ -126,9 +133,17 @@ function LayoutMiddle(
   const {
     title,
     children,
-    headerLeft = <span className="text-sm text-muted-foreground">{title}</span>,
     headerCenter,
     headerRight,
+    headerLeft = (
+      <span
+        className={cn('text-sm text-muted-foreground', {
+          'max-sm:hidden': !!headerCenter,
+        })}
+      >
+        {title}
+      </span>
+    ),
   } = props;
   return (
     <ScrollArea className="h-screen">
