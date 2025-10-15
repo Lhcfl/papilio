@@ -41,8 +41,12 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
     height: img.properties.height || 600,
   }));
 
-  const handleNext = () => setCurrentIndex((prev) => (prev + 1) % lightboxImages.length);
-  const handlePrev = () => setCurrentIndex((prev) => (prev - 1 + lightboxImages.length) % lightboxImages.length);
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % lightboxImages.length);
+  };
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + lightboxImages.length) % lightboxImages.length);
+  };
 
   return (
     <>
@@ -66,7 +70,9 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
         isOpen={open}
         onNext={handleNext}
         onPrev={handlePrev}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+        }}
         renderNextButton={() =>
           count != 1 && (
             <button type="button" className="z-999 p-3" onClick={handleNext}>
@@ -88,7 +94,13 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
                 {currentIndex + 1} / {count}
               </span>
             </div>
-            <button type="button" className="z-999 p-3" onClick={() => setOpen(false)}>
+            <button
+              type="button"
+              className="z-999 p-3"
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
               <XIcon className="text-white size-10" />
             </button>
           </div>

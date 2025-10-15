@@ -14,12 +14,12 @@ import { useMainChannelListener } from '@/hooks/use-main-channel';
 import { RightbarOrPopupProvider } from '@/providers/rightbar-or-popup';
 import { cn } from '@/lib/utils';
 
-type DefaultLayoutPropsCommon = {
+interface DefaultLayoutPropsCommon {
   title?: string;
   pageTitle?: string;
   headerLeft?: React.ReactNode;
   headerRight?: React.ReactNode;
-};
+}
 
 type DefaultLayoutPropsTab<Ts extends Tab[]> = DefaultLayoutPropsCommon & {
   tabs: Ts;

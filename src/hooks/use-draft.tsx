@@ -5,7 +5,11 @@ import { useDebounce } from 'react-use';
 import type { DriveFile, User } from 'misskey-js/entities.js';
 import { deepEqual } from '@/lib/object';
 
-export type DraftKeyProps = { replyId?: string | null; quoteId?: string | null; editId?: string | null };
+export interface DraftKeyProps {
+  replyId?: string | null;
+  quoteId?: string | null;
+  editId?: string | null;
+}
 
 export const getDraftKey = (props: DraftKeyProps) => {
   const ret = ['draft'];

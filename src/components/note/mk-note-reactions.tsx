@@ -13,7 +13,7 @@ const NoteReaction = (props: {
   noteId: string;
 }) => {
   const { reaction, count, url, meReacted, noteId } = props;
-  const isCustomEmoji = reaction[0] === ':';
+  const isCustomEmoji = reaction.startsWith(':');
   const [name, host] = normalizeEmojiName(reaction);
 
   const { mutate: undoReact, isPending: isUndoPending } = useUndoReactNoteAction(noteId);
@@ -29,7 +29,13 @@ const NoteReaction = (props: {
         'border-tertiary bg-tertiary/10': meReacted,
         'animate-pulse': isReactPending || isUndoPending,
       })}
-      onClick={host == null ? () => (meReacted ? undoReact() : react(reaction)) : undefined}
+      onClick={
+        host == null
+          ? () => {
+              meReacted ? undoReact() : react(reaction);
+            }
+          : undefined
+      }
     >
       {isCustomEmoji ? (
         <MkCustomEmoji name={name} host={host} url={url} fallbackToImage />
@@ -55,24 +61,21 @@ export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
   const mergeSiteReactions = true;
 
   if (mergeSiteReactions) {
-    const map = reactions.reduce(
-      (acc, [reaction, count]) => {
-        const [normalizedName] = normalizeEmojiName(reaction);
-        const emoji = emojisMap.get(normalizedName);
-        if (emoji) {
-          const name = `:${normalizedName}:`;
-          if (myReaction === reaction) {
-            myReaction = name;
-          }
-          acc[name] ||= 0;
-          acc[name] += count;
-        } else {
-          acc[reaction] = count;
+    const map = reactions.reduce<Record<string, number>>((acc, [reaction, count]) => {
+      const [normalizedName] = normalizeEmojiName(reaction);
+      const emoji = emojisMap.get(normalizedName);
+      if (emoji) {
+        const name = `:${normalizedName}:`;
+        if (myReaction === reaction) {
+          myReaction = name;
         }
-        return acc;
-      },
-      {} as Record<string, number>,
-    );
+        acc[name] ||= 0;
+        acc[name] += count;
+      } else {
+        acc[reaction] = count;
+      }
+      return acc;
+    }, {});
     reactions = Object.entries(map);
   }
 

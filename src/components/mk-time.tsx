@@ -48,8 +48,12 @@ export const MkTime = (
 
   useEffect(() => {
     const nextInterval = ago < 60 ? 10000 : ago < 3600 ? 60000 : 180000;
-    const id = setTimeout(() => setNow(Date.now()), nextInterval);
-    return () => clearTimeout(id);
+    const id = setTimeout(() => {
+      setNow(Date.now());
+    }, nextInterval);
+    return () => {
+      clearTimeout(id);
+    };
   }, [ago, realNow]);
 
   const relative =

@@ -102,8 +102,10 @@ export const MkNotificationsFilter = (props: { excludedAtom: PrimitiveAtom<Notif
             <DropdownMenuCheckboxItem
               key={type}
               checked={!excluded.includes(type)}
-              onSelect={(ev) => ev.preventDefault()}
-              onCheckedChange={(checked) =>
+              onSelect={(ev) => {
+                ev.preventDefault();
+              }}
+              onCheckedChange={(checked) => {
                 setExcluded((old) => {
                   const set = new Set<NotificationIncludeableType>(old);
                   if (checked) {
@@ -112,8 +114,8 @@ export const MkNotificationsFilter = (props: { excludedAtom: PrimitiveAtom<Notif
                     set.add(type);
                   }
                   return [...set.values()];
-                })
-              }
+                });
+              }}
             >
               {t(`_notification._types.${type}`)}
             </DropdownMenuCheckboxItem>
@@ -122,16 +124,24 @@ export const MkNotificationsFilter = (props: { excludedAtom: PrimitiveAtom<Notif
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem
-            onSelect={(ev) => ev.preventDefault()}
-            onClick={() => setExcluded([])}
+            onSelect={(ev) => {
+              ev.preventDefault();
+            }}
+            onClick={() => {
+              setExcluded([]);
+            }}
             disabled={hasIncludedAll}
           >
             <ListChecksIcon />
             {t('enableAll')}
           </DropdownMenuItem>
           <DropdownMenuItem
-            onSelect={(ev) => ev.preventDefault()}
-            onClick={() => setExcluded([...NOTIFICATION_TYPES])}
+            onSelect={(ev) => {
+              ev.preventDefault();
+            }}
+            onClick={() => {
+              setExcluded([...NOTIFICATION_TYPES]);
+            }}
             disabled={hasExcludedAll}
           >
             <ListXIcon />

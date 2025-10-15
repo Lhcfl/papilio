@@ -210,7 +210,9 @@ const MkUserFollowButton = (props: { user: UserDetailed }) => {
       variant,
       cancelText: t('cancel'),
     },
-    () => handleAction(),
+    () => {
+      handleAction();
+    },
   );
 
   return (
@@ -233,7 +235,9 @@ const MkUserCardBanner = (props: { url: string | null; blurhash: string | null }
           alt="banner"
           loading="lazy"
           className="w-full h-full object-cover"
-          onLoad={() => setLoading(false)}
+          onLoad={() => {
+            setLoading(false);
+          }}
         />
       )}
       {url && loading && blurhash && (

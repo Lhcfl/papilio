@@ -87,6 +87,8 @@ export function withDefer<Args extends unknown[], R>(
 ): (...args: Args) => Promise<Awaited<R>> {
   return (...args: Args) =>
     new Promise((resolve) => {
-      return setTimeout(() => resolve(Promise.resolve(fn(...args))), delay);
+      return setTimeout(() => {
+        resolve(Promise.resolve(fn(...args)));
+      }, delay);
     });
 }

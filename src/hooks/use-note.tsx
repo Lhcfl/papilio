@@ -107,8 +107,8 @@ export function useNoteUpdateListener() {
           return;
         }
 
-        case 'reacted':
-          return GlobalNoteSingletonManager.patch(id, (note) => {
+        case 'reacted': {
+          GlobalNoteSingletonManager.patch(id, (note) => {
             const emoji = body.emoji as string | EmojiSimple | null;
             const updates: Partial<NoteWithExtension> = {};
 
@@ -124,9 +124,11 @@ export function useNoteUpdateListener() {
 
             return updates;
           });
+          return;
+        }
 
-        case 'unreacted':
-          return GlobalNoteSingletonManager.patch(id, (note) => {
+        case 'unreacted': {
+          GlobalNoteSingletonManager.patch(id, (note) => {
             const updates: Partial<NoteWithExtension> = {};
 
             updates.reactions = Object.fromEntries(
@@ -147,9 +149,11 @@ export function useNoteUpdateListener() {
 
             return updates;
           });
+          return;
+        }
 
-        case 'pollVoted':
-          return GlobalNoteSingletonManager.patch(id, (note) => {
+        case 'pollVoted': {
+          GlobalNoteSingletonManager.patch(id, (note) => {
             // sharkey have poll
             const poll = note.poll;
             const choice = (body as unknown as { choice: number }).choice;
@@ -170,9 +174,13 @@ export function useNoteUpdateListener() {
 
             return { poll: { ...poll, choices } };
           });
+          return;
+        }
 
-        case 'deleted':
-          return GlobalNoteSingletonManager.unregister(id);
+        case 'deleted': {
+          GlobalNoteSingletonManager.unregister(id);
+          return;
+        }
 
         // fix sharkey stelpolva
         // case 'madePrivate' as any: {
@@ -191,8 +199,10 @@ export function useNoteUpdateListener() {
         // }
 
         // fix sharkey
-        case 'updated' as never:
-          return GlobalNoteSingletonManager.patch(id, body as Partial<NoteWithExtension>);
+        case 'updated' as never: {
+          GlobalNoteSingletonManager.patch(id, body as Partial<NoteWithExtension>);
+          return;
+        }
 
         default: {
           console.log('unhandled noteUpdated event', { type, id, body });

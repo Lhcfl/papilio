@@ -4,11 +4,11 @@ import type { UserDetailed } from 'misskey-js/entities.js';
 
 const patch = (v: Partial<UserDetailed>) => (old: UserDetailed | undefined) => (old ? { ...old, ...v } : old);
 
-type CommonProps = {
+interface CommonProps {
   id: string;
   username: string;
   host: string | null;
-};
+}
 
 const cs =
   (props: CommonProps, v: Partial<UserDetailed>) =>

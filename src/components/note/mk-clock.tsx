@@ -18,7 +18,9 @@ export const MkClock = () => {
     const tickId = setInterval(() => {
       setTime(new Date());
     }, 10000);
-    return () => clearInterval(tickId);
+    return () => {
+      clearInterval(tickId);
+    };
   }, []);
 
   return <div>{dateTimeFormat.format(time)}</div>;

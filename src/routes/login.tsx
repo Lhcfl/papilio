@@ -40,7 +40,7 @@ function RouteComponent() {
     e.preventDefault();
     e.stopPropagation();
 
-    const session = `${crypto.randomUUID()}`;
+    const session = crypto.randomUUID();
 
     const site = domain.startsWith('https://') || domain.startsWith('http://') ? domain : `https://${domain}`;
 
@@ -74,7 +74,9 @@ function RouteComponent() {
                 type="text"
                 placeholder="example.com"
                 required
-                onChange={(e) => updateDomain(e.target.value)}
+                onChange={(e) => {
+                  updateDomain(e.target.value);
+                }}
               />
             </InputGroup>
           </Field>

@@ -108,7 +108,13 @@ const FollowNotification = (props: { notification: PickNotification<'follow'> })
           <Tooltip>
             <TooltipContent>{t('follow')}</TooltipContent>
             <TooltipTrigger asChild>
-              <Button variant="outline" size="icon" onClick={() => follow(void null, { onSuccess: () => refetch() })}>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => {
+                  follow(void null, { onSuccess: () => refetch() });
+                }}
+              >
                 {isFollowing ? <Spinner /> : <UserRoundPlusIcon />}
               </Button>
             </TooltipTrigger>
@@ -144,7 +150,13 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
             <Button
               variant="outline"
               size="icon"
-              onClick={() => accept(void null, { onSuccess: () => setHidden(true) })}
+              onClick={() => {
+                accept(void null, {
+                  onSuccess: () => {
+                    setHidden(true);
+                  },
+                });
+              }}
             >
               {isAccepting ? <Spinner /> : <CheckIcon />}
             </Button>
@@ -156,7 +168,13 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
             <Button
               variant="outline"
               size="icon"
-              onClick={() => reject(void null, { onSuccess: () => setHidden(true) })}
+              onClick={() => {
+                reject(void null, {
+                  onSuccess: () => {
+                    setHidden(true);
+                  },
+                });
+              }}
             >
               {isRejecting ? <Spinner /> : <XIcon className="text-destructive!" />}
             </Button>
@@ -186,12 +204,26 @@ const ReactionNotification = (props: { notification: PickNotification<'reaction'
             </div>
           ))}
           {hasMore && !expand && (
-            <Button variant="outline" size="icon-lg" className="rounded-full" onClick={() => setExpand(true)}>
+            <Button
+              variant="outline"
+              size="icon-lg"
+              className="rounded-full"
+              onClick={() => {
+                setExpand(true);
+              }}
+            >
               <MoreHorizontalIcon />
             </Button>
           )}
           {hasMore && expand && (
-            <Button variant="outline" size="icon-lg" className="rounded-full" onClick={() => setExpand(false)}>
+            <Button
+              variant="outline"
+              size="icon-lg"
+              className="rounded-full"
+              onClick={() => {
+                setExpand(false);
+              }}
+            >
               <ChevronLeftIcon />
             </Button>
           )}
@@ -247,12 +279,26 @@ const RenoteNotification = (props: { notification: PickNotification<'renote' | '
             <MkAvatar key={u.id} user={u} avatarProps={{ className: 'mr-1 size-10' }} />
           ))}
           {hasMore && !expand && (
-            <Button variant="outline" size="icon-lg" className="rounded-full" onClick={() => setExpand(true)}>
+            <Button
+              variant="outline"
+              size="icon-lg"
+              className="rounded-full"
+              onClick={() => {
+                setExpand(true);
+              }}
+            >
               <MoreHorizontalIcon />
             </Button>
           )}
           {hasMore && expand && (
-            <Button variant="outline" size="icon-lg" className="rounded-full" onClick={() => setExpand(false)}>
+            <Button
+              variant="outline"
+              size="icon-lg"
+              className="rounded-full"
+              onClick={() => {
+                setExpand(false);
+              }}
+            >
               <ChevronLeftIcon />
             </Button>
           )}

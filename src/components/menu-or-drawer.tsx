@@ -32,15 +32,15 @@ export type MenuItem = {
     }
 );
 
-export type MenuLabel = {
+export interface MenuLabel {
   type: 'label';
   label: React.ReactNode;
-};
+}
 
-export type MenuGroup = {
+export interface MenuGroup {
   type: 'group';
   items: Menu;
-};
+}
 
 export type Menu = (MenuGroup | MenuItem | null | undefined | false | MenuLabel)[];
 

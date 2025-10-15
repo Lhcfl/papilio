@@ -24,7 +24,7 @@ import { matchFirst } from '@/lib/match';
 import { MkMention } from '../mk-mention';
 import { acct } from 'misskey-js';
 
-type NoteBodyCommonProps = {
+interface NoteBodyCommonProps {
   note: NoteWithExtension;
   showReplyAsIcon?: boolean;
   showQuoteAsIcon?: boolean;
@@ -32,7 +32,7 @@ type NoteBodyCommonProps = {
   disableLinkPreview?: boolean;
   disableRouteOnClick?: boolean;
   detailed?: boolean;
-};
+}
 
 const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>) => {
   const { note, showQuoteAsIcon, showReplyAsIcon, disableLinkPreview, textAst, disableRouteOnClick, ...rest } = props;
@@ -131,7 +131,12 @@ const NoteBodyLong = (props: NoteBodyCommonProps) => {
         {...props}
       />
       <div className="sticky bottom-2 w-full text-center">
-        <Button onClick={() => setExpanded(!expanded)} variant="outline">
+        <Button
+          onClick={() => {
+            setExpanded(!expanded);
+          }}
+          variant="outline"
+        >
           {expanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
           {t(expanded ? 'showLess' : 'showMore')}
         </Button>

@@ -81,7 +81,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
     icon: React.ReactNode;
     title: React.ReactNode;
     postFormProps: React.ComponentProps<typeof MkPostForm>;
-  }) =>
+  }) => {
     openRightbarOrPopup({
       title: (
         <div className="flex gap-2">
@@ -103,10 +103,15 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
         </div>
       ),
     });
+  };
 
-  const openQuoteForm = () => openForm({ icon: <QuoteIcon />, title: t('quote'), postFormProps: { quoteId: note.id } });
+  const openQuoteForm = () => {
+    openForm({ icon: <QuoteIcon />, title: t('quote'), postFormProps: { quoteId: note.id } });
+  };
 
-  const openReplyForm = () => openForm({ icon: <ReplyIcon />, title: t('reply'), postFormProps: { replyId: note.id } });
+  const openReplyForm = () => {
+    openForm({ icon: <ReplyIcon />, title: t('reply'), postFormProps: { replyId: note.id } });
+  };
 
   return (
     <div className="mk-note-actions p-2 flex">
@@ -116,7 +121,9 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
         disabled={false}
         loading={false}
         tooltip={t('reply')}
-        onClick={() => openReplyForm()}
+        onClick={() => {
+          openReplyForm();
+        }}
       />
       {isRenoted ? (
         <MkNoteActionButton
@@ -125,11 +132,11 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           count={note.renoteCount}
           loading={isUnrenoting}
           tooltip={t('unrenote')}
-          onClick={() =>
+          onClick={() => {
             unrenote(void null, {
               onSuccess: () => toast.success(t('unrenote')),
-            })
-          }
+            });
+          }}
         />
       ) : (
         <MkNoteActionButton
@@ -138,20 +145,35 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           disabled={note.visibility !== 'public' && note.visibility !== 'home'}
           loading={isRenoting}
           tooltip={t('renote')}
-          onClick={() =>
+          onClick={() => {
             renote(props.note.visibility as 'public' | 'home', {
               onSuccess: () => toast.success(t('renoted')),
-            })
-          }
+            });
+          }}
         />
       )}
-      <MkNoteActionButton icon={<QuoteIcon />} onClick={() => openQuoteForm()} tooltip={t('quote')} />
+      <MkNoteActionButton
+        icon={<QuoteIcon />}
+        onClick={() => {
+          openQuoteForm();
+        }}
+        tooltip={t('quote')}
+      />
       {note.myReaction == null ? (
         <>
-          <MkNoteActionButton icon={<HeartIcon />} onClick={() => like()} loading={isReacting} tooltip={t('like')} />
+          <MkNoteActionButton
+            icon={<HeartIcon />}
+            onClick={() => {
+              like();
+            }}
+            loading={isReacting}
+            tooltip={t('like')}
+          />
           {!isReacting && (
             <MkEmojiPickerPopup
-              onEmojiChoose={(emoji) => react(typeof emoji === 'string' ? emoji : `:${emoji.name}:`)}
+              onEmojiChoose={(emoji) => {
+                react(typeof emoji === 'string' ? emoji : `:${emoji.name}:`);
+              }}
               autoClose
             >
               <MkNoteActionButton
@@ -167,7 +189,9 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
         <MkNoteActionButton
           className="text-tertiary hover:bg-tertiary/10"
           icon={<HeartMinusIcon />}
-          onClick={() => unreact()}
+          onClick={() => {
+            unreact();
+          }}
           loading={isUnReacting}
           tooltip={t('unlike')}
         />

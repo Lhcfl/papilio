@@ -26,7 +26,7 @@ export const MkCustomEmoji = (props: {
   const site = injectCurrentSite();
   const [error, setError] = useState(false);
 
-  const name = props.name[0] === ':' ? props.name.slice(1, -1) : props.name;
+  const name = props.name.startsWith(':') ? props.name.slice(1, -1) : props.name;
   const [normalizedName, normalizedHost] = name.split('@');
   const isLocal = props.host == null && (normalizedHost == '.' || !normalizedHost);
   const url = props.url
@@ -55,8 +55,12 @@ export const MkCustomEmoji = (props: {
           alt={alt}
           title={alt}
           decoding="async"
-          onError={() => setError(true)}
-          onLoad={() => setError(false)}
+          onError={() => {
+            setError(true);
+          }}
+          onLoad={() => {
+            setError(false);
+          }}
         />
       </span>
     );

@@ -10,9 +10,13 @@ export const useRightbarOrPopup = create<{
   title: null,
   node: null,
   closing: false,
-  push: ({ title, node }) => set({ title, node }),
+  push: ({ title, node }) => {
+    set({ title, node });
+  },
   close: () => {
     set({ closing: true });
-    setTimeout(() => set({ title: null, node: null, closing: false }), 300);
+    setTimeout(() => {
+      set({ title: null, node: null, closing: false });
+    }, 300);
   },
 }));

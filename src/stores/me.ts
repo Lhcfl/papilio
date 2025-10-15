@@ -1,14 +1,16 @@
 import type { MeDetailed } from 'misskey-js/entities.js';
 import { create } from 'zustand';
 
-type MeState = {
+interface MeState {
   me: null | MeDetailed;
   setMe: (user: MeDetailed | null) => void;
-};
+}
 
 export const useSetableMe = create<MeState>((set) => ({
   me: null,
-  setMe: (user) => set({ me: user }),
+  setMe: (user) => {
+    set({ me: user });
+  },
 }));
 
 export function useMe(): MeDetailed;

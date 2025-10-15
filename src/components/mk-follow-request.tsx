@@ -44,7 +44,13 @@ export const MkFollowRequest = (props: { user: User; type: 'received' | 'sent' }
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => accept(void null, { onSuccess: () => setIsRemoved(true) })}
+                onClick={() => {
+                  accept(void null, {
+                    onSuccess: () => {
+                      setIsRemoved(true);
+                    },
+                  });
+                }}
                 disabled={isAccepting || isRejecting || isCanceling}
               >
                 {isAccepting ? <Spinner /> : <CheckIcon />}
@@ -59,7 +65,13 @@ export const MkFollowRequest = (props: { user: User; type: 'received' | 'sent' }
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => reject(void null, { onSuccess: () => setIsRemoved(true) })}
+                onClick={() => {
+                  reject(void null, {
+                    onSuccess: () => {
+                      setIsRemoved(true);
+                    },
+                  });
+                }}
                 disabled={isAccepting || isRejecting || isCanceling}
               >
                 {isRejecting ? <Spinner /> : <XIcon className="text-destructive!" />}
@@ -74,7 +86,13 @@ export const MkFollowRequest = (props: { user: User; type: 'received' | 'sent' }
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => cancel(void null, { onSuccess: () => setIsRemoved(true) })}
+                onClick={() => {
+                  cancel(void null, {
+                    onSuccess: () => {
+                      setIsRemoved(true);
+                    },
+                  });
+                }}
                 disabled={isAccepting || isRejecting || isCanceling}
               >
                 {isCanceling ? <Spinner /> : <XIcon className="text-destructive!" />}

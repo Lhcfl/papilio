@@ -14,16 +14,15 @@ import { emojiCharByCategory, emojilist as UnicodeEmojiList } from '@/assets/emo
 import { Separator } from '@/components/ui/separator';
 import { useEmojis } from '@/stores/emojis';
 
-type RecurisveEmojiCategories = {
-  [name: string]: {
+type RecurisveEmojiCategories = Record<
+  string,
+  {
     emojis: EmojiSimple[];
     subcategories: RecurisveEmojiCategories;
-  };
-};
+  }
+>;
 
-type EmojisByCategory = {
-  [category: string]: EmojiSimple[];
-};
+type EmojisByCategory = Record<string, EmojiSimple[]>;
 
 const UNCATEGORIZED = '__uncategorized_key';
 const UNNAMED = '__unnamed_key';
@@ -114,7 +113,11 @@ export const MkEmojiPicker = (
         <InputGroupAddon>
           <SearchIcon />
         </InputGroupAddon>
-        <InputGroupInput onInput={(e) => setSearch(e.currentTarget.value)} />
+        <InputGroupInput
+          onInput={(e) => {
+            setSearch(e.currentTarget.value);
+          }}
+        />
         {debouncing && (
           <InputGroupAddon align="inline-end">
             <Spinner />
@@ -218,7 +221,13 @@ const MkEmojiPickerEmojis = ({
 }) => (
   <div className="grid grid-cols-[repeat(auto-fit,calc(var(--spacing)_*_14))] gap-1">
     {emojis?.map((emoji) => (
-      <button key={emoji.name} className="p-1 rounded-md hover:bg-muted size-14" onClick={() => onEmojiChoose(emoji)}>
+      <button
+        key={emoji.name}
+        className="p-1 rounded-md hover:bg-muted size-14"
+        onClick={() => {
+          onEmojiChoose(emoji);
+        }}
+      >
         <MkCustomEmoji name={emoji.name} fallbackToImage />
       </button>
     ))}
@@ -226,7 +235,9 @@ const MkEmojiPickerEmojis = ({
       <button
         key={emoji}
         className="p-1 rounded-md hover:bg-muted size-14 overflow-hidden"
-        onClick={() => onEmojiChoose(emoji)}
+        onClick={() => {
+          onEmojiChoose(emoji);
+        }}
       >
         <MkEmoji emoji={emoji} innerClassName="h-[2em]" />
       </button>

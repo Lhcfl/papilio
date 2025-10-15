@@ -43,7 +43,9 @@ export const useLikeNoteAction = (noteId: string) => {
   const res = useReactNoteAction(noteId);
   return {
     ...res,
-    mutate: (...args: RestArgumentsOf<typeof res.mutate>) => res.mutate('❤️', ...args),
+    mutate: (...args: RestArgumentsOf<typeof res.mutate>) => {
+      res.mutate('❤️', ...args);
+    },
   };
 };
 

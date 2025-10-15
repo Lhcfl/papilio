@@ -56,11 +56,18 @@ export const MkNote = (
           noteId={note.replyId}
           isSubNote={true}
           className="reply-note -m-2"
-          onClose={() => setShowReplyState('inline')}
+          onClose={() => {
+            setShowReplyState('inline');
+          }}
         />
       )}
       {showReply && showReplyState === 'inline' && note.replyId != null && (
-        <MkNoteReplyLine noteId={note.replyId} onExpand={() => setShowReplyState('subNote')} />
+        <MkNoteReplyLine
+          noteId={note.replyId}
+          onExpand={() => {
+            setShowReplyState('subNote');
+          }}
+        />
       )}
       <MkNoteHeader note={appearNote} />
       <div className={clsx({ 'pl-12': isSubNote })}>

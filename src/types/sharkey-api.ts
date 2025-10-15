@@ -4,12 +4,12 @@ import type { Endpoints as SharkeyEndPoints } from '@@/sharkey-js/index';
 
 export type Endpoints = MisskeyEndPoints & Omit<SharkeyEndPoints, keyof MisskeyEndPoints>;
 
-type SwitchCase<Condition = unknown, Result = unknown> = {
+interface SwitchCase<Condition = unknown, Result = unknown> {
   $switch: {
     $cases: [Condition, Result][];
     $default: Result;
   };
-};
+}
 
 type IsNeverType<T> = [T] extends [never] ? true : false;
 type StrictExtract<Union, Cond> = Cond extends Union ? Union : never;

@@ -1,14 +1,16 @@
 import type { MetaLite } from 'misskey-js/entities.js';
 import { create } from 'zustand';
 
-type SiteMetaState = {
+interface SiteMetaState {
   meta: MetaLite | null;
   setMeta: (meta: MetaLite) => void;
-};
+}
 
 export const useSetableSiteMeta = create<SiteMetaState>((set) => ({
   meta: null as null | MetaLite,
-  setMeta: (meta: MetaLite | null) => set({ meta }),
+  setMeta: (meta: MetaLite | null) => {
+    set({ meta });
+  },
 }));
 
 export const useSiteMeta = <T>(selector: (arg: MetaLite) => T) =>

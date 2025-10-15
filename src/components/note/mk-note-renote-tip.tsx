@@ -48,7 +48,13 @@ const RenoteMore = (props: { note: NoteWithExtension }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
-        <DropdownMenuItem className="cursor-pointer" variant="destructive" onClick={() => unrenote()}>
+        <DropdownMenuItem
+          className="cursor-pointer"
+          variant="destructive"
+          onClick={() => {
+            unrenote();
+          }}
+        >
           <Trash2Icon />
           {t('unrenote')}
         </DropdownMenuItem>

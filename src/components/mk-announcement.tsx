@@ -58,7 +58,9 @@ export const MkAnnouncement = (props: { item: Announcement }) => {
               <Button
                 type="button"
                 variant={item.needConfirmationToRead ? 'default' : 'outline'}
-                onClick={() => read()}
+                onClick={() => {
+                  read();
+                }}
               >
                 {isPending ? <Spinner /> : item.needConfirmationToRead ? <CheckIcon /> : <MailOpenIcon />}
               </Button>

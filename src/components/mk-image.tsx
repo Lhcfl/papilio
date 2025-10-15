@@ -16,8 +16,12 @@ export const MkImage = (props: { image: DriveFile } & HTMLProps<HTMLDivElement>)
     img.src = url;
     img.decoding = 'async';
     img.loading = 'lazy';
-    img.onload = () => setLoading(false);
-    img.onerror = () => setLoading(false);
+    img.onload = () => {
+      setLoading(false);
+    };
+    img.onerror = () => {
+      setLoading(false);
+    };
   }, [image.properties.height, image.properties.width, url]);
 
   return (
@@ -33,8 +37,12 @@ export const MkImage = (props: { image: DriveFile } & HTMLProps<HTMLDivElement>)
         alt={image.name || ''}
         loading="lazy"
         decoding="async"
-        onLoad={() => setLoading(false)}
-        onError={() => setLoading(false)}
+        onLoad={() => {
+          setLoading(false);
+        }}
+        onError={() => {
+          setLoading(false);
+        }}
       />
       {loading && (
         <div className="absolute max-h-full max-w-full w-full h-full">

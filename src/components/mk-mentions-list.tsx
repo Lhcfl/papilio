@@ -21,7 +21,9 @@ export const MkMentionsList = (props: { visibility?: 'specified' }) => {
   return (
     <div className="mk-mentions w-full">
       {isError && <div>Error loading mentions</div>}
-      {data && data.pages.flat().map((m) => <MkNote key={m} noteId={m} />)}
+      {data?.pages.flat().map((m) => (
+        <MkNote key={m} noteId={m} />
+      ))}
       {(isLoading || isFetchingNextPage) && (
         <div className="w-full p-3 flex justify-center">
           <Spinner />

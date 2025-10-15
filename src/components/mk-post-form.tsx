@@ -240,21 +240,31 @@ export const MkPostForm = (
           <VisibilityPicker
             className="-mr-2"
             visibility={draft.visibility}
-            setVisibility={(v) => draft.update({ visibility: v })}
+            setVisibility={(v) => {
+              draft.update({ visibility: v });
+            }}
             visibilityRestrict={visibilityRestrict}
             disabled={!!editId}
           />
           {draft.localOnly ? (
             <PostFormButton
               label={t('localOnly')}
-              onClick={() => draft.update({ localOnly: false })}
+              onClick={() => {
+                draft.update({ localOnly: false });
+              }}
               variant="ghost"
               className="text-destructive! hover:bg-destructive/10"
             >
               <WifiOffIcon />
             </PostFormButton>
           ) : (
-            <PostFormButton label={t('federating')} onClick={() => draft.update({ localOnly: true })} variant="ghost">
+            <PostFormButton
+              label={t('federating')}
+              onClick={() => {
+                draft.update({ localOnly: true });
+              }}
+              variant="ghost"
+            >
               <WifiIcon />
             </PostFormButton>
           )}
@@ -272,8 +282,12 @@ export const MkPostForm = (
               ref={cwRef}
               name="text"
               value={draft.cw}
-              onChange={(e) => draft.update({ cw: e.target.value })}
-              onFocus={() => setCurrentFocusTextarea('cw')}
+              onChange={(e) => {
+                draft.update({ cw: e.target.value });
+              }}
+              onFocus={() => {
+                setCurrentFocusTextarea('cw');
+              }}
             />
           </InputGroup>
           <div className="border-b" />
@@ -308,7 +322,12 @@ export const MkPostForm = (
                   {unspecifiedMentions.map((u) => (
                     <MkMention key={u.acct} {...u} noNavigate />
                   ))}
-                  <button className="hover:underline" onClick={() => addUnspecifiedMentionUser()}>
+                  <button
+                    className="hover:underline"
+                    onClick={() => {
+                      addUnspecifiedMentionUser();
+                    }}
+                  >
                     {isAddingUser ? <Spinner /> : t('add')}
                   </button>
                 </div>
@@ -321,8 +340,12 @@ export const MkPostForm = (
             className="@max-sm:text-sm"
             placeholder={placeholder}
             value={draft.text}
-            onChange={(e) => draft.update({ text: e.target.value })}
-            onFocus={() => setCurrentFocusTextarea('text')}
+            onChange={(e) => {
+              draft.update({ text: e.target.value });
+            }}
+            onFocus={() => {
+              setCurrentFocusTextarea('text');
+            }}
             onKeyDown={(k) => {
               if (k.ctrlKey && k.code == 'Enter' && sendable) {
                 send(draft);
@@ -361,7 +384,13 @@ export const MkPostForm = (
           <PostFormButton label={t('addFile')}>
             <ImageIcon />
           </PostFormButton>
-          <PostFormButton label={t('cw')} active={draft.hasCw} onClick={() => draft.update({ hasCw: !draft.hasCw })}>
+          <PostFormButton
+            label={t('cw')}
+            active={draft.hasCw}
+            onClick={() => {
+              draft.update({ hasCw: !draft.hasCw });
+            }}
+          >
             <MessageSquareWarningIcon />
           </PostFormButton>
           <PostFormButton label={t('poll')}>
@@ -379,13 +408,20 @@ export const MkPostForm = (
         <div className="flex gap-1">
           <PostFormButton
             label={t('previewNoteText')}
-            onClick={() => draft.update({ showPreview: !draft.showPreview })}
+            onClick={() => {
+              draft.update({ showPreview: !draft.showPreview });
+            }}
             active={draft.showPreview}
           >
             <EyeIcon />
           </PostFormButton>
           {appendFooter}
-          <Button onClick={() => send(draft)} disabled={!sendable || isSending}>
+          <Button
+            onClick={() => {
+              send(draft);
+            }}
+            disabled={!sendable || isSending}
+          >
             {isSending ? <Spinner /> : <PostBtnIcon />}
             <span className="@max-sm:hidden">{postBtnLabel}</span>
           </Button>
@@ -477,7 +513,9 @@ const VisibilityPicker = (
         {Object.entries(visibilities).map(([key, v]) => (
           <DropdownMenuItem
             key={key}
-            onClick={() => setVisibility(key as DraftData['visibility'])}
+            onClick={() => {
+              setVisibility(key as DraftData['visibility']);
+            }}
             disabled={visibilityRestrict && !visibilityRestrict.includes(key as DraftData['visibility'])}
           >
             {v.icon}

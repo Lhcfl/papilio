@@ -19,7 +19,7 @@ function safeParseFloat(str: unknown): number | null {
   return num;
 }
 
-type MfmProps = {
+interface MfmProps {
   text: string;
   plain?: boolean;
   inline?: boolean;
@@ -36,7 +36,7 @@ type MfmProps = {
   isBlock?: boolean;
   linkNavigationBehavior?: unknown;
   clickEv?: (clickEv: string) => void;
-};
+}
 
 const defaultStore = {
   state: {
@@ -47,12 +47,12 @@ const defaultStore = {
 const validTime = (t: string | boolean | null | undefined) => {
   if (t == null) return null;
   if (typeof t === 'boolean') return null;
-  return t.match(/^-?[0-9.]+s$/) ? t : null;
+  return /^-?[0-9.]+s$/.exec(t) ? t : null;
 };
 
 const validColor = (c: unknown): string | null => {
   if (typeof c !== 'string') return null;
-  return c.match(/^[0-9a-f]{3,6}$/i) ? c : null;
+  return /^[0-9a-f]{3,6}$/i.exec(c) ? c : null;
 };
 
 export const MkMfm = (in_props: MfmProps) => {
@@ -201,7 +201,7 @@ export const MkMfm = (in_props: MfmProps) => {
                     ? 'scaleY(-1)'
                     : 'scaleX(-1)';
               style = {
-                transform: `${transform}`,
+                transform: transform,
               };
               break;
             }
@@ -582,9 +582,7 @@ export const MkMfm = (in_props: MfmProps) => {
 
         case 'mention': {
           const mentionHost =
-            token.props.host == null && props.author && props.author.host != null
-              ? props.author.host
-              : token.props.host;
+            token.props.host == null && props.author?.host != null ? props.author.host : token.props.host;
 
           return (
             <bdi key={Math.random()}>

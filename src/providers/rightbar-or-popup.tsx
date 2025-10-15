@@ -21,7 +21,7 @@ const MobilePopup = () => {
   return (
     <Dialog
       onOpenChange={(o) => {
-        if (o == false) {
+        if (!o) {
           close();
         }
       }}

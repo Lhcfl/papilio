@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type DialogConfig = {
+export interface DialogConfig {
   title: React.ReactNode;
   description: React.ReactNode;
   confirmText?: React.ReactNode;
@@ -10,24 +10,26 @@ export type DialogConfig = {
   variant?: 'default' | 'destructive';
   onConfirm: () => void | Promise<void>;
   onCancel?: () => void;
-};
+}
 
-type ConfirmDialogState = {
+interface ConfirmDialogState {
   dialogsQueue: (DialogConfig & { uuid: string })[];
   pushDialog: (config: DialogConfig) => void;
   popDialog: () => void;
-};
+}
 
 export const useConfirmDialog = create<ConfirmDialogState>((set) => ({
   dialogsQueue: [],
-  pushDialog: (config: DialogConfig) =>
+  pushDialog: (config: DialogConfig) => {
     set((state) => ({
       dialogsQueue: [...state.dialogsQueue, { ...config, uuid: crypto.randomUUID() }],
-    })),
-  popDialog: () =>
+    }));
+  },
+  popDialog: () => {
     set((state) => ({
       dialogsQueue: state.dialogsQueue.slice(1),
-    })),
+    }));
+  },
 }));
 
 export const useAfterConfirm = (
@@ -41,8 +43,14 @@ export const useAfterConfirm = (
     new Promise((resolve) => {
       pushDialog({
         ...dialog,
-        onConfirm: () => Promise.resolve(onConfirm()).then(() => resolve(true)),
-        onCancel: () => Promise.resolve(onCancel?.()).then(() => resolve(false)),
+        onConfirm: () =>
+          Promise.resolve(onConfirm()).then(() => {
+            resolve(true);
+          }),
+        onCancel: () =>
+          Promise.resolve(onCancel?.()).then(() => {
+            resolve(false);
+          }),
       });
     });
 };
