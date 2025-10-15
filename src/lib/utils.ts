@@ -1,30 +1,41 @@
 import { type ClassValue, clsx } from 'clsx';
+import { toast } from 'sonner';
 import { twMerge } from 'tailwind-merge';
+import { errorMessageSafe } from './error';
+import i18n from '@/plugins/i18n';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export function copyToClipboard(text: string) {
-  if (navigator.clipboard && window.isSecureContext) {
-    return navigator.clipboard.writeText(text);
-  } else {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    textArea.style.position = 'absolute';
-    textArea.style.left = '-999999px';
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    return new Promise<void>((res, rej) => {
-      if (document.execCommand('copy')) {
-        res();
-      } else {
-        rej();
-      }
-      textArea.remove();
+  return navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      toast.success(i18n.t('copiedToClipboard'));
+    })
+    .catch((e: unknown) => {
+      toast.error(`Failed to copy: ${errorMessageSafe(e)}`);
     });
-  }
+  // if (navigator.clipboard && window.isSecureContext) {
+  //   return navigator.clipboard.writeText(text);
+  // } else {
+  //   const textArea = document.createElement('textarea');
+  //   textArea.value = text;
+  //   textArea.style.position = 'absolute';
+  //   textArea.style.left = '-999999px';
+  //   document.body.appendChild(textArea);
+  //   textArea.focus();
+  //   textArea.select();
+  //   return new Promise<void>((res, rej) => {
+  //     if (document.execCommand('copy')) {
+  //       res();
+  //     } else {
+  //       rej();
+  //     }
+  //     textArea.remove();
+  //   });
+  // }
 }
 
 export function withStopPrevent<

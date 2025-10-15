@@ -33,7 +33,7 @@ export const MkBlurHash = (
     return () => {
       worker.terminate();
     };
-  }, [blurhash, drawHeight, drawWidth, height, id]);
+  }, [blurhash, drawHeight, drawWidth, id]);
 
   return (
     <canvas

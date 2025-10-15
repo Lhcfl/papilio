@@ -39,16 +39,11 @@ const MkNoteActionButton = (
     onClick?: () => void;
   } & ComponentProps<typeof Button>,
 ) => {
-  const { loading, icon, count = 0, tooltip, ...rest } = props;
+  const { loading = false, disabled = false, icon, count = 0, tooltip, ...rest } = props;
   return (
     <Tooltip delayDuration={1000}>
       <TooltipTrigger asChild>
-        <Button
-          variant="ghost"
-          size={count > 0 ? 'default' : 'icon'}
-          disabled={props.disabled || props.loading}
-          {...rest}
-        >
+        <Button variant="ghost" size={count > 0 ? 'default' : 'icon'} disabled={disabled || loading} {...rest}>
           {loading ? <Spinner /> : icon}
           {count > 0 && <span>{count}</span>}
         </Button>

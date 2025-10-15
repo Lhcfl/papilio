@@ -20,7 +20,7 @@ import { onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { injectCurrentSite, misskeyApi } from '@/services/inject-misskey-api';
 import type { UserDetailed } from 'misskey-js/entities.js';
-import { matchFirst } from '@/lib/match';
+import { cond } from '@/lib/match';
 import { MkMention } from '../mk-mention';
 import { acct } from 'misskey-js';
 
@@ -42,8 +42,8 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
     x.type === 'url' ? x.props.url : x.type === 'link' ? x.props.url : undefined,
   );
 
-  const images = note.files?.filter((f) => f.type.startsWith('image/')) || [];
-  const otherFiles = note.files?.filter((f) => !f.type.startsWith('image/')) || [];
+  const images = note.files?.filter((f) => f.type.startsWith('image/')) ?? [];
+  const otherFiles = note.files?.filter((f) => !f.type.startsWith('image/')) ?? [];
   const onContentClick = disableRouteOnClick
     ? undefined
     : onlyWhenNonInteractableContentClicked(() => navigate({ to: getNoteRoute(note.id) }));
@@ -151,7 +151,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
   const cls = clsx('mk-note-body p-2', className);
 
   const { t } = useTranslation();
-  const textAst = parse(note.text || '');
+  const textAst = parse(note.text ?? '');
 
   const { data: visibleUsers } = useQuery({
     queryKey: ['users', note.visibleUserIds],
@@ -164,13 +164,13 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
   const site = injectCurrentSite();
   const siteDomain = new URL(site).host;
   const mentions = collectAst(textAst, (ast) => (ast.type === 'mention' ? ast.props : undefined));
-  const extraVisibleUsers = (visibleUsers || [])?.filter((u) =>
+  const extraVisibleUsers = (visibleUsers ?? []).filter((u) =>
     mentions.every(
       (m) =>
         acct.toString(u) != acct.toString(m) &&
         acct.toString({
           username: u.username,
-          host: u.host || siteDomain,
+          host: u.host ?? siteDomain,
         }) != acct.toString(m),
     ),
   );
@@ -180,15 +180,15 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
         acct.toString(u) != acct.toString(m) &&
         acct.toString({
           username: u.username,
-          host: u.host || siteDomain,
+          host: u.host ?? siteDomain,
         }) != acct.toString(m),
     ),
   );
 
   const isLong =
-    (note.text?.length || 0) > 400 ||
-    (note.text?.split('\n').length || 0) > 15 ||
-    (note.fileIds?.length || 0) >= 5 ||
+    (note.text?.length ?? 0) > 400 ||
+    (note.text?.split('\n').length ?? 0) > 15 ||
+    (note.fileIds?.length ?? 0) >= 5 ||
     countAst(textAst, (ast) => {
       switch (ast.type) {
         case 'url':
@@ -210,12 +210,12 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
         <div className="text-sm text-muted-foreground px-2 pb-2 mb-2 flex items-center flex-wrap gap-1 border-b">
           <MailIcon className="size-3" />
           {t('recipient')}:
-          {(visibleUsers || []).map((u) => (
+          {visibleUsers?.map((u) => (
             <MkMention key={u.id} username={u.username} host={u.host} />
           ))}
         </div>
       )}
-      {matchFirst([
+      {cond([
         [note.cw != null, () => <NoteBodyCw note={note} textAst={textAst} {...rest} />],
         [!props.detailed && isLong, () => <NoteBodyLong note={note} textAst={textAst} {...rest} />],
         [true, () => <NoteBodyExpanded note={note} textAst={textAst} {...rest} />],

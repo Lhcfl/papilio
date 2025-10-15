@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const MkClock = () => {
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState(() => new Date());
   const { i18n } = useTranslation();
 
   const dateTimeFormat = new Intl.DateTimeFormat(i18n.language, {

@@ -27,9 +27,13 @@ import {
 } from '@/hooks/note-actions';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 import type { Menu } from '../menu-or-drawer';
+import { errorMessageSafe } from '@/lib/error';
 
-const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }) => () =>
-  props.mutateAsync().catch((e: Error) => toast.error(e.message));
+const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }, successMessage: string) => () =>
+  props
+    .mutateAsync()
+    .then(() => toast.success(successMessage))
+    .catch((e: unknown) => toast.error(errorMessageSafe(e)));
 
 export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void }) => {
   const { t } = useTranslation();
@@ -40,10 +44,10 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
   const remoteUrl = getNoteRemoteUrl(note);
 
   const deleteNoteAction = useDeleteNoteAction(note.id);
-  const favorite = withToast(useFavoriteNoteAction(note.id));
-  const unfavorite = withToast(useUnfavoriteNoteAction(note.id));
-  const muteThread = withToast(useThreadMuteAction(note.id));
-  const unmuteThread = withToast(useThreadUnmuteAction(note.id));
+  const favorite = withToast(useFavoriteNoteAction(note.id), t('favorited'));
+  const unfavorite = withToast(useUnfavoriteNoteAction(note.id), t('unfavorite'));
+  const muteThread = withToast(useThreadMuteAction(note.id), t('muteThread'));
+  const unmuteThread = withToast(useThreadUnmuteAction(note.id), t('unmuteThread'));
 
   const onDelete = useAfterConfirm(
     {
@@ -56,22 +60,9 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
     () => deleteNoteAction.mutateAsync().then(() => toast.success(t('deleted'))),
   );
 
-  function copyContent() {
-    copyToClipboard(note.cw + '\n\n' + note.text);
-    toast.success(t('copiedToClipboard'));
-  }
-
-  function copyLink() {
-    copyToClipboard(new URL('/notes/' + note.id, window.location.origin).toString());
-    toast.success(t('copiedToClipboard'));
-  }
-
-  function copyRemoteLink() {
-    copyToClipboard(remoteUrl);
-    toast.success(t('copiedToClipboard'));
-  }
-
   function share() {
+    // navigator.share is not supported in all browsers
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (navigator.share) {
       navigator
         .share({
@@ -87,43 +78,96 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
 
   const menu: Menu = [
     {
+      id: 'g-common',
       type: 'group',
       items: [
-        { type: 'label', label: t('note') },
-        { type: 'item', to: getNoteRoute(note.id), icon: <InfoIcon />, label: t('details') },
-        { type: 'item', onClick: copyContent, icon: <CopyIcon />, label: t('copyContent') },
-        { type: 'item', onClick: copyLink, icon: <LinkIcon />, label: t('copyLink') },
-        { type: 'item', onClick: copyRemoteLink, icon: <LinkIcon />, label: t('copyRemoteLink') },
-        { type: 'item', href: remoteUrl, icon: <ExternalLinkIcon />, label: t('showOnRemote') },
-        { type: 'item', onClick: share, icon: <ShareIcon />, label: t('share') },
-        { type: 'item', onClick: onTranslate, icon: <LanguagesIcon />, label: t('translate') },
+        { id: 'note-label', type: 'label', label: t('note') },
+        { id: 'show-note', type: 'item', to: getNoteRoute(note.id), icon: <InfoIcon />, label: t('details') },
+        {
+          id: 'copy-content',
+          type: 'item',
+          onClick: () => void copyToClipboard((note.cw ?? '') + '\n\n' + (note.text ?? '')),
+          icon: <CopyIcon />,
+          label: t('copyContent'),
+        },
+        {
+          id: 'copy-link',
+          type: 'item',
+          onClick: () => void copyToClipboard(new URL('/notes/' + note.id, window.location.origin).toString()),
+          icon: <LinkIcon />,
+          label: t('copyLink'),
+        },
+        {
+          id: 'copy-remote-link',
+          type: 'item',
+          onClick: () => void copyToClipboard(remoteUrl),
+          icon: <LinkIcon />,
+          label: t('copyRemoteLink'),
+        },
+        { id: 'show-on-remote', type: 'item', href: remoteUrl, icon: <ExternalLinkIcon />, label: t('showOnRemote') },
+        { id: 'share', type: 'item', onClick: share, icon: <ShareIcon />, label: t('share') },
+        { id: 'translate', type: 'item', onClick: onTranslate, icon: <LanguagesIcon />, label: t('translate') },
       ],
     },
     {
+      id: 'g-interact',
       type: 'group',
       items: [
         null, // separator
         note.isFavorited
-          ? { type: 'item', onClick: () => unfavorite(), icon: <StarIcon />, label: t('unfavorite') }
-          : { type: 'item', onClick: () => favorite(), icon: <StarIcon />, label: t('favorite') },
-        { type: 'item', icon: <PaperclipIcon />, label: t('clip'), onClick: () => toast.info('not implemented') },
+          ? { id: 'unfavorite', type: 'item', onClick: () => unfavorite(), icon: <StarIcon />, label: t('unfavorite') }
+          : { id: 'favorite', type: 'item', onClick: () => favorite(), icon: <StarIcon />, label: t('favorite') },
+        {
+          id: 'clip',
+          type: 'item',
+          icon: <PaperclipIcon />,
+          label: t('clip'),
+          onClick: () => toast.info('not implemented'),
+        },
         note.isMutingThread
-          ? { type: 'item', onClick: () => unmuteThread(), icon: <BellOffIcon />, label: t('unmuteThread') }
-          : { type: 'item', onClick: () => muteThread(), icon: <BellOffIcon />, label: t('muteThread') },
+          ? {
+              id: 'unmute-thread',
+              type: 'item',
+              onClick: () => unmuteThread(),
+              icon: <BellOffIcon />,
+              label: t('unmuteThread'),
+            }
+          : {
+              id: 'mute-thread',
+              type: 'item',
+              onClick: () => muteThread(),
+              icon: <BellOffIcon />,
+              label: t('muteThread'),
+            },
       ],
     },
     !isMine && {
+      id: 'g-other',
       type: 'group',
       items: [
         null, // separator
-        { type: 'item', icon: <FlagIcon />, label: t('reportAbuse'), onClick: () => toast.info('not implemented') },
+        {
+          id: 'report-abuse',
+          type: 'item',
+          icon: <FlagIcon />,
+          label: t('reportAbuse'),
+          onClick: () => toast.info('not implemented'),
+        },
       ],
     },
     (isMine || isAdmin) && {
+      id: 'g-manage',
       type: 'group',
       items: [
         null, // separator
-        { type: 'item', variant: 'destructive', onClick: onDelete, icon: <Trash2Icon />, label: t('delete') },
+        {
+          id: 'delete',
+          type: 'item',
+          variant: 'destructive',
+          onClick: onDelete,
+          icon: <Trash2Icon />,
+          label: t('delete'),
+        },
       ],
     },
   ];

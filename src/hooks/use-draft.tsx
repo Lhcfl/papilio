@@ -4,6 +4,7 @@ import { getCurrentUserSiteIDB } from '@/plugins/idb';
 import { useDebounce } from 'react-use';
 import type { DriveFile, User } from 'misskey-js/entities.js';
 import { deepEqual } from '@/lib/object';
+import { toast } from 'sonner';
 
 export interface DraftKeyProps {
   replyId?: string | null;
@@ -68,7 +69,7 @@ export const useDraft = (
   };
 
   const remove = () => {
-    IDB.del(draftKey, getCurrentUserSiteIDB());
+    void IDB.del(draftKey, getCurrentUserSiteIDB());
   };
 
   const resetExcept = (keys: (keyof DraftData)[]) => {
@@ -88,19 +89,26 @@ export const useDraft = (
   useEffect(() => {
     const idbStore = getCurrentUserSiteIDB();
 
-    IDB.get(draftKey, idbStore).then((data) => {
-      function hasData(d: typeof data): d is DraftData {
-        return !!d;
-      }
+    IDB.get(draftKey, idbStore)
+      .then((data) => {
+        function hasData(d: typeof data): d is DraftData {
+          return !!d;
+        }
 
-      let d = draft;
-      if (hasData(data)) {
-        d = { ...defaultsWithFallback, ...data };
-        setDraft(d);
-      }
-      opts?.onFirstLoad?.(d);
-      setLoading(false);
-    });
+        let d = draft;
+        if (hasData(data)) {
+          d = { ...defaultsWithFallback, ...data };
+          setDraft(d);
+        }
+        opts?.onFirstLoad?.(d);
+        setLoading(false);
+      })
+      .catch((e: unknown) => {
+        console.error(e);
+        setLoading(false);
+        toast.error('Failed to load draft from IndexedDB. This should not happen. Please report this bug.');
+      });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draftKey, ...Object.values(defaultsWithFallback)]);
 
@@ -110,7 +118,7 @@ export const useDraft = (
       if (deepEqual(draft, defaultsWithFallback)) {
         remove();
       } else {
-        IDB.set(draftKey, draft, idbStore);
+        void IDB.set(draftKey, draft, idbStore);
       }
     },
     300,

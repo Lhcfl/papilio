@@ -222,7 +222,7 @@ export function useNoteUpdateListener() {
 
 export const useNoteValue = (noteId: string | null | undefined) => {
   const a = noteId == null ? GlobalNoteSingletonManager.global_null : GlobalNoteSingletonManager.notes.get(noteId);
-  return useAtomValue(a || GlobalNoteSingletonManager.global_null);
+  return useAtomValue(a ?? GlobalNoteSingletonManager.global_null);
 };
 
 export const useAppearNote = (note: NoteWithExtension | null) => {

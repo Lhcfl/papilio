@@ -43,7 +43,7 @@ import { injectCurrentSite, misskeyApi } from '@/services/inject-misskey-api';
 import { Spinner } from './ui/spinner';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import type { NoteWithExtension } from '@/types/note';
-import { matchFirst } from '@/lib/match';
+import { cond } from '@/lib/match';
 import * as mfm from 'mfm-js';
 import { acct } from 'misskey-js';
 import { collectAst } from '@/lib/note';
@@ -122,13 +122,13 @@ export const MkPostForm = (
     {
       visibility: visibilityRestrict?.at(0),
       cw:
-        matchFirst([
+        cond([
           [editId != null, relatedNote?.cw],
           [replyId != null, relatedNote?.cw],
           [true, null],
         ]) ?? undefined,
       text:
-        matchFirst([
+        cond([
           [editId != null, relatedNote?.text],
           [replyId != null, extractMention(relatedNote, me)],
           [true, null],
@@ -153,7 +153,7 @@ export const MkPostForm = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draft?.visibility]);
 
-  const parsedText = mfm.parse(draft?.text || '');
+  const parsedText = mfm.parse(draft?.text ?? '');
   const mentionedUsers = collectAst(parsedText, (node) => (node.type === 'mention' ? node.props : undefined));
   const unspecifiedMentions = mentionedUsers.filter((u) =>
     draft?.visibleUsers.every((vu) => u.username != vu.username || (u.host != siteDomain && u.host != vu.host)),
@@ -162,12 +162,12 @@ export const MkPostForm = (
   const { mutate: addUnspecifiedMentionUser, isPending: isAddingUser } = useMutation({
     mutationKey: ['add-unspecified-mention-user', draftKey],
     mutationFn: () =>
-      Promise.all(unspecifiedMentions.map((u) => queryClient.ensureQueryData(getAcctUserQueryOptions(u)))),
+      Promise.allSettled(unspecifiedMentions.map((u) => queryClient.ensureQueryData(getAcctUserQueryOptions(u)))),
     onSuccess: (users) => {
       const dedumplicater = new Map<string, User>(draft?.visibleUsers.map((u) => [u.id, u]));
       for (const u of users) {
-        if (u) {
-          dedumplicater.set(u.id, u);
+        if (u.status == 'fulfilled') {
+          dedumplicater.set(u.value.id, u.value);
         }
       }
       draft?.update({ visibleUsers: [...dedumplicater.values()] });

@@ -35,7 +35,7 @@ export function getNoteRoute(id: string) {
 }
 
 export function getNoteRemoteUrl(note: NoteWithExtension) {
-  return note.url || getRelativeUrl(`/notes/${note.id}`);
+  return note.url ?? getRelativeUrl(`/notes/${note.id}`);
 }
 
 export const VISIBILITIES = ['public', 'home', 'followers', 'specified'] as const;

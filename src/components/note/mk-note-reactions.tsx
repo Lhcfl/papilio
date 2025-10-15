@@ -32,7 +32,11 @@ const NoteReaction = (props: {
       onClick={
         host == null
           ? () => {
-              meReacted ? undoReact() : react(reaction);
+              if (meReacted) {
+                undoReact();
+              } else {
+                react(reaction);
+              }
             }
           : undefined
       }
@@ -57,9 +61,10 @@ export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
     return null;
   }
 
-  // todo: make this configurable
   const mergeSiteReactions = true;
 
+  // todo: make this configurable
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (mergeSiteReactions) {
     const map = reactions.reduce<Record<string, number>>((acc, [reaction, count]) => {
       const [normalizedName] = normalizeEmojiName(reaction);

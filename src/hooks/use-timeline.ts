@@ -33,7 +33,7 @@ export const useTimeline = (type: TimelineTypes) => {
         if (import.meta.env.DEV) {
           console.log(data);
         }
-        const [page0, ...other] = data?.pages || [[]];
+        const [page0, ...other] = data?.pages ?? [[]];
         const newPages = page0.length >= TIMELINE_PAGE_SIZE ? [[id], page0] : [[id, ...page0]];
 
         return data

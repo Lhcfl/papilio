@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 
 export type MenuItem = {
   type: 'item';
+  id: string;
   icon?: React.ReactNode;
   label: React.ReactNode;
   variant?: 'default' | 'destructive';
@@ -34,11 +35,13 @@ export type MenuItem = {
 
 export interface MenuLabel {
   type: 'label';
+  id: string;
   label: React.ReactNode;
 }
 
 export interface MenuGroup {
   type: 'group';
+  id: string;
   items: Menu;
 }
 
@@ -69,26 +72,27 @@ export const MenuOrDrawer = (props: { children: React.ReactNode; menu: Menu }) =
 const GenerateDropDownMenu = (menu: Menu) => {
   return menu.map((x, i) => {
     if (x === null) {
-      return <DropdownMenuSeparator key={i} />;
+      const key = `separator-${i}`;
+      return <DropdownMenuSeparator key={key} />;
     }
     if (x === false || x === undefined) {
       return null;
     }
     switch (x.type) {
       case 'group':
-        return <DropdownMenuGroup key={i}>{GenerateDropDownMenu(x.items)}</DropdownMenuGroup>;
+        return <DropdownMenuGroup key={x.id}>{GenerateDropDownMenu(x.items)}</DropdownMenuGroup>;
       case 'label':
-        return <DropdownMenuLabel key={i}>{x.label}</DropdownMenuLabel>;
+        return <DropdownMenuLabel key={x.id}>{x.label}</DropdownMenuLabel>;
       case 'item': {
         if ('onClick' in x) {
           return (
-            <DropdownMenuItem key={i} onClick={x.onClick} variant={x.variant}>
+            <DropdownMenuItem key={x.id} onClick={x.onClick} variant={x.variant}>
               {x.icon} {x.label}
             </DropdownMenuItem>
           );
         } else if ('to' in x) {
           return (
-            <DropdownMenuItem key={i} asChild variant={x.variant}>
+            <DropdownMenuItem key={x.id} asChild variant={x.variant}>
               <Link to={x.to}>
                 {x.icon} {x.label}
               </Link>
@@ -96,7 +100,7 @@ const GenerateDropDownMenu = (menu: Menu) => {
           );
         } else if ('href' in x) {
           return (
-            <DropdownMenuItem key={i} asChild variant={x.variant}>
+            <DropdownMenuItem key={x.id} asChild variant={x.variant}>
               <a href={x.href} target="_blank" rel="noopener noreferrer">
                 {x.icon} {x.label}
               </a>
@@ -111,7 +115,8 @@ const GenerateDropDownMenu = (menu: Menu) => {
 const GenerateDrawerMenu = (menu: Menu) => {
   return menu.map((x, i) => {
     if (x === null) {
-      return <Separator key={i} />;
+      const key = `separator-${i}`;
+      return <Separator key={key} />;
     }
     if (x === false || x === undefined) {
       return null;
@@ -119,26 +124,26 @@ const GenerateDrawerMenu = (menu: Menu) => {
     switch (x.type) {
       case 'group':
         return (
-          <div className="flex flex-col gap-1" key={i}>
+          <div className="flex flex-col gap-1" key={x.id}>
             {GenerateDrawerMenu(x.items)}
           </div>
         );
       case 'label':
         return (
-          <span className="text-sm text-muted" key={i}>
+          <span className="text-sm text-muted" key={x.id}>
             {x.label}
           </span>
         );
       case 'item': {
         if ('onClick' in x) {
           return (
-            <DrawerButton key={i} onClick={x.onClick} variant={x.variant ?? 'ghost'}>
+            <DrawerButton key={x.id} onClick={x.onClick} variant={x.variant ?? 'ghost'}>
               {x.icon} {x.label}
             </DrawerButton>
           );
         } else if ('to' in x) {
           return (
-            <DrawerButton key={i} asChild variant={x.variant ?? 'ghost'}>
+            <DrawerButton key={x.id} asChild variant={x.variant ?? 'ghost'}>
               <Link to={x.to}>
                 {x.icon} {x.label}
               </Link>
@@ -146,7 +151,7 @@ const GenerateDrawerMenu = (menu: Menu) => {
           );
         } else if ('href' in x) {
           return (
-            <DrawerButton key={i} asChild variant={x.variant ?? 'ghost'}>
+            <DrawerButton key={x.id} asChild variant={x.variant ?? 'ghost'}>
               <a href={x.href} target="_blank" rel="noopener noreferrer">
                 {x.icon} {x.label}
               </a>

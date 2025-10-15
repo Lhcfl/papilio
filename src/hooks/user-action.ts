@@ -15,8 +15,8 @@ const cs =
   (_0: unknown, _1: unknown, _2: unknown, context: MutationFunctionContext) => {
     context.client.setQueryData(['user', props.id], patch(v));
     context.client.setQueryData(['user', props.username, props.host], patch(v));
-    context.client.invalidateQueries({ queryKey: ['user', props.id] });
-    context.client.invalidateQueries({ queryKey: ['user', props.username, props.host] });
+    void context.client.invalidateQueries({ queryKey: ['user', props.id] });
+    void context.client.invalidateQueries({ queryKey: ['user', props.username, props.host] });
   };
 
 export const useRejectFollowRequestAction = (props: CommonProps) => {

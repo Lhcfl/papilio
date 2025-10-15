@@ -74,7 +74,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
   const queryClient = useQueryClient();
 
   function reload() {
-    queryClient.invalidateQueries();
+    void queryClient.invalidateQueries();
     window.location.reload();
   }
 
