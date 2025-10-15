@@ -19,14 +19,20 @@ export const useTimeline = (type: TimelineTypes) => {
   const channelName = `${type}Timeline` as const;
 
   useEffect(() => {
-    console.log(`[timeline] subscribing to channel ${channelName}`);
+    if (import.meta.env.DEV) {
+      console.log(`[timeline] subscribing to channel ${channelName}`);
+    }
     const channel = stream.useChannel(channelName);
     channel.on('note', (note) => {
-      console.log('[timeline] new note received', note);
+      if (import.meta.env.DEV) {
+        console.log('[timeline] new note received', note);
+      }
       const [id] = registerNote(note);
 
       queryClient.setQueryData(timelineQueryKey(type), (data: (typeof query)['data']) => {
-        console.log(data);
+        if (import.meta.env.DEV) {
+          console.log(data);
+        }
         const [page0, ...other] = data?.pages || [[]];
         const newPages = page0.length >= TIMELINE_PAGE_SIZE ? [[id], page0] : [[id, ...page0]];
 
