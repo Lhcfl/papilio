@@ -12,7 +12,7 @@ import {
 import { Link } from '@tanstack/react-router';
 import { Separator } from './ui/separator';
 import { Button } from './ui/button';
-import type { ComponentProps } from 'react';
+import { useState, type ComponentProps } from 'react';
 import { cn } from '@/lib/utils';
 
 export type MenuItem = {
@@ -49,13 +49,18 @@ export type Menu = (MenuGroup | MenuItem | null | undefined | false | MenuLabel)
 
 export const MenuOrDrawer = (props: { children: React.ReactNode; menu: Menu }) => {
   const isMobile = useIsMobile();
+  const [open, setOpen] = useState(false);
 
   if (isMobile) {
     return (
-      <Drawer>
+      <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>{props.children}</DrawerTrigger>
         <DrawerContent>
-          <div className="flex flex-col p-2">{GenerateDrawerMenu(props.menu)}</div>
+          <div className="flex flex-col p-2">
+            {GenerateDrawerMenu(props.menu, () => {
+              setOpen(false);
+            })}
+          </div>
         </DrawerContent>
       </Drawer>
     );
@@ -112,7 +117,7 @@ const GenerateDropDownMenu = (menu: Menu) => {
   });
 };
 
-const GenerateDrawerMenu = (menu: Menu) => {
+const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
   return menu.map((x, i) => {
     if (x === null) {
       const key = `separator-${i}`;
@@ -125,7 +130,7 @@ const GenerateDrawerMenu = (menu: Menu) => {
       case 'group':
         return (
           <div className="flex flex-col gap-1" key={x.id}>
-            {GenerateDrawerMenu(x.items)}
+            {GenerateDrawerMenu(x.items, setCloseMenu)}
           </div>
         );
       case 'label':
@@ -137,7 +142,14 @@ const GenerateDrawerMenu = (menu: Menu) => {
       case 'item': {
         if ('onClick' in x) {
           return (
-            <DrawerButton key={x.id} onClick={x.onClick} variant={x.variant ?? 'ghost'}>
+            <DrawerButton
+              key={x.id}
+              onClick={(e) => {
+                x.onClick(e);
+                setCloseMenu();
+              }}
+              variant={x.variant ?? 'ghost'}
+            >
               {x.icon} {x.label}
             </DrawerButton>
           );
