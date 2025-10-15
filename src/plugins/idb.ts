@@ -5,9 +5,13 @@ let store = null as UseStore | null;
 
 export const getCurrentUserSiteIDB = () => {
   if (store) return store;
+  const site = injectCurrentSiteOrNull();
+  const token = getUserTokenOrNull();
+  let storeName = 'default';
+  if (token === 'NULL') {
+    storeName = `site:${site}`;
+  }
+  storeName = `tok:${token.slice(0, 20)}`;
 
-  const storeName = `site:${injectCurrentSiteOrNull()}`;
-  const tokenName = `tok:${getUserTokenOrNull().slice(0, 20)}`;
-
-  return (store = createStore(storeName, tokenName));
+  return (store = createStore(storeName, 'keyval'));
 };
