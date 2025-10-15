@@ -14,12 +14,13 @@ import {
 import { Spinner } from '@/components/ui/spinner';
 import { LoginLayout } from '@/layouts/login-layout';
 import { injectCurrentSite, storeUserToken } from '@/services/inject-misskey-api';
+import { useQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/login-redirect')({
   component: RouteComponent,
   validateSearch: (search) => {
     return {
-      session: (search?.session as string) || '',
+      session: (search.session as string) || undefined,
     };
   },
 });
@@ -29,29 +30,37 @@ function RouteComponent() {
   const navigate = useNavigate();
   const [error, setError] = useState(false);
 
+  useQuery({
+    queryKey: ['login-redirect', session],
+    queryFn: () =>
+      fetch(new URL(`/api/miauth/${session}/check`, injectCurrentSite()), {
+        method: 'POST',
+      })
+        .then((res) => res.json() as Promise<{ ok: boolean; token: string }>)
+        .then((res) => {
+          if (res.ok) {
+            storeUserToken(res.token);
+            window.location.href = new URL('/', window.location.origin).toString();
+          } else {
+            setError(true);
+          }
+          return true;
+        }),
+
+    enabled: !!session,
+  });
+
   useEffect(() => {
     if (!session) {
-      navigate({ to: '/login' });
+      void navigate({ to: '/login' });
       return;
     }
-    fetch(new URL(`/api/miauth/${session}/check`, injectCurrentSite()), {
-      method: 'POST',
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.ok) {
-          storeUserToken(res.token);
-          window.location.href = new URL('/', window.location.origin).toString();
-        } else {
-          setError(true);
-        }
-      });
   });
 
   const onOpenChange = (open: boolean) => {
     if (!open) {
       setError(false);
-      navigate({ to: '/login' });
+      void navigate({ to: '/login' });
     }
   };
 

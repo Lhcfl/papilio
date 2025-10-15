@@ -10,15 +10,15 @@ import * as yaml from 'js-yaml';
 const PROJECT_ROOT = new URL('..', import.meta.url);
 
 export const merge = (...args: any[]) =>
-  args.reduce(
+  args.reduce<Record<string, any>>(
     (a, c) => ({
       ...a,
       ...c,
       ...Object.entries(a)
         .filter(([k]) => c && typeof c[k] === 'object')
-        .reduce((a, [k, v]) => ((a[k] = merge(v, c[k])), a), {} as Record<string, any>),
+        .reduce<Record<string, any>>((a, [k, v]) => ((a[k] = merge(v, c[k])), a), {}),
     }),
-    {} as Record<string, any>,
+    {},
   );
 
 const locales_folders = [`locales`, `sharkey-locales`, `stpv-locales`, `sukerbuka-locales`];
@@ -97,7 +97,7 @@ export function build() {
 
   transformToI18nNext(locales);
 
-  return Object.entries(locales).reduce(
+  return Object.entries(locales).reduce<Record<string, any>>(
     (a, [k, v]) => (
       (a[k] = (() => {
         const [lang] = k.split('-');
@@ -114,7 +114,7 @@ export function build() {
       })()),
       a
     ),
-    {} as Record<string, any>,
+    {},
   );
 }
 

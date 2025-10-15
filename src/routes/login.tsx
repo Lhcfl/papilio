@@ -19,6 +19,7 @@ function RouteComponent() {
   const { t } = useTranslation();
 
   const [domain, updateDomain] = useState('');
+  const [customName, updateCustomName] = useState('Papilio the another Misskey Client');
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate({ from: '/login' });
@@ -26,11 +27,8 @@ function RouteComponent() {
   useEffect(() => {
     try {
       // This is not a react hook, just a function call to check if the user is already logged in.
-
-      const api = injectMisskeyApi();
-      if (api != null) {
-        navigate({ to: '/' });
-      }
+      void injectMisskeyApi();
+      void navigate({ to: '/' });
     } catch {
       return;
     }
@@ -48,7 +46,7 @@ function RouteComponent() {
 
     const url = new URL(`/miauth/${session}`, site);
 
-    url.searchParams.append('name', 'Papilio the another Misskey Client');
+    url.searchParams.append('name', customName);
     url.searchParams.append('callback', `${window.location.origin}/login-redirect`);
     url.searchParams.append('permission', permissions.join(','));
 
@@ -66,7 +64,7 @@ function RouteComponent() {
             <h1 className="text-2xl font-bold">{t('login')}</h1>
           </div>
           <Field>
-            <FieldLabel htmlFor="domain">{t('_registry.domain')}</FieldLabel>
+            <FieldLabel htmlFor="domain">Enter your instance's domain</FieldLabel>
             <InputGroup>
               <InputGroupAddon>https://</InputGroupAddon>
               <InputGroupInput
@@ -76,6 +74,21 @@ function RouteComponent() {
                 required
                 onChange={(e) => {
                   updateDomain(e.target.value);
+                }}
+              />
+            </InputGroup>
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="custom-name">If you want, you can also provide a custom name for the app</FieldLabel>
+            <InputGroup>
+              <InputGroupInput
+                id="custom-name"
+                type="text"
+                placeholder="Custom Name"
+                required
+                value={customName}
+                onChange={(e) => {
+                  updateCustomName(e.target.value);
                 }}
               />
             </InputGroup>

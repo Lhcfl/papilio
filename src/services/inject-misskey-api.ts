@@ -41,11 +41,11 @@ export const storeUserSite = (site: string) => {
 };
 
 export const injectCurrentSiteOrNull = (): string => {
-  return localStorage.getItem('site') || 'NULL';
+  return localStorage.getItem('site') ?? 'NULL';
 };
 
 export const getUserTokenOrNull = (): string => {
-  return injectUserToken() || 'NULL';
+  return injectUserToken() ?? 'NULL';
 };
 
 let token: string | null;

@@ -97,19 +97,17 @@ const FolderDownloader = (props: { from: string; to: string }) => {
           Found {data.length} files in {props.from}
         </Text>
       )}
-      {data &&
-        data.map(
-          (file) =>
-            file.type === 'file' &&
-            file.download_url && <FileDownloader url={file.download_url} to={props.to} filename={file.name} />,
-        )}
-      {data &&
-        data.map(
-          (file) =>
-            file.type === 'dir' && (
-              <FolderDownloader from={props.from + '/' + file.name} to={props.to + '/' + file.name} />
-            ),
-        )}
+      {data?.map(
+        (file) =>
+          file.type === 'file' &&
+          file.download_url && <FileDownloader url={file.download_url} to={props.to} filename={file.name} />,
+      )}
+      {data?.map(
+        (file) =>
+          file.type === 'dir' && (
+            <FolderDownloader from={props.from + '/' + file.name} to={props.to + '/' + file.name} />
+          ),
+      )}
     </>
   );
 };
