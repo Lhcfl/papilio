@@ -23,7 +23,7 @@ export type MenuItem = {
   variant?: 'default' | 'destructive';
 } & (
   | {
-      onClick: () => void;
+      onClick: (e: React.MouseEvent<HTMLElement>) => void;
     }
   | {
       to: string;

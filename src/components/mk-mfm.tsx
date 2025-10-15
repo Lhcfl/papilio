@@ -5,12 +5,13 @@
 
 import { ClockIcon } from 'lucide-react';
 import * as mfm from 'mfm-js';
-import * as Misskey from 'misskey-js';
+import { nyaize as doNyaize } from 'misskey-js';
 import { useMemo, type CSSProperties } from 'react';
 import { MkCustomEmoji, MkEmoji } from './mk-emoji';
 import { MkHashTag } from './mk-hashtag';
 import { MkMention } from './mk-mention';
 import { MkUrl } from './mk-url';
+import type { UserLite } from '@/types/user';
 
 function safeParseFloat(str: unknown): number | null {
   if (typeof str !== 'string' || str === '') return null;
@@ -26,8 +27,8 @@ interface MfmProps {
   /** parse as inline elements */
   inline?: boolean;
   nowrap?: boolean;
-  author?: Misskey.entities.UserLite;
-  isNote?: boolean;
+  author?: UserLite;
+  noteContext?: { noteId: string; myReaction?: string | null };
   emojiUrls?: Record<string, string | undefined>;
   rootScale?: number;
   nyaize?: boolean | 'respect';
@@ -64,7 +65,7 @@ export const MkMfm = (in_props: MfmProps) => {
     inline: inlineMode = false,
     nowrap = false,
     author,
-    isNote = true,
+    noteContext,
     emojiUrls = {},
     rootScale,
     nyaize = 'respect',
@@ -80,9 +81,9 @@ export const MkMfm = (in_props: MfmProps) => {
   // const host = null;
 
   // TODO: make this configurable
-  const shouldNyaize = true as boolean;
+  const shouldNyaize = nyaize === 'respect' ? author?.isCat : nyaize;
   // TODO: make this configurable
-  const useAnim = true as boolean;
+  const useAnim = isAnim;
 
   const rootAst = useMemo(
     () => parsedNodes ?? (plainMode ? mfm.parseSimple : mfm.parse)(text),
@@ -101,7 +102,7 @@ export const MkMfm = (in_props: MfmProps) => {
           let text = token.props.text.replace(/(\r\n|\n|\r)/g, '\n');
 
           if (!disableNyaize && shouldNyaize) {
-            text = Misskey.nyaize(text);
+            text = doNyaize(text);
           }
 
           if (!plainMode && !inlineMode) {
@@ -456,7 +457,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 const child = token.children[0];
                 let text = child.type === 'text' ? child.props.text : '';
                 if (!disableNyaize && shouldNyaize) {
-                  text = Misskey.nyaize(text);
+                  text = doNyaize(text);
                 }
                 return (
                   <ruby key={Math.random()}>
@@ -468,7 +469,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 const rt = token.children.at(-1)!;
                 let text = rt.type === 'text' ? rt.props.text : '';
                 if (!disableNyaize && shouldNyaize) {
-                  text = Misskey.nyaize(text);
+                  text = doNyaize(text);
                 }
                 return (
                   <ruby key={Math.random()}>
@@ -612,7 +613,6 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'hashtag': {
-          // TODO
           return (
             <bdi key={Math.random()}>
               <MkHashTag name={token.props.hashtag} />
@@ -674,6 +674,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 menu={enableEmojiMenu}
                 menuReaction={enableEmojiMenuReaction}
                 fallbackToImage={false}
+                noteContext={noteContext}
               />
             );
           } else {
@@ -688,6 +689,9 @@ export const MkMfm = (in_props: MfmProps) => {
                   normal={plainMode || inlineMode}
                   host={author.host}
                   useOriginalSize={scale >= 2.5}
+                  noteContext={noteContext}
+                  menu={enableEmojiMenu}
+                  menuReaction={enableEmojiMenuReaction}
                 />
               );
             }
@@ -701,6 +705,7 @@ export const MkMfm = (in_props: MfmProps) => {
               emoji={token.props.emoji}
               menu={enableEmojiMenu}
               menuReaction={enableEmojiMenuReaction}
+              noteContext={noteContext}
             />
           );
         }

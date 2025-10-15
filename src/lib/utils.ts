@@ -73,10 +73,15 @@ export function onlyWhenNonInteractableContentClicked<
 >(fn: (ev: Ev) => T): (ev: Ev) => T | undefined {
   return (ev: Ev) => {
     const target = ev.target as Element;
-    console.log(target);
-    if (target.closest('a') || target.closest('button')) {
+    if (import.meta.env.DEV) {
+      console.log(target);
+    }
+    const interactable = target.closest(
+      'a,button,textarea,input,select,option,[role="button"],[role="link"],[contenteditable="true"],[role="menuitem"],[role="menuitemcheckbox"],[role="menuitemradio"]',
+    );
+    if (interactable) {
       if (import.meta.env.DEV) {
-        console.log(target.closest('a'), target.closest('button'));
+        console.log(interactable);
       }
       return;
     }
