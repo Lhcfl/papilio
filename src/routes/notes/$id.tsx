@@ -47,7 +47,7 @@ function LoadedMain(props: { noteId: string }) {
     queryKey: ['note-conversation', noteId],
     queryFn: () =>
       isReply
-        ? api.request('notes/conversation', { noteId: noteId }).then((ns) => registerNote(...ns))
+        ? api.request('notes/conversation', { noteId: noteId }).then((ns) => registerNote(ns))
         : Promise.resolve(null),
   });
 

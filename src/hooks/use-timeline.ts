@@ -27,7 +27,7 @@ export const useTimeline = (type: TimelineTypes) => {
       if (import.meta.env.DEV) {
         console.log('[timeline] new note received', note);
       }
-      const [id] = registerNote(note);
+      const [id] = registerNote([note]);
 
       queryClient.setQueryData(timelineQueryKey(type), (data: (typeof query)['data']) => {
         if (import.meta.env.DEV) {
@@ -81,7 +81,7 @@ export const useTimeline = (type: TimelineTypes) => {
     queryKey: timelineQueryKey(type),
     queryFn: async ({ pageParam }) => {
       const notes = await fetcher({ pageParam });
-      return registerNote(...notes);
+      return registerNote(notes);
     },
     getNextPageParam: (lastPage) => lastPage.at(-1),
     initialPageParam: 'zzzzzzzzzzzzzzzzzzzzzzzz',

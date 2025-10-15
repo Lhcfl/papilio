@@ -22,7 +22,7 @@ export const MkUserNotes = (props: { userId: string; pinnedNotes?: string[] }) =
           untilId: pageParam,
           limit: 30,
         })
-        .then((ns) => registerNote(...ns)),
+        .then((ns) => registerNote(ns)),
     getNextPageParam: (lastPage) => lastPage.at(-1),
     staleTime: 1000 * 60 * 10, // 10 minutes
     initialPageParam: 'zzzzzzzzzzzzzzzzz',

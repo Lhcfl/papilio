@@ -13,6 +13,7 @@ import { Route as PostingRouteImport } from './routes/posting'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as MissingRouteImport } from './routes/$missing'
 import { Route as IndexRouteImport } from './routes/index'
@@ -37,6 +38,11 @@ const LoginRedirectRoute = LoginRedirectRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AtChar123acctChar125Route = AtChar123acctChar125RouteImport.update({
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
+  '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/notifications': typeof NotificationsRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
+  '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/notifications': typeof NotificationsRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
+  '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/notifications': typeof NotificationsRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$missing'
     | '/@{$acct}'
+    | '/favorites'
     | '/login'
     | '/login-redirect'
     | '/notifications'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$missing'
     | '/@{$acct}'
+    | '/favorites'
     | '/login'
     | '/login-redirect'
     | '/notifications'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$missing'
     | '/@{$acct}'
+    | '/favorites'
     | '/login'
     | '/login-redirect'
     | '/notifications'
@@ -139,6 +151,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MissingRoute: typeof MissingRoute
   AtChar123acctChar125Route: typeof AtChar123acctChar125Route
+  FavoritesRoute: typeof FavoritesRoute
   LoginRoute: typeof LoginRoute
   LoginRedirectRoute: typeof LoginRedirectRoute
   NotificationsRoute: typeof NotificationsRoute
@@ -175,6 +188,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/@{$acct}': {
@@ -219,6 +239,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MissingRoute: MissingRoute,
   AtChar123acctChar125Route: AtChar123acctChar125Route,
+  FavoritesRoute: FavoritesRoute,
   LoginRoute: LoginRoute,
   LoginRedirectRoute: LoginRedirectRoute,
   NotificationsRoute: NotificationsRoute,

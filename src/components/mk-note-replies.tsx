@@ -25,7 +25,7 @@ export const MkNoteReplies = (
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ['note-replies', noteId],
     queryFn: ({ pageParam: sinceId }) =>
-      api.request('notes/replies', { noteId: noteId, sinceId }).then((ns) => registerNote(...ns)),
+      api.request('notes/replies', { noteId: noteId, sinceId }).then((ns) => registerNote(ns)),
     getNextPageParam: (lastPage) => lastPage.at(-1),
     staleTime: 1000 * 60 * 10, // 10 minutes
     initialPageParam: '0',

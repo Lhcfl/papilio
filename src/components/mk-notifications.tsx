@@ -42,7 +42,7 @@ export const MkNotifications = (props: {
         .then((ns) =>
           ns.map((n) => {
             if ('note' in n) {
-              registerNote(n.note);
+              registerNote([n.note]);
             }
             return n;
           }),

@@ -30,7 +30,7 @@ function RouteComponent() {
     queryKey: ['user', username, host],
     queryFn: () =>
       api.request('users/show', { username, host }).then((res) => {
-        registerNote(...res.pinnedNotes);
+        registerNote(res.pinnedNotes);
         res.pinnedNotes = [];
         return res;
       }),

@@ -20,7 +20,7 @@ class NoteSingletonManager {
   notes = new Map<string, ReturnType<typeof atom<NoteWithExtension>>>();
   global_null = atom<null>(null);
 
-  register(...notes: NoteWithExtension[]) {
+  register(notes: NoteWithExtension[]) {
     const stream = injectMisskeyStream();
     const ns = flatten(notes);
     const store = getDefaultStore();
@@ -65,8 +65,8 @@ class NoteSingletonManager {
 
 const GlobalNoteSingletonManager = new NoteSingletonManager();
 
-export function registerNote(...notes: NoteWithExtension[]) {
-  GlobalNoteSingletonManager.register(...notes);
+export function registerNote(notes: NoteWithExtension[]) {
+  GlobalNoteSingletonManager.register(notes);
   return notes.map((n) => n.id);
 }
 
@@ -100,7 +100,7 @@ export function useNoteUpdateListener() {
             const note = await api.request('notes/show', { noteId: id });
             // SAFETY: the note is a reply, so it must have replyId
             GlobalNoteSingletonManager.patch(note.replyId!, (note) => ({ repliesCount: note.repliesCount + 1 }));
-            GlobalNoteSingletonManager.register(note);
+            GlobalNoteSingletonManager.register([note]);
           } catch {
             /* empty */
           }
