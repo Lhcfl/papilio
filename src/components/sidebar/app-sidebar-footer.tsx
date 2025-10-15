@@ -4,6 +4,7 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui
 import { MkUserName } from '../mk-user-name';
 import { useMe } from '@/stores/me';
 import { useTranslation } from 'react-i18next';
+import { MkPostFormDialog } from '../mk-post-form-dialog';
 
 export const AppSidebarFooter = () => {
   const me = useMe();
@@ -12,10 +13,12 @@ export const AppSidebarFooter = () => {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <SidebarMenuButton size="lg" variant="outline">
-          <PencilIcon />
-          {t('note')}
-        </SidebarMenuButton>
+        <MkPostFormDialog>
+          <SidebarMenuButton size="lg" variant="outline">
+            <PencilIcon />
+            {t('note')}
+          </SidebarMenuButton>
+        </MkPostFormDialog>
       </SidebarMenuItem>
       <SidebarMenuItem>
         <SidebarMenuButton size="lg">

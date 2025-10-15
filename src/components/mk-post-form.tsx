@@ -84,9 +84,27 @@ export const MkPostForm = (
     autoFocus?: boolean;
     visibilityRestrict?: DraftData['visibility'][];
     relatedNote?: NoteWithExtension;
+    prependHeader?: React.ReactNode;
+    appendHeader?: React.ReactNode;
+    prependFooter?: React.ReactNode;
+    appendFooter?: React.ReactNode;
   } & HTMLProps<HTMLDivElement>,
 ) => {
-  const { replyId, editId, quoteId, onSuccess, autoFocus, relatedNote, visibilityRestrict, className, ...rest } = props;
+  const {
+    replyId,
+    editId,
+    quoteId,
+    onSuccess,
+    autoFocus,
+    relatedNote,
+    visibilityRestrict,
+    prependHeader,
+    appendHeader,
+    prependFooter,
+    appendFooter,
+    className,
+    ...rest
+  } = props;
 
   const site = injectCurrentSite();
   const siteDomain = new URL(site).hostname;
@@ -214,8 +232,11 @@ export const MkPostForm = (
   return (
     <div className={cn('mk-post-form rounded-md @container', className)} {...rest}>
       <div className="mk-post-form__title p-2 border-b flex items-center justify-between">
-        <MkAvatar user={me} />
-        <div className="mk-post-form__control">
+        <div className="flex items-center">
+          <MkAvatar user={me} />
+          {prependHeader}
+        </div>
+        <div className="mk-post-form__control flex items-center">
           <VisibilityPicker
             className="-mr-2"
             visibility={draft.visibility}
@@ -237,6 +258,7 @@ export const MkPostForm = (
               <WifiIcon />
             </PostFormButton>
           )}
+          {appendHeader}
         </div>
       </div>
       {draft.hasCw && (
@@ -330,6 +352,7 @@ export const MkPostForm = (
       )}
       <div className="mk-post-form__footer border-t flex justify-between p-2">
         <div className="mk-post-form__action flex @md:gap-1">
+          {prependFooter}
           <PostFormButton label={t('addFile')}>
             <ImageIcon />
           </PostFormButton>
@@ -356,6 +379,7 @@ export const MkPostForm = (
           >
             <EyeIcon />
           </PostFormButton>
+          {appendFooter}
           <Button onClick={() => send(draft)} disabled={!sendable || isSending}>
             {isSending ? <Spinner /> : <PostBtnIcon />}
             <span className="@max-sm:hidden">{postBtnLabel}</span>
