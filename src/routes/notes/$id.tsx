@@ -109,7 +109,7 @@ function LoadedMain(props: { noteId: string }) {
         </div>
       )}
       <div>
-        <MkNote noteId={noteId} />
+        <MkNote noteId={noteId} showReply={false} detailed />
       </div>
       <MkNoteReplies noteId={noteId} />
     </div>

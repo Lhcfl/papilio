@@ -64,7 +64,7 @@ export const MkNoteReplies = (
             {realIndent > 0 && index < replies.length - 1 && (
               <div className="note-replies-line absolute top-0 left-0 -bottom-4 border-l-2" />
             )}
-            <MkNote key={n} noteId={n} isSubNote hideReplyIcon />
+            <MkNote key={n} noteId={n} isSubNote hideReplyIcon showReply={false} />
             {!reachLimit && <MkNoteReplies className="-mt-4" noteId={n} indent={realIndent + 1} depth={depth + 1} />}
           </div>
         ))}

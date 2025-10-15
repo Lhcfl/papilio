@@ -17,6 +17,7 @@ import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as MissingRouteImport } from './routes/$missing'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as TagTagRouteImport } from './routes/tag/$tag'
 import { Route as NotesIdRouteImport } from './routes/notes/$id'
 import { Route as MyNotificationsRouteImport } from './routes/my/notifications'
 import { Route as MyFollowRequestsRouteImport } from './routes/my/follow-requests'
@@ -64,6 +65,11 @@ const SettingsIndexRoute = SettingsIndexRouteImport.update({
   path: '/settings/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TagTagRoute = TagTagRouteImport.update({
+  id: '/tag/$tag',
+  path: '/tag/$tag',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NotesIdRoute = NotesIdRouteImport.update({
   id: '/notes/$id',
   path: '/notes/$id',
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/my/follow-requests': typeof MyFollowRequestsRoute
   '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
+  '/tag/$tag': typeof TagTagRoute
   '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/my/follow-requests': typeof MyFollowRequestsRoute
   '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
+  '/tag/$tag': typeof TagTagRoute
   '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesById {
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/my/follow-requests': typeof MyFollowRequestsRoute
   '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
+  '/tag/$tag': typeof TagTagRoute
   '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/my/follow-requests'
     | '/my/notifications'
     | '/notes/$id'
+    | '/tag/$tag'
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/my/follow-requests'
     | '/my/notifications'
     | '/notes/$id'
+    | '/tag/$tag'
     | '/settings'
   id:
     | '__root__'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/my/follow-requests'
     | '/my/notifications'
     | '/notes/$id'
+    | '/tag/$tag'
     | '/settings/'
   fileRoutesById: FileRoutesById
 }
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   MyFollowRequestsRoute: typeof MyFollowRequestsRoute
   MyNotificationsRoute: typeof MyNotificationsRoute
   NotesIdRoute: typeof NotesIdRoute
+  TagTagRoute: typeof TagTagRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
 }
 
@@ -270,6 +283,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tag/$tag': {
+      id: '/tag/$tag'
+      path: '/tag/$tag'
+      fullPath: '/tag/$tag'
+      preLoaderRoute: typeof TagTagRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/notes/$id': {
       id: '/notes/$id'
       path: '/notes/$id'
@@ -329,6 +349,7 @@ const rootRouteChildren: RootRouteChildren = {
   MyFollowRequestsRoute: MyFollowRequestsRoute,
   MyNotificationsRoute: MyNotificationsRoute,
   NotesIdRoute: NotesIdRoute,
+  TagTagRoute: TagTagRoute,
   SettingsIndexRoute: SettingsIndexRoute,
 }
 export const routeTree = rootRouteImport

@@ -31,6 +31,7 @@ type NoteBodyCommonProps = {
   textAst: MfmNode[];
   disableLinkPreview?: boolean;
   disableRouteOnClick?: boolean;
+  detailed?: boolean;
 };
 
 const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>) => {
@@ -211,7 +212,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
       )}
       {matchFirst([
         [note.cw != null, () => <NoteBodyCw note={note} textAst={textAst} {...rest} />],
-        [isLong, () => <NoteBodyLong note={note} textAst={textAst} {...rest} />],
+        [!props.detailed && isLong, () => <NoteBodyLong note={note} textAst={textAst} {...rest} />],
         [true, () => <NoteBodyExpanded note={note} textAst={textAst} {...rest} />],
       ])()}
     </div>

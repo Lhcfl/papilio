@@ -21,10 +21,20 @@ export const MkNote = (
     decorationBottomRight?: React.ReactNode;
     showReply?: boolean;
     hideReplyIcon?: boolean;
+    detailed?: boolean;
     onClose?: () => void;
   } & HTMLProps<HTMLDivElement>,
 ) => {
-  const { noteId, isSubNote, showReply, onClose, hideReplyIcon, className: classNameProps, ...divProps } = props;
+  const {
+    noteId,
+    isSubNote,
+    showReply = true,
+    onClose,
+    detailed,
+    hideReplyIcon,
+    className: classNameProps,
+    ...divProps
+  } = props;
   const note = useNoteValue(noteId);
   const appearNote = useAppearNote(note);
   const { mutate: translate } = useTranslateAction(noteId);
@@ -59,6 +69,7 @@ export const MkNote = (
           disableLinkPreview={isSubNote}
           showQuoteAsIcon={isSubNote}
           showReplyAsIcon={isSubNote && !hideReplyIcon}
+          detailed={detailed}
         />
         <MkNoteReactions note={appearNote} />
         <MkNoteActions onTranslate={translate} note={appearNote} />
