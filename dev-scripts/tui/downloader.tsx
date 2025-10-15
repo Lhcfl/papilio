@@ -100,12 +100,14 @@ const FolderDownloader = (props: { from: string; to: string }) => {
       {data?.map(
         (file) =>
           file.type === 'file' &&
-          file.download_url && <FileDownloader url={file.download_url} to={props.to} filename={file.name} />,
+          file.download_url && (
+            <FileDownloader key={file.download_url} url={file.download_url} to={props.to} filename={file.name} />
+          ),
       )}
       {data?.map(
         (file) =>
           file.type === 'dir' && (
-            <FolderDownloader from={props.from + '/' + file.name} to={props.to + '/' + file.name} />
+            <FolderDownloader key={file.path} from={props.from + '/' + file.name} to={props.to + '/' + file.name} />
           ),
       )}
     </>
@@ -113,7 +115,9 @@ const FolderDownloader = (props: { from: string; to: string }) => {
 };
 
 const MultiDownloader = (props: { downloads: Record<string, string> }) => {
-  return Object.entries(props.downloads).map(([from, to]) => <FolderDownloader from={from} to={to} />);
+  return Object.entries(props.downloads).map(([from, to]) => (
+    <FolderDownloader key={`${from}->${to}`} from={from} to={to} />
+  ));
 };
 
 export const StartDownloaderTui = (downloads: Record<string, string>) => {

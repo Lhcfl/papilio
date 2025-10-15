@@ -11,7 +11,7 @@ import reactX from 'eslint-plugin-react-x'
 import reactDom from 'eslint-plugin-react-dom'
 
 export default defineConfig([
-	globalIgnores(["dist", "sharkey-js"]),
+	globalIgnores(["dist", "sharkey-js", "locales-source"]),
 	{
 		files: ["**/*.{ts,tsx}"],
 		ignores: ["src/components/ui/*.tsx", "dev-script/**/*"],
