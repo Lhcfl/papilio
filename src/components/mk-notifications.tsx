@@ -29,7 +29,7 @@ export const MkNotifications = (props: {
 }) => {
   const { excludeTypes, includeTypes } = props;
 
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, error, refetch } = useInfiniteQuery({
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isPending, error, refetch } = useInfiniteQuery({
     queryKey: ['notifications', excludeTypes, includeTypes],
     queryFn: ({ pageParam: untilId }) =>
       injectMisskeyApi()
@@ -62,8 +62,8 @@ export const MkNotifications = (props: {
         </Fragment>
       ))}
       {error && <MkError error={error} retry={refetch} />}
-      {isFetchingNextPage && (
-        <div className="w-full flex justify-center p-2">
+      {(isPending || isFetchingNextPage) && (
+        <div className="w-full flex justify-center p-6">
           <Spinner />
         </div>
       )}
