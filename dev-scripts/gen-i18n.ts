@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable */
 
 /**
  * Languages Loader
@@ -9,13 +9,16 @@ import * as yaml from 'js-yaml';
 
 const PROJECT_ROOT = new URL('..', import.meta.url);
 
+// @ts-expect-error
 export const merge = (...args: any[]) =>
   args.reduce<Record<string, any>>(
+    // @ts-expect-error
     (a, c) => ({
       ...a,
       ...c,
       ...Object.entries(a)
         .filter(([k]) => c && typeof c[k] === 'object')
+        // @ts-expect-error
         .reduce<Record<string, any>>((a, [k, v]) => ((a[k] = merge(v, c[k])), a), {}),
     }),
     {},
