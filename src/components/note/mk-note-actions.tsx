@@ -11,9 +11,8 @@ import {
 import type { ComponentProps } from 'react';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
-import { DropdownMenu, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { Spinner } from '../ui/spinner';
-import { MkNoteMenu } from './mk-note-menu';
+import { useNoteMenu } from './mk-note-menu';
 import { MkEmojiPickerPopup } from '../mk-emoji-picker-popup';
 import type { NoteWithExtension } from '@/types/note';
 import {
@@ -28,6 +27,7 @@ import { useRightbarOrPopup } from '@/stores/rightbar-or-poup';
 import { MkPostForm } from '../mk-post-form';
 import { MkNoteSimple } from '../mk-note-simple';
 import { VISIBILITIES } from '@/lib/note';
+import { MenuOrDrawer } from '../menu-or-drawer';
 
 const MkNoteActionButton = (
   props: {
@@ -71,6 +71,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const { mutate: like, isPending: isReacting } = useLikeNoteAction(note.id);
   const { mutate: unreact, isPending: isUnReacting } = useUndoReactNoteAction(note.id);
   const { mutate: react } = useReactNoteAction(note.id);
+  const noteMenu = useNoteMenu({ onTranslate, note });
 
   const openForm = ({
     icon,
@@ -172,12 +173,9 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
         />
       )}
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <MkNoteActionButton icon={<MoreHorizontalIcon />} tooltip={t('menu')} />
-        </DropdownMenuTrigger>
-        <MkNoteMenu onTranslate={onTranslate} note={note} />
-      </DropdownMenu>
+      <MenuOrDrawer menu={noteMenu}>
+        <MkNoteActionButton icon={<MoreHorizontalIcon />} tooltip={t('menu')} />
+      </MenuOrDrawer>
     </div>
   );
 };

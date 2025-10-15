@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { Link } from '@tanstack/react-router';
 import {
   BellOffIcon,
   CopyIcon,
@@ -14,13 +13,6 @@ import {
   Trash2Icon,
 } from 'lucide-react';
 import { toast } from 'sonner';
-import {
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
 import type { NoteWithExtension } from '@/types/note';
 import { useMe } from '@/stores/me';
 import { getNoteRemoteUrl, getNoteRoute } from '@/lib/note';
@@ -34,11 +26,12 @@ import {
   useUnfavoriteNoteAction,
 } from '@/hooks/note-actions';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
+import type { Menu } from '../menu-or-drawer';
 
 const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }) => () =>
   props.mutateAsync().catch((e: Error) => toast.error(e.message));
 
-export const MkNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void }) => {
+export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void }) => {
   const { t } = useTranslation();
   const { note, onTranslate } = props;
   const meId = useMe((me) => me.id);
@@ -92,94 +85,48 @@ export const MkNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => 
     }
   }
 
-  return (
-    <DropdownMenuContent align="start">
-      <DropdownMenuGroup>
-        <DropdownMenuLabel className="text-sm text-muted-foreground">{t('note')}</DropdownMenuLabel>
-        <DropdownMenuItem asChild>
-          <Link to={getNoteRoute(note.id)}>
-            <InfoIcon />
-            {t('details')}
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={copyContent}>
-          <CopyIcon />
-          {t('copyContent')}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={copyLink}>
-          <LinkIcon />
-          {t('copyLink')}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={copyRemoteLink}>
-          <LinkIcon />
-          {t('copyRemoteLink')}
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <a href={remoteUrl} target="_blank" rel="noopener noreferrer">
-            <ExternalLinkIcon />
-            {t('showOnRemote')}
-          </a>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={share}>
-          <ShareIcon />
-          {t('share')}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={onTranslate}>
-          <LanguagesIcon />
-          {t('translate')}
-        </DropdownMenuItem>
-      </DropdownMenuGroup>
-      <DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        {note.isFavorited ? (
-          <DropdownMenuItem onClick={() => unfavorite()}>
-            <StarIcon />
-            {t('unfavorite')}
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={() => favorite()}>
-            <StarIcon />
-            {t('favorite')}
-          </DropdownMenuItem>
-        )}
-        <DropdownMenuItem>
-          <PaperclipIcon />
-          {t('clip')}
-        </DropdownMenuItem>
-        {note.isMutingThread ? (
-          <DropdownMenuItem onClick={() => unmuteThread()}>
-            <BellOffIcon />
-            {t('unmuteThread')}
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={() => muteThread()}>
-            <BellOffIcon />
-            {t('muteThread')}
-          </DropdownMenuItem>
-        )}
-      </DropdownMenuGroup>
-      {!isMine && (
-        <>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <FlagIcon />
-              {t('reportAbuse')}
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </>
-      )}
-      {(isMine || isAdmin) && (
-        <>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem variant="destructive" onClick={onDelete}>
-              <Trash2Icon />
-              {t('delete')}
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </>
-      )}
-    </DropdownMenuContent>
-  );
+  const menu: Menu = [
+    {
+      type: 'group',
+      items: [
+        { type: 'label', label: t('note') },
+        { type: 'item', to: getNoteRoute(note.id), icon: <InfoIcon />, label: t('details') },
+        { type: 'item', onClick: copyContent, icon: <CopyIcon />, label: t('copyContent') },
+        { type: 'item', onClick: copyLink, icon: <LinkIcon />, label: t('copyLink') },
+        { type: 'item', onClick: copyRemoteLink, icon: <LinkIcon />, label: t('copyRemoteLink') },
+        { type: 'item', href: remoteUrl, icon: <ExternalLinkIcon />, label: t('showOnRemote') },
+        { type: 'item', onClick: share, icon: <ShareIcon />, label: t('share') },
+        { type: 'item', onClick: onTranslate, icon: <LanguagesIcon />, label: t('translate') },
+      ],
+    },
+    {
+      type: 'group',
+      items: [
+        null, // separator
+        note.isFavorited
+          ? { type: 'item', onClick: () => unfavorite(), icon: <StarIcon />, label: t('unfavorite') }
+          : { type: 'item', onClick: () => favorite(), icon: <StarIcon />, label: t('favorite') },
+        { type: 'item', icon: <PaperclipIcon />, label: t('clip'), onClick: () => toast.info('not implemented') },
+        note.isMutingThread
+          ? { type: 'item', onClick: () => unmuteThread(), icon: <BellOffIcon />, label: t('unmuteThread') }
+          : { type: 'item', onClick: () => muteThread(), icon: <BellOffIcon />, label: t('muteThread') },
+      ],
+    },
+    !isMine && {
+      type: 'group',
+      items: [
+        null, // separator
+        { type: 'item', icon: <FlagIcon />, label: t('reportAbuse'), onClick: () => toast.info('not implemented') },
+      ],
+    },
+    (isMine || isAdmin) && {
+      type: 'group',
+      items: [
+        null, // separator
+        { type: 'item', variant: 'destructive', onClick: onDelete, icon: <Trash2Icon />, label: t('delete') },
+      ],
+    },
+  ];
+
+  return menu;
 };
