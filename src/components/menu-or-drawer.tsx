@@ -132,13 +132,13 @@ const GenerateDrawerMenu = (menu: Menu) => {
       case 'item': {
         if ('onClick' in x) {
           return (
-            <DrawerButton key={i} onClick={x.onClick} variant={x.variant || 'ghost'}>
+            <DrawerButton key={i} onClick={x.onClick} variant={x.variant ?? 'ghost'}>
               {x.icon} {x.label}
             </DrawerButton>
           );
         } else if ('to' in x) {
           return (
-            <DrawerButton key={i} asChild variant={x.variant || 'ghost'}>
+            <DrawerButton key={i} asChild variant={x.variant ?? 'ghost'}>
               <Link to={x.to}>
                 {x.icon} {x.label}
               </Link>
@@ -146,7 +146,7 @@ const GenerateDrawerMenu = (menu: Menu) => {
           );
         } else if ('href' in x) {
           return (
-            <DrawerButton key={i} asChild variant={x.variant || 'ghost'}>
+            <DrawerButton key={i} asChild variant={x.variant ?? 'ghost'}>
               <a href={x.href} target="_blank" rel="noopener noreferrer">
                 {x.icon} {x.label}
               </a>

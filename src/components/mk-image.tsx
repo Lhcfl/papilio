@@ -9,7 +9,7 @@ import { MkBlurHash } from './mk-blurhash';
 export const MkImage = (props: { image: DriveFile } & HTMLProps<HTMLDivElement>) => {
   const { image, className, ...rest } = props;
   const [loading, setLoading] = useState(true);
-  const url = image.thumbnailUrl || image.url;
+  const url = image.thumbnailUrl ?? image.url;
 
   useEffect(() => {
     const img = new window.Image(image.properties.width, image.properties.height);

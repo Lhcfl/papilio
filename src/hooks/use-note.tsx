@@ -156,11 +156,11 @@ export function useNoteUpdateListener() {
           GlobalNoteSingletonManager.patch(id, (note) => {
             // sharkey have poll
             const poll = note.poll;
-            const choice = (body as unknown as { choice: number }).choice;
+            const choice = (body as unknown as { choice: number | null }).choice;
             if (choice == null) return {};
             if (poll == null) return {};
 
-            const choices = [...(poll.choices ?? [])];
+            const choices = [...poll.choices];
 
             choices[choice] = {
               ...choices[choice],
@@ -233,7 +233,7 @@ export const useAppearNote = (note: NoteWithExtension | null) => {
         ? GlobalNoteSingletonManager.notes.get(note.renoteId)
         : GlobalNoteSingletonManager.notes.get(note.id);
 
-  return useAtomValue(a || GlobalNoteSingletonManager.global_null);
+  return useAtomValue(a ?? GlobalNoteSingletonManager.global_null);
 };
 
 //   type NoteSingleton = {

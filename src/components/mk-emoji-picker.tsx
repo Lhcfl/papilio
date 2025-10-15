@@ -51,13 +51,15 @@ export const MkEmojiPicker = (
   const debouncing = search !== debouncedSearch;
 
   const emojisByCategory = useMemo(() => {
-    const ret: EmojisByCategory = {};
+    const ret: Partial<EmojisByCategory> = {};
     for (const emoji of customEmojis) {
+      // We want "" to be categorized as "Other"
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const category = emoji.category || OTHER_CATEGORY_I18N;
-      ret[category] = ret[category] || [];
+      ret[category] ??= [];
       ret[category].push(emoji);
     }
-    return ret;
+    return ret as EmojisByCategory;
   }, [customEmojis, OTHER_CATEGORY_I18N]);
 
   const customEmojisRecursiveByCategory = useMemo(() => {
@@ -68,11 +70,11 @@ export const MkEmojiPicker = (
     );
 
     for (const emoji of emojisSorted) {
-      const categoryPath = emoji.category?.split('/') || [UNCATEGORIZED];
+      const categoryPath = emoji.category?.split('/') ?? [UNCATEGORIZED];
       let current = ret;
       let currentEmojis: RecurisveEmojiCategories[string]['emojis'] = [];
       for (const p of categoryPath) {
-        current[p] = current[p] || { emojis: [], subcategories: {} };
+        current[p] ??= { emojis: [], subcategories: {} };
         currentEmojis = current[p].emojis;
         current = current[p].subcategories;
       }

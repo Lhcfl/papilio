@@ -24,7 +24,7 @@ export const MkBlurHash = (
       hash: blurhash,
     });
     worker.addEventListener('message', (ev) => {
-      const bitmap = ev.data.bitmap;
+      const bitmap = (ev.data as { bitmap: CanvasImageSource }).bitmap;
       if (!canvasRef.current) return;
       const ctx = canvasRef.current.getContext('2d');
       if (!ctx) return;

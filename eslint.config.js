@@ -14,7 +14,7 @@ export default defineConfig([
 	globalIgnores(["dist", "sharkey-js"]),
 	{
 		files: ["**/*.{ts,tsx}"],
-		ignores: ["src/components/ui/*.tsx"],
+		ignores: ["src/components/ui/*.tsx", "dev-script/**/*"],
 		plugins: {
 			prettier, // 加入 Prettier 插件
 		},
@@ -47,6 +47,7 @@ export default defineConfig([
 					}],
 					"@stylistic/jsx-self-closing-comp": "error",
 					"@typescript-eslint/no-non-null-assertion": "off",
+					"@typescript-eslint/no-misused-promise": "off",
 				},
 			},
 		],

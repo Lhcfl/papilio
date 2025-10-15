@@ -51,7 +51,7 @@ export const MkAnnouncement = (props: { item: Announcement }) => {
           <MkMfm text={item.text} />
         </div>
       </ItemContent>
-      {!(item.isRead || isRead) && (
+      {!(item.isRead ?? isRead) && (
         <ItemActions>
           <Tooltip>
             <TooltipTrigger asChild>

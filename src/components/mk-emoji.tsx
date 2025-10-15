@@ -29,11 +29,11 @@ export const MkCustomEmoji = (props: {
   const name = props.name.startsWith(':') ? props.name.slice(1, -1) : props.name;
   const [normalizedName, normalizedHost] = name.split('@');
   const isLocal = props.host == null && (normalizedHost == '.' || !normalizedHost);
-  const url = props.url
-    ? props.url
-    : isLocal
+  const url =
+    props.url ??
+    (isLocal
       ? emojisMap.get(normalizedName)?.url
-      : new URL(props.host ? `/emoji/${name}@${props.host}.webp` : `/emoji/${name}.webp`, site).toString();
+      : new URL(props.host ? `/emoji/${name}@${props.host}.webp` : `/emoji/${name}.webp`, site).toString());
   const alt = `:${name}:`;
 
   const emojiFallbackUrl = new URL('/static-assets/emoji-unknown.png', site).toString();
@@ -78,5 +78,6 @@ export const MkEmoji = (
     folder: '/twemoji',
     className: clsx('h-[1.25em] align-[-0.25em] transition-all inline', props.innerClassName),
   });
+  // eslint-disable-next-line react-dom/no-dangerously-set-innerhtml
   return <span className={clsx('mk-emoji', props.className)} dangerouslySetInnerHTML={{ __html: parsed }} />;
 };
