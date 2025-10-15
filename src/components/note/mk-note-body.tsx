@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
 import { ChevronDownIcon, ChevronUpIcon, MailIcon, QuoteIcon, ReplyIcon } from 'lucide-react';
 import { type MfmNode, parse } from 'mfm-js';
 import type { HTMLProps } from 'react';
@@ -16,13 +15,14 @@ import { MkNoteImages } from './mk-note-images';
 import { MkNoteTranslation } from './mk-note-translation';
 import { Link } from '@tanstack/react-router';
 import { collectAst, countAst, getNoteRoute } from '@/lib/note';
-import { onlyWhenNonInteractableContentClicked } from '@/lib/utils';
+import { cn, onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { injectCurrentSite, misskeyApi } from '@/services/inject-misskey-api';
 import type { UserDetailed } from 'misskey-js/entities.js';
 import { cond } from '@/lib/match';
 import { MkMention } from '../mk-mention';
 import { acct } from 'misskey-js';
+import { MkTime } from '../mk-time';
 
 interface NoteBodyCommonProps {
   note: NoteWithExtension;
@@ -124,7 +124,7 @@ const NoteBodyLong = (props: NoteBodyCommonProps) => {
   return (
     <div className="note-body-long">
       <NoteBodyExpanded
-        className={clsx({
+        className={cn({
           'max-h-50 mb-[-2em] overflow-hidden mask-b-from-0': !expanded,
           'mb-2': expanded,
         })}
@@ -146,12 +146,9 @@ const NoteBodyLong = (props: NoteBodyCommonProps) => {
 };
 
 export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { className?: string }) => {
-  const { note, className, ...rest } = props;
-
-  const cls = clsx('mk-note-body p-2', className);
-
+  const { note, className, detailed, ...rest } = props;
   const { t } = useTranslation();
-  const textAst = parse(note.text ?? '');
+  const textAst = useMemo(() => parse(note.text ?? ''), [note.text]);
 
   const { data: visibleUsers } = useQuery({
     queryKey: ['users', note.visibleUserIds],
@@ -205,7 +202,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
     }) >= 10;
 
   return (
-    <div className={cls}>
+    <div className={cn('mk-note-body p-2', className)}>
       {note.visibility == 'specified' && (extraVisibleUsers.length > 0 || invisibleMentions.length > 0) && (
         <div className="text-sm text-muted-foreground px-2 pb-2 mb-2 flex items-center flex-wrap gap-1 border-b">
           <MailIcon className="size-3" />
@@ -217,9 +214,21 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
       )}
       {cond([
         [note.cw != null, () => <NoteBodyCw note={note} textAst={textAst} {...rest} />],
-        [!props.detailed && isLong, () => <NoteBodyLong note={note} textAst={textAst} {...rest} />],
+        [!detailed && isLong, () => <NoteBodyLong note={note} textAst={textAst} {...rest} />],
         [true, () => <NoteBodyExpanded note={note} textAst={textAst} {...rest} />],
       ])()}
+      {detailed && (
+        <div className="note-time mt-4 text-sm text-muted-foreground">
+          <p>
+            {t('createdAt')}: <MkTime mode="detail" time={note.createdAt} />
+          </p>
+          {note.updatedAt && note.updatedAt !== note.createdAt && (
+            <p>
+              {t('updatedAt')}: <MkTime mode="detail" time={note.updatedAt} />
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };

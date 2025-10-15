@@ -111,7 +111,7 @@ export const MkTime = (
   return (
     <time
       title={absolute}
-      className={clsx('mk-time flex items-center gap-1', className, {
+      className={clsx('mk-time inline-flex items-center gap-1', className, {
         'text-yellow-500': colored && old && !veryOld,
         'text-red-500': colored && veryOld,
       })}

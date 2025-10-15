@@ -58,18 +58,24 @@ const validColor = (c: unknown): string | null => {
 };
 
 export const MkMfm = (in_props: MfmProps) => {
-  const props: MfmProps = {
-    isNote: true,
-    emojiUrls: {},
-    author: undefined,
-    rootScale: undefined,
-    nyaize: 'respect',
-    parsedNodes: undefined,
-    linkNavigationBehavior: undefined,
-    ...in_props,
-  };
-
-  const { plain: plainMode = false, inline: inlineMode = false } = props;
+  const {
+    text,
+    plain: plainMode = false,
+    inline: inlineMode = false,
+    nowrap = false,
+    author,
+    isNote = true,
+    emojiUrls = {},
+    rootScale,
+    nyaize = 'respect',
+    parsedNodes,
+    enableEmojiMenu = false,
+    enableEmojiMenuReaction = false,
+    isAnim = true,
+    isBlock = false,
+    linkNavigationBehavior,
+    clickEv,
+  } = in_props;
 
   // const host = null;
 
@@ -79,14 +85,13 @@ export const MkMfm = (in_props: MfmProps) => {
   const useAnim = true as boolean;
 
   const rootAst = useMemo(
-    () => props.parsedNodes ?? (plainMode ? mfm.parseSimple : mfm.parse)(props.text),
-    [props.parsedNodes, props.text, plainMode],
+    () => parsedNodes ?? (plainMode ? mfm.parseSimple : mfm.parse)(text),
+    [parsedNodes, text, plainMode],
   );
 
-  if (!props.text) return null;
-
+  if (!text) return null;
   const classList = ['mfm', 'break-words', 'break-all'];
-  if (props.isBlock) classList.push('block');
+  if (isBlock) classList.push('block');
   if (inlineMode) classList.push('mfm-inline');
 
   const genEl = (ast: mfm.MfmNode[], scale: number, disableNyaize = false) =>
@@ -499,8 +504,8 @@ export const MkMfm = (in_props: MfmProps) => {
                 onClick={(ev) => {
                   ev.stopPropagation();
                   ev.preventDefault();
-                  const clickEv = typeof token.props.args.ev === 'string' ? token.props.args.ev : '';
-                  props.clickEv?.(clickEv);
+                  const evName = typeof token.props.args.ev === 'string' ? token.props.args.ev : '';
+                  clickEv?.(evName);
                 }}
               >
                 {genEl(token.children, scale)}
@@ -563,7 +568,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 key={Math.random()}
                 url={token.props.url}
                 rel="nofollow noopener"
-                navigationBehavior={props.linkNavigationBehavior}
+                navigationBehavior={linkNavigationBehavior}
               />
             </bdi>
           );
@@ -583,7 +588,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 key={Math.random()}
                 url={token.props.url}
                 rel="nofollow noopener"
-                navigationBehavior={props.linkNavigationBehavior}
+                navigationBehavior={linkNavigationBehavior}
               >
                 {genEl(token.children, scale, true)}
               </MkUrl>
@@ -592,8 +597,7 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'mention': {
-          const mentionHost =
-            token.props.host == null && props.author?.host != null ? props.author.host : token.props.host;
+          const mentionHost = token.props.host == null && author?.host != null ? author.host : token.props.host;
 
           return (
             <bdi key={Math.random()}>
@@ -638,7 +642,7 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'quote': {
-          if (!props.nowrap) {
+          if (!nowrap) {
             return (
               <bdi key={Math.random()} className="block">
                 <blockquote className="opacity-80 pl-3 border-l-4 my-1">
@@ -659,7 +663,7 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'emojiCode': {
-          if (props.author?.host == null) {
+          if (author?.host == null) {
             return (
               <MkCustomEmoji
                 key={Math.random()}
@@ -667,22 +671,22 @@ export const MkMfm = (in_props: MfmProps) => {
                 normal={plainMode || inlineMode}
                 host={null}
                 useOriginalSize={scale >= 2.5}
-                menu={props.enableEmojiMenu}
-                menuReaction={props.enableEmojiMenuReaction}
+                menu={enableEmojiMenu}
+                menuReaction={enableEmojiMenuReaction}
                 fallbackToImage={false}
               />
             );
           } else {
-            if (props.emojiUrls && props.emojiUrls[token.props.name] == null) {
+            if (emojiUrls[token.props.name] == null) {
               return <span key={Math.random()}>{`:${token.props.name}:`}</span>;
             } else {
               return (
                 <MkCustomEmoji
                   key={Math.random()}
                   name={token.props.name}
-                  url={props.emojiUrls?.[token.props.name]}
+                  url={emojiUrls[token.props.name]}
                   normal={plainMode || inlineMode}
-                  host={props.author.host}
+                  host={author.host}
                   useOriginalSize={scale >= 2.5}
                 />
               );
@@ -695,8 +699,8 @@ export const MkMfm = (in_props: MfmProps) => {
             <MkEmoji
               key={Math.random()}
               emoji={token.props.emoji}
-              menu={props.enableEmojiMenu}
-              menuReaction={props.enableEmojiMenuReaction}
+              menu={enableEmojiMenu}
+              menuReaction={enableEmojiMenuReaction}
             />
           );
         }
@@ -758,8 +762,8 @@ export const MkMfm = (in_props: MfmProps) => {
 
   return (
     <bdi className={classList.join(' ')}>
-      <span className={props.nowrap ? 'inline-block truncate line-clamp-1 whitespace-pre' : 'whitespace-pre-wrap'}>
-        {genEl(rootAst, props.rootScale ?? 1)}
+      <span className={nowrap ? 'inline-block truncate line-clamp-1 whitespace-pre' : 'whitespace-pre-wrap'}>
+        {genEl(rootAst, rootScale ?? 1)}
       </span>
     </bdi>
   );
