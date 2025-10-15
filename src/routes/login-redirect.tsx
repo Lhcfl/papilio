@@ -41,7 +41,7 @@ function RouteComponent() {
       .then((res) => {
         if (res.ok) {
           storeUserToken(res.token);
-          navigate({ to: '/' });
+          window.location.href = new URL('/', window.location.origin).toString();
         } else {
           setError(true);
         }
