@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PostingRouteImport } from './routes/posting'
 import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as AnnouncementsRouteImport } from './routes/announcements'
 import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as MissingRouteImport } from './routes/$missing'
@@ -21,6 +20,9 @@ import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as NotesIdRouteImport } from './routes/notes/$id'
 import { Route as MyNotificationsRouteImport } from './routes/my/notifications'
 import { Route as MyFollowRequestsRouteImport } from './routes/my/follow-requests'
+import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
+import { Route as MyClipsRouteImport } from './routes/my/clips'
+import { Route as ClipsIdRouteImport } from './routes/clips/$id'
 
 const PostingRoute = PostingRouteImport.update({
   id: '/posting',
@@ -35,11 +37,6 @@ const LoginRedirectRoute = LoginRedirectRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FavoritesRoute = FavoritesRouteImport.update({
-  id: '/favorites',
-  path: '/favorites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnnouncementsRoute = AnnouncementsRouteImport.update({
@@ -82,16 +79,33 @@ const MyFollowRequestsRoute = MyFollowRequestsRouteImport.update({
   path: '/my/follow-requests',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MyFavoritesRoute = MyFavoritesRouteImport.update({
+  id: '/my/favorites',
+  path: '/my/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyClipsRoute = MyClipsRouteImport.update({
+  id: '/my/clips',
+  path: '/my/clips',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClipsIdRoute = ClipsIdRouteImport.update({
+  id: '/clips/$id',
+  path: '/clips/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/announcements': typeof AnnouncementsRoute
-  '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
+  '/clips/$id': typeof ClipsIdRoute
+  '/my/clips': typeof MyClipsRoute
+  '/my/favorites': typeof MyFavoritesRoute
   '/my/follow-requests': typeof MyFollowRequestsRoute
   '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
@@ -102,10 +116,12 @@ export interface FileRoutesByTo {
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/announcements': typeof AnnouncementsRoute
-  '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
+  '/clips/$id': typeof ClipsIdRoute
+  '/my/clips': typeof MyClipsRoute
+  '/my/favorites': typeof MyFavoritesRoute
   '/my/follow-requests': typeof MyFollowRequestsRoute
   '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
@@ -117,10 +133,12 @@ export interface FileRoutesById {
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/announcements': typeof AnnouncementsRoute
-  '/favorites': typeof FavoritesRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
+  '/clips/$id': typeof ClipsIdRoute
+  '/my/clips': typeof MyClipsRoute
+  '/my/favorites': typeof MyFavoritesRoute
   '/my/follow-requests': typeof MyFollowRequestsRoute
   '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
@@ -133,10 +151,12 @@ export interface FileRouteTypes {
     | '/$missing'
     | '/@{$acct}'
     | '/announcements'
-    | '/favorites'
     | '/login'
     | '/login-redirect'
     | '/posting'
+    | '/clips/$id'
+    | '/my/clips'
+    | '/my/favorites'
     | '/my/follow-requests'
     | '/my/notifications'
     | '/notes/$id'
@@ -147,10 +167,12 @@ export interface FileRouteTypes {
     | '/$missing'
     | '/@{$acct}'
     | '/announcements'
-    | '/favorites'
     | '/login'
     | '/login-redirect'
     | '/posting'
+    | '/clips/$id'
+    | '/my/clips'
+    | '/my/favorites'
     | '/my/follow-requests'
     | '/my/notifications'
     | '/notes/$id'
@@ -161,10 +183,12 @@ export interface FileRouteTypes {
     | '/$missing'
     | '/@{$acct}'
     | '/announcements'
-    | '/favorites'
     | '/login'
     | '/login-redirect'
     | '/posting'
+    | '/clips/$id'
+    | '/my/clips'
+    | '/my/favorites'
     | '/my/follow-requests'
     | '/my/notifications'
     | '/notes/$id'
@@ -176,10 +200,12 @@ export interface RootRouteChildren {
   MissingRoute: typeof MissingRoute
   AtChar123acctChar125Route: typeof AtChar123acctChar125Route
   AnnouncementsRoute: typeof AnnouncementsRoute
-  FavoritesRoute: typeof FavoritesRoute
   LoginRoute: typeof LoginRoute
   LoginRedirectRoute: typeof LoginRedirectRoute
   PostingRoute: typeof PostingRoute
+  ClipsIdRoute: typeof ClipsIdRoute
+  MyClipsRoute: typeof MyClipsRoute
+  MyFavoritesRoute: typeof MyFavoritesRoute
   MyFollowRequestsRoute: typeof MyFollowRequestsRoute
   MyNotificationsRoute: typeof MyNotificationsRoute
   NotesIdRoute: typeof NotesIdRoute
@@ -207,13 +233,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/favorites': {
-      id: '/favorites'
-      path: '/favorites'
-      fullPath: '/favorites'
-      preLoaderRoute: typeof FavoritesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/announcements': {
@@ -272,6 +291,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyFollowRequestsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/my/favorites': {
+      id: '/my/favorites'
+      path: '/my/favorites'
+      fullPath: '/my/favorites'
+      preLoaderRoute: typeof MyFavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my/clips': {
+      id: '/my/clips'
+      path: '/my/clips'
+      fullPath: '/my/clips'
+      preLoaderRoute: typeof MyClipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clips/$id': {
+      id: '/clips/$id'
+      path: '/clips/$id'
+      fullPath: '/clips/$id'
+      preLoaderRoute: typeof ClipsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -280,10 +320,12 @@ const rootRouteChildren: RootRouteChildren = {
   MissingRoute: MissingRoute,
   AtChar123acctChar125Route: AtChar123acctChar125Route,
   AnnouncementsRoute: AnnouncementsRoute,
-  FavoritesRoute: FavoritesRoute,
   LoginRoute: LoginRoute,
   LoginRedirectRoute: LoginRedirectRoute,
   PostingRoute: PostingRoute,
+  ClipsIdRoute: ClipsIdRoute,
+  MyClipsRoute: MyClipsRoute,
+  MyFavoritesRoute: MyFavoritesRoute,
   MyFollowRequestsRoute: MyFollowRequestsRoute,
   MyNotificationsRoute: MyNotificationsRoute,
   NotesIdRoute: NotesIdRoute,

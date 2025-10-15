@@ -26,7 +26,8 @@ export const AppSidebarMain = () => {
   const data = [
     { key: 'home', title: t('home'), icon: HomeIcon, to: '/' },
     { key: 'notifications', title: t('notifications'), icon: BellIcon, to: '/my/notifications' },
-    { key: 'favorites', title: t('favorites'), icon: StarIcon, to: '/favorites' },
+    { key: 'favorites', title: t('favorites'), icon: StarIcon, to: '/my/favorites' },
+    { key: 'clips', title: t('clips'), icon: StarIcon, to: '/my/clips' },
     { key: 'followRequests', title: t('followRequests'), icon: UserPlusIcon, to: '/my/follow-requests' },
     { key: 'announcements', title: t('announcements'), icon: MegaphoneIcon, to: '/announcements' },
     { key: 'chat', title: t('chat'), icon: MessageSquareIcon, to: '/chat' },

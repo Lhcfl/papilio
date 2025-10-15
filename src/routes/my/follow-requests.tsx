@@ -14,6 +14,7 @@ function RouteComponent() {
   const { t } = useTranslation();
   return (
     <DefaultLayout
+      title={t('followRequests')}
       tabs={[
         {
           value: 'received',
