@@ -323,6 +323,11 @@ export const MkPostForm = (
             value={draft.text}
             onChange={(e) => draft.update({ text: e.target.value })}
             onFocus={() => setCurrentFocusTextarea('text')}
+            onKeyDown={(k) => {
+              if (k.ctrlKey && k.code == 'Enter' && sendable) {
+                send(draft);
+              }
+            }}
           />
         </InputGroup>
       </div>
