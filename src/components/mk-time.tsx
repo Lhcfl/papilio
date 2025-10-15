@@ -32,9 +32,11 @@ export const MkTime = (
     origin?: Date | null;
     mode?: 'relative' | 'absolute' | 'detail';
     colored?: boolean;
+    prepend?: React.ReactNode;
+    append?: React.ReactNode;
   } & HTMLProps<HTMLTimeElement>,
 ) => {
-  const { time, origin = null, mode = 'relative', colored = true, ...rest } = props;
+  const { time, origin = null, mode = 'relative', colored = true, prepend, append, className, ...rest } = props;
   const { t } = useTranslation();
 
   const [realNow, setNow] = useState(Date.now());
@@ -105,12 +107,13 @@ export const MkTime = (
   return (
     <time
       title={absolute}
-      className={clsx({
+      className={clsx('mk-time flex items-center gap-1', className, {
         'text-yellow-500': colored && old && !veryOld,
         'text-red-500': colored && veryOld,
       })}
       {...rest}
     >
+      {prepend}
       {invalid && t('nothing')}
       {mode === 'absolute' && absolute}
       {mode === 'relative' && relative}
@@ -120,6 +123,7 @@ export const MkTime = (
           {absolute} ({relative}){' '}
         </>
       )}
+      {append}
     </time>
   );
 };

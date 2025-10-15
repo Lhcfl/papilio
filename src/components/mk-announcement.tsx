@@ -1,7 +1,15 @@
 import type { Announcement } from 'misskey-js/entities.js';
-import { Item, ItemActions, ItemContent, ItemMedia, ItemTitle } from './ui/item';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from './ui/item';
 import { MkMfm } from './mk-mfm';
-import { CheckCircle, CheckIcon, InfoIcon, MailOpenIcon, MessageCircleWarningIcon, XCircleIcon } from 'lucide-react';
+import {
+  CheckCircle,
+  CheckIcon,
+  ClockIcon,
+  InfoIcon,
+  MailOpenIcon,
+  MessageCircleWarningIcon,
+  XCircleIcon,
+} from 'lucide-react';
 import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +17,7 @@ import { useMutation } from '@tanstack/react-query';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { useState } from 'react';
 import { Spinner } from './ui/spinner';
+import { MkTime } from './mk-time';
 
 export const MkAnnouncement = (props: { item: Announcement }) => {
   const { item } = props;
@@ -35,6 +44,9 @@ export const MkAnnouncement = (props: { item: Announcement }) => {
       </div>
       <ItemContent>
         <ItemTitle className="text-base">{item.title}</ItemTitle>
+        <ItemDescription>
+          <MkTime time={item.createdAt} mode="detail" prepend={<ClockIcon className="size-4" />} />
+        </ItemDescription>
         <div>
           <MkMfm text={item.text} />
         </div>
