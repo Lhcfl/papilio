@@ -23,6 +23,7 @@ export const MkLinkPreview = (props: { url: string } & React.ComponentProps<type
       path.searchParams.append('lang', i18n.language);
       return window.fetch(path).then((r) => r.json()) as Promise<SummalyResult>;
     },
+    staleTime: 1000 * 60 * 60, // 1 hour
   });
 
   const title = data?.title ?? url;

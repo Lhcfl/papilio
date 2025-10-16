@@ -29,7 +29,7 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
             to={getNoteRoute(note.id)}
           >
             <MkTime time={note.createdAt} className="text-sm" />
-            <MkVisibilityIcon className="size-4" note={note} />
+            <MkVisibilityIcon iconProps={{ className: 'size-4' }} note={note} />
           </Link>
         </div>
         <div className="flex justify-between gap-2">

@@ -16,13 +16,12 @@ import { MkNoteTranslation } from './mk-note-translation';
 import { Link } from '@tanstack/react-router';
 import { collectAst, countAst, getNoteRoute } from '@/lib/note';
 import { cn, onlyWhenNonInteractableContentClicked } from '@/lib/utils';
-import { useQuery } from '@tanstack/react-query';
-import { injectCurrentSite, misskeyApi } from '@/services/inject-misskey-api';
-import type { UserDetailed } from 'misskey-js/entities.js';
+import { injectCurrentSite } from '@/services/inject-misskey-api';
 import { cond } from '@/lib/match';
 import { MkMention } from '../mk-mention';
 import { acct } from 'misskey-js';
 import { MkTime } from '../mk-time';
+import { useUsersQuery } from '@/hooks/use-user';
 
 interface NoteBodyCommonProps {
   note: NoteWithExtension;
@@ -160,15 +159,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
   const { note, className, detailed, ...rest } = props;
   const { t } = useTranslation();
   const textAst = useMemo(() => parse(note.text ?? ''), [note.text]);
-
-  const { data: visibleUsers } = useQuery({
-    queryKey: ['users', note.visibleUserIds],
-    queryFn: () =>
-      note.visibleUserIds
-        ? (misskeyApi('users/show', { userIds: note.visibleUserIds }) as unknown as Promise<UserDetailed[]>)
-        : Promise.resolve([]),
-  });
-
+  const { data: visibleUsers } = useUsersQuery(note.visibleUserIds);
   const site = injectCurrentSite();
   const siteDomain = new URL(site).host;
   const mentions = collectAst(textAst, (ast) => (ast.type === 'mention' ? ast.props : undefined));

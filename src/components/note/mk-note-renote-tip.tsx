@@ -17,18 +17,18 @@ import { useDeleteNoteAction } from '@/hooks/note-actions';
 
 export const MkNoteRenoteTip = (props: { note: NoteWithExtension }) => {
   const meId = useMe((me) => me.id);
-
-  const isMine = props.note.userId === meId;
+  const { note } = props;
+  const isMine = note.userId === meId;
 
   return (
     <div className="mk-note-renote-tip p-2 flex gap-2 items-center text-muted-foreground">
       <RepeatIcon />
-      <MkAvatar user={props.note.user} avatarProps={{ className: 'size-6' }} />
-      <MkUserName user={props.note.user} className="flex-grow-1 flex-shrink-1 w-0 line-clamp-1" />
+      <MkAvatar user={note.user} avatarProps={{ className: 'size-6' }} />
+      <MkUserName user={note.user} className="flex-grow-1 flex-shrink-1 w-0 line-clamp-1" />
       <div className="renote-info flex gap-2 items-center">
-        {isMine && <RenoteMore note={props.note} />}
-        <MkTime time={props.note.createdAt} className="text-sm" />
-        <MkVisibilityIcon note={props.note} className="size-4" />
+        {isMine && <RenoteMore note={note} />}
+        <MkTime time={note.createdAt} className="text-sm" />
+        <MkVisibilityIcon iconProps={{ className: 'size-4' }} note={note} />
       </div>
     </div>
   );

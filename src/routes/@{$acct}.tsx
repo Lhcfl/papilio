@@ -34,6 +34,7 @@ function RouteComponent() {
         res.pinnedNotes = [];
         return res;
       }),
+    staleTime: 1000 * 60 * 15, // 15 minutes
   });
 
   const title = t('user');
