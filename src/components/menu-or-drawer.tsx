@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuCheckboxItem,
 } from './ui/dropdown-menu';
 import { Link } from '@tanstack/react-router';
 import { Separator } from './ui/separator';
@@ -21,6 +22,7 @@ export type MenuItem = {
   icon?: React.ReactNode;
   label: React.ReactNode;
   variant?: 'default' | 'destructive';
+  preventCloseOnClick?: boolean;
 } & (
   | {
       onClick: (e: React.MouseEvent<HTMLElement>) => void;
@@ -32,6 +34,14 @@ export type MenuItem = {
       href: string;
     }
 );
+
+export interface MenuSwitch {
+  type: 'switch';
+  id: string;
+  label: React.ReactNode;
+  value: boolean;
+  onChange: (checked: boolean) => void;
+}
 
 export interface MenuLabel {
   type: 'label';
@@ -45,7 +55,7 @@ export interface MenuGroup {
   items: Menu;
 }
 
-export type Menu = (MenuGroup | MenuItem | null | undefined | false | MenuLabel)[];
+export type Menu = (MenuGroup | MenuItem | null | undefined | false | MenuLabel | MenuSwitch)[];
 
 export const MenuOrDrawer = (props: { children: React.ReactNode; menu: Menu }) => {
   const isMobile = useIsMobile();
@@ -87,17 +97,49 @@ const GenerateDropDownMenu = (menu: Menu) => {
       case 'group':
         return <DropdownMenuGroup key={x.id}>{GenerateDropDownMenu(x.items)}</DropdownMenuGroup>;
       case 'label':
-        return <DropdownMenuLabel key={x.id}>{x.label}</DropdownMenuLabel>;
+        return (
+          <DropdownMenuLabel className="text-muted-foreground" key={x.id}>
+            {x.label}
+          </DropdownMenuLabel>
+        );
+      case 'switch': {
+        return (
+          <DropdownMenuCheckboxItem
+            key={x.id}
+            checked={x.value}
+            onCheckedChange={x.onChange}
+            onSelect={(e) => {
+              e.preventDefault();
+            }}
+          >
+            {x.label}
+          </DropdownMenuCheckboxItem>
+        );
+      }
       case 'item': {
         if ('onClick' in x) {
           return (
-            <DropdownMenuItem key={x.id} onClick={x.onClick} variant={x.variant}>
+            <DropdownMenuItem
+              key={x.id}
+              onClick={x.onClick}
+              variant={x.variant}
+              onSelect={(ev) => {
+                if (x.preventCloseOnClick) ev.preventDefault();
+              }}
+            >
               {x.icon} {x.label}
             </DropdownMenuItem>
           );
         } else if ('to' in x) {
           return (
-            <DropdownMenuItem key={x.id} asChild variant={x.variant}>
+            <DropdownMenuItem
+              key={x.id}
+              asChild
+              variant={x.variant}
+              onSelect={(ev) => {
+                if (x.preventCloseOnClick) ev.preventDefault();
+              }}
+            >
               <Link to={x.to}>
                 {x.icon} {x.label}
               </Link>
@@ -105,7 +147,14 @@ const GenerateDropDownMenu = (menu: Menu) => {
           );
         } else if ('href' in x) {
           return (
-            <DropdownMenuItem key={x.id} asChild variant={x.variant}>
+            <DropdownMenuItem
+              key={x.id}
+              asChild
+              variant={x.variant}
+              onSelect={(ev) => {
+                if (x.preventCloseOnClick) ev.preventDefault();
+              }}
+            >
               <a href={x.href} target="_blank" rel="noopener noreferrer">
                 {x.icon} {x.label}
               </a>
@@ -139,6 +188,9 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
             {x.label}
           </span>
         );
+      case 'switch': {
+        return 'not impl';
+      }
       case 'item': {
         if ('onClick' in x) {
           return (

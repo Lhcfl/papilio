@@ -1,4 +1,4 @@
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi, type EndpointParamType } from '@/services/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { patchNote } from './use-note';
@@ -6,8 +6,8 @@ import { patchNote } from './use-note';
 export const useRenoteAction = (noteId: string) =>
   useMutation({
     mutationKey: ['renote', noteId],
-    mutationFn: (visibility: 'public' | 'home' | 'followers') =>
-      misskeyApi('notes/create', { renoteId: noteId, visibility }),
+    mutationFn: (props: Omit<EndpointParamType<'notes/create'>, 'renoteId'>) =>
+      misskeyApi('notes/create', { renoteId: noteId, ...props }),
   });
 
 export const useUnrenoteAction = (noteId: string) =>

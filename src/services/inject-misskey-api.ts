@@ -3,6 +3,8 @@ import { Stream, api } from 'misskey-js';
 
 let apiClient: api.APIClient | null = null;
 
+export type EndpointParamType<E extends keyof Endpoints> = Endpoints[E]['req'];
+
 // to fix misskey-js typing issue
 export function misskeyApi<E extends keyof Endpoints>(
   endpoint: E,

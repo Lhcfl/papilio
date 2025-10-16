@@ -1,14 +1,19 @@
 import { useTranslation } from 'react-i18next';
 import {
+  GlobeIcon,
   HeartIcon,
   HeartMinusIcon,
+  HomeIcon,
+  LockIcon,
   MoreHorizontalIcon,
   QuoteIcon,
   RepeatIcon,
   ReplyIcon,
   SmilePlusIcon,
+  ToggleLeftIcon,
+  ToggleRightIcon,
 } from 'lucide-react';
-import type { ComponentProps } from 'react';
+import { useState, type ComponentProps } from 'react';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
@@ -27,7 +32,7 @@ import { useRightbarOrPopup } from '@/stores/rightbar-or-poup';
 import { MkPostForm } from '../mk-post-form';
 import { MkNoteSimple } from '../mk-note-simple';
 import { VISIBILITIES } from '@/lib/note';
-import { MenuOrDrawer } from '../menu-or-drawer';
+import { MenuOrDrawer, type Menu } from '../menu-or-drawer';
 
 const MkNoteActionButton = (
   props: {
@@ -67,6 +72,63 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const { mutate: unreact, isPending: isUnReacting } = useUndoReactNoteAction(note.id);
   const { mutate: react } = useReactNoteAction(note.id);
   const noteMenu = useNoteMenu({ onTranslate, note });
+
+  const [renoteLocalOnly, setRenoteLocalOnly] = useState(false);
+
+  const renoteMenu: Menu = [
+    {
+      id: 'g-vis',
+      type: 'group',
+      items: [
+        { id: 'lbl', type: 'label', label: t('renote') },
+        note.visibility === 'public' && {
+          id: 'vis-public',
+          type: 'item',
+          icon: <GlobeIcon />,
+          label: t('public'),
+          onClick: () => {
+            renote({ visibility: 'public', localOnly: renoteLocalOnly });
+          },
+        },
+        {
+          id: 'vis-home',
+          type: 'item',
+          icon: <HomeIcon />,
+          label: t('home'),
+          onClick: () => {
+            renote({ visibility: 'home', localOnly: renoteLocalOnly });
+          },
+        },
+        {
+          id: 'vis-followers',
+          type: 'item',
+          icon: <LockIcon />,
+          label: t('followers'),
+          onClick: () => {
+            renote({ visibility: 'followers', localOnly: renoteLocalOnly });
+          },
+        },
+      ],
+    },
+    {
+      id: 'g-switch',
+      type: 'group',
+      items: [
+        null,
+        { id: 'local-lbl', type: 'label', label: t('federation') },
+        {
+          id: 'vis-local',
+          type: 'item',
+          icon: renoteLocalOnly ? <ToggleRightIcon /> : <ToggleLeftIcon className="opacity-60" />,
+          label: t('localOnly'),
+          preventCloseOnClick: true,
+          onClick: () => {
+            setRenoteLocalOnly(!renoteLocalOnly);
+          },
+        },
+      ],
+    },
+  ];
 
   const openForm = ({
     icon,
@@ -134,18 +196,15 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           }}
         />
       ) : (
-        <MkNoteActionButton
-          icon={<RepeatIcon />}
-          count={note.renoteCount}
-          disabled={note.visibility !== 'public' && note.visibility !== 'home'}
-          loading={isRenoting}
-          tooltip={t('renote')}
-          onClick={() => {
-            renote(props.note.visibility as 'public' | 'home', {
-              onSuccess: () => toast.success(t('renoted')),
-            });
-          }}
-        />
+        <MenuOrDrawer menu={renoteMenu}>
+          <MkNoteActionButton
+            icon={<RepeatIcon />}
+            count={note.renoteCount}
+            disabled={note.visibility !== 'public' && note.visibility !== 'home'}
+            loading={isRenoting}
+            tooltip={t('renote')}
+          />
+        </MenuOrDrawer>
       )}
       <MkNoteActionButton
         icon={<QuoteIcon />}
