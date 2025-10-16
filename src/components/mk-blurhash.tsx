@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import drawBlurHash from '@/workers/draw-blurhash?worker';
+import drawBlurHash from '@/workers/draw-blurhash?worker&inline';
 import type { HTMLProps } from 'react';
 
 export const MkBlurHash = (
