@@ -129,6 +129,7 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
   const { notification } = props;
   const { t } = useTranslation();
   const [hidden, setHidden] = useState(false);
+  const { data: user } = useUserQuery(notification.user.id);
   const { mutate: accept, isPending: isAccepting } = useAcceptFollowRequestAction(notification.user);
   const { mutate: reject, isPending: isRejecting } = useRejectFollowRequestAction(notification.user);
 
@@ -143,7 +144,8 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
           {t('_notification.youReceivedFollowRequest')}
         </ItemDescription>
       </ItemContent>
-      <ItemActions hidden={hidden}>
+      {/* here we need a === false, because user may be null (loading), which we don't want to hide the action */}
+      <ItemActions hidden={hidden || user?.hasPendingFollowRequestToYou === false}>
         <Tooltip>
           <TooltipContent>{t('accept')}</TooltipContent>
           <TooltipTrigger asChild>
