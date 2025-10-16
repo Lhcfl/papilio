@@ -99,7 +99,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
 
 const NoteBodyCw = (props: NoteBodyCommonProps) => {
   const { t } = useTranslation();
-  const { note, disableRouteOnClick } = props;
+  const { note } = props;
 
   const details = [
     note.text && t('_cw.chars', { count: note.text.length }),
@@ -113,17 +113,7 @@ const NoteBodyCw = (props: NoteBodyCommonProps) => {
       <AccordionItem value="item-1">
         <AccordionTrigger className="text-base py-0">
           <div className="note-body-cw">
-            <MkMfm
-              text={props.note.cw!}
-              author={props.note.user}
-              emojiUrls={props.note.emojis}
-              enableEmojiMenu={!disableRouteOnClick}
-              enableEmojiMenuReaction={!disableRouteOnClick}
-              noteContext={{
-                noteId: note.id,
-                myReaction: note.myReaction,
-              }}
-            />
+            <MkMfm text={props.note.cw!} author={props.note.user} emojiUrls={props.note.emojis} />
             <div className="note-info">
               <span className="text-muted-foreground text-sm">
                 {t('_cw.show')} ({details})
