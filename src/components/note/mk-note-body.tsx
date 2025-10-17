@@ -5,7 +5,6 @@ import { ChevronDownIcon, ChevronUpIcon, MailIcon, QuoteIcon, ReplyIcon } from '
 import { type MfmNode, parse } from 'mfm-js';
 import type { HTMLProps } from 'react';
 import { MkMfm } from '@/components/mk-mfm';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import type { NoteWithExtension } from '@/types/note';
 import { MkNoteSimple } from '../mk-note-simple';
 import { Button } from '../ui/button';
@@ -100,6 +99,8 @@ const NoteBodyCw = (props: NoteBodyCommonProps) => {
   const { t } = useTranslation();
   const { note } = props;
 
+  const [expanded, setExpanded] = useState<null | boolean>(null);
+
   const details = [
     note.text && t('_cw.chars', { count: note.text.length }),
     note.fileIds && note.fileIds.length > 0 && t('_cw.files', { count: note.fileIds.length }),
@@ -108,23 +109,33 @@ const NoteBodyCw = (props: NoteBodyCommonProps) => {
     .join(', ');
 
   return (
-    <Accordion type="single" collapsible>
-      <AccordionItem value="item-1">
-        <AccordionTrigger className="text-base py-0">
-          <div className="note-body-cw">
-            <MkMfm text={props.note.cw!} author={props.note.user} emojiUrls={props.note.emojis} />
-            <div className="note-info">
-              <span className="text-muted-foreground text-sm">
-                {t('_cw.show')} ({details})
-              </span>
-            </div>
-          </div>
-        </AccordionTrigger>
-        <AccordionContent className="text-base">
-          <NoteBodyExpanded className="pt-2" {...props} />
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+    <div className="note-body-with-cw">
+      <div className="note-body-cw">
+        <MkMfm text={props.note.cw!} author={props.note.user} emojiUrls={props.note.emojis} />
+      </div>
+      {expanded && <NoteBodyExpanded className="mb-2" {...props} />}
+      <div className="sticky bottom-2 w-full text-center">
+        <Button
+          className="w-full"
+          onClick={() => {
+            setExpanded(!expanded);
+          }}
+          variant="secondary"
+        >
+          {expanded ? (
+            <>
+              <ChevronUpIcon />
+              {t('_cw.hide')}
+            </>
+          ) : (
+            <>
+              <ChevronDownIcon />
+              {t('_cw.show')} ({details})
+            </>
+          )}
+        </Button>
+      </div>
+    </div>
   );
 };
 
