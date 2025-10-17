@@ -23,7 +23,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { cn, withDefer } from '@/lib/utils';
 import { MkEmojiPickerPopup } from './mk-emoji-picker-popup';
-import type { EmojiSimple, User } from 'misskey-js/entities.js';
+import type { DriveFile, EmojiSimple, User } from 'misskey-js/entities.js';
 import { useEffect, useRef, useState, type HTMLProps } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { injectCurrentSite, misskeyApi } from '@/services/inject-misskey-api';
@@ -39,6 +39,10 @@ import { MkVisibilityPicker } from './post-form/mk-visibility-picker';
 import { useMount } from 'react-use';
 import { MkPostFormPreview } from './post-form/mk-post-form-preview';
 import { MkFileUploadMenu } from './mk-file-upload-menu';
+import { toast } from 'sonner';
+import { errorMessageSafe } from '@/lib/error';
+import { useUploader } from '@/hooks/use-uploader';
+import { MkPostFormPhotos } from './post-form/mk-post-form-photos';
 
 function extractMention(note: NoteWithExtension | undefined, me: { username: string; host: string | null }) {
   if (!note) return '';
@@ -126,6 +130,7 @@ const MkPostFormLoaded = (
   const [currentFocusTextarea, setCurrentFocusTextarea] = useState<'text' | 'cw'>('text');
   const placeholder = t('_postForm._placeholders.f');
   const queryClient = useQueryClient();
+  const uploadFile = useUploader();
 
   useEffect(() => {
     if (draft.visibility == 'specified' && unspecifiedMentions.length > 0) {
@@ -211,6 +216,19 @@ const MkPostFormLoaded = (
     setTimeout(() => {
       textarea.setSelectionRange(selectionSt + emojiCode.length, selectionSt + emojiCode.length);
     }, 0);
+  }
+
+  async function onFileUpload(promises: Promise<DriveFile>[]) {
+    const allSettled = await Promise.allSettled(promises);
+    const oks: DriveFile[] = [];
+    for (const res of allSettled) {
+      if (res.status === 'fulfilled') {
+        oks.push(res.value);
+      } else {
+        toast.error(errorMessageSafe(res.reason));
+      }
+    }
+    draft.update({ files: [...draft.files, ...oks] });
   }
 
   const PostBtnIcon = props.replyId ? ReplyIcon : props.quoteId ? QuoteIcon : props.editId ? PencilIcon : SendIcon;
@@ -320,6 +338,14 @@ const MkPostFormLoaded = (
                 send(draft);
               }
             }}
+            onPaste={(ev) => {
+              const files = ev.clipboardData.files;
+              if (files.length > 0) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                void onFileUpload(Array.from(files).map((f) => uploadFile(f)));
+              }
+            }}
           />
         </InputGroup>
       </div>
@@ -332,10 +358,11 @@ const MkPostFormLoaded = (
         hasCw={draft.hasCw}
         showPreview={draft.showPreview}
       />
+      <MkPostFormPhotos className="w-full p-2" files={draft.files} />
       <div className="mk-post-form__footer border-t flex justify-between p-2">
         <div className="mk-post-form__action flex @md:gap-1">
           {prependFooter}
-          <MkFileUploadMenu>
+          <MkFileUploadMenu onUpload={onFileUpload}>
             <PostFormButton label={t('addFile')}>
               <ImageIcon />
             </PostFormButton>

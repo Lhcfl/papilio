@@ -14,6 +14,9 @@ importers:
       '@heroui/image':
         specifier: ^2.2.17
         version: 2.2.17(@heroui/system@2.4.23(@heroui/theme@2.4.23(tailwindcss@4.1.14))(framer-motion@12.23.24(@emotion/is-prop-valid@1.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@heroui/theme@2.4.23(tailwindcss@4.1.14))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@misskey-dev/browser-image-resizer':
+        specifier: ^2024.1.0
+        version: 2024.1.0
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
         version: 1.2.12(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -89,6 +92,9 @@ importers:
       idb-keyval:
         specifier: ^6.2.2
         version: 6.2.2
+      is-file-animated:
+        specifier: ^1.0.2
+        version: 1.0.2
       jotai:
         specifier: ^2.15.0
         version: 2.15.0(@babel/core@7.28.4)(@babel/template@7.27.2)(@types/react@19.2.2)(react@19.2.0)
@@ -768,6 +774,9 @@ packages:
 
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
+
+  '@misskey-dev/browser-image-resizer@2024.1.0':
+    resolution: {integrity: sha512-4EnO0zLW5NDtng3Gaz5MuT761uiuoOuplwX18wBqgj8w56LTU5BjLn/vbHwDIIe0j2gwqDYhMb7bDjmr1/Fomg==}
 
   '@misskey-dev/summaly@5.2.4':
     resolution: {integrity: sha512-GDil+9w2DPsbwNYatB6cLRCPEqSY9k/f39rN8LrzUKYCrATzj5FLCFIbFvZQg55zgUnM599GJzNLka5LlFlA/g==}
@@ -2606,6 +2615,9 @@ packages:
     resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
     engines: {node: '>=0.10.0'}
 
+  is-file-animated@1.0.2:
+    resolution: {integrity: sha512-TAYDUkvyBmxqneRU26zzpeHLAgtzEOIsRQWrtDidPT/tFK3Yc0WKgtF3u4oOEAiN0kAuVfl7MTgbD0vXdFDztA==}
+
   is-fullwidth-code-point@4.0.0:
     resolution: {integrity: sha512-O4L094N2/dZ7xqVdrXhh9r1KODPJpFms8B5sGdJLPy664AgvXsreZUyCQQNItZRDlYug4xStLjNp/sz3HvBowQ==}
     engines: {node: '>=12'}
@@ -4323,6 +4335,8 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.5
 
   '@keyv/serialize@1.1.1': {}
+
+  '@misskey-dev/browser-image-resizer@2024.1.0': {}
 
   '@misskey-dev/summaly@5.2.4':
     dependencies:
@@ -6374,6 +6388,8 @@ snapshots:
       binary-extensions: 2.3.0
 
   is-extglob@2.1.1: {}
+
+  is-file-animated@1.0.2: {}
 
   is-fullwidth-code-point@4.0.0: {}
 

@@ -2,9 +2,30 @@ import { HardDriveUploadIcon, UploadCloudIcon, UploadIcon } from 'lucide-react';
 import { MenuOrDrawer, type Menu } from './menu-or-drawer';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { useUploader, type UploadFileOptions } from '@/hooks/use-uploader';
+import type { DriveFile } from 'misskey-js/entities.js';
 
-export const MkFileUploadMenu = (props: { children: React.ReactNode }) => {
+export const MkFileUploadMenu = (props: {
+  children: React.ReactNode;
+  allowMultiple?: boolean;
+  onUpload: (promises: Promise<DriveFile>[]) => void;
+}) => {
+  const { children, allowMultiple = true, onUpload } = props;
   const { t } = useTranslation();
+
+  const uploadFile = useUploader();
+
+  function uploadFilesFromDevice(opts: UploadFileOptions) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.multiple = allowMultiple;
+    input.onchange = () => {
+      if (!input.files) return;
+      const files = Array.from(input.files);
+      onUpload(files.map((file) => uploadFile(file, opts)));
+    };
+    input.click();
+  }
 
   const menu: Menu = [
     { type: 'label', id: 'upload-label', label: t('attachFile') },
@@ -13,14 +34,18 @@ export const MkFileUploadMenu = (props: { children: React.ReactNode }) => {
       id: 'upload',
       icon: <UploadIcon />,
       label: `${t('upload')} (${t('compress')})`,
-      onClick: () => toast.error('Not implemented yet'),
+      onClick: () => {
+        uploadFilesFromDevice({ keepOriginal: false });
+      },
     },
     {
       type: 'item',
       id: 'upload-raw',
       icon: <UploadIcon />,
       label: t('upload'),
-      onClick: () => toast.error('Not implemented yet'),
+      onClick: () => {
+        uploadFilesFromDevice({ keepOriginal: true });
+      },
     },
     {
       type: 'item',
@@ -38,5 +63,5 @@ export const MkFileUploadMenu = (props: { children: React.ReactNode }) => {
     },
   ];
 
-  return <MenuOrDrawer menu={menu}>{props.children}</MenuOrDrawer>;
+  return <MenuOrDrawer menu={menu}>{children}</MenuOrDrawer>;
 };
