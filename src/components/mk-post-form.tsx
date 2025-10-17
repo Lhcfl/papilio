@@ -21,16 +21,13 @@ import {
   XIcon,
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import { MkMfm } from './mk-mfm';
 import { cn, withDefer } from '@/lib/utils';
-import { MkUserName } from './mk-user-name';
 import { MkEmojiPickerPopup } from './mk-emoji-picker-popup';
 import type { EmojiSimple, User } from 'misskey-js/entities.js';
 import { useEffect, useRef, useState, type HTMLProps } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { injectCurrentSite, misskeyApi } from '@/services/inject-misskey-api';
 import { Spinner } from './ui/spinner';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import type { NoteWithExtension } from '@/types/note';
 import { cond } from '@/lib/match';
 import * as mfm from 'mfm-js';
@@ -40,6 +37,7 @@ import { MkMention } from './mk-mention';
 import { getAcctUserQueryOptions } from '@/hooks/use-user';
 import { MkVisibilityPicker } from './post-form/mk-visibility-picker';
 import { useMount } from 'react-use';
+import { MkPostFormPreview } from './post-form/mk-post-form-preview';
 
 function extractMention(note: NoteWithExtension | undefined, me: { username: string; host: string | null }) {
   if (!note) return '';
@@ -324,30 +322,15 @@ const MkPostFormLoaded = (
           />
         </InputGroup>
       </div>
-      {draft.showPreview && (
-        <div className="w-full p-2 flex gap-2">
-          <div>
-            <MkAvatar user={me} avatarProps={{ className: 'size-12' }} />
-          </div>
-          <div className="flex flex-col text-sm gap-2 w-full">
-            <MkUserName user={me} />
-            {draft.hasCw ? (
-              <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="cw">
-                  <AccordionTrigger className="p-0 mb-2">
-                    <MkMfm text={draft.cw} />
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <MkMfm text={draft.text} parsedNodes={parsedText} />
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            ) : (
-              <MkMfm text={draft.text} />
-            )}
-          </div>
-        </div>
-      )}
+      <MkPostFormPreview
+        className="w-full p-2 flex gap-2"
+        user={me}
+        text={draft.text}
+        parsedText={parsedText}
+        cw={draft.cw}
+        hasCw={draft.hasCw}
+        showPreview={draft.showPreview}
+      />
       <div className="mk-post-form__footer border-t flex justify-between p-2">
         <div className="mk-post-form__action flex @md:gap-1">
           {prependFooter}
