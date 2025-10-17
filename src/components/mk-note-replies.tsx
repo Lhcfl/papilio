@@ -9,7 +9,6 @@ import { Button } from './ui/button';
 import { useTranslation } from 'react-i18next';
 import { MoreHorizontalIcon } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
-import { getNoteRoute } from '@/lib/note';
 
 export const MkNoteReplies = (
   props: {
@@ -79,7 +78,7 @@ export const MkNoteReplies = (
           {/* 为了让后面的帖子也能够连接起来，还需要在左侧放置一根线
            */}
           <Button className="z-10 ml-5" variant="outline" size="sm" asChild>
-            <Link to={getNoteRoute(props.noteId)}>
+            <Link to="/notes/$id" params={{ id: noteId }}>
               <MoreHorizontalIcon />
               {t('showMore')}
             </Link>

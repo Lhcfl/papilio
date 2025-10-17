@@ -7,8 +7,6 @@ import { MkVisibilityIcon } from './mk-visibility-icon';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { Link } from '@tanstack/react-router';
 import { useSiteMeta } from '@/stores/site';
-import { getNoteRoute } from '@/lib/note';
-
 export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
   const { note } = props;
   const metaName = useSiteMeta((s) => s.name);
@@ -26,7 +24,8 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
           </div>
           <Link
             className="note-time flex items-center gap-2 flex-shrink-0 text-muted-foreground"
-            to={getNoteRoute(note.id)}
+            to="/notes/$id"
+            params={{ id: note.id }}
           >
             <MkTime time={note.createdAt} className="text-sm" />
             <MkVisibilityIcon iconProps={{ className: 'size-4' }} note={note} />

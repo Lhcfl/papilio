@@ -10,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuCheckboxItem,
 } from './ui/dropdown-menu';
-import { Link } from '@tanstack/react-router';
+import { Link, type LinkOptions } from '@tanstack/react-router';
 import { Separator } from './ui/separator';
 import { Button } from './ui/button';
 import { useState, type ComponentProps } from 'react';
@@ -30,7 +30,7 @@ export type MenuItem = {
       onClick: (e: React.MouseEvent<HTMLElement>) => void;
     }
   | {
-      to: string;
+      to: LinkOptions;
     }
   | {
       href: string;
@@ -148,7 +148,7 @@ const GenerateDropDownMenu = (menu: Menu) => {
               disabled={x.disabled}
               className={cn({ 'bg-accent text-accent-foreground': x.active })}
             >
-              <Link to={x.to}>
+              <Link {...x.to}>
                 {x.icon} {x.label}
               </Link>
             </DropdownMenuItem>
@@ -226,7 +226,7 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
               disabled={x.disabled}
               className={cn({ 'bg-accent text-accent-foreground': x.active })}
             >
-              <Link to={x.to}>
+              <Link {...x.to}>
                 {x.icon} {x.label}
               </Link>
             </DrawerButton>

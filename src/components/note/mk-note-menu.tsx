@@ -15,7 +15,7 @@ import {
 import { toast } from 'sonner';
 import type { NoteWithExtension } from '@/types/note';
 import { useMe } from '@/stores/me';
-import { getNoteRemoteUrl, getNoteRoute } from '@/lib/note';
+import { getNoteRemoteUrl } from '@/lib/note';
 import { copyToClipboard } from '@/lib/utils';
 import { getNoteExcerpt } from '@/services/note-excerpt';
 import {
@@ -28,6 +28,7 @@ import {
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 import type { Menu } from '../menu-or-drawer';
 import { errorMessageSafe } from '@/lib/error';
+import { linkOptions } from '@tanstack/react-router';
 
 const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }, successMessage: string) => () =>
   props
@@ -82,7 +83,16 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
       type: 'group',
       items: [
         { id: 'note-label', type: 'label', label: t('note') },
-        { id: 'show-note', type: 'item', to: getNoteRoute(note.id), icon: <InfoIcon />, label: t('details') },
+        {
+          id: 'show-note',
+          type: 'item',
+          to: linkOptions({
+            to: '/notes/$id',
+            params: { id: note.id },
+          }),
+          icon: <InfoIcon />,
+          label: t('details'),
+        },
         {
           id: 'copy-content',
           type: 'item',

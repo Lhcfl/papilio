@@ -30,10 +30,6 @@ export function collectAst<T>(ast: MfmNode[], pred: (node: MfmNode) => T | undef
   });
 }
 
-export function getNoteRoute(id: string) {
-  return `/notes/${id}`;
-}
-
 export function getNoteRemoteUrl(note: NoteWithExtension) {
   return note.url ?? getRelativeUrl(`/notes/${note.id}`);
 }

@@ -13,7 +13,7 @@ import { MkNoteFile } from './mk-note-file';
 import { MkNoteImages } from './mk-note-images';
 import { MkNoteTranslation } from './mk-note-translation';
 import { Link } from '@tanstack/react-router';
-import { collectAst, countAst, getNoteRoute } from '@/lib/note';
+import { collectAst, countAst } from '@/lib/note';
 import { cn, onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 import { injectCurrentSite } from '@/services/inject-misskey-api';
 import { cond } from '@/lib/match';
@@ -44,19 +44,19 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
   const otherFiles = note.files?.filter((f) => !f.type.startsWith('image/')) ?? [];
   const onContentClick = disableRouteOnClick
     ? undefined
-    : onlyWhenNonInteractableContentClicked(() => navigate({ to: getNoteRoute(note.id) }));
+    : onlyWhenNonInteractableContentClicked(() => navigate({ to: '/notes/$id', params: { id: note.id } }));
 
   return (
     <div className="note-body" {...rest}>
       {note.text && (
         <div className="note-body-text" onClick={onContentClick}>
           {showReplyAsIcon && note.replyId && (
-            <Link className="text-tertiary mr-1 hover:underline" to={getNoteRoute(note.replyId)}>
+            <Link className="text-tertiary mr-1 hover:underline" to="/notes/$id" params={{ id: note.replyId }}>
               <ReplyIcon className="size-4 inline" />
             </Link>
           )}
           {showQuoteAsIcon && note.renoteId && (
-            <Link className="text-tertiary mr-1 hover:underline" to={getNoteRoute(note.renoteId)}>
+            <Link className="text-tertiary mr-1 hover:underline" to="/notes/$id" params={{ id: note.renoteId }}>
               <QuoteIcon className="size-4 inline" />
             </Link>
           )}

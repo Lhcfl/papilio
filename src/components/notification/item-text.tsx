@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import type { Notification } from 'misskey-js/entities.js';
 import { MkUserName } from '../mk-user-name';
 import { getNoteExcerpt } from '@/services/note-excerpt';
+import { Link } from '@tanstack/react-router';
+import { MkMfm } from '../mk-mfm';
 
 export const NotificationDescription = (props: { notification: Notification }) => {
   const { notification } = props;
@@ -10,17 +12,22 @@ export const NotificationDescription = (props: { notification: Notification }) =
 
   switch (notification.type) {
     case 'note':
-      return getNoteExcerpt(notification.note);
     case 'mention':
-      return getNoteExcerpt(notification.note);
     case 'reply':
-      return getNoteExcerpt(notification.note);
-    case 'renote':
-      return getNoteExcerpt(notification.note.renote!);
     case 'quote':
-      return getNoteExcerpt(notification.note);
     case 'reaction':
-      return getNoteExcerpt(notification.note);
+    case 'reaction:grouped':
+      return (
+        <Link to="/notes/$id" params={{ id: notification.note.id }}>
+          <MkMfm text={getNoteExcerpt(notification.note)} inline />
+        </Link>
+      );
+    case 'renote':
+      return (
+        <Link to="/notes/$id" params={{ id: notification.note.renoteId! }}>
+          <MkMfm text={getNoteExcerpt(notification.note.renote!)} inline />
+        </Link>
+      );
     case 'receiveFollowRequest':
       return t('receiveFollowRequest');
     case 'followRequestAccepted':
@@ -47,8 +54,6 @@ export const NotificationDescription = (props: { notification: Notification }) =
       return t('_notification.createToken');
     case 'app':
       return notification.body;
-    case 'reaction:grouped':
-      return getNoteExcerpt(notification.note);
     case 'renote:grouped':
       return getNoteExcerpt(notification.note);
     case 'test':
