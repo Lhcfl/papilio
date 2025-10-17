@@ -23,6 +23,8 @@ export type MenuItem = {
   label: React.ReactNode;
   variant?: 'default' | 'destructive';
   preventCloseOnClick?: boolean;
+  disabled?: boolean;
+  active?: boolean;
 } & (
   | {
       onClick: (e: React.MouseEvent<HTMLElement>) => void;
@@ -79,7 +81,9 @@ export const MenuOrDrawer = (props: { children: React.ReactNode; menu: Menu }) =
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{props.children}</DropdownMenuTrigger>
-      <DropdownMenuContent align="start">{GenerateDropDownMenu(props.menu)}</DropdownMenuContent>
+      <DropdownMenuContent align="start" className="max-w-60 lg:max-w-75">
+        {GenerateDropDownMenu(props.menu)}
+      </DropdownMenuContent>
     </DropdownMenu>
   );
 };
@@ -126,6 +130,8 @@ const GenerateDropDownMenu = (menu: Menu) => {
               onSelect={(ev) => {
                 if (x.preventCloseOnClick) ev.preventDefault();
               }}
+              disabled={x.disabled}
+              className={cn({ 'bg-accent text-accent-foreground': x.active })}
             >
               {x.icon} {x.label}
             </DropdownMenuItem>
@@ -139,6 +145,8 @@ const GenerateDropDownMenu = (menu: Menu) => {
               onSelect={(ev) => {
                 if (x.preventCloseOnClick) ev.preventDefault();
               }}
+              disabled={x.disabled}
+              className={cn({ 'bg-accent text-accent-foreground': x.active })}
             >
               <Link to={x.to}>
                 {x.icon} {x.label}
@@ -154,6 +162,8 @@ const GenerateDropDownMenu = (menu: Menu) => {
               onSelect={(ev) => {
                 if (x.preventCloseOnClick) ev.preventDefault();
               }}
+              disabled={x.disabled}
+              className={cn({ 'bg-accent text-accent-foreground': x.active })}
             >
               <a href={x.href} target="_blank" rel="noopener noreferrer">
                 {x.icon} {x.label}
@@ -184,7 +194,7 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
         );
       case 'label':
         return (
-          <span className="text-sm text-muted" key={x.id}>
+          <span className="text-sm text-muted-foreground px-2" key={x.id}>
             {x.label}
           </span>
         );
@@ -201,13 +211,21 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
                 setCloseMenu();
               }}
               variant={x.variant ?? 'ghost'}
+              disabled={x.disabled}
+              className={cn({ 'bg-accent text-accent-foreground': x.active })}
             >
               {x.icon} {x.label}
             </DrawerButton>
           );
         } else if ('to' in x) {
           return (
-            <DrawerButton key={x.id} asChild variant={x.variant ?? 'ghost'}>
+            <DrawerButton
+              key={x.id}
+              asChild
+              variant={x.variant ?? 'ghost'}
+              disabled={x.disabled}
+              className={cn({ 'bg-accent text-accent-foreground': x.active })}
+            >
               <Link to={x.to}>
                 {x.icon} {x.label}
               </Link>
@@ -215,7 +233,13 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
           );
         } else if ('href' in x) {
           return (
-            <DrawerButton key={x.id} asChild variant={x.variant ?? 'ghost'}>
+            <DrawerButton
+              key={x.id}
+              asChild
+              variant={x.variant ?? 'ghost'}
+              disabled={x.disabled}
+              className={cn({ 'bg-accent text-accent-foreground': x.active })}
+            >
               <a href={x.href} target="_blank" rel="noopener noreferrer">
                 {x.icon} {x.label}
               </a>
@@ -227,15 +251,26 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
   });
 };
 
-const DrawerButton = ({ variant, ...props }: ComponentProps<typeof Button>) => {
+const DrawerButton = ({ variant, className, ...props }: ComponentProps<typeof Button>) => {
   return (
     <Button
-      className={cn('justify-start', {
-        'text-destructive hover:bg-destructive/10 focus:bg-destructive/10 dark:focus:bg-destructive/20 dark:hover:bg-destructive/20 focus:text-destructive hover:text-destructive &:*:[svg]:!text-destructive':
-          variant === 'destructive',
-      })}
+      className={cn(
+        'justify-start h-fit',
+        {
+          'text-destructive hover:bg-destructive/10 focus:bg-destructive/10 dark:focus:bg-destructive/20 dark:hover:bg-destructive/20 focus:text-destructive hover:text-destructive &:*:[svg]:!text-destructive':
+            variant === 'destructive',
+        },
+        className,
+      )}
       variant="ghost"
       {...props}
     />
   );
 };
+
+export const LabelAndDescription = (props: { label: string; description: string }) => (
+  <div className="flex flex-col items-baseline">
+    <div>{props.label}</div>
+    <div className="text-xs text-muted-foreground">{props.description}</div>
+  </div>
+);

@@ -49,6 +49,7 @@ import { acct } from 'misskey-js';
 import { collectAst } from '@/lib/note';
 import { MkMention } from './mk-mention';
 import { getAcctUserQueryOptions } from '@/hooks/use-user';
+import { MkVisibilityPicker } from './post-form/mk-visibility-picker';
 
 function extractMention(note: NoteWithExtension | undefined, me: { username: string; host: string | null }) {
   if (!note) return '';
@@ -224,37 +225,18 @@ export const MkPostForm = (
           {prependHeader}
         </div>
         <div className="mk-post-form__control flex items-center">
-          <VisibilityPicker
-            className="-mr-2"
+          <MkVisibilityPicker
             visibility={draft.visibility}
+            localOnly={draft.localOnly}
+            setLocalOnly={(v) => {
+              draft.update({ localOnly: v });
+            }}
             setVisibility={(v) => {
               draft.update({ visibility: v });
             }}
             visibilityRestrict={visibilityRestrict}
             disabled={!!editId}
           />
-          {draft.localOnly ? (
-            <PostFormButton
-              label={t('localOnly')}
-              onClick={() => {
-                draft.update({ localOnly: false });
-              }}
-              variant="ghost"
-              className="text-destructive! hover:bg-destructive/10"
-            >
-              <WifiOffIcon />
-            </PostFormButton>
-          ) : (
-            <PostFormButton
-              label={t('federating')}
-              onClick={() => {
-                draft.update({ localOnly: true });
-              }}
-              variant="ghost"
-            >
-              <WifiIcon />
-            </PostFormButton>
-          )}
           {appendHeader}
         </div>
       </div>
@@ -446,73 +428,3 @@ const MkPostFormSkeleton = () => (
     <Skeleton className="w-full h-32" />
   </div>
 );
-
-const VisibilityPicker = (
-  props: {
-    visibility: DraftData['visibility'];
-    setVisibility: (v: DraftData['visibility']) => void;
-    disabled?: boolean;
-    visibilityRestrict?: DraftData['visibility'][];
-  } & ComponentProps<typeof Button>,
-) => {
-  const { t } = useTranslation();
-
-  const {
-    visibility,
-    setVisibility,
-    disabled = props.visibilityRestrict?.length === 0,
-    visibilityRestrict,
-    ...btnProps
-  } = props;
-
-  const visibilities = {
-    public: {
-      icon: <GlobeIcon />,
-      label: t('_visibility.public'),
-      description: t('_visibility.publicDescription'),
-    },
-    home: {
-      icon: <HomeIcon />,
-      label: t('_visibility.home'),
-      description: t('_visibility.homeDescription'),
-    },
-    followers: {
-      icon: <LockIcon />,
-      label: t('_visibility.followers'),
-      description: t('_visibility.followersDescription'),
-    },
-    specified: {
-      icon: <MailIcon />,
-      label: t('_visibility.specified'),
-      description: t('_visibility.specifiedDescription'),
-    },
-  };
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" disabled={disabled} {...btnProps}>
-          {visibilities[visibility].icon}
-          {visibilities[visibility].label}
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        {Object.entries(visibilities).map(([key, v]) => (
-          <DropdownMenuItem
-            key={key}
-            onClick={() => {
-              setVisibility(key as DraftData['visibility']);
-            }}
-            disabled={visibilityRestrict && !visibilityRestrict.includes(key as DraftData['visibility'])}
-          >
-            {v.icon}
-            <div>
-              <div>{v.label}</div>
-              <div className="text-xs text-muted-foreground">{v.description}</div>
-            </div>
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
