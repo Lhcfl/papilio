@@ -625,7 +625,7 @@ export const MkMfm = (in_props: MfmProps) => {
             return <code key={Math.random()}>{token.props.code.replaceAll('\n', '  ')}</code>;
           }
           return (
-            <bdi key={Math.random()} className="block">
+            <bdi key={Math.random()} className="block px-1 py-2">
               <pre>
                 <code>{token.props.code}</code>
               </pre>

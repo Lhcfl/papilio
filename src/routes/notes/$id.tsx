@@ -47,7 +47,7 @@ function LoadedMain(props: { noteId: string }) {
     queryKey: ['note-conversation', noteId],
     queryFn: () =>
       isReply
-        ? api.request('notes/conversation', { noteId: noteId }).then((ns) => registerNote(ns))
+        ? api.request('notes/conversation', { noteId: noteId }).then((ns) => registerNote(ns).reverse())
         : Promise.resolve(null),
   });
 
@@ -102,7 +102,7 @@ function LoadedMain(props: { noteId: string }) {
           ) : (
             <div className="note-conversations" ref={onMounted}>
               {conversation?.map((n) => (
-                <MkNote key={n} noteId={n} isSubNote className="-mb-4" />
+                <MkNote key={n} noteId={n} isSubNote showReply={false} className="-mb-4" />
               ))}
             </div>
           )}

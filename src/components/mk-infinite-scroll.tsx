@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, type QueryFunction } from '@tanstack/react-query';
 import { MkError } from './mk-error';
 import { LoadingTrigger } from './loading-trigger';
 import { Spinner } from './ui/spinner';
@@ -13,7 +13,7 @@ function getId<T>(item: unknown, fallback?: T) {
 }
 
 export function MkInfiniteScroll<P>(props: {
-  queryFn: ({ pageParam }: { pageParam?: string }) => Promise<P>;
+  queryFn: QueryFunction<P, unknown[], string>;
   queryKey: unknown[];
   initialPageParam?: string;
   getNextPageParam?: (lastPage?: P) => string | undefined;

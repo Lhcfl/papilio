@@ -9,9 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as PostingRouteImport } from './routes/posting'
 import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as AnnouncementsRouteImport } from './routes/announcements'
 import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as MissingRouteImport } from './routes/$missing'
@@ -25,6 +27,11 @@ import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
 import { Route as MyClipsRouteImport } from './routes/my/clips'
 import { Route as ClipsIdRouteImport } from './routes/clips/$id'
 
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostingRoute = PostingRouteImport.update({
   id: '/posting',
   path: '/posting',
@@ -38,6 +45,11 @@ const LoginRedirectRoute = LoginRedirectRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnnouncementsRoute = AnnouncementsRouteImport.update({
@@ -106,9 +118,11 @@ export interface FileRoutesByFullPath {
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/announcements': typeof AnnouncementsRoute
+  '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
+  '/search': typeof SearchRoute
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
@@ -123,9 +137,11 @@ export interface FileRoutesByTo {
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/announcements': typeof AnnouncementsRoute
+  '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
+  '/search': typeof SearchRoute
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
@@ -141,9 +157,11 @@ export interface FileRoutesById {
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/announcements': typeof AnnouncementsRoute
+  '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
+  '/search': typeof SearchRoute
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
@@ -160,9 +178,11 @@ export interface FileRouteTypes {
     | '/$missing'
     | '/@{$acct}'
     | '/announcements'
+    | '/chat'
     | '/login'
     | '/login-redirect'
     | '/posting'
+    | '/search'
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
@@ -177,9 +197,11 @@ export interface FileRouteTypes {
     | '/$missing'
     | '/@{$acct}'
     | '/announcements'
+    | '/chat'
     | '/login'
     | '/login-redirect'
     | '/posting'
+    | '/search'
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
@@ -194,9 +216,11 @@ export interface FileRouteTypes {
     | '/$missing'
     | '/@{$acct}'
     | '/announcements'
+    | '/chat'
     | '/login'
     | '/login-redirect'
     | '/posting'
+    | '/search'
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
@@ -212,9 +236,11 @@ export interface RootRouteChildren {
   MissingRoute: typeof MissingRoute
   AtChar123acctChar125Route: typeof AtChar123acctChar125Route
   AnnouncementsRoute: typeof AnnouncementsRoute
+  ChatRoute: typeof ChatRoute
   LoginRoute: typeof LoginRoute
   LoginRedirectRoute: typeof LoginRedirectRoute
   PostingRoute: typeof PostingRoute
+  SearchRoute: typeof SearchRoute
   ClipsIdRoute: typeof ClipsIdRoute
   MyClipsRoute: typeof MyClipsRoute
   MyFavoritesRoute: typeof MyFavoritesRoute
@@ -227,6 +253,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/posting': {
       id: '/posting'
       path: '/posting'
@@ -246,6 +279,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/announcements': {
@@ -340,9 +380,11 @@ const rootRouteChildren: RootRouteChildren = {
   MissingRoute: MissingRoute,
   AtChar123acctChar125Route: AtChar123acctChar125Route,
   AnnouncementsRoute: AnnouncementsRoute,
+  ChatRoute: ChatRoute,
   LoginRoute: LoginRoute,
   LoginRedirectRoute: LoginRedirectRoute,
   PostingRoute: PostingRoute,
+  SearchRoute: SearchRoute,
   ClipsIdRoute: ClipsIdRoute,
   MyClipsRoute: MyClipsRoute,
   MyFavoritesRoute: MyFavoritesRoute,

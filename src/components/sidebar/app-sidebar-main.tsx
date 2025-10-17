@@ -18,29 +18,29 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Link } from '@tanstack/react-router';
+import { Link, linkOptions } from '@tanstack/react-router';
 
 export const AppSidebarMain = () => {
   const { t } = useTranslation();
 
-  const data = [
-    { key: 'home', title: t('home'), icon: HomeIcon, to: '/' },
-    { key: 'notifications', title: t('notifications'), icon: BellIcon, to: '/my/notifications' },
-    { key: 'favorites', title: t('favorites'), icon: StarIcon, to: '/my/favorites' },
-    { key: 'clips', title: t('clips'), icon: StarIcon, to: '/my/clips' },
-    { key: 'followRequests', title: t('followRequests'), icon: UserPlusIcon, to: '/my/follow-requests' },
-    { key: 'announcements', title: t('announcements'), icon: MegaphoneIcon, to: '/announcements' },
-    { key: 'chat', title: t('chat'), icon: MessageSquareIcon, to: '/chat' },
-    { key: 'search', title: t('search'), icon: SearchIcon, to: '/search' },
-    { key: 'settings', title: t('settings'), icon: CogIcon, to: '/settings' },
-  ];
+  const data = linkOptions([
+    { title: t('home'), icon: HomeIcon, to: '/' },
+    { title: t('notifications'), icon: BellIcon, to: '/my/notifications' },
+    { title: t('favorites'), icon: StarIcon, to: '/my/favorites' },
+    { title: t('clips'), icon: StarIcon, to: '/my/clips' },
+    { title: t('followRequests'), icon: UserPlusIcon, to: '/my/follow-requests' },
+    { title: t('announcements'), icon: MegaphoneIcon, to: '/announcements' },
+    { title: t('chat'), icon: MessageSquareIcon, to: '/chat' },
+    { title: t('search'), icon: SearchIcon, to: '/search' },
+    { title: t('settings'), icon: CogIcon, to: '/settings' },
+  ]);
 
   return (
     <SidebarGroup>
       <SidebarGroupContent>
         <SidebarMenu>
           {data.map((item) => (
-            <SidebarMenuItem key={item.key}>
+            <SidebarMenuItem key={item.to}>
               <SidebarMenuButton size="lg" asChild>
                 <Link to={item.to}>
                   <item.icon />
