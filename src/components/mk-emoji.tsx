@@ -1,6 +1,4 @@
 import { useState } from 'react';
-
-import clsx from 'clsx';
 import Twemoji from 'twemoji';
 import { injectCurrentSite } from '@/services/inject-misskey-api';
 import { useEmojis } from '@/stores/emojis';
@@ -8,6 +6,7 @@ import { MenuOrDrawer, type Menu } from './menu-or-drawer';
 import { HeartMinusIcon, InfoIcon, SmilePlusIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useReactNoteAction, useUndoReactNoteAction } from '@/hooks/note-actions';
+import { cn } from '@/lib/utils';
 
 export const MkCustomEmoji = (props: {
   name: string;
@@ -22,7 +21,7 @@ export const MkCustomEmoji = (props: {
   fallbackToImage?: boolean;
   innerClassName?: string;
 }) => {
-  const className = clsx(
+  const className = cn(
     'inline align-middle transition-all',
     props.normal ? 'h-[1.25em] align-[-0.25em]' : 'h-[2em]',
     props.innerClassName,
@@ -130,11 +129,11 @@ export const MkEmoji = (props: {
     base: injectCurrentSite(),
     ext: '.svg',
     folder: '/twemoji',
-    className: clsx('h-[1.25em] align-[-0.25em] transition-all inline', props.innerClassName),
+    className: cn('h-[1.25em] align-[-0.25em] transition-all inline', props.innerClassName),
   });
 
   // eslint-disable-next-line react-dom/no-dangerously-set-innerhtml
-  const inner = <span className={clsx('mk-emoji', props.className)} dangerouslySetInnerHTML={{ __html: parsed }} />;
+  const inner = <span className={cn('mk-emoji', props.className)} dangerouslySetInnerHTML={{ __html: parsed }} />;
 
   if (props.menu && props.noteContext) {
     const menu: Menu = [

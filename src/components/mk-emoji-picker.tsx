@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import type { HTMLProps } from 'react';
 import { MkCustomEmoji, MkEmoji } from './mk-emoji';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
@@ -13,6 +12,7 @@ import { Spinner } from './ui/spinner';
 import { emojiCharByCategory, emojilist as UnicodeEmojiList } from '@/assets/emojilist';
 import { Separator } from '@/components/ui/separator';
 import { useEmojis } from '@/stores/emojis';
+import { useRecentEmojis } from '@/stores/recent-emoji';
 
 type RecurisveEmojiCategories = Record<
   string,
@@ -32,13 +32,19 @@ export const MkEmojiPicker = (
     onEmojiChoose: (emoji: EmojiSimple | string) => void;
   } & HTMLProps<HTMLDivElement>,
 ) => {
-  const { onEmojiChoose, ...rest } = props;
+  const { onEmojiChoose: emitOnEmojiChoose, ...rest } = props;
   const customEmojis = useEmojis((s) => s.emojis);
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [search, setSearch] = useState('');
   const { t } = useTranslation();
+  const recentEmojis = useRecentEmojis();
 
   const OTHER_CATEGORY_I18N = t('other');
+
+  function onEmojiChoose(emoji: EmojiSimple | string) {
+    emitOnEmojiChoose(emoji);
+    recentEmojis.prependEmoji(emoji);
+  }
 
   useDebounce(
     () => {
@@ -130,45 +136,58 @@ export const MkEmojiPicker = (
         {searchedEmojis ? (
           <div>
             {searchedEmojis.unicodeNameHit.length > 0 && (
-              <MkEmojiPickerEmojis unicodeEmojis={searchedEmojis.unicodeNameHit} onEmojiChoose={onEmojiChoose} />
+              <MkEmojiPickerEmojis emojis={searchedEmojis.unicodeNameHit} onEmojiChoose={onEmojiChoose} />
             )}
             {searchedEmojis.customNameHit.length > 0 && (
               <MkEmojiPickerEmojis emojis={searchedEmojis.customNameHit} onEmojiChoose={onEmojiChoose} />
             )}
             {searchedEmojis.categoryHit.length > 0 && (
-              <Accordion type="multiple" className="w-full mt-2">
-                {searchedEmojis.categoryHit.map((c) => (
-                  <MkEmojiPickerFolder
-                    key={c}
-                    name={c}
-                    ctnt={{ emojis: emojisByCategory[c], subcategories: {} }}
-                    value={c}
-                    onEmojiChoose={onEmojiChoose}
-                  />
-                ))}
-              </Accordion>
+              <div className="mk-emojis-by-category">
+                <div className="text-sm text-muted-foreground">{t('category')}</div>
+                <Accordion type="multiple" className="w-full mt-2">
+                  {searchedEmojis.categoryHit.map((c) => (
+                    <MkEmojiPickerFolder
+                      key={c}
+                      name={c}
+                      ctnt={{ emojis: emojisByCategory[c], subcategories: {} }}
+                      value={c}
+                      onEmojiChoose={onEmojiChoose}
+                    />
+                  ))}
+                </Accordion>
+              </div>
             )}
           </div>
         ) : (
-          <Accordion type="multiple" className="w-full">
-            {Object.entries(customEmojisRecursiveByCategory).map(([k, v]) => (
-              <MkEmojiPickerFolder key={k} name={k} ctnt={v} onEmojiChoose={onEmojiChoose} value={k || UNNAMED} />
-            ))}
-            <Separator />
-            {[...emojiCharByCategory.entries()].map(([k, v]) => (
-              <AccordionItem key={k} value={k}>
-                <AccordionTrigger className="p-1">
-                  <div className="flex items-center gap-2 w-full">
-                    <MkEmoji emoji={v[0]} className="min-w-8" />
-                    <span>{k}</span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <MkEmojiPickerEmojis unicodeEmojis={v} onEmojiChoose={onEmojiChoose} />
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <div>
+            <div className="mk-emojis-recent mb-2" hidden={recentEmojis.emojis.length === 0}>
+              <div className="text-sm text-muted-foreground">{t('recentUsed')}</div>
+              <MkEmojiPickerEmojis emojis={recentEmojis.emojis} onEmojiChoose={onEmojiChoose} />
+            </div>
+
+            <div className="mk-emojis-by-category">
+              <div className="text-sm text-muted-foreground">{t('category')}</div>
+              <Accordion type="multiple" className="w-full">
+                {Object.entries(customEmojisRecursiveByCategory).map(([k, v]) => (
+                  <MkEmojiPickerFolder key={k} name={k} ctnt={v} onEmojiChoose={onEmojiChoose} value={k || UNNAMED} />
+                ))}
+                <Separator />
+                {[...emojiCharByCategory.entries()].map(([k, v]) => (
+                  <AccordionItem key={k} value={k}>
+                    <AccordionTrigger className="p-1">
+                      <div className="flex items-center gap-2 w-full">
+                        <MkEmoji emoji={v[0]} className="min-w-8" innerClassName=" h-[1.8em]" />
+                        <span>{k}</span>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <MkEmojiPickerEmojis emojis={v} onEmojiChoose={onEmojiChoose} />
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </div>
         )}
       </ScrollArea>
     </div>
@@ -214,35 +233,34 @@ const MkEmojiPickerFolder = (
 
 const MkEmojiPickerEmojis = ({
   emojis,
-  unicodeEmojis,
   onEmojiChoose,
 }: {
-  emojis?: EmojiSimple[];
-  unicodeEmojis?: string[];
+  emojis?: (EmojiSimple | string)[];
   onEmojiChoose: (emoji: EmojiSimple | string) => void;
 }) => (
   <div className="grid grid-cols-[repeat(auto-fit,calc(var(--spacing)_*_14))] gap-1">
-    {emojis?.map((emoji) => (
-      <button
-        key={emoji.name}
-        className="p-1 rounded-md hover:bg-muted size-14"
-        onClick={() => {
-          onEmojiChoose(emoji);
-        }}
-      >
-        <MkCustomEmoji name={emoji.name} fallbackToImage />
-      </button>
-    ))}
-    {unicodeEmojis?.map((emoji) => (
-      <button
-        key={emoji}
-        className="p-1 rounded-md hover:bg-muted size-14 overflow-hidden"
-        onClick={() => {
-          onEmojiChoose(emoji);
-        }}
-      >
-        <MkEmoji emoji={emoji} innerClassName="h-[2em]" />
-      </button>
-    ))}
+    {emojis?.map((emoji) =>
+      typeof emoji === 'string' ? (
+        <button
+          key={emoji}
+          className="p-1 rounded-md hover:bg-muted size-14 overflow-hidden"
+          onClick={() => {
+            onEmojiChoose(emoji);
+          }}
+        >
+          <MkEmoji emoji={emoji} innerClassName="h-[2em]" />
+        </button>
+      ) : (
+        <button
+          key={emoji.name}
+          className="p-1 rounded-md hover:bg-muted size-14"
+          onClick={() => {
+            onEmojiChoose(emoji);
+          }}
+        >
+          <MkCustomEmoji name={emoji.name} fallbackToImage />
+        </button>
+      ),
+    )}
   </div>
 );
