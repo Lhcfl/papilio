@@ -361,8 +361,8 @@ const MkPostFormLoaded = (
       <MkPostFormFiles
         className="w-full p-2"
         files={draft.files}
-        removeFile={({ id }) => {
-          draft.update({ files: draft.files.filter((x) => x.id !== id) });
+        updateFiles={(f) => {
+          draft.update({ files: f(draft.files) });
         }}
       />
       <div className="mk-post-form__footer border-t flex justify-between p-2">
