@@ -38,6 +38,7 @@ import { getAcctUserQueryOptions } from '@/hooks/use-user';
 import { MkVisibilityPicker } from './post-form/mk-visibility-picker';
 import { useMount } from 'react-use';
 import { MkPostFormPreview } from './post-form/mk-post-form-preview';
+import { MkFileUploadMenu } from './mk-file-upload-menu';
 
 function extractMention(note: NoteWithExtension | undefined, me: { username: string; host: string | null }) {
   if (!note) return '';
@@ -334,9 +335,11 @@ const MkPostFormLoaded = (
       <div className="mk-post-form__footer border-t flex justify-between p-2">
         <div className="mk-post-form__action flex @md:gap-1">
           {prependFooter}
-          <PostFormButton label={t('addFile')}>
-            <ImageIcon />
-          </PostFormButton>
+          <MkFileUploadMenu>
+            <PostFormButton label={t('addFile')}>
+              <ImageIcon />
+            </PostFormButton>
+          </MkFileUploadMenu>
           <PostFormButton
             label={t('cw')}
             active={draft.hasCw}
