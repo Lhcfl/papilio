@@ -60,25 +60,22 @@ type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;
   autoFocus?: boolean;
   visibilityRestrict?: DraftData['visibility'][];
+  relatedNote?: NoteWithExtension;
   prependHeader?: React.ReactNode;
   appendHeader?: React.ReactNode;
   prependFooter?: React.ReactNode;
   appendFooter?: React.ReactNode;
 } & HTMLProps<HTMLDivElement>;
 
-export const MkPostForm = (
-  props: MkPostFormProps & {
-    relatedNote?: NoteWithExtension;
-  },
-) => {
+export const MkPostForm = (props: MkPostFormProps) => {
   const me = useMe();
-  const { relatedNote, ...rest } = props;
-  const { replyId, editId, quoteId, visibilityRestrict } = props;
+  const { replyId, editId, quoteId, visibilityRestrict, relatedNote } = props;
 
   const draftKey = getDraftKey({ replyId, editId, quoteId });
 
   const draft = useDraft(draftKey, {
     visibility: visibilityRestrict?.at(0),
+    localOnly: relatedNote?.localOnly,
     cw:
       cond([
         [editId != null, relatedNote?.cw],
@@ -94,7 +91,7 @@ export const MkPostForm = (
   });
 
   if (draft == null) return <MkPostFormSkeleton />;
-  return <MkPostFormLoaded {...rest} draft={draft} draftKey={draftKey} />;
+  return <MkPostFormLoaded {...props} draft={draft} draftKey={draftKey} />;
 };
 
 const MkPostFormLoaded = (
@@ -111,6 +108,7 @@ const MkPostFormLoaded = (
     autoFocus,
     draftKey,
     draft,
+    relatedNote,
     visibilityRestrict,
     prependHeader,
     appendHeader,
@@ -229,6 +227,7 @@ const MkPostFormLoaded = (
         <div className="mk-post-form__control flex items-center">
           <MkVisibilityPicker
             visibility={draft.visibility}
+            forceLocalOnly={relatedNote?.localOnly}
             localOnly={draft.localOnly}
             setLocalOnly={(v) => {
               draft.update({ localOnly: v });

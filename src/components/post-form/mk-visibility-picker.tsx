@@ -9,6 +9,7 @@ export const MkVisibilityPicker = (
   props: {
     visibility: DraftData['visibility'];
     localOnly: boolean;
+    forceLocalOnly?: boolean;
     setLocalOnly: (v: boolean) => void;
     setVisibility: (v: DraftData['visibility']) => void;
     disabled?: boolean;
@@ -68,7 +69,9 @@ export const MkVisibilityPicker = (
           onClick: () => {
             setVisibility(key as DraftData['visibility']);
           },
-          disabled: visibilityRestrict && !visibilityRestrict.includes(key as DraftData['visibility']),
+          disabled:
+            (key === 'specified' && localOnly) ||
+            (visibilityRestrict && !visibilityRestrict.includes(key as DraftData['visibility'])),
           active: visibility === key,
         })),
       ],
@@ -93,6 +96,7 @@ export const MkVisibilityPicker = (
             setLocalOnly(!localOnly);
           },
           preventCloseOnClick: true,
+          disabled: visibility == 'specified' || props.forceLocalOnly === true,
         },
       ],
     },
