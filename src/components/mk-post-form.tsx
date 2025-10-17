@@ -42,7 +42,7 @@ import { MkFileUploadMenu } from './mk-file-upload-menu';
 import { toast } from 'sonner';
 import { errorMessageSafe } from '@/lib/error';
 import { useUploader } from '@/hooks/use-uploader';
-import { MkPostFormPhotos } from './post-form/mk-post-form-photos';
+import { MkPostFormFiles } from './post-form/mk-post-form-files';
 
 function extractMention(note: NoteWithExtension | undefined, me: { username: string; host: string | null }) {
   if (!note) return '';
@@ -358,7 +358,13 @@ const MkPostFormLoaded = (
         hasCw={draft.hasCw}
         showPreview={draft.showPreview}
       />
-      <MkPostFormPhotos className="w-full p-2" files={draft.files} />
+      <MkPostFormFiles
+        className="w-full p-2"
+        files={draft.files}
+        removeFile={({ id }) => {
+          draft.update({ files: draft.files.filter((x) => x.id !== id) });
+        }}
+      />
       <div className="mk-post-form__footer border-t flex justify-between p-2">
         <div className="mk-post-form__action flex @md:gap-1">
           {prependFooter}

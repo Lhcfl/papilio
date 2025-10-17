@@ -12,7 +12,8 @@ import type { DriveFile } from 'misskey-js/entities.js';
 import type { HTMLProps } from 'react';
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '../ui/item';
 
-const guessFileIcon = (file: DriveFile) => {
+export const GuessFileIcon = (props: { file: DriveFile }) => {
+  const { file } = props;
   if (file.type.startsWith('image/')) return <FileImageIcon />;
   if (file.type.startsWith('video/')) return <FileVideo2Icon />;
   if (file.type.startsWith('audio/')) return <FileMusicIcon />;
@@ -92,7 +93,9 @@ export const MkNoteFile = (props: { file: DriveFile } & HTMLProps<HTMLDivElement
   return (
     <Item className={className} {...rest} size="sm" variant="muted" asChild>
       <a href={file.url} target="_blank" rel="noopener noreferrer">
-        <ItemMedia variant="icon">{guessFileIcon(file)}</ItemMedia>
+        <ItemMedia variant="icon">
+          <GuessFileIcon file={file} />
+        </ItemMedia>
         <ItemContent>
           <ItemTitle>{file.name}</ItemTitle>
           <ItemDescription className="text-xs">{file.comment}</ItemDescription>
