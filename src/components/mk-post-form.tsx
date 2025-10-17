@@ -8,10 +8,7 @@ import { Button } from './ui/button';
 import {
   ChartColumnIcon,
   EyeIcon,
-  GlobeIcon,
-  HomeIcon,
   ImageIcon,
-  LockIcon,
   MailIcon,
   MailWarningIcon,
   MessageSquareWarningIcon,
@@ -21,8 +18,6 @@ import {
   ReplyIcon,
   SendIcon,
   SmilePlusIcon,
-  WifiIcon,
-  WifiOffIcon,
   XIcon,
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
@@ -31,13 +26,7 @@ import { cn, withDefer } from '@/lib/utils';
 import { MkUserName } from './mk-user-name';
 import { MkEmojiPickerPopup } from './mk-emoji-picker-popup';
 import type { EmojiSimple, User } from 'misskey-js/entities.js';
-import { useEffect, useRef, useState, type ComponentProps, type HTMLProps } from 'react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { useEffect, useRef, useState, type HTMLProps } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { injectCurrentSite, misskeyApi } from '@/services/inject-misskey-api';
 import { Spinner } from './ui/spinner';
@@ -50,6 +39,7 @@ import { collectAst } from '@/lib/note';
 import { MkMention } from './mk-mention';
 import { getAcctUserQueryOptions } from '@/hooks/use-user';
 import { MkVisibilityPicker } from './post-form/mk-visibility-picker';
+import { useMount } from 'react-use';
 
 function extractMention(note: NoteWithExtension | undefined, me: { username: string; host: string | null }) {
   if (!note) return '';
@@ -66,17 +56,52 @@ function extractMention(note: NoteWithExtension | undefined, me: { username: str
   return [...res, ''].join(' ');
 }
 
+type MkPostFormProps = DraftKeyProps & {
+  onSuccess?: () => void;
+  autoFocus?: boolean;
+  visibilityRestrict?: DraftData['visibility'][];
+  prependHeader?: React.ReactNode;
+  appendHeader?: React.ReactNode;
+  prependFooter?: React.ReactNode;
+  appendFooter?: React.ReactNode;
+} & HTMLProps<HTMLDivElement>;
+
 export const MkPostForm = (
-  props: DraftKeyProps & {
-    onSuccess?: () => void;
-    autoFocus?: boolean;
-    visibilityRestrict?: DraftData['visibility'][];
+  props: MkPostFormProps & {
     relatedNote?: NoteWithExtension;
-    prependHeader?: React.ReactNode;
-    appendHeader?: React.ReactNode;
-    prependFooter?: React.ReactNode;
-    appendFooter?: React.ReactNode;
-  } & HTMLProps<HTMLDivElement>,
+  },
+) => {
+  const me = useMe();
+  const { relatedNote, ...rest } = props;
+  const { replyId, editId, quoteId, visibilityRestrict } = props;
+
+  const draftKey = getDraftKey({ replyId, editId, quoteId });
+
+  const draft = useDraft(draftKey, {
+    visibility: visibilityRestrict?.at(0),
+    cw:
+      cond([
+        [editId != null, relatedNote?.cw],
+        [replyId != null, relatedNote?.cw],
+        [true, null],
+      ]) ?? undefined,
+    text:
+      cond([
+        [editId != null, relatedNote?.text],
+        [replyId != null, extractMention(relatedNote, me)],
+        [true, null],
+      ]) ?? undefined,
+  });
+
+  if (draft == null) return <MkPostFormSkeleton />;
+  return <MkPostFormLoaded {...rest} draft={draft} draftKey={draftKey} />;
+};
+
+const MkPostFormLoaded = (
+  props: MkPostFormProps & {
+    draftKey: string;
+    draft: NonNullable<ReturnType<typeof useDraft>>;
+  },
 ) => {
   const {
     replyId,
@@ -84,7 +109,8 @@ export const MkPostForm = (
     quoteId,
     onSuccess,
     autoFocus,
-    relatedNote,
+    draftKey,
+    draft,
     visibilityRestrict,
     prependHeader,
     appendHeader,
@@ -104,47 +130,26 @@ export const MkPostForm = (
   const placeholder = t('_postForm._placeholders.f');
   const queryClient = useQueryClient();
 
-  const draftKey = getDraftKey({ replyId, editId, quoteId });
-  const draft = useDraft(
-    draftKey,
-    {
-      visibility: visibilityRestrict?.at(0),
-      cw:
-        cond([
-          [editId != null, relatedNote?.cw],
-          [replyId != null, relatedNote?.cw],
-          [true, null],
-        ]) ?? undefined,
-      text:
-        cond([
-          [editId != null, relatedNote?.text],
-          [replyId != null, extractMention(relatedNote, me)],
-          [true, null],
-        ]) ?? undefined,
-    },
-    {
-      onFirstLoad: withDefer((data) => {
-        const textarea = textareaRef.current;
-        if (textarea && autoFocus) {
-          textarea.focus();
-        }
-        textarea?.setSelectionRange(data.text.length, data.text.length);
-      }, 10),
-    },
-  );
-
   useEffect(() => {
-    if (draft?.visibility == 'specified' && unspecifiedMentions.length > 0) {
+    if (draft.visibility == 'specified' && unspecifiedMentions.length > 0) {
       addUnspecifiedMentionUser();
     }
     // we only want to run this when visibility changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draft?.visibility]);
+  }, [draft.visibility]);
 
-  const parsedText = mfm.parse(draft?.text ?? '');
+  useMount(() => {
+    const textarea = textareaRef.current;
+    if (textarea && autoFocus) {
+      textarea.focus();
+    }
+    textarea?.setSelectionRange(draft.text.length, draft.text.length);
+  });
+
+  const parsedText = mfm.parse(draft.text);
   const mentionedUsers = collectAst(parsedText, (node) => (node.type === 'mention' ? node.props : undefined));
   const unspecifiedMentions = mentionedUsers.filter((u) =>
-    draft?.visibleUsers.every((vu) => u.username != vu.username || (u.host != siteDomain && u.host != vu.host)),
+    draft.visibleUsers.every((vu) => u.username != vu.username || (u.host != siteDomain && u.host != vu.host)),
   );
 
   const { mutate: addUnspecifiedMentionUser, isPending: isAddingUser } = useMutation({
@@ -152,13 +157,13 @@ export const MkPostForm = (
     mutationFn: () =>
       Promise.allSettled(unspecifiedMentions.map((u) => queryClient.ensureQueryData(getAcctUserQueryOptions(u)))),
     onSuccess: (users) => {
-      const dedumplicater = new Map<string, User>(draft?.visibleUsers.map((u) => [u.id, u]));
+      const dedumplicater = new Map<string, User>(draft.visibleUsers.map((u) => [u.id, u]));
       for (const u of users) {
         if (u.status == 'fulfilled') {
           dedumplicater.set(u.value.id, u.value);
         }
       }
-      draft?.update({ visibleUsers: [...dedumplicater.values()] });
+      draft.update({ visibleUsers: [...dedumplicater.values()] });
     },
   });
 
@@ -189,21 +194,18 @@ export const MkPostForm = (
     onSuccess: () => {
       onSuccess?.();
       if (props.editId || props.quoteId || props.replyId) {
-        draft?.remove();
+        draft.remove();
       } else {
-        draft?.resetExcept(['visibility', 'cw', 'hasCw', 'showPreview', 'reactionAcceptance']);
+        draft.resetExcept(['visibility', 'cw', 'hasCw', 'showPreview', 'reactionAcceptance']);
       }
     },
   });
-
-  if (!draft) return <MkPostFormSkeleton />;
 
   const sendable = [draft.text.trim().length > 0, draft.hasCw && draft.cw.trim().length > 0].some((v) => v);
 
   function onEmojiChoose(emoji: string | EmojiSimple) {
     const textarea = currentFocusTextarea === 'cw' ? cwRef.current : textareaRef.current;
     if (!textarea) return;
-    if (!draft) return;
     const selectionSt = textarea.selectionStart;
     const st = draft[currentFocusTextarea].slice(0, selectionSt);
     const ed = draft[currentFocusTextarea].slice(textarea.selectionEnd);
