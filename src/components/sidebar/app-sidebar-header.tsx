@@ -4,11 +4,12 @@ import { Button } from '../ui/button';
 import { SunMoonIcon } from 'lucide-react';
 import { useSiteMeta } from '@/stores/site';
 import { injectCurrentSite } from '@/services/inject-misskey-api';
-
+import { usePerference } from '@/stores/perference';
 export const AppSidebarHeader = () => {
   const metaName = useSiteMeta((m) => m.name);
   const site = injectCurrentSite();
   const domain = new URL(site).origin;
+  const setTheme = usePerference((p) => p.setTheme);
 
   return (
     <SidebarMenu>
@@ -24,7 +25,7 @@ export const AppSidebarHeader = () => {
           variant="outline"
           size="icon"
           onClick={() => {
-            document.body.classList.toggle('dark');
+            setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
           }}
         >
           <SunMoonIcon />
