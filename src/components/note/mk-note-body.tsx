@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { ChevronDownIcon, ChevronUpIcon, MailIcon, QuoteIcon, ReplyIcon } from 'lucide-react';
+import { ChevronDownIcon, ChevronUpIcon, LockIcon, MailIcon, QuoteIcon, ReplyIcon } from 'lucide-react';
 import { type MfmNode, parse } from 'mfm-js';
 import type { HTMLProps } from 'react';
 import { MkMfm } from '@/components/mk-mfm';
@@ -173,6 +173,9 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
   const { data: visibleUsers } = useUsersQuery(note.visibleUserIds);
   const site = injectCurrentSite();
   const siteDomain = new URL(site).host;
+
+  const isHidden = note.isHidden;
+
   const mentions = collectAst(textAst, (ast) => (ast.type === 'mention' ? ast.props : undefined));
   const extraVisibleUsers = (visibleUsers ?? []).filter((u) =>
     mentions.every(
@@ -184,6 +187,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
         }) != acct.toString(m),
     ),
   );
+
   const invisibleMentions = mentions.filter((m) =>
     visibleUsers?.every(
       (u) =>
@@ -226,10 +230,17 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
         </div>
       )}
       {cond([
-        [note.cw != null, () => <NoteBodyCw note={note} textAst={textAst} {...rest} />],
-        [!detailed && isLong, () => <NoteBodyLong note={note} textAst={textAst} {...rest} />],
-        [true, () => <NoteBodyExpanded note={note} textAst={textAst} {...rest} />],
-      ])()}
+        [
+          isHidden,
+          <div key="private" className="flex gap-2 text-muted-foreground items-center">
+            <LockIcon className="size-4" />
+            {t('private')}
+          </div>,
+        ],
+        [note.cw != null, <NoteBodyCw key="cw" note={note} textAst={textAst} {...rest} />],
+        [!detailed && isLong, <NoteBodyLong key="long" note={note} textAst={textAst} {...rest} />],
+        [true, <NoteBodyExpanded key="default" note={note} textAst={textAst} {...rest} />],
+      ])}
       {detailed && (
         <div className="note-time mt-4 text-sm text-muted-foreground">
           <p>

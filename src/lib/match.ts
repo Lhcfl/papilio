@@ -6,7 +6,7 @@
  * @param fallback optional fallback value
  * @returns the matching value or the fallback
  */
-export function cond<T>(arr: [boolean, T][], fallback?: T): T {
+export function cond<T>(arr: [boolean | undefined | null, T][], fallback?: T): T {
   for (const [match, value] of arr) {
     if (match) {
       return value;
