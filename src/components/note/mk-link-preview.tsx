@@ -31,7 +31,7 @@ export const MkLinkPreview = (props: { url: string } & React.ComponentProps<type
 
   return (
     <Item variant="outline" className={clsx('break-words break-all', className)} {...rest} asChild size="sm">
-      <a href={url}>
+      <a href={url} target="_blank">
         {data ? (
           <>
             {thumbnail && (

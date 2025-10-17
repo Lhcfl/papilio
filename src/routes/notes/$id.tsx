@@ -88,7 +88,7 @@ function LoadedMain(props: { noteId: string }) {
       {isRemoteNote && (
         <MkAlert>
           <span>{t('remoteUserCaution')}</span>
-          <a className="text-tertiary hover:underline" href={getNoteRemoteUrl(note)}>
+          <a className="text-tertiary hover:underline" target="_blank" href={getNoteRemoteUrl(note)}>
             {t('showOnRemote')}
           </a>
         </MkAlert>

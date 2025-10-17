@@ -6,7 +6,7 @@ import { registerNote } from '@/hooks/use-note';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';
-import { SearchIcon } from 'lucide-react';
+import { SearchIcon, TextInitialIcon, UserRoundIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -21,8 +21,8 @@ function RouteComponent() {
     <DefaultLayout
       title={t('search')}
       tabs={[
-        { value: 'notes', label: t('notes'), comp: NoteSearch },
-        { value: 'users', label: t('users'), comp: UserSearch },
+        { value: 'notes', label: t('notes'), icon: <TextInitialIcon />, comp: NoteSearch },
+        { value: 'users', label: t('users'), icon: <UserRoundIcon />, comp: UserSearch },
       ]}
     >
       {(tab) => (

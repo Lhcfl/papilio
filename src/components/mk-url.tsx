@@ -14,7 +14,13 @@ export const MkUrl = (
   void navigationBehavior;
 
   return (
-    <a href={url} rel="noopener noreferrer" {...rest} className="break-all break-words text-tertiary hover:underline">
+    <a
+      href={url}
+      rel="noopener noreferrer"
+      target="_blank"
+      className="break-all break-words text-tertiary hover:underline"
+      {...rest}
+    >
       <LinkIcon className="size-4 inline mr-1 align-[-0.13em]" />
       {children ?? url}
     </a>
