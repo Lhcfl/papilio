@@ -18,9 +18,11 @@ import { Route as AnnouncementsRouteImport } from './routes/announcements'
 import { Route as AccountSwitchRouteImport } from './routes/account-switch'
 import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as MissingRouteImport } from './routes/$missing'
+import { Route as SettingsRouteRouteImport } from './routes/settings/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as TagTagRouteImport } from './routes/tag/$tag'
+import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as NotesIdRouteImport } from './routes/notes/$id'
 import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
 import { Route as MyClipsRouteImport } from './routes/my/clips'
@@ -78,20 +80,30 @@ const MissingRoute = MissingRouteImport.update({
   path: '/$missing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRouteRoute = SettingsRouteRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsIndexRoute = SettingsIndexRouteImport.update({
-  id: '/settings/',
-  path: '/settings/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => SettingsRouteRoute,
 } as any)
 const TagTagRoute = TagTagRouteImport.update({
   id: '/tag/$tag',
   path: '/tag/$tag',
   getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsProfileRoute = SettingsProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => SettingsRouteRoute,
 } as any)
 const NotesIdRoute = NotesIdRouteImport.update({
   id: '/notes/$id',
@@ -152,6 +164,7 @@ const MyFollowRequestsReceivedRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/settings': typeof SettingsRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
@@ -167,8 +180,9 @@ export interface FileRoutesByFullPath {
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/notes/$id': typeof NotesIdRoute
+  '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
-  '/settings': typeof SettingsIndexRoute
+  '/settings/': typeof SettingsIndexRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
@@ -191,6 +205,7 @@ export interface FileRoutesByTo {
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/notes/$id': typeof NotesIdRoute
+  '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
   '/settings': typeof SettingsIndexRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
@@ -202,6 +217,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/settings': typeof SettingsRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
@@ -217,6 +233,7 @@ export interface FileRoutesById {
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/notes/$id': typeof NotesIdRoute
+  '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
   '/settings/': typeof SettingsIndexRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
@@ -229,6 +246,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/settings'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
@@ -244,8 +262,9 @@ export interface FileRouteTypes {
     | '/my/clips'
     | '/my/favorites'
     | '/notes/$id'
+    | '/settings/profile'
     | '/tag/$tag'
-    | '/settings'
+    | '/settings/'
     | '/my/follow-requests/received'
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
@@ -268,6 +287,7 @@ export interface FileRouteTypes {
     | '/my/clips'
     | '/my/favorites'
     | '/notes/$id'
+    | '/settings/profile'
     | '/tag/$tag'
     | '/settings'
     | '/my/follow-requests/received'
@@ -278,6 +298,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/settings'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
@@ -293,6 +314,7 @@ export interface FileRouteTypes {
     | '/my/clips'
     | '/my/favorites'
     | '/notes/$id'
+    | '/settings/profile'
     | '/tag/$tag'
     | '/settings/'
     | '/my/follow-requests/received'
@@ -304,6 +326,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
   MissingRoute: typeof MissingRoute
   AtChar123acctChar125Route: typeof AtChar123acctChar125Route
   AccountSwitchRoute: typeof AccountSwitchRoute
@@ -320,7 +343,6 @@ export interface RootRouteChildren {
   MyFavoritesRoute: typeof MyFavoritesRoute
   NotesIdRoute: typeof NotesIdRoute
   TagTagRoute: typeof TagTagRoute
-  SettingsIndexRoute: typeof SettingsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -388,6 +410,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MissingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -397,10 +426,10 @@ declare module '@tanstack/react-router' {
     }
     '/settings/': {
       id: '/settings/'
-      path: '/settings'
-      fullPath: '/settings'
+      path: '/'
+      fullPath: '/settings/'
       preLoaderRoute: typeof SettingsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof SettingsRouteRoute
     }
     '/tag/$tag': {
       id: '/tag/$tag'
@@ -408,6 +437,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/tag/$tag'
       preLoaderRoute: typeof TagTagRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/settings/profile': {
+      id: '/settings/profile'
+      path: '/profile'
+      fullPath: '/settings/profile'
+      preLoaderRoute: typeof SettingsProfileRouteImport
+      parentRoute: typeof SettingsRouteRoute
     }
     '/notes/$id': {
       id: '/notes/$id'
@@ -489,6 +525,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface SettingsRouteRouteChildren {
+  SettingsProfileRoute: typeof SettingsProfileRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
+}
+
+const SettingsRouteRouteChildren: SettingsRouteRouteChildren = {
+  SettingsProfileRoute: SettingsProfileRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
+}
+
+const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
+  SettingsRouteRouteChildren,
+)
+
 interface MyFollowRequestsRouteRouteChildren {
   MyFollowRequestsReceivedRoute: typeof MyFollowRequestsReceivedRoute
   MyFollowRequestsSentRoute: typeof MyFollowRequestsSentRoute
@@ -521,6 +571,7 @@ const MyNotificationsRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SettingsRouteRoute: SettingsRouteRouteWithChildren,
   MissingRoute: MissingRoute,
   AtChar123acctChar125Route: AtChar123acctChar125Route,
   AccountSwitchRoute: AccountSwitchRoute,
@@ -537,7 +588,6 @@ const rootRouteChildren: RootRouteChildren = {
   MyFavoritesRoute: MyFavoritesRoute,
   NotesIdRoute: NotesIdRoute,
   TagTagRoute: TagTagRoute,
-  SettingsIndexRoute: SettingsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -16,6 +16,7 @@ import {
   CheckIcon,
   CircleSlashIcon,
   CircleXIcon,
+  EditIcon,
   HourglassIcon,
   MessageSquareHeartIcon,
   MinusIcon,
@@ -43,10 +44,15 @@ import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 import { useErrorDialogs } from '@/stores/error-dialog';
 import { errorMessageSafe } from '@/lib/error';
+import { useMe } from '@/stores/me';
+import { Link } from '@tanstack/react-router';
 
 export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElement>) => {
   const { user, className: classNameProps, ...divProps } = props;
   const { t } = useTranslation();
+  const meId = useMe((s) => s.id);
+
+  const isNotMe = user.id !== meId;
 
   // isXXXed means you are XXXed by the user
   // isXXXing means you are XXXing the user
@@ -82,7 +88,16 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
           avatarProps={{ className: 'size-20 @md:size-30 rounded-lg' }}
         />
         <ButtonGroup>
-          <MkUserFollowButton user={user} />
+          {isNotMe ? (
+            <MkUserFollowButton user={user} />
+          ) : (
+            <Button asChild>
+              <Link to="/settings/profile">
+                <EditIcon />
+                {t('editProfile')}
+              </Link>
+            </Button>
+          )}
           <Button variant="outline">
             <MoreVerticalIcon />
           </Button>
