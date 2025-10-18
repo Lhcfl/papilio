@@ -38,7 +38,7 @@ export default defineConfig([
 				rules: {
 					// 启用 prettier 检查
 					"prettier/prettier": ["error", {
-						endOfLine: "auto",
+						endOfLine: "lf",
 						singleQuote: true,
 						semi: true,
 						trailingComma: "all",
