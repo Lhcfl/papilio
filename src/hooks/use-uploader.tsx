@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { getCompressionConfig, mimeTypeToFileExtension } from '@/lib/upload';
 import { getRelativeUrl, injectUserToken } from '@/services/inject-misskey-api';
 import { useMe } from '@/stores/me';

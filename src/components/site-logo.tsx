@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { useSiteMeta } from '@/stores/site';
 import { Avatar, AvatarImage } from './ui/avatar';
 import { getRelativeUrl } from '@/services/inject-misskey-api';

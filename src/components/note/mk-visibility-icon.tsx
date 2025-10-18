@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { useUsersQuery } from '@/hooks/use-user';
 import { cn } from '@/lib/utils';
 import { useMe } from '@/stores/me';

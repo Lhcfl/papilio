@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { AlertCircleIcon } from 'lucide-react';
 import { Item, ItemContent, ItemMedia } from './ui/item';
 

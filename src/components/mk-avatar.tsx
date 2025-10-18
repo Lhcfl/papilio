@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import type { User } from 'misskey-js/entities.js';
 import type { HTMLProps } from 'react';
 import { Avatar, AvatarImage } from './ui/avatar';
@@ -5,12 +10,12 @@ import { MkBlurHash } from './mk-blurhash';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { cn } from '@/lib/utils';
 import { Link } from '@tanstack/react-router';
-import { getUserRoute } from '@/lib/user';
 import { HoverCard, HoverCardTrigger, HoverCardContent } from './ui/hover-card';
 import { MkUserCard } from './mk-user-card';
 import { useUserQuery } from '@/hooks/use-user';
 import { MkUserCardSkeleton } from './mk-user-card-skeleton';
 import { ScrollArea } from './ui/scroll-area';
+import { acct } from 'misskey-js';
 
 export const MkAvatar = (
   props: {
@@ -52,7 +57,7 @@ const MkAvatarMain = (
   const { className: avatarClassNameProps, ...avatarPropsRest } = avatarProps;
   return (
     <Avatar className={cn('rounded-md', avatarClassNameProps)} {...avatarPropsRest} asChild>
-      <Link to={getUserRoute(user)} disabled={disableRouteLink}>
+      <Link to="/@{$acct}" params={{ acct: acct.toString(user) }} disabled={disableRouteLink}>
         <AvatarPrimitive.Fallback className="relative overflow-hidden">
           <MkBlurHash id={'user:' + user.id} blurhash={user.avatarBlurhash} className="w-full h-full" />
         </AvatarPrimitive.Fallback>

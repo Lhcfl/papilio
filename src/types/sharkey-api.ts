@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 //  This is a type definition file for Sharkey API, which is a fork of Misskey API.
 import type { Endpoints as MisskeyEndPoints } from 'misskey-js';
 import type { Endpoints as SharkeyEndPoints } from '@@/sharkey-js/index';

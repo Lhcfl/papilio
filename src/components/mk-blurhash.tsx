@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { useEffect, useRef } from 'react';
 
 import drawBlurHash from '@/workers/draw-blurhash?worker&inline';

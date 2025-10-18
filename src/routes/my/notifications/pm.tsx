@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { MkMentionsList } from '@/components/mk-mentions-list';
 import { createFileRoute } from '@tanstack/react-router';
 

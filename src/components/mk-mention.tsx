@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { Link } from '@tanstack/react-router';
 import { acct } from 'misskey-js';
 import type { HTMLAttributes } from 'react';

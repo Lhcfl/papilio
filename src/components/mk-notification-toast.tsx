@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import type { Notification } from 'misskey-js/entities.js';
 import { SimpleNotification } from './mk-notification';
 

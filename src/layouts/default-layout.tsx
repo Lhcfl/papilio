@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { useEffect, useState } from 'react';
 import { useTitle } from 'react-use';
 import { AppSidebar } from '@/components/app-sidebar';

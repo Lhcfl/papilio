@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { useInfiniteQuery, type QueryFunction } from '@tanstack/react-query';
 import { MkError } from './mk-error';
 import { LoadingTrigger } from './loading-trigger';

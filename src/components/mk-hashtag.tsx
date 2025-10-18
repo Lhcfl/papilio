@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { cn } from '@/lib/utils';
 import { Link } from '@tanstack/react-router';
 import type { HTMLAttributes } from 'react';

@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { ChevronLeftIcon, ChevronRightIcon, XIcon } from 'lucide-react';
 import type { DriveFile } from 'misskey-js/entities.js';
 import Lightbox from 'react-spring-lightbox';

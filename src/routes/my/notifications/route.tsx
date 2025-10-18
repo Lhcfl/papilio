@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { useTranslation } from 'react-i18next';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { createFileRoute, Outlet } from '@tanstack/react-router';

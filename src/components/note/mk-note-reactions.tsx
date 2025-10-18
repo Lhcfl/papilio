@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import clsx from 'clsx';
 import { MkCustomEmoji, MkEmoji } from '../mk-emoji';
 import { normalizeEmojiName } from '@/lib/emojis';

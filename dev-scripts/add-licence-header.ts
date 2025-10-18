@@ -1,0 +1,38 @@
+import { glob, readFile, writeFile } from 'fs/promises';
+import path from 'path';
+import { chdir } from 'process';
+import chalk from 'chalk';
+
+const PROJECT_ROOT = path.resolve(import.meta.dirname, '..');
+const include_dir = ['src/**/*.{ts,tsx}'];
+const exclude_dir = ['src/components/ui/**', '**/*.gen.ts'];
+
+console.log('Working at:', PROJECT_ROOT);
+chdir(PROJECT_ROOT);
+
+const SPDX_LICENSE_IDENTIFIER = 'AGPL-3.0-or-later';
+const SPDX_COPYRIGHT_TEXT = 'Linca and papilio-project';
+
+const licence_header = `
+/*
+ * SPDX-FileCopyrightText: ${SPDX_COPYRIGHT_TEXT}
+ * SPDX-License-Identifier: ${SPDX_LICENSE_IDENTIFIER}
+ */
+`.trim();
+
+for (const dir of include_dir) {
+  for await (const item of glob(dir)) {
+    if (exclude_dir.some((x) => path.matchesGlob(item, x))) {
+      continue;
+    }
+    const text = await readFile(item, 'utf-8');
+    const matched = /SPDX-License-Identifier: (.*)/.exec(text);
+    if (matched != null) {
+      console.log(chalk.yellow(`skipped ${item}: has SPDX-License-Identifier = ${matched[1]}`));
+      continue;
+    }
+    const new_text = licence_header + '\n\n' + text;
+    await writeFile(item, new_text, 'utf-8');
+    console.log(chalk.green(`added licence header to ${item} - ${SPDX_LICENSE_IDENTIFIER}`));
+  }
+}

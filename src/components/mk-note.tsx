@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import clsx from 'clsx';
 import { MkNoteActions } from './note/mk-note-actions';
 import { MkNoteBody } from './note/mk-note-body';

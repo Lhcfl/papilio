@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { useNoteValue } from '@/hooks/use-note';
 import { MkMfm } from '../mk-mfm';
 import { getNoteExcerpt } from '@/services/note-excerpt';

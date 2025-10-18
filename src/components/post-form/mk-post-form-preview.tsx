@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import type { MfmNode } from 'mfm-js';
 import type { UserLite } from 'misskey-js/entities.js';
 import { MkAvatar } from '../mk-avatar';

@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { injectMisskeyApi } from '@/services/inject-misskey-api';
 import { useMutation, type MutationFunctionContext } from '@tanstack/react-query';
 import type { UserDetailed } from 'misskey-js/entities.js';

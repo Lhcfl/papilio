@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { getCurrentUserIDBName } from '@/plugins/idb';
 import type { Endpoints, SwitchCaseResponseType } from '@/types/sharkey-api';
 import { Stream, api } from 'misskey-js';

@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { HardDriveUploadIcon, UploadCloudIcon, UploadIcon } from 'lucide-react';
 import { MenuOrDrawer, type Menu } from './menu-or-drawer';
 import { toast } from 'sonner';

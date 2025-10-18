@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { injectMisskeyApi } from '@/services/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
 import { registerNote } from './use-note';

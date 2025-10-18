@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { MkFollowRequest } from '@/components/mk-follow-request';
 import { MkInfiniteScroll } from '@/components/mk-infinite-scroll';
 import { misskeyApi } from '@/services/inject-misskey-api';

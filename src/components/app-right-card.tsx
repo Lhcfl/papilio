@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { MkNotifications } from './mk-notifications';
 import { MkClock } from './note/mk-clock';
 import { ScrollArea } from './ui/scroll-area';

@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { ConfirmDialogProvider } from '@/providers/confirm-dialog-provider';
 import { injectUserToken } from '@/services/inject-misskey-api';
 import { usePerference } from '@/stores/perference';

@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { LoadingTrigger } from '@/components/loading-trigger';
 import { MkAnnouncement } from '@/components/mk-announcement';
 import { MkError } from '@/components/mk-error';

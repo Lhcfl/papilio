@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 /**
  * Conditionally returns a value based on the first true condition.
  * If no conditions are true, returns the fallback value if provided,

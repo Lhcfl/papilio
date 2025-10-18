@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { useTranslation } from 'react-i18next';
 import { GlobeIcon, HomeIcon, MapPinIcon, UsersIcon } from 'lucide-react';
 import type { Tab } from '@/types/page-header';

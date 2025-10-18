@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { LoadingTrigger } from './loading-trigger';
 import { MkNote } from './mk-note';
