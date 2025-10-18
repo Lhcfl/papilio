@@ -3,6 +3,7 @@ import { MkError } from './mk-error';
 import { LoadingTrigger } from './loading-trigger';
 import { Spinner } from './ui/spinner';
 import { Fragment } from 'react/jsx-runtime';
+import { MkEmpty } from './mk-empty';
 
 function getId<T>(item: unknown, fallback?: T) {
   if (typeof item === 'string') return item;
@@ -39,8 +40,11 @@ export function MkInfiniteScroll<P>(props: {
     getNextPageParam,
   });
 
+  const isEmpty = !isPending && data?.pages.flat(1).length === 0;
+
   return (
     <div>
+      {isEmpty && <MkEmpty />}
       {error && <MkError error={error} retry={() => refetch()} />}
       <div className="flex flex-col gap-2">
         {data?.pages.flat(1).map((a, idx) => (

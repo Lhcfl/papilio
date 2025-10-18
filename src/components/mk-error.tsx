@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-
 import { CircleXIcon } from 'lucide-react';
 import { type APIError, isAPIError } from 'misskey-js/api.js';
 import { Button } from './ui/button';
