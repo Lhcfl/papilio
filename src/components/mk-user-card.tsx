@@ -46,6 +46,7 @@ import { useErrorDialogs } from '@/stores/error-dialog';
 import { errorMessageSafe } from '@/lib/error';
 import { useMe } from '@/stores/me';
 import { Link } from '@tanstack/react-router';
+import { MkUserMenu } from './user/mk-user-menu';
 
 export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElement>) => {
   const { user, className: classNameProps, ...divProps } = props;
@@ -98,9 +99,11 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
               </Link>
             </Button>
           )}
-          <Button variant="outline">
-            <MoreVerticalIcon />
-          </Button>
+          <MkUserMenu user={user}>
+            <Button variant="outline">
+              <MoreVerticalIcon />
+            </Button>
+          </MkUserMenu>
         </ButtonGroup>
       </div>
       <div className="p-2 @md:p-4 @lg:px-6">
