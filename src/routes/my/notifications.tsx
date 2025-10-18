@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-
 import { MkMentionsList } from '@/components/mk-mentions-list';
 import { MkNotifications, MkNotificationsFilter } from '@/components/mk-notifications';
 import { DefaultLayout } from '@/layouts/default-layout';
@@ -23,17 +22,19 @@ function RouteComponent() {
       title={t('notifications')}
       tabs={
         [
-          { icon: <BellIcon />, label: t('all'), value: 'all', comp: <MkNotifications excludeTypes={excludes} /> },
+          {
+            icon: <BellIcon />,
+            label: t('all'),
+            value: 'all',
+            comp: <MkNotifications excludeTypes={excludes} />,
+            headerRight: <MkNotificationsFilter excludedAtom={excludeTypes} />,
+          },
           { icon: <AtSignIcon />, label: t('mentions'), value: 'mentions', comp: <MkMentionsList /> },
           { icon: <MailIcon />, label: t('directNotes'), value: 'pm', comp: <MkMentionsList visibility="specified" /> },
         ] as const
       }
-      headerRightWhenTab={(tab) => {
-        if (tab === 'all') return <MkNotificationsFilter excludedAtom={excludeTypes} />;
-        return null;
-      }}
     >
-      {(tab) => tab.comp}
+      <></>
     </DefaultLayout>
   );
 }

@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-
 import { GlobeIcon, HomeIcon, MapPinIcon, UsersIcon } from 'lucide-react';
 import type { Tab } from '@/types/page-header';
 import type { TimelineTypes } from './use-timeline';

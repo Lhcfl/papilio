@@ -22,10 +22,12 @@ import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as TagTagRouteImport } from './routes/tag/$tag'
 import { Route as NotesIdRouteImport } from './routes/notes/$id'
 import { Route as MyNotificationsRouteImport } from './routes/my/notifications'
-import { Route as MyFollowRequestsRouteImport } from './routes/my/follow-requests'
 import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
 import { Route as MyClipsRouteImport } from './routes/my/clips'
 import { Route as ClipsIdRouteImport } from './routes/clips/$id'
+import { Route as MyFollowRequestsRouteRouteImport } from './routes/my/follow-requests/route'
+import { Route as MyFollowRequestsSentRouteImport } from './routes/my/follow-requests/sent'
+import { Route as MyFollowRequestsReceivedRouteImport } from './routes/my/follow-requests/received'
 
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
@@ -92,11 +94,6 @@ const MyNotificationsRoute = MyNotificationsRouteImport.update({
   path: '/my/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MyFollowRequestsRoute = MyFollowRequestsRouteImport.update({
-  id: '/my/follow-requests',
-  path: '/my/follow-requests',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MyFavoritesRoute = MyFavoritesRouteImport.update({
   id: '/my/favorites',
   path: '/my/favorites',
@@ -112,6 +109,22 @@ const ClipsIdRoute = ClipsIdRouteImport.update({
   path: '/clips/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MyFollowRequestsRouteRoute = MyFollowRequestsRouteRouteImport.update({
+  id: '/my/follow-requests',
+  path: '/my/follow-requests',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyFollowRequestsSentRoute = MyFollowRequestsSentRouteImport.update({
+  id: '/sent',
+  path: '/sent',
+  getParentRoute: () => MyFollowRequestsRouteRoute,
+} as any)
+const MyFollowRequestsReceivedRoute =
+  MyFollowRequestsReceivedRouteImport.update({
+    id: '/received',
+    path: '/received',
+    getParentRoute: () => MyFollowRequestsRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -123,14 +136,16 @@ export interface FileRoutesByFullPath {
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
   '/search': typeof SearchRoute
+  '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
-  '/my/follow-requests': typeof MyFollowRequestsRoute
   '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
   '/tag/$tag': typeof TagTagRoute
   '/settings': typeof SettingsIndexRoute
+  '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
+  '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -142,14 +157,16 @@ export interface FileRoutesByTo {
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
   '/search': typeof SearchRoute
+  '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
-  '/my/follow-requests': typeof MyFollowRequestsRoute
   '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
   '/tag/$tag': typeof TagTagRoute
   '/settings': typeof SettingsIndexRoute
+  '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
+  '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -162,14 +179,16 @@ export interface FileRoutesById {
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
   '/search': typeof SearchRoute
+  '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
-  '/my/follow-requests': typeof MyFollowRequestsRoute
   '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
   '/tag/$tag': typeof TagTagRoute
   '/settings/': typeof SettingsIndexRoute
+  '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
+  '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -183,14 +202,16 @@ export interface FileRouteTypes {
     | '/login-redirect'
     | '/posting'
     | '/search'
+    | '/my/follow-requests'
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
-    | '/my/follow-requests'
     | '/my/notifications'
     | '/notes/$id'
     | '/tag/$tag'
     | '/settings'
+    | '/my/follow-requests/received'
+    | '/my/follow-requests/sent'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -202,14 +223,16 @@ export interface FileRouteTypes {
     | '/login-redirect'
     | '/posting'
     | '/search'
+    | '/my/follow-requests'
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
-    | '/my/follow-requests'
     | '/my/notifications'
     | '/notes/$id'
     | '/tag/$tag'
     | '/settings'
+    | '/my/follow-requests/received'
+    | '/my/follow-requests/sent'
   id:
     | '__root__'
     | '/'
@@ -221,14 +244,16 @@ export interface FileRouteTypes {
     | '/login-redirect'
     | '/posting'
     | '/search'
+    | '/my/follow-requests'
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
-    | '/my/follow-requests'
     | '/my/notifications'
     | '/notes/$id'
     | '/tag/$tag'
     | '/settings/'
+    | '/my/follow-requests/received'
+    | '/my/follow-requests/sent'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -241,10 +266,10 @@ export interface RootRouteChildren {
   LoginRedirectRoute: typeof LoginRedirectRoute
   PostingRoute: typeof PostingRoute
   SearchRoute: typeof SearchRoute
+  MyFollowRequestsRouteRoute: typeof MyFollowRequestsRouteRouteWithChildren
   ClipsIdRoute: typeof ClipsIdRoute
   MyClipsRoute: typeof MyClipsRoute
   MyFavoritesRoute: typeof MyFavoritesRoute
-  MyFollowRequestsRoute: typeof MyFollowRequestsRoute
   MyNotificationsRoute: typeof MyNotificationsRoute
   NotesIdRoute: typeof NotesIdRoute
   TagTagRoute: typeof TagTagRoute
@@ -344,13 +369,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyNotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/my/follow-requests': {
-      id: '/my/follow-requests'
-      path: '/my/follow-requests'
-      fullPath: '/my/follow-requests'
-      preLoaderRoute: typeof MyFollowRequestsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/my/favorites': {
       id: '/my/favorites'
       path: '/my/favorites'
@@ -372,8 +390,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClipsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/my/follow-requests': {
+      id: '/my/follow-requests'
+      path: '/my/follow-requests'
+      fullPath: '/my/follow-requests'
+      preLoaderRoute: typeof MyFollowRequestsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my/follow-requests/sent': {
+      id: '/my/follow-requests/sent'
+      path: '/sent'
+      fullPath: '/my/follow-requests/sent'
+      preLoaderRoute: typeof MyFollowRequestsSentRouteImport
+      parentRoute: typeof MyFollowRequestsRouteRoute
+    }
+    '/my/follow-requests/received': {
+      id: '/my/follow-requests/received'
+      path: '/received'
+      fullPath: '/my/follow-requests/received'
+      preLoaderRoute: typeof MyFollowRequestsReceivedRouteImport
+      parentRoute: typeof MyFollowRequestsRouteRoute
+    }
   }
 }
+
+interface MyFollowRequestsRouteRouteChildren {
+  MyFollowRequestsReceivedRoute: typeof MyFollowRequestsReceivedRoute
+  MyFollowRequestsSentRoute: typeof MyFollowRequestsSentRoute
+}
+
+const MyFollowRequestsRouteRouteChildren: MyFollowRequestsRouteRouteChildren = {
+  MyFollowRequestsReceivedRoute: MyFollowRequestsReceivedRoute,
+  MyFollowRequestsSentRoute: MyFollowRequestsSentRoute,
+}
+
+const MyFollowRequestsRouteRouteWithChildren =
+  MyFollowRequestsRouteRoute._addFileChildren(
+    MyFollowRequestsRouteRouteChildren,
+  )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -385,10 +439,10 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRedirectRoute: LoginRedirectRoute,
   PostingRoute: PostingRoute,
   SearchRoute: SearchRoute,
+  MyFollowRequestsRouteRoute: MyFollowRequestsRouteRouteWithChildren,
   ClipsIdRoute: ClipsIdRoute,
   MyClipsRoute: MyClipsRoute,
   MyFavoritesRoute: MyFavoritesRoute,
-  MyFollowRequestsRoute: MyFollowRequestsRoute,
   MyNotificationsRoute: MyNotificationsRoute,
   NotesIdRoute: NotesIdRoute,
   TagTagRoute: TagTagRoute,

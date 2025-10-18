@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { useTitle } from 'react-use';
 import { AppSidebar } from '@/components/app-sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -7,38 +6,25 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import { Toaster } from '@/components/ui/sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { WithLoginLoader } from '@/loaders/with-login';
-import type { Tab } from '@/types/page-header';
 import { useSiteMeta } from '@/stores/site';
 import { useNoteUpdateListener } from '@/hooks/use-note';
 import { useMainChannelListener } from '@/hooks/use-main-channel';
 import { RightbarOrPopupProvider } from '@/providers/rightbar-or-popup';
 import { cn } from '@/lib/utils';
-
-interface DefaultLayoutPropsCommon {
+import { useLocation, useNavigate } from '@tanstack/react-router';
+import type { Tab } from '@/types/page-header';
+interface SidebarLayoutProps<Ts extends Tab[]> {
+  isRouteTab?: boolean;
   title?: string;
   pageTitle?: string;
   headerLeft?: React.ReactNode;
   headerRight?: React.ReactNode;
+  tabs?: Ts;
+  onTabChange?: (value: Ts[number]['value']) => void;
+  children?: React.ReactNode;
 }
 
-type DefaultLayoutPropsTab<Ts extends Tab[]> = DefaultLayoutPropsCommon & {
-  tabs: Ts;
-  children: (tab: Ts[number]) => React.ReactNode;
-  onTabChange?: (value: Ts[number]['value']) => void;
-  headerRightWhenTab?: (tab: Ts[number]['value']) => React.ReactNode;
-};
-
-type DefaultLayoutPropsNoTab = DefaultLayoutPropsCommon & {
-  tabs?: undefined;
-  children?: React.ReactNode;
-  onTabChange?: undefined;
-  headerCenter?: React.ReactNode;
-  headerRightWhenTab?: undefined;
-};
-
-type DefaultLayoutProps<Ts extends Tab[]> = DefaultLayoutPropsTab<Ts> | DefaultLayoutPropsNoTab;
-
-export function DefaultLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
+export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   return (
     <WithLoginLoader>
       <SidebarLayout {...props} />
@@ -47,13 +33,15 @@ export function DefaultLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
   );
 }
 
-function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
+function SidebarLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   const siteName = useSiteMeta((s) => s.name);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const {
+    isRouteTab,
     tabs,
     onTabChange,
-    headerRightWhenTab,
     title = siteName ?? 'papilio',
     pageTitle = `${title} · ${siteName}`,
     children,
@@ -64,10 +52,14 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
   useNoteUpdateListener();
   useMainChannelListener();
 
-  const [currentTab, setTab] = useState(tabs?.[0].value);
+  const [currentTabValue, setTabValue] = useState(tabs?.[0].value);
+  const actualCurrentTab = tabs?.find((tab) => tab.value === (isRouteTab ? location.pathname : currentTabValue));
 
   const handleTabChange = (value: string) => {
-    setTab(value);
+    setTabValue(value);
+    if (isRouteTab) {
+      void navigate({ to: value });
+    }
     if (onTabChange) {
       onTabChange(value as Ts[number]['value']);
     }
@@ -79,7 +71,7 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
       <SidebarInset className="grid grid-cols-[1fr_auto]">
         <div className="main-container">
           {tabs ? (
-            <Tabs defaultValue={tabs[0]?.value} onValueChange={handleTabChange}>
+            <Tabs onValueChange={handleTabChange} value={actualCurrentTab?.value}>
               <LayoutMiddle
                 {...rest}
                 title={title}
@@ -90,7 +82,7 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
                         {tab.icon}
                         <span
                           className={cn({
-                            'max-sm:hidden': tab.value != currentTab,
+                            'max-sm:hidden': tab.value != actualCurrentTab?.value,
                           })}
                         >
                           {tab.label}
@@ -101,14 +93,15 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
                 }
                 headerRight={
                   <>
+                    {actualCurrentTab?.headerRight}
                     {props.headerRight}
-                    {currentTab && headerRightWhenTab?.(currentTab)}
                   </>
                 }
               >
+                {children}
                 {tabs.map((tab) => (
                   <TabsContent key={tab.value} value={tab.value}>
-                    {(children as (tab: Tab) => React.ReactNode)(tab)}
+                    {tab.comp}
                   </TabsContent>
                 ))}
               </LayoutMiddle>
@@ -116,7 +109,7 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
           ) : (
             <div>
               <LayoutMiddle {...props} title={title}>
-                {children as React.ReactNode}
+                {children}
               </LayoutMiddle>
             </div>
           )}
@@ -127,13 +120,13 @@ function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
   );
 }
 
-function LayoutMiddle(
-  props: DefaultLayoutPropsCommon & {
-    title: string;
-    headerCenter?: React.ReactNode;
-    children: React.ReactNode;
-  },
-) {
+function LayoutMiddle(props: {
+  title: string;
+  headerRight?: React.ReactNode;
+  headerCenter?: React.ReactNode;
+  headerLeft?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   const {
     title,
     children,

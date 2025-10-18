@@ -19,12 +19,20 @@ function RouteComponent() {
   return (
     <DefaultLayout
       tabs={[
-        { value: 'current' as const, label: t('currentAnnouncements'), icon: <HourglassIcon /> },
-        { value: 'previous' as const, label: t('pastAnnouncements'), icon: <CalendarCheckIcon /> },
+        {
+          value: 'current' as const,
+          label: t('currentAnnouncements'),
+          icon: <HourglassIcon />,
+          comp: <Announcements value="current" />,
+        },
+        {
+          value: 'previous' as const,
+          label: t('pastAnnouncements'),
+          icon: <CalendarCheckIcon />,
+          comp: <Announcements value="previous" />,
+        },
       ]}
-    >
-      {(tab) => <Announcements value={tab.value} />}
-    </DefaultLayout>
+    />
   );
 }
 

@@ -16,13 +16,8 @@ function Index() {
   const title = t('timeline');
 
   return (
-    <DefaultLayout tabs={tabs} title={title}>
-      {(tab) => (
-        <div>
-          <MkPostForm className="border" />
-          <MkTimeline type={tab.value} />
-        </div>
-      )}
+    <DefaultLayout tabs={tabs.map((tab) => ({ ...tab, comp: <MkTimeline type={tab.value} /> }))} title={title}>
+      <MkPostForm className="border" />
     </DefaultLayout>
   );
 }

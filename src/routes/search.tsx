@@ -21,16 +21,10 @@ function RouteComponent() {
     <DefaultLayout
       title={t('search')}
       tabs={[
-        { value: 'notes', label: t('notes'), icon: <TextInitialIcon />, comp: NoteSearch },
-        { value: 'users', label: t('users'), icon: <UserRoundIcon />, comp: UserSearch },
+        { value: 'notes', label: t('notes'), icon: <TextInitialIcon />, comp: <NoteSearch /> },
+        { value: 'users', label: t('users'), icon: <UserRoundIcon />, comp: <UserSearch /> },
       ]}
-    >
-      {(tab) => (
-        <div>
-          <tab.comp />
-        </div>
-      )}
-    </DefaultLayout>
+    />
   );
 }
 
