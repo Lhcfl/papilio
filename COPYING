@@ -1,0 +1,10 @@
+Unless otherwise stated this repository is
+Copyright © 2025 Linca and contributors
+
+And is distributed under The GNU Affero General Public License Version 3, you should have received a copy of the license file as LICENSE.
+
+
+Papilio includes several third-party Open-Source softwares.
+
+- Files under src/components/ui are derived from shadcn/ui
+  and remain licensed under the MIT License.

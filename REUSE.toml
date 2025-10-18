@@ -1,0 +1,48 @@
+version = 1
+
+[[annotations]]
+path = ["sharkey-js/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "marie and other Sharkey contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["src/components/ui/**"]
+precedence = "override"
+SPDX-FileCopyrightText = "shadcn"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["locales-source/**", "public/locales/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "syuilo and misskey-project, marie and other Sharkey contributors, Linca"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["src/routeTree.gen.ts"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Linca"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = [
+  "**/*.json",
+  "**/*.config.*",
+  "**/*.toml",
+  "**/*.yml",
+  "**/*.yaml",
+  "**/*.md",
+  "**/*.txt",
+  ".gitignore",
+  "index.html",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Linca"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["public/banner-2.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "syuilo and Misskey Project"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+

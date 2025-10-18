@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
   :root {
     /* Tertiary - 舒适的紫色(亮色模式) */
     --tertiary: oklch(53.677% 0.20404 304.83);
