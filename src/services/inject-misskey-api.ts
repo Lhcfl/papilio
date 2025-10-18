@@ -86,3 +86,9 @@ export const storeUserToken = (token: string) => {
 };
 
 export const getRelativeUrl = (href: string) => new URL(href, injectCurrentSite()).toString();
+
+export const logout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('site');
+  window.location.reload();
+};

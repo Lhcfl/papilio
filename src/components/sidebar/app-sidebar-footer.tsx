@@ -1,14 +1,57 @@
-import { ChevronsUpDownIcon, PencilIcon } from 'lucide-react';
+import { ChevronsUpDownIcon, LogOutIcon, PencilIcon, UserRoundIcon } from 'lucide-react';
 import { MkAvatar } from '@/components/mk-avatar';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { MkUserName } from '../mk-user-name';
 import { useMe } from '@/stores/me';
 import { useTranslation } from 'react-i18next';
 import { MkPostFormDialog } from '../mk-post-form-dialog';
+import { MenuOrDrawer, type Menu } from '../menu-or-drawer';
+import { linkOptions } from '@tanstack/react-router';
+import { logout } from '@/services/inject-misskey-api';
+import { useAfterConfirm } from '@/stores/confirm-dialog';
 
 export const AppSidebarFooter = () => {
   const me = useMe();
   const { t } = useTranslation();
+
+  const logoutWithConfirm = useAfterConfirm(
+    {
+      title: t('logout'),
+      description: t('logoutConfirm'),
+      variant: 'destructive',
+      confirmIcon: <LogOutIcon />,
+      confirmText: t('logout'),
+    },
+    logout,
+  );
+
+  const menu: Menu = [
+    {
+      type: 'group',
+      id: 'user-actions',
+      items: [
+        { type: 'label', id: 'user-label', label: t('user') },
+        {
+          type: 'item',
+          id: 'profile',
+          label: t('profile'),
+          icon: <UserRoundIcon />,
+          to: linkOptions({
+            to: '/@{$acct}',
+            params: { acct: me.username },
+          }),
+        },
+      ],
+    },
+    {
+      type: 'group',
+      id: 'session-actions',
+      items: [
+        null,
+        { type: 'item', id: 'logout', label: t('logout'), icon: <LogOutIcon />, onClick: logoutWithConfirm },
+      ],
+    },
+  ];
 
   return (
     <SidebarMenu>
@@ -21,16 +64,18 @@ export const AppSidebarFooter = () => {
         </MkPostFormDialog>
       </SidebarMenuItem>
       <SidebarMenuItem>
-        <SidebarMenuButton size="lg">
-          <MkAvatar user={me} />
-          <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="line-clamp-1 font-medium">
-              <MkUserName user={me} />
-            </span>
-            <span className="truncate text-xs text-muted-foreground">@{me.username}</span>
-          </div>
-          <ChevronsUpDownIcon className="ml-auto" />
-        </SidebarMenuButton>
+        <MenuOrDrawer menu={menu}>
+          <SidebarMenuButton size="lg">
+            <MkAvatar user={me} />
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="line-clamp-1 font-medium">
+                <MkUserName user={me} />
+              </span>
+              <span className="truncate text-xs text-muted-foreground">@{me.username}</span>
+            </div>
+            <ChevronsUpDownIcon className="ml-auto" />
+          </SidebarMenuButton>
+        </MenuOrDrawer>
       </SidebarMenuItem>
     </SidebarMenu>
   );
