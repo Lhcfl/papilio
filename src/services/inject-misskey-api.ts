@@ -1,4 +1,4 @@
-import { getCurrentUserIDBName, getCurrentUserSiteIDB } from '@/plugins/idb';
+import { getCurrentUserIDBName } from '@/plugins/idb';
 import type { Endpoints, SwitchCaseResponseType } from '@/types/sharkey-api';
 import { Stream, api } from 'misskey-js';
 

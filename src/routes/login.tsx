@@ -11,7 +11,6 @@ import { LoginLayout } from '@/layouts/login-layout';
 import {
   getAccountList,
   injectCurrentSiteOrNull,
-  injectMisskeyApi,
   injectUserToken,
   saveToAccountList,
   storeUserSite,
