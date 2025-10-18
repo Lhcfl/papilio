@@ -80,6 +80,10 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
         </div>
       )}
       <MkNoteTranslation note={note} />
+      {images.length > 0 && <MkNoteImages images={images} className="mt-2" />}
+      {otherFiles.map((f) => (
+        <MkNoteFile className="mt-1" key={f.id} file={f} />
+      ))}
       {urls.length > 0 && !disableLinkPreview && (
         <div className="note-body-url-previews">
           {urls.map((u) => (
@@ -87,10 +91,6 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
           ))}
         </div>
       )}
-      {images.length > 0 && <MkNoteImages images={images} className="mt-2" />}
-      {otherFiles.map((f) => (
-        <MkNoteFile className="mt-1" key={f.id} file={f} />
-      ))}
     </div>
   );
 };
