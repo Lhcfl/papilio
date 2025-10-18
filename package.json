@@ -9,6 +9,7 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"format": "biome format --write",
+		"reuse": "pipx run reuse lint",
 		"preview": "vite preview"
 	},
 	"dependencies": {
