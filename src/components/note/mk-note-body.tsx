@@ -40,8 +40,8 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
     x.type === 'url' ? x.props.url : x.type === 'link' ? x.props.url : undefined,
   );
 
-  const images = note.files?.filter((f) => f.type.startsWith('image/')) ?? [];
-  const otherFiles = note.files?.filter((f) => !f.type.startsWith('image/')) ?? [];
+  const images = note.files?.filter((f) => f.type.startsWith('image/') || f.type.startsWith('video/')) ?? [];
+  const otherFiles = note.files?.filter((f) => !(f.type.startsWith('image/') || f.type.startsWith('video/'))) ?? [];
   const onContentClick = disableRouteOnClick
     ? undefined
     : onlyWhenNonInteractableContentClicked(() => navigate({ to: '/notes/$id', params: { id: note.id } }));

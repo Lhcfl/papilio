@@ -3,6 +3,7 @@ import type { DriveFile } from 'misskey-js/entities.js';
 import { useState, type HTMLProps } from 'react';
 import { MkImage } from '@/components/mk-image';
 import { ImagesLightbox } from '@/components/images-lightbox';
+import { MkVideo } from '../mk-video';
 
 export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivElement>) => {
   const { images, className: classNameProp, ...rest } = props;
@@ -32,17 +33,25 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
   return (
     <>
       <div className={className} data-images-count={count} {...rest}>
-        {images.map((image, index) => (
-          <MkImage
-            key={image.id}
-            image={image}
-            className={clsx('cursor-zoom-in', { 'row-span-2': count === 3 && index === 0 })}
-            onClick={() => {
-              setOpen(true);
-              setCurrentIndex(index);
-            }}
-          />
-        ))}
+        {images.map((image, index) =>
+          image.type.startsWith('video/') ? (
+            <MkVideo
+              key={image.id}
+              video={image}
+              className={clsx('cursor-zoom-in', { 'row-span-2': count === 3 && index === 0 })}
+            />
+          ) : (
+            <MkImage
+              key={image.id}
+              image={image}
+              className={clsx('cursor-zoom-in', { 'row-span-2': count === 3 && index === 0 })}
+              onClick={() => {
+                setOpen(true);
+                setCurrentIndex(index);
+              }}
+            />
+          ),
+        )}
       </div>
       <ImagesLightbox
         images={images}
