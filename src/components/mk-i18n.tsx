@@ -103,7 +103,7 @@ export const MkI18n = (props: {
   const parsed = useMemo(() => parseTemplate(template), [template]);
 
   return (
-    <div className="mk-i18n" data-i18n-key={props.i18nKey}>
+    <span className="mk-i18n" data-i18n-key={props.i18nKey}>
       {parsed.map((token) => {
         if (token.type === 'string') {
           return <Fragment key={token.key}>{token.value}</Fragment>;
@@ -116,6 +116,6 @@ export const MkI18n = (props: {
           }
         }
       })}
-    </div>
+    </span>
   );
 };
