@@ -21,11 +21,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as TagTagRouteImport } from './routes/tag/$tag'
 import { Route as NotesIdRouteImport } from './routes/notes/$id'
-import { Route as MyNotificationsRouteImport } from './routes/my/notifications'
 import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
 import { Route as MyClipsRouteImport } from './routes/my/clips'
 import { Route as ClipsIdRouteImport } from './routes/clips/$id'
+import { Route as MyNotificationsRouteRouteImport } from './routes/my/notifications/route'
 import { Route as MyFollowRequestsRouteRouteImport } from './routes/my/follow-requests/route'
+import { Route as MyNotificationsIndexRouteImport } from './routes/my/notifications/index'
+import { Route as MyNotificationsPmRouteImport } from './routes/my/notifications/pm'
+import { Route as MyNotificationsMentionsRouteImport } from './routes/my/notifications/mentions'
 import { Route as MyFollowRequestsSentRouteImport } from './routes/my/follow-requests/sent'
 import { Route as MyFollowRequestsReceivedRouteImport } from './routes/my/follow-requests/received'
 
@@ -89,11 +92,6 @@ const NotesIdRoute = NotesIdRouteImport.update({
   path: '/notes/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MyNotificationsRoute = MyNotificationsRouteImport.update({
-  id: '/my/notifications',
-  path: '/my/notifications',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MyFavoritesRoute = MyFavoritesRouteImport.update({
   id: '/my/favorites',
   path: '/my/favorites',
@@ -109,10 +107,30 @@ const ClipsIdRoute = ClipsIdRouteImport.update({
   path: '/clips/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MyNotificationsRouteRoute = MyNotificationsRouteRouteImport.update({
+  id: '/my/notifications',
+  path: '/my/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MyFollowRequestsRouteRoute = MyFollowRequestsRouteRouteImport.update({
   id: '/my/follow-requests',
   path: '/my/follow-requests',
   getParentRoute: () => rootRouteImport,
+} as any)
+const MyNotificationsIndexRoute = MyNotificationsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MyNotificationsRouteRoute,
+} as any)
+const MyNotificationsPmRoute = MyNotificationsPmRouteImport.update({
+  id: '/pm',
+  path: '/pm',
+  getParentRoute: () => MyNotificationsRouteRoute,
+} as any)
+const MyNotificationsMentionsRoute = MyNotificationsMentionsRouteImport.update({
+  id: '/mentions',
+  path: '/mentions',
+  getParentRoute: () => MyNotificationsRouteRoute,
 } as any)
 const MyFollowRequestsSentRoute = MyFollowRequestsSentRouteImport.update({
   id: '/sent',
@@ -137,15 +155,18 @@ export interface FileRoutesByFullPath {
   '/posting': typeof PostingRoute
   '/search': typeof SearchRoute
   '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
+  '/my/notifications': typeof MyNotificationsRouteRouteWithChildren
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
-  '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
   '/tag/$tag': typeof TagTagRoute
   '/settings': typeof SettingsIndexRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
+  '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
+  '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/my/notifications/': typeof MyNotificationsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -161,12 +182,14 @@ export interface FileRoutesByTo {
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
-  '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
   '/tag/$tag': typeof TagTagRoute
   '/settings': typeof SettingsIndexRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
+  '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
+  '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/my/notifications': typeof MyNotificationsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -180,15 +203,18 @@ export interface FileRoutesById {
   '/posting': typeof PostingRoute
   '/search': typeof SearchRoute
   '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
+  '/my/notifications': typeof MyNotificationsRouteRouteWithChildren
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
-  '/my/notifications': typeof MyNotificationsRoute
   '/notes/$id': typeof NotesIdRoute
   '/tag/$tag': typeof TagTagRoute
   '/settings/': typeof SettingsIndexRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
+  '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
+  '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/my/notifications/': typeof MyNotificationsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -203,15 +229,18 @@ export interface FileRouteTypes {
     | '/posting'
     | '/search'
     | '/my/follow-requests'
+    | '/my/notifications'
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
-    | '/my/notifications'
     | '/notes/$id'
     | '/tag/$tag'
     | '/settings'
     | '/my/follow-requests/received'
     | '/my/follow-requests/sent'
+    | '/my/notifications/mentions'
+    | '/my/notifications/pm'
+    | '/my/notifications/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -227,12 +256,14 @@ export interface FileRouteTypes {
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
-    | '/my/notifications'
     | '/notes/$id'
     | '/tag/$tag'
     | '/settings'
     | '/my/follow-requests/received'
     | '/my/follow-requests/sent'
+    | '/my/notifications/mentions'
+    | '/my/notifications/pm'
+    | '/my/notifications'
   id:
     | '__root__'
     | '/'
@@ -245,15 +276,18 @@ export interface FileRouteTypes {
     | '/posting'
     | '/search'
     | '/my/follow-requests'
+    | '/my/notifications'
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
-    | '/my/notifications'
     | '/notes/$id'
     | '/tag/$tag'
     | '/settings/'
     | '/my/follow-requests/received'
     | '/my/follow-requests/sent'
+    | '/my/notifications/mentions'
+    | '/my/notifications/pm'
+    | '/my/notifications/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -267,10 +301,10 @@ export interface RootRouteChildren {
   PostingRoute: typeof PostingRoute
   SearchRoute: typeof SearchRoute
   MyFollowRequestsRouteRoute: typeof MyFollowRequestsRouteRouteWithChildren
+  MyNotificationsRouteRoute: typeof MyNotificationsRouteRouteWithChildren
   ClipsIdRoute: typeof ClipsIdRoute
   MyClipsRoute: typeof MyClipsRoute
   MyFavoritesRoute: typeof MyFavoritesRoute
-  MyNotificationsRoute: typeof MyNotificationsRoute
   NotesIdRoute: typeof NotesIdRoute
   TagTagRoute: typeof TagTagRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
@@ -362,13 +396,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/my/notifications': {
-      id: '/my/notifications'
-      path: '/my/notifications'
-      fullPath: '/my/notifications'
-      preLoaderRoute: typeof MyNotificationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/my/favorites': {
       id: '/my/favorites'
       path: '/my/favorites'
@@ -390,12 +417,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClipsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/my/notifications': {
+      id: '/my/notifications'
+      path: '/my/notifications'
+      fullPath: '/my/notifications'
+      preLoaderRoute: typeof MyNotificationsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/my/follow-requests': {
       id: '/my/follow-requests'
       path: '/my/follow-requests'
       fullPath: '/my/follow-requests'
       preLoaderRoute: typeof MyFollowRequestsRouteRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/my/notifications/': {
+      id: '/my/notifications/'
+      path: '/'
+      fullPath: '/my/notifications/'
+      preLoaderRoute: typeof MyNotificationsIndexRouteImport
+      parentRoute: typeof MyNotificationsRouteRoute
+    }
+    '/my/notifications/pm': {
+      id: '/my/notifications/pm'
+      path: '/pm'
+      fullPath: '/my/notifications/pm'
+      preLoaderRoute: typeof MyNotificationsPmRouteImport
+      parentRoute: typeof MyNotificationsRouteRoute
+    }
+    '/my/notifications/mentions': {
+      id: '/my/notifications/mentions'
+      path: '/mentions'
+      fullPath: '/my/notifications/mentions'
+      preLoaderRoute: typeof MyNotificationsMentionsRouteImport
+      parentRoute: typeof MyNotificationsRouteRoute
     }
     '/my/follow-requests/sent': {
       id: '/my/follow-requests/sent'
@@ -429,6 +484,21 @@ const MyFollowRequestsRouteRouteWithChildren =
     MyFollowRequestsRouteRouteChildren,
   )
 
+interface MyNotificationsRouteRouteChildren {
+  MyNotificationsMentionsRoute: typeof MyNotificationsMentionsRoute
+  MyNotificationsPmRoute: typeof MyNotificationsPmRoute
+  MyNotificationsIndexRoute: typeof MyNotificationsIndexRoute
+}
+
+const MyNotificationsRouteRouteChildren: MyNotificationsRouteRouteChildren = {
+  MyNotificationsMentionsRoute: MyNotificationsMentionsRoute,
+  MyNotificationsPmRoute: MyNotificationsPmRoute,
+  MyNotificationsIndexRoute: MyNotificationsIndexRoute,
+}
+
+const MyNotificationsRouteRouteWithChildren =
+  MyNotificationsRouteRoute._addFileChildren(MyNotificationsRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MissingRoute: MissingRoute,
@@ -440,10 +510,10 @@ const rootRouteChildren: RootRouteChildren = {
   PostingRoute: PostingRoute,
   SearchRoute: SearchRoute,
   MyFollowRequestsRouteRoute: MyFollowRequestsRouteRouteWithChildren,
+  MyNotificationsRouteRoute: MyNotificationsRouteRouteWithChildren,
   ClipsIdRoute: ClipsIdRoute,
   MyClipsRoute: MyClipsRoute,
   MyFavoritesRoute: MyFavoritesRoute,
-  MyNotificationsRoute: MyNotificationsRoute,
   NotesIdRoute: NotesIdRoute,
   TagTagRoute: TagTagRoute,
   SettingsIndexRoute: SettingsIndexRoute,

@@ -15,6 +15,9 @@ import { Separator } from './ui/separator';
 import { Button } from './ui/button';
 import { useState, type ComponentProps } from 'react';
 import { cn } from '@/lib/utils';
+import { Switch } from './ui/switch';
+import { Label } from './ui/label';
+import { ScrollArea } from './ui/scroll-area';
 
 export type MenuItem = {
   type: 'item';
@@ -81,11 +84,13 @@ export const MenuOrDrawer = (props: { children: React.ReactNode; menu: Menu }) =
         <DrawerTrigger asChild>{props.children}</DrawerTrigger>
         <DrawerContent>
           <DrawerTitle className="sr-only">{findFirstLabel(props.menu)}</DrawerTitle>
-          <div className="flex flex-col p-2">
-            {GenerateDrawerMenu(props.menu, () => {
-              setOpen(false);
-            })}
-          </div>
+          <ScrollArea className="max-h-[75vh] flex flex-col">
+            <div className="flex flex-col p-2">
+              {GenerateDrawerMenu(props.menu, () => {
+                setOpen(false);
+              })}
+            </div>
+          </ScrollArea>
         </DrawerContent>
       </Drawer>
     );
@@ -212,7 +217,14 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
           </span>
         );
       case 'switch': {
-        return 'not impl';
+        return (
+          <div key={x.id} className="flex items-center gap-2">
+            <Switch name={x.id} checked={x.value} onCheckedChange={x.onChange} id={x.id} className="mr-2" />
+            <Label htmlFor={x.id} className="w-full py-2">
+              {x.label}
+            </Label>
+          </div>
+        );
       }
       case 'item': {
         if ('onClick' in x) {
