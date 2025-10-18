@@ -615,7 +615,7 @@ export const MkMfm = (in_props: MfmProps) => {
         case 'hashtag': {
           return (
             <bdi key={Math.random()}>
-              <MkHashTag name={token.props.hashtag} />
+              <MkHashTag name={token.props.hashtag} disableRoute={inlineMode} />
             </bdi>
           );
         }

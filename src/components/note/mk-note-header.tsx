@@ -22,14 +22,12 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
           <div className="user-name font-bold flex-grow-1 flex-shrink-1 w-0 line-clamp-1">
             <MkUserName user={note.user} />
           </div>
-          <Link
-            className="note-time flex items-center gap-2 flex-shrink-0 text-muted-foreground"
-            to="/notes/$id"
-            params={{ id: note.id }}
-          >
-            <MkTime time={note.createdAt} className="text-sm" />
+          <span className="note-time flex items-center gap-2 flex-shrink-0 text-muted-foreground">
+            <Link className="" to="/notes/$id" params={{ id: note.id }}>
+              <MkTime time={note.createdAt} className="text-sm" />
+            </Link>
             <MkVisibilityIcon iconProps={{ className: 'size-4' }} note={note} />
-          </Link>
+          </span>
         </div>
         <div className="flex justify-between gap-2">
           <div className="user-username text-sm text-gray-500 flex-shrink-0">@{acct.toString(note.user)}</div>

@@ -5,11 +5,17 @@ import type { HTMLAttributes } from 'react';
 export const MkHashTag = ({
   name,
   className,
+  disableRoute,
   ...props
 }: {
   name: string;
   className?: string;
+  disableRoute?: boolean;
 } & HTMLAttributes<HTMLAnchorElement>) => {
+  if (disableRoute) {
+    return <span className={cn('break-all break-words text-tertiary hover:underline', className)}>#{name}</span>;
+  }
+
   return (
     <Link
       to="/tag/$tag"
