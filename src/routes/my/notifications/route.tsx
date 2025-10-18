@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { AtSignIcon, BellIcon, MailIcon } from 'lucide-react';
-import { NotificationsHeaderRight } from '.';
 
 export const Route = createFileRoute('/my/notifications')({
   component: RouteComponent,
@@ -21,7 +20,6 @@ function RouteComponent() {
             icon: <BellIcon />,
             label: t('all'),
             value: '/my/notifications',
-            headerRight: <NotificationsHeaderRight />,
           },
           { icon: <AtSignIcon />, label: t('mentions'), value: '/my/notifications/mentions' },
           {

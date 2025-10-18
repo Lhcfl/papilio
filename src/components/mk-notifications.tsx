@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react/jsx-runtime';
 import { MkNotification } from './mk-notification';
 import { FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon } from 'lucide-react';
-import { useAtom, type PrimitiveAtom } from 'jotai';
 import { Button } from './ui/button';
 import { NOTIFICATION_TYPES, type NotificationIncludeableType } from '@/lib/notifications';
 import { misskeyApi } from '@/services/inject-misskey-api';
@@ -45,11 +44,14 @@ export const MkNotifications = (props: {
   );
 };
 
-export const MkNotificationsFilter = (props: { excludedAtom: PrimitiveAtom<NotificationIncludeableType[]> }) => {
+export const MkNotificationsFilter = (props: {
+  excluded: NotificationIncludeableType[];
+  setExcluded: React.Dispatch<React.SetStateAction<NotificationIncludeableType[]>>;
+}) => {
   const { t } = useTranslation();
-  const [excludes, setExcluded] = useAtom(props.excludedAtom);
-  const hasExcludedAll = excludes.length === NOTIFICATION_TYPES.length;
-  const hasIncludedAll = excludes.length === 0;
+  const { excluded, setExcluded } = props;
+  const hasExcludedAll = excluded.length === NOTIFICATION_TYPES.length;
+  const hasIncludedAll = excluded.length === 0;
 
   const menu: Menu = [
     {
@@ -72,7 +74,7 @@ export const MkNotificationsFilter = (props: { excludedAtom: PrimitiveAtom<Notif
             type: 'switch',
             id: type,
             label: t(`_notification._types.${type}`),
-            value: !excludes.includes(type),
+            value: !excluded.includes(type),
             onChange: (checked) => {
               setExcluded((old) => {
                 const set = new Set<NotificationIncludeableType>(old);
@@ -122,11 +124,11 @@ export const MkNotificationsFilter = (props: { excludedAtom: PrimitiveAtom<Notif
   return (
     <MenuOrDrawer menu={menu}>
       {hasIncludedAll ? (
-        <Button variant="ghost">
+        <Button variant="ghost" size="icon-sm">
           <FilterIcon />
         </Button>
       ) : (
-        <Button variant="ghost" className="bg-tertiary/10">
+        <Button variant="ghost" size="icon-sm" className="bg-tertiary/10">
           <FilterXIcon className="text-tertiary" />
         </Button>
       )}

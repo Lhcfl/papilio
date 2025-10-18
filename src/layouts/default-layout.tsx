@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTitle } from 'react-use';
 import { AppSidebar } from '@/components/app-sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -13,6 +13,8 @@ import { RightbarOrPopupProvider } from '@/providers/rightbar-or-popup';
 import { cn } from '@/lib/utils';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import type { Tab } from '@/types/page-header';
+import { createPortal } from 'react-dom';
+
 interface SidebarLayoutProps<Ts extends Tab[]> {
   isRouteTab?: boolean;
   title?: string;
@@ -31,6 +33,19 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
       <Toaster />
     </WithLoginLoader>
   );
+}
+
+const HEADER_RIGHT_PORTAL_ID = 'sdbr__h-r-portal';
+
+export function HeaderRightPortal(props: { children: React.ReactNode }) {
+  const [container, setContainer] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    // We have to set container in useEffect, because the element may not be present.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setContainer(document.getElementById(HEADER_RIGHT_PORTAL_ID));
+  }, []);
+  if (!container) return null;
+  else return createPortal(props.children, container);
 }
 
 function SidebarLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
@@ -96,6 +111,7 @@ function SidebarLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
                 }
                 headerRight={
                   <>
+                    <div id={HEADER_RIGHT_PORTAL_ID} />
                     {actualCurrentTab?.headerRight}
                     {props.headerRight}
                   </>
@@ -149,9 +165,9 @@ function LayoutMiddle(props: {
     <ScrollArea className="h-screen">
       <header className="h-13 flex gap-1 items-center p-2 sticky top-0 bg-background border-b z-30">
         <SidebarTrigger className="size-8" />
-        <div>{headerLeft}</div>
+        <div className="flex items-center gap-1">{headerLeft}</div>
         <div className="flex-grow-1 w-0 text-center">{headerCenter}</div>
-        <div>{headerRight}</div>
+        <div className="flex items-center">{headerRight}</div>
       </header>
       <div className="p-2">{children}</div>
     </ScrollArea>

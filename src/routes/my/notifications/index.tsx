@@ -1,17 +1,21 @@
 import { MkNotifications, MkNotificationsFilter } from '@/components/mk-notifications';
 import { createFileRoute } from '@tanstack/react-router';
-import { useAtomValue } from 'jotai';
-import { excludeTypes } from './-atom';
+import { HeaderRightPortal } from '@/layouts/default-layout';
+import type { NotificationIncludeableType } from '@/lib/notifications';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/my/notifications/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const excludes = useAtomValue(excludeTypes);
-  return <MkNotifications excludeTypes={excludes} />;
-}
-
-export function NotificationsHeaderRight() {
-  return <MkNotificationsFilter excludedAtom={excludeTypes} />;
+  const [excluded, setExcluded] = useState<NotificationIncludeableType[]>([]);
+  return (
+    <>
+      <HeaderRightPortal>
+        <MkNotificationsFilter excluded={excluded} setExcluded={setExcluded} />
+      </HeaderRightPortal>
+      <MkNotifications excludeTypes={excluded} />;
+    </>
+  );
 }
