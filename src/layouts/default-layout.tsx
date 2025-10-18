@@ -49,19 +49,23 @@ export function DefaultLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
 
 function SidebarLayout<Ts extends Tab[]>(props: DefaultLayoutProps<Ts>) {
   const siteName = useSiteMeta((s) => s.name);
+
   const {
     tabs,
     onTabChange,
     headerRightWhenTab,
     title = siteName ?? 'papilio',
-    pageTitle = title,
+    pageTitle = `${title} · ${siteName}`,
     children,
     ...rest
   } = props;
+
   useTitle(pageTitle);
   useNoteUpdateListener();
   useMainChannelListener();
+
   const [currentTab, setTab] = useState(tabs?.[0].value);
+
   const handleTabChange = (value: string) => {
     setTab(value);
     if (onTabChange) {
