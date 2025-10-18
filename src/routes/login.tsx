@@ -46,11 +46,12 @@ function RouteComponent() {
         }
       }
     } else {
-      try {
-        // This is not a react hook, just a function call to check if the user is already logged in.
-        void injectMisskeyApi();
+      const list = getAccountList();
+      if (list.length > 1) {
+        void navigate({ to: '/account-switch' });
+        return;
+      } else {
         void navigate({ to: '/' });
-      } catch {
         return;
       }
     }

@@ -1,3 +1,4 @@
+import { getCurrentUserIDBName, getCurrentUserSiteIDB } from '@/plugins/idb';
 import type { Endpoints, SwitchCaseResponseType } from '@/types/sharkey-api';
 import { Stream, api } from 'misskey-js';
 
@@ -88,9 +89,15 @@ export const storeUserToken = (token: string) => {
 export const getRelativeUrl = (href: string) => new URL(href, injectCurrentSite()).toString();
 
 export const logout = () => {
+  indexedDB.deleteDatabase(getCurrentUserIDBName());
   localStorage.removeItem('token');
   localStorage.removeItem('site');
-  window.location.reload();
+  return new Promise<void>((resolve) =>
+    setTimeout(() => {
+      window.location.reload();
+      resolve();
+    }, 1000),
+  );
 };
 
 export const saveToAccountList = ({ token, site }: { token: string; site: string }) => {

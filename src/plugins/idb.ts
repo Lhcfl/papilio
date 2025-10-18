@@ -3,8 +3,7 @@ import { createStore, type UseStore } from 'idb-keyval';
 
 let store = null as UseStore | null;
 
-export const getCurrentUserSiteIDB = () => {
-  if (store) return store;
+export const getCurrentUserIDBName = () => {
   const site = injectCurrentSiteOrNull();
   const token = getUserTokenOrNull();
   let storeName = 'default';
@@ -12,6 +11,10 @@ export const getCurrentUserSiteIDB = () => {
     storeName = `site:${site}`;
   }
   storeName = `tok:${token.slice(0, 20)}`;
+  return storeName;
+};
 
-  return (store = createStore(storeName, 'keyval'));
+export const getCurrentUserSiteIDB = () => {
+  if (store) return store;
+  return (store = createStore(getCurrentUserIDBName(), 'keyval'));
 };
