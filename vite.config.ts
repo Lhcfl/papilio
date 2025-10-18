@@ -3,6 +3,7 @@ import TailWindCSS from '@tailwindcss/vite';
 import TanStackRouter from '@tanstack/router-plugin/vite';
 import React from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { visualizer as Visualizer } from 'rollup-plugin-visualizer';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -16,6 +17,7 @@ export default defineConfig({
         plugins: ['babel-plugin-react-compiler'],
       },
     }),
+    Visualizer({ filename: 'dist/visual.html' }),
   ],
   resolve: {
     alias: {
