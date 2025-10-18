@@ -15,6 +15,7 @@ import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as AnnouncementsRouteImport } from './routes/announcements'
+import { Route as AccountSwitchRouteImport } from './routes/account-switch'
 import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as MissingRouteImport } from './routes/$missing'
 import { Route as IndexRouteImport } from './routes/index'
@@ -60,6 +61,11 @@ const ChatRoute = ChatRouteImport.update({
 const AnnouncementsRoute = AnnouncementsRouteImport.update({
   id: '/announcements',
   path: '/announcements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountSwitchRoute = AccountSwitchRouteImport.update({
+  id: '/account-switch',
+  path: '/account-switch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AtChar123acctChar125Route = AtChar123acctChar125RouteImport.update({
@@ -148,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
+  '/account-switch': typeof AccountSwitchRoute
   '/announcements': typeof AnnouncementsRoute
   '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
+  '/account-switch': typeof AccountSwitchRoute
   '/announcements': typeof AnnouncementsRoute
   '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
+  '/account-switch': typeof AccountSwitchRoute
   '/announcements': typeof AnnouncementsRoute
   '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
@@ -222,6 +231,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$missing'
     | '/@{$acct}'
+    | '/account-switch'
     | '/announcements'
     | '/chat'
     | '/login'
@@ -246,6 +256,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$missing'
     | '/@{$acct}'
+    | '/account-switch'
     | '/announcements'
     | '/chat'
     | '/login'
@@ -269,6 +280,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$missing'
     | '/@{$acct}'
+    | '/account-switch'
     | '/announcements'
     | '/chat'
     | '/login'
@@ -294,6 +306,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MissingRoute: typeof MissingRoute
   AtChar123acctChar125Route: typeof AtChar123acctChar125Route
+  AccountSwitchRoute: typeof AccountSwitchRoute
   AnnouncementsRoute: typeof AnnouncementsRoute
   ChatRoute: typeof ChatRoute
   LoginRoute: typeof LoginRoute
@@ -352,6 +365,13 @@ declare module '@tanstack/react-router' {
       path: '/announcements'
       fullPath: '/announcements'
       preLoaderRoute: typeof AnnouncementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account-switch': {
+      id: '/account-switch'
+      path: '/account-switch'
+      fullPath: '/account-switch'
+      preLoaderRoute: typeof AccountSwitchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/@{$acct}': {
@@ -503,6 +523,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MissingRoute: MissingRoute,
   AtChar123acctChar125Route: AtChar123acctChar125Route,
+  AccountSwitchRoute: AccountSwitchRoute,
   AnnouncementsRoute: AnnouncementsRoute,
   ChatRoute: ChatRoute,
   LoginRoute: LoginRoute,

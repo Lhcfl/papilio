@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-
 import { createFileRoute } from '@tanstack/react-router';
 import { permissions } from 'misskey-js';
 import { useTranslation } from 'react-i18next';
@@ -9,10 +8,20 @@ import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Spinner } from '@/components/ui/spinner';
 import { LoginLayout } from '@/layouts/login-layout';
-import { injectMisskeyApi, storeUserSite } from '@/services/inject-misskey-api';
+import {
+  getAccountList,
+  injectCurrentSiteOrNull,
+  injectMisskeyApi,
+  injectUserToken,
+  saveToAccountList,
+  storeUserSite,
+} from '@/services/inject-misskey-api';
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
+  staticData: {
+    noAuth: true,
+  },
 });
 
 function RouteComponent() {
@@ -25,14 +34,27 @@ function RouteComponent() {
   const navigate = useNavigate({ from: '/login' });
 
   useEffect(() => {
-    try {
-      // This is not a react hook, just a function call to check if the user is already logged in.
-      void injectMisskeyApi();
-      void navigate({ to: '/' });
-    } catch {
-      return;
+    const search = new URLSearchParams(window.location.search);
+    if (search.has('noredirect')) {
+      const site = injectCurrentSiteOrNull();
+      const token = injectUserToken();
+      if (token != null) {
+        saveToAccountList({ site, token });
+        if (import.meta.env.DEV) {
+          console.log('saved account from login with noredirect:', { site, token });
+          console.log(getAccountList());
+        }
+      }
+    } else {
+      try {
+        // This is not a react hook, just a function call to check if the user is already logged in.
+        void injectMisskeyApi();
+        void navigate({ to: '/' });
+      } catch {
+        return;
+      }
     }
-  });
+  }, [navigate]);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,7 +80,7 @@ function RouteComponent() {
 
   return (
     <LoginLayout>
-      <form className="flex flex-col gap-6" onSubmit={onSubmit}>
+      <form className="flex flex-col gap-6 max-w-xs w-full" onSubmit={onSubmit}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-1 text-center">
             <h1 className="text-2xl font-bold">{t('login')}</h1>

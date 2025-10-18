@@ -1,4 +1,4 @@
-import { ChevronsUpDownIcon, LogOutIcon, PencilIcon, UserRoundIcon } from 'lucide-react';
+import { ChevronsUpDownIcon, LogOutIcon, PencilIcon, UserRoundIcon, Users2Icon } from 'lucide-react';
 import { MkAvatar } from '@/components/mk-avatar';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { MkUserName } from '../mk-user-name';
@@ -48,6 +48,13 @@ export const AppSidebarFooter = () => {
       id: 'session-actions',
       items: [
         null,
+        {
+          type: 'item',
+          id: 'switch-account',
+          label: t('switchAccount'),
+          icon: <Users2Icon />,
+          to: linkOptions({ to: '/account-switch' }),
+        },
         { type: 'item', id: 'logout', label: t('logout'), icon: <LogOutIcon />, onClick: logoutWithConfirm },
       ],
     },

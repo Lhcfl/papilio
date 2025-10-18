@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { Spinner } from '@/components/ui/spinner';
 import { LoginLayout } from '@/layouts/login-layout';
-import { injectCurrentSite, storeUserToken } from '@/services/inject-misskey-api';
+import { injectCurrentSite, saveToAccountList, storeUserToken } from '@/services/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/login-redirect')({
@@ -22,6 +22,9 @@ export const Route = createFileRoute('/login-redirect')({
     return {
       session: (search.session as string) || undefined,
     };
+  },
+  staticData: {
+    noAuth: true,
   },
 });
 
@@ -40,6 +43,7 @@ function RouteComponent() {
         .then((res) => {
           if (res.ok) {
             storeUserToken(res.token);
+            saveToAccountList({ site: injectCurrentSite(), token: res.token });
             window.location.href = new URL('/', window.location.origin).toString();
           } else {
             setError(true);
@@ -66,9 +70,7 @@ function RouteComponent() {
 
   return (
     <LoginLayout>
-      <div className="flex items-center justify-center">
-        <Spinner />
-      </div>
+      <Spinner />
       <Dialog open={error} onOpenChange={onOpenChange}>
         <DialogContent>
           <DialogHeader>

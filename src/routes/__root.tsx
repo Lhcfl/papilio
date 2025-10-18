@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 export const Route = createRootRoute({
   beforeLoad: (ctx) => {
-    if (!ctx.location.href.startsWith('/login')) {
+    if (!ctx.matches.at(-1)?.staticData.noAuth) {
       if (!injectUserToken()) {
         return redirect({ to: '/login' });
       }

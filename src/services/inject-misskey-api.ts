@@ -92,3 +92,27 @@ export const logout = () => {
   localStorage.removeItem('site');
   window.location.reload();
 };
+
+export const saveToAccountList = ({ token, site }: { token: string; site: string }) => {
+  const saved_accounts = JSON.parse(localStorage.getItem('saved_accounts') ?? '[]') as {
+    token: string;
+    site: string;
+  }[];
+  const new_saved_accounts = [{ token, site }, ...saved_accounts.filter((x) => x.token != token)];
+  localStorage.setItem('saved_accounts', JSON.stringify(new_saved_accounts));
+  localStorage.setItem('token', token);
+  localStorage.setItem('site', site);
+};
+
+export const getAccountList = (): { token: string; site: string }[] => {
+  const ret = JSON.parse(localStorage.getItem('saved_accounts') ?? '[]') as {
+    token: string;
+    site: string;
+  }[];
+
+  const token = injectUserToken();
+  if (token != null) {
+    return [{ token, site: injectCurrentSiteOrNull() }, ...ret.filter((x) => x.token != token)];
+  }
+  return ret;
+};
