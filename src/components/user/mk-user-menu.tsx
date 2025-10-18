@@ -209,8 +209,9 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
               id: 'mute-user',
               icon: <EyeOffIcon />,
               label: t('mute'),
+              // TODO: support mute duration selection
               onClick: () => {
-                toast.error('not impl');
+                mute(null);
               },
             },
         user.isBlocked
