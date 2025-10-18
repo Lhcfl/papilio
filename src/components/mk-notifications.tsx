@@ -1,17 +1,14 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react/jsx-runtime';
-import { LoadingTrigger } from './loading-trigger';
 import { MkNotification } from './mk-notification';
-import { Spinner } from './ui/spinner';
 import { FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon } from 'lucide-react';
 import { useAtom, type PrimitiveAtom } from 'jotai';
 import { Button } from './ui/button';
 import { NOTIFICATION_TYPES, type NotificationIncludeableType } from '@/lib/notifications';
-import { MkError } from './mk-error';
-import { injectMisskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/services/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
 import { MenuOrDrawer, type Menu, type MenuSwitch } from './menu-or-drawer';
+import { MkInfiniteScroll } from './mk-infinite-scroll';
 
 export const MkNotifications = (props: {
   excludeTypes?: NotificationIncludeableType[];
@@ -19,46 +16,32 @@ export const MkNotifications = (props: {
 }) => {
   const { excludeTypes, includeTypes } = props;
 
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isPending, error, refetch } = useInfiniteQuery({
-    queryKey: ['notifications', excludeTypes, includeTypes],
-    queryFn: ({ pageParam: untilId }) =>
-      injectMisskeyApi()
-        .request('i/notifications-grouped', {
+  return (
+    <MkInfiniteScroll
+      queryKey={['notifications', excludeTypes, includeTypes]}
+      queryFn={({ pageParam: untilId }) =>
+        misskeyApi('i/notifications-grouped', {
           untilId,
           limit: 30,
           excludeTypes,
           includeTypes,
-        })
-        .then((ns) =>
+        }).then((ns) =>
           ns.map((n) => {
             if ('note' in n) {
               registerNote([n.note]);
             }
             return n;
           }),
-        ),
-    initialPageParam: 'zzzzzzzzzzzzzzzzzz',
-    getNextPageParam: (lastPage) => lastPage.at(-1)?.id,
-  });
-
-  const notifications = data?.pages.flat();
-
-  return (
-    <div className="mk-notifications">
-      {notifications?.map((n) => (
+        )
+      }
+    >
+      {(n) => (
         <Fragment key={n.id}>
           <MkNotification notification={n} />
           <hr className="w-[80%] m-auto" />
         </Fragment>
-      ))}
-      {error && <MkError error={error} retry={refetch} />}
-      {(isPending || isFetchingNextPage) && (
-        <div className="w-full flex justify-center p-6">
-          <Spinner />
-        </div>
       )}
-      <LoadingTrigger className="w-full h-1" onShow={() => (hasNextPage ? fetchNextPage() : undefined)} />
-    </div>
+    </MkInfiniteScroll>
   );
 };
 

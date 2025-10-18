@@ -33,7 +33,7 @@ export function MkInfiniteScroll<P>(props: {
     children,
   } = props;
 
-  const { data, isFetchingNextPage, isPending, fetchNextPage, hasNextPage, error, refetch } = useInfiniteQuery({
+  const { data, isPending, fetchNextPage, hasNextPage, error, refetch } = useInfiniteQuery({
     queryKey,
     queryFn,
     initialPageParam,
@@ -52,7 +52,7 @@ export function MkInfiniteScroll<P>(props: {
         ))}
       </div>
       <LoadingTrigger onShow={() => hasNextPage && fetchNextPage()} />
-      {(isPending || (isFetchingNextPage && hasNextPage)) && (
+      {(isPending || hasNextPage) && (
         <div className="w-full p-3 flex justify-center">
           <Spinner />
         </div>
