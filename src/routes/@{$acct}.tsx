@@ -5,6 +5,7 @@
 
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkError } from '@/components/mk-error';
+import { MkUrl } from '@/components/mk-url';
 import { MkUserCard } from '@/components/mk-user-card';
 import { MkUserCardSkeleton } from '@/components/mk-user-card-skeleton';
 import { MkUserName } from '@/components/mk-user-name';
@@ -14,6 +15,7 @@ import { DefaultLayout } from '@/layouts/default-layout';
 import { injectMisskeyApi } from '@/services/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
+import { BanIcon, ExternalLinkIcon, VolumeOffIcon } from 'lucide-react';
 import { acct } from 'misskey-js';
 import type { UserDetailed } from 'misskey-js/entities.js';
 import { useTranslation } from 'react-i18next';
@@ -65,12 +67,35 @@ function RouteComponent() {
 
 const UserMain = (props: { user: UserDetailed | undefined; error: Error | null; isPending: boolean }) => {
   const { user, error, isPending } = props;
+  const { t } = useTranslation();
 
   return (
     <div>
       {user && (
-        <div>
-          <MkUserCard user={user} className="-mt-2 -mx-2" />
+        <div className="-mt-2">
+          <div className="-mx-2">
+            {user.isSuspended && (
+              <div className="p-4 bg-red-500 text-white flex items-center gap-2 text-sm">
+                <BanIcon className="size-4 flex-shrink-0" />
+                {t('userSuspended')}
+              </div>
+            )}
+            {user.isSilenced && (
+              <div className="p-4 bg-muted flex items-center gap-2 text-sm">
+                <VolumeOffIcon className="size-4 flex-shrink-0" />
+                {t('userSilenced')}
+              </div>
+            )}
+            {user.host != null && (
+              <div className="p-4 flex items-center gap-2 text-sm">
+                <ExternalLinkIcon className="size-4 flex-shrink-0" />
+                <span>
+                  {t('remoteUserCaution')} <MkUrl url={user.url!}>{t('openRemoteProfile')}</MkUrl>
+                </span>
+              </div>
+            )}
+          </div>
+          <MkUserCard user={user} className="-mx-2" />
           <MkUserNotes userId={user.id} pinnedNotes={user.pinnedNoteIds} />
         </div>
       )}
