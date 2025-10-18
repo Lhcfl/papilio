@@ -10,6 +10,7 @@
 		"lint:fix": "eslint . --fix",
 		"format": "biome format --write",
 		"reuse": "pipx run reuse lint",
+		"licence:annotate": "bun dev-scripts/add-licence-header.ts", 
 		"preview": "vite preview"
 	},
 	"dependencies": {

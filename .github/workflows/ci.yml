@@ -56,3 +56,18 @@ jobs:
       
       - name: Run build
         run: pnpm build
+  
+  reuse:
+    name: REUSE Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run REUSE lint
+        run: pipx run reuse lint

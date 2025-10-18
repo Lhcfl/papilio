@@ -26,6 +26,9 @@ const licence_header = `
  */
 `.trim();
 
+const skipped: string[] = [];
+const added: string[] = [];
+
 for (const dir of include_dir) {
   for await (const item of glob(dir)) {
     if (exclude_dir.some((x) => path.matchesGlob(item, x))) {
@@ -35,11 +38,18 @@ for (const dir of include_dir) {
     const matched = /SPDX-License-Identifier: (.*)/.exec(text);
     if (matched != null) {
       console.log(chalk.yellow(`skipped ${item}: has SPDX-License-Identifier = ${matched[1]}`));
+      skipped.push(item);
       continue;
     }
     const new_text = licence_header + '\n\n' + text;
     await writeFile(item, new_text, 'utf-8');
     console.log(chalk.green(`added licence header to ${item} - ${SPDX_LICENSE_IDENTIFIER}`));
+    added.push(item);
   }
 }
+
+console.log('\n\n======================');
+console.log(`Added ${SPDX_LICENSE_IDENTIFIER} to ${added.length} files.`);
+console.log(`Skipped ${skipped.length} files that already had a SPDX-License-Identifier.`);
+
 // REUSE-IgnoreEnd
