@@ -159,7 +159,7 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
     },
     {
       type: 'group',
-      id: 'common-actions',
+      id: 'user-actions',
       items: [
         null,
         {

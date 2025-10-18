@@ -26,14 +26,17 @@ import {
   UserRoundPlusIcon,
   UsersRoundIcon,
   VolumeOffIcon,
+  XIcon,
 } from 'lucide-react';
 import { ButtonGroup } from './ui/button-group';
 import { MkMfm } from './mk-mfm';
 import { useTranslation } from 'react-i18next';
 import { Badge } from './ui/badge';
 import {
+  useAcceptFollowRequestAction,
   useCancelFollowRequestAction,
   useFollowAction,
+  useRejectFollowRequestAction,
   useUnblockAction,
   useUnfollowAction,
 } from '@/hooks/user-action';
@@ -47,6 +50,7 @@ import { errorMessageSafe } from '@/lib/error';
 import { useMe } from '@/stores/me';
 import { Link } from '@tanstack/react-router';
 import { MkUserMenu } from './user/mk-user-menu';
+import { Card, CardAction, CardContent, CardTitle } from './ui/card';
 
 export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElement>) => {
   const { user, className: classNameProps, ...divProps } = props;
@@ -67,6 +71,9 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
     { condition: user.isMuted, label: t('mute'), icon: VolumeOffIcon },
   ];
 
+  const { mutate: accept, isPending: isAccepting } = useAcceptFollowRequestAction(user);
+  const { mutate: reject, isPending: isRejecting } = useRejectFollowRequestAction(user);
+
   return (
     <div className={cn('mk-user-card relative @container', classNameProps)} {...divProps}>
       <div className="flex gap-1 absolute top-2 left-2 z-10">
@@ -79,6 +86,38 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
             </Badge>
           ))}
       </div>
+      {user.hasPendingFollowRequestToYou && (
+        <Card className="flex -col absolute top-2 right-4 z-10 bg-background/50 backdrop-blur-2xl border-none py-2">
+          <CardContent className="px-2">
+            <CardTitle className="p-2 flex items-center gap-2 font-normal">
+              <UserRoundPlusIcon className="size-4" />
+              {t('receiveFollowRequest')}
+            </CardTitle>
+            <CardAction>
+              <Button
+                size="sm"
+                className="mr-2"
+                onClick={() => {
+                  accept(void null);
+                }}
+              >
+                {isAccepting ? <Spinner /> : <CheckIcon />}
+                {t('accept')}
+              </Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => {
+                  reject(void null);
+                }}
+              >
+                {isRejecting ? <Spinner /> : <XIcon />}
+                {t('reject')}
+              </Button>
+            </CardAction>
+          </CardContent>
+        </Card>
+      )}
       <MkUserCardBanner url={user.bannerUrl} blurhash={user.bannerBlurhash} className="h-48 @md:h-64" />
       <div className="mt-2 px-2 @md:px-4 @lg:px-6 flex justify-between relative">
         <MkAvatar
