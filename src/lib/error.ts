@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { isAPIError } from 'misskey-js/api.js';
+
 export const errorMessageSafe = (error: unknown): string => {
   if (error instanceof Error) {
     return error.message;
@@ -11,6 +13,9 @@ export const errorMessageSafe = (error: unknown): string => {
     return error;
   }
   if (typeof error === 'object' && error !== null && 'message' in error && typeof error.message === 'string') {
+    if (isAPIError(error)) {
+      return `${error.message} (${error.id})`;
+    }
     return error.message;
   }
   return String(error);

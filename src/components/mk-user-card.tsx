@@ -41,6 +41,8 @@ import { MkI18n } from './mk-i18n';
 import { Separator } from './ui/separator';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
+import { useErrorDialogs } from '@/stores/error-dialog';
+import { errorMessageSafe } from '@/lib/error';
 
 export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElement>) => {
   const { user, className: classNameProps, ...divProps } = props;
@@ -150,6 +152,8 @@ const MkUserFollowButton = (props: { user: UserDetailed }) => {
 
   const loading = Object.values(actions).some((action) => action.isPending);
 
+  const showErrorDialog = useErrorDialogs((s) => s.pushDialog);
+
   const getKind = () => {
     if (user.hasPendingFollowRequestFromYou) {
       return {
@@ -206,7 +210,15 @@ const MkUserFollowButton = (props: { user: UserDetailed }) => {
 
   function handleAction() {
     if (action == null) return;
-    actions[action].mutate(void null);
+    actions[action].mutate(void null, {
+      onError(error, variables, onMutateResult, context) {
+        console.error('Failed to perform user action:', error, variables, onMutateResult, context);
+        showErrorDialog({
+          title: t('error'),
+          description: errorMessageSafe(error),
+        });
+      },
+    });
   }
 
   const onClick = useAfterConfirm(

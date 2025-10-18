@@ -4,6 +4,7 @@
  */
 
 import { ConfirmDialogProvider } from '@/providers/confirm-dialog-provider';
+import { ErrorDialogProvider } from '@/providers/error-dialog-provider';
 import { injectUserToken } from '@/services/inject-misskey-api';
 import { usePerference } from '@/stores/perference';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -36,6 +37,7 @@ function RootRouteComponent() {
     <>
       <Outlet />
       <ConfirmDialogProvider />
+      <ErrorDialogProvider />
       <TanStackRouterDevtools position="bottom-right" />
       <ReactQueryDevtools />
     </>
