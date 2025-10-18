@@ -1,5 +1,5 @@
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Drawer, DrawerContent, DrawerTrigger } from './ui/drawer';
+import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from './ui/drawer';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -59,6 +59,18 @@ export interface MenuGroup {
 
 export type Menu = (MenuGroup | MenuItem | null | undefined | false | MenuLabel | MenuSwitch)[];
 
+function findFirstLabel(menu: Menu): React.ReactNode {
+  for (const item of menu) {
+    if (item && item.type === 'label') {
+      return item.label;
+    }
+    if (item && item.type === 'group') {
+      const label = findFirstLabel(item.items);
+      if (label) return label;
+    }
+  }
+}
+
 export const MenuOrDrawer = (props: { children: React.ReactNode; menu: Menu }) => {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
@@ -68,6 +80,7 @@ export const MenuOrDrawer = (props: { children: React.ReactNode; menu: Menu }) =
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>{props.children}</DrawerTrigger>
         <DrawerContent>
+          <DrawerTitle className="sr-only">{findFirstLabel(props.menu)}</DrawerTitle>
           <div className="flex flex-col p-2">
             {GenerateDrawerMenu(props.menu, () => {
               setOpen(false);
