@@ -24,4 +24,8 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    // We increase the chunk size warning limit because shiki can generate some large language defination chunks.
+    chunkSizeWarningLimit: 800,
+  },
 });
