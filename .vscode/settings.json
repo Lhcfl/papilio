@@ -1,0 +1,10 @@
+{
+	"i18n-ally.localesPaths": [
+		"public/locales"
+	],
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit",
+	},
+	"files.eol": "\n",
+	"i18n-ally.keystyle": "nested"
+}

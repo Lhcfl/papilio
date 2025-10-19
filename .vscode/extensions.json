@@ -1,0 +1,9 @@
+{
+  // 推荐的扩展
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "lokalise.i18n-ally",
+    "bradlc.vscode-tailwindcss",
+    "blazejkustra.react-compiler-marker",
+  ],
+}
