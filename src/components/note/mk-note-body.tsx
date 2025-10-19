@@ -38,7 +38,16 @@ interface NoteBodyCommonProps {
 }
 
 const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>) => {
-  const { note, showQuoteAsIcon, showReplyAsIcon, disableLinkPreview, textAst, disableRouteOnClick, ...rest } = props;
+  const {
+    note,
+    showQuoteAsIcon,
+    showReplyAsIcon,
+    disableLinkPreview,
+    textAst,
+    disableRouteOnClick,
+    className,
+    ...rest
+  } = props;
   const navigate = useNavigate();
 
   const urls = collectAst(textAst, (x) =>
@@ -52,7 +61,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
     : onlyWhenNonInteractableContentClicked(() => navigate({ to: '/notes/$id', params: { id: note.id } }));
 
   return (
-    <div className="note-body" {...rest}>
+    <div className={cn('mk-note-body overflow-hidden', className)} {...rest}>
       {note.text && (
         <div className="note-body-text" onClick={onContentClick}>
           {showReplyAsIcon && note.replyId && (

@@ -12,6 +12,7 @@ import { MkHashTag } from './mk-hashtag';
 import { MkMention } from './mk-mention';
 import { MkUrl } from './mk-url';
 import type { UserLite } from '@/types/user';
+import { MkCode } from './mk-code';
 
 function safeParseFloat(str: unknown): number | null {
   if (typeof str !== 'string' || str === '') return null;
@@ -626,9 +627,7 @@ export const MkMfm = (in_props: MfmProps) => {
           }
           return (
             <bdi key={Math.random()} className="block px-1 py-2">
-              <pre>
-                <code>{token.props.code}</code>
-              </pre>
+              <MkCode code={token.props.code} language={token.props.lang} />
             </bdi>
           );
         }

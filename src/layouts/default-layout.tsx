@@ -91,7 +91,7 @@ function SidebarLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="grid grid-cols-[1fr_auto]">
+      <SidebarInset className="grid grid-cols-[minmax(0,1fr)_auto]">
         <div className="main-container">
           {tabs ? (
             <Tabs onValueChange={handleTabChange} value={actualCurrentTab?.value}>
@@ -138,7 +138,9 @@ function SidebarLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
             </div>
           )}
         </div>
-        <RightbarOrPopupProvider />
+        <div className="right-container">
+          <RightbarOrPopupProvider />
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );
