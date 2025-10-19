@@ -12,7 +12,7 @@ export function MkCode({ code, language = 'plaintext' }: { code: string; languag
   return (
     <div className="relative border rounded-md bg-accent">
       <span className="lang-tag absolute right-0 top-0 p-2 text-muted-foreground font-mono">{language}</span>
-      <ScrollArea orientation="horizontal" className="flex md:p-4 overflow-x-auto">
+      <ScrollArea orientation="horizontal" className="flex p-2 md:p-4 overflow-x-auto">
         <div className="flex-[1_1_auto] w-0">
           <Suspense
             fallback={
