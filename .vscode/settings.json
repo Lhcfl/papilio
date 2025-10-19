@@ -1,3 +1,6 @@
+// Project recommended VSCode settings.
+// if you want to override these settings, you may use `EditorConfig.EditorConfig` extension.
+// or you can create an profile in your vscode.
 {
 	"i18n-ally.localesPaths": [
 		"public/locales"

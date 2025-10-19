@@ -25,18 +25,17 @@ export function MkInfiniteScroll<P>(props: {
   getNextPageParam?: (lastPage?: P) => string | undefined;
   children: (data: FlatArray<P[], 1>) => React.ReactNode;
 }) {
-  const {
-    queryKey,
-    queryFn,
-    initialPageParam = 'zzzzzzzzzzzzzzzzzz',
-    getNextPageParam = (lastPage) => {
+  const defaults = {
+    initialPageParam: 'zzzzzzzzzzzzzzzzzz',
+    getNextPageParam: (lastPage?: P) => {
       if (Array.isArray(lastPage)) {
-        return getId(lastPage.at(-1));
+        return getId(lastPage.at(-1), undefined);
       }
       return undefined;
     },
-    children,
-  } = props;
+  };
+
+  const { queryKey, queryFn, initialPageParam, getNextPageParam, children } = { ...defaults, ...props };
 
   const { data, isPending, fetchNextPage, hasNextPage, error, refetch } = useInfiniteQuery({
     queryKey,

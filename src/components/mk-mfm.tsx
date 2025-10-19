@@ -283,7 +283,7 @@ export const MkMfm = (in_props: MfmProps) => {
                           ? 'math'
                           : null;
               if (family) {
-                style ??= {};
+                style = style ?? {};
                 style.fontFamily = family;
               }
               break;

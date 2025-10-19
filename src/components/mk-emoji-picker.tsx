@@ -67,7 +67,7 @@ export const MkEmojiPicker = (
       // We want "" to be categorized as "Other"
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const category = emoji.category || OTHER_CATEGORY_I18N;
-      ret[category] ??= [];
+      ret[category] = ret[category] ?? [];
       ret[category].push(emoji);
     }
     return ret as EmojisByCategory;
@@ -85,7 +85,7 @@ export const MkEmojiPicker = (
       let current = ret;
       let currentEmojis: RecurisveEmojiCategories[string]['emojis'] = [];
       for (const p of categoryPath) {
-        current[p] ??= { emojis: [], subcategories: {} };
+        current[p] = current[p] ?? { emojis: [], subcategories: {} };
         currentEmojis = current[p].emojis;
         current = current[p].subcategories;
       }

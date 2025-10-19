@@ -58,17 +58,9 @@ function SidebarLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const {
-    isRouteTab,
-    tabs,
-    onTabChange,
-    title = siteName ?? 'papilio',
-    pageTitle = `${title} · ${siteName}`,
-    children,
-    ...rest
-  } = props;
+  const { isRouteTab, tabs, onTabChange, title = siteName ?? 'papilio', pageTitle, children, ...rest } = props;
 
-  useTitle(pageTitle);
+  useTitle(pageTitle ?? `${title} · ${siteName}`);
   useNoteUpdateListener();
   useMainChannelListener();
 
@@ -153,26 +145,22 @@ function LayoutMiddle(props: {
   headerLeft?: React.ReactNode;
   children: React.ReactNode;
 }) {
-  const {
-    title,
-    children,
-    headerCenter,
-    headerRight,
-    headerLeft = (
-      <span
-        className={cn('text-sm text-muted-foreground', {
-          'max-sm:hidden': !!headerCenter,
-        })}
-      >
-        {title}
-      </span>
-    ),
-  } = props;
+  const { title, children, headerCenter, headerRight, headerLeft } = props;
   return (
     <ScrollArea className="h-screen">
       <header className="h-13 flex gap-1 items-center p-2 sticky top-0 bg-background border-b z-30">
         <SidebarTrigger className="size-8" />
-        <div className="flex items-center gap-1">{headerLeft}</div>
+        <div className="flex items-center gap-1">
+          {headerLeft ?? (
+            <span
+              className={cn('text-sm text-muted-foreground', {
+                'max-sm:hidden': !!headerCenter,
+              })}
+            >
+              {title}
+            </span>
+          )}
+        </div>
         <div className="flex-grow-1 w-0 text-center">{headerCenter}</div>
         <div className="flex items-center">{headerRight}</div>
       </header>

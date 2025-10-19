@@ -23,15 +23,9 @@ export const MkVisibilityPicker = (
 ) => {
   const { t } = useTranslation();
 
-  const {
-    visibility,
-    setVisibility,
-    localOnly,
-    setLocalOnly,
-    disabled = props.visibilityRestrict?.length === 0,
-    visibilityRestrict,
-    ...btnProps
-  } = props;
+  const { visibility, setVisibility, localOnly, setLocalOnly, disabled, visibilityRestrict, ...btnProps } = props;
+
+  const forceDisabled = props.visibilityRestrict?.length === 0;
 
   const visibilities = {
     public: {
@@ -109,7 +103,7 @@ export const MkVisibilityPicker = (
 
   return (
     <MenuOrDrawer menu={menu}>
-      <Button variant="ghost" disabled={disabled} {...btnProps}>
+      <Button variant="ghost" disabled={forceDisabled || disabled} {...btnProps}>
         {visibilities[visibility].icon}
         {visibilities[visibility].label}
         {localOnly ? <WifiOffIcon className="text-destructive" /> : <WifiIcon />}
