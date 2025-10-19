@@ -24,7 +24,7 @@ export interface UnicodeEmojiDef {
 }
 
 // initial converted from https://github.com/muan/emojilib/commit/242fe68be86ed6536843b83f7e32f376468b38fb
-import _emojilist from './emojilist.json' with { type: 'json' };
+import _emojilist from '@/assets/emojilist.json' with { type: 'json' };
 
 export const emojilist: UnicodeEmojiDef[] = _emojilist.map((x) => ({
   name: x[1] as string,

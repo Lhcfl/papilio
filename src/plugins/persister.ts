@@ -8,7 +8,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import type { DehydrateOptions } from '@tanstack/react-query';
 import * as IDB from 'idb-keyval';
-import { getCurrentUserSiteIDB } from './idb';
+import { getCurrentUserSiteIDB } from '@/plugins/idb';
 
 const PersisterIDB = getCurrentUserSiteIDB();
 

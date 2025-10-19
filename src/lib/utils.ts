@@ -6,7 +6,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { toast } from 'sonner';
 import { twMerge } from 'tailwind-merge';
-import { errorMessageSafe } from './error';
+import { errorMessageSafe } from '@/lib/error';
 import i18n from '@/plugins/i18n';
 
 export function cn(...inputs: ClassValue[]) {

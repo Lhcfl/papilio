@@ -6,7 +6,7 @@
 import type { NoteWithExtension } from '@/types/note';
 import { acct } from 'misskey-js';
 import { parse } from 'mfm-js';
-import { collectAst } from './note';
+import { collectAst } from '@/lib/note';
 
 export function extractMention(note: NoteWithExtension | undefined, me: { username: string; host: string | null }) {
   if (!note) return '';

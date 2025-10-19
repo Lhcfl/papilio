@@ -10,9 +10,9 @@ import { createRouter, RouterProvider } from '@tanstack/react-router';
 import './plugins/i18n';
 
 import { StrictMode } from 'react';
-import { dehydrateOptions, localStoragePersister, queryClient } from './plugins/persister';
+import { dehydrateOptions, localStoragePersister, queryClient } from '@/plugins/persister';
 // Import the generated route tree
-import { routeTree } from './routeTree.gen';
+import { routeTree } from '@/routeTree.gen';
 
 // Create a new router instance
 const router = createRouter({ routeTree });

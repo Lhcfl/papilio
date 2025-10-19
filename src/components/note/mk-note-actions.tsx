@@ -22,7 +22,7 @@ import { useState, type ComponentProps } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { useNoteMenu } from './mk-note-menu';
+import { useNoteMenu } from '@/components/note/mk-note-menu';
 import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
 import type { NoteWithExtension } from '@/types/note';
 import {

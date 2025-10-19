@@ -8,7 +8,7 @@ import type { NoteWithExtension } from '@/types/note';
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkTime } from '@/components/mk-time';
 import { MkUserName } from '@/components/mk-user-name';
-import { MkVisibilityIcon } from './mk-visibility-icon';
+import { MkVisibilityIcon } from '@/components/note/mk-visibility-icon';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Link } from '@tanstack/react-router';
 import { useSiteMeta } from '@/stores/site';

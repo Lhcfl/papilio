@@ -9,7 +9,7 @@ import { MkAvatar } from '@/components/mk-avatar';
 import { MkTime } from '@/components/mk-time';
 import { MkUserName } from '@/components/mk-user-name';
 import { Button } from '@/components/ui/button';
-import { MkVisibilityIcon } from './mk-visibility-icon';
+import { MkVisibilityIcon } from '@/components/note/mk-visibility-icon';
 import type { NoteWithExtension } from '@/types/note';
 import { useMe } from '@/stores/me';
 import { useDeleteNoteAction } from '@/hooks/note-actions';

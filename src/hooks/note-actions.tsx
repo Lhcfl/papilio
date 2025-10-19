@@ -6,7 +6,7 @@
 import { misskeyApi, type EndpointParamType } from '@/services/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { patchNote } from './use-note';
+import { patchNote } from '@/hooks/use-note';
 
 export const useRenoteAction = (noteId: string) =>
   useMutation({
