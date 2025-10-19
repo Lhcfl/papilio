@@ -8,12 +8,11 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui
 import { Button } from '../ui/button';
 import { SunMoonIcon } from 'lucide-react';
 import { useSiteMeta } from '@/stores/site';
-import { injectCurrentSite } from '@/services/inject-misskey-api';
+import { site } from '@/services/inject-misskey-api';
 import { usePerference } from '@/stores/perference';
 export const AppSidebarHeader = () => {
   const metaName = useSiteMeta((m) => m.name);
-  const site = injectCurrentSite();
-  const domain = new URL(site).origin;
+  const domain = new URL(site!).origin;
   const setTheme = usePerference((p) => p.setTheme);
 
   return (

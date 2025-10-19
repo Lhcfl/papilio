@@ -31,7 +31,7 @@ import { MkEmojiPickerPopup } from './mk-emoji-picker-popup';
 import type { DriveFile, EmojiSimple, User } from 'misskey-js/entities.js';
 import { useEffect, useRef, useState, type HTMLProps } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { injectCurrentSite, misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi, site } from '@/services/inject-misskey-api';
 import { Spinner } from './ui/spinner';
 import type { NoteWithExtension } from '@/types/note';
 import { cond } from '@/lib/match';
@@ -126,8 +126,7 @@ const MkPostFormLoaded = (
     ...rest
   } = props;
 
-  const site = injectCurrentSite();
-  const siteDomain = new URL(site).hostname;
+  const siteDomain = new URL(site!).hostname;
   const { t } = useTranslation();
   const me = useMe();
   const textareaRef = useRef<HTMLTextAreaElement>(null);

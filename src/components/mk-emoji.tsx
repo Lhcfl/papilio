@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import Twemoji from 'twemoji';
-import { injectCurrentSite } from '@/services/inject-misskey-api';
+import { site } from '@/services/inject-misskey-api';
 import { useEmojis } from '@/stores/emojis';
 import { MenuOrDrawer, type Menu } from './menu-or-drawer';
 import { HeartMinusIcon, InfoIcon, SmilePlusIcon } from 'lucide-react';
@@ -33,7 +33,6 @@ export const MkCustomEmoji = (props: {
   );
   const { t } = useTranslation();
   const emojisMap = useEmojis((s) => s.emojisMap);
-  const site = injectCurrentSite();
   const [error, setError] = useState(false);
 
   const name = props.name.startsWith(':') ? props.name.slice(1, -1) : props.name;
@@ -43,10 +42,10 @@ export const MkCustomEmoji = (props: {
     props.url ??
     (isLocal
       ? emojisMap.get(normalizedName)?.url
-      : new URL(props.host ? `/emoji/${name}@${props.host}.webp` : `/emoji/${name}.webp`, site).toString());
+      : new URL(props.host ? `/emoji/${name}@${props.host}.webp` : `/emoji/${name}.webp`, site!).toString());
   const alt = `:${name}:`;
 
-  const emojiFallbackUrl = new URL('/static-assets/emoji-unknown.png', site).toString();
+  const emojiFallbackUrl = new URL('/static-assets/emoji-unknown.png', site!).toString();
 
   const { mutate: react } = useReactNoteAction(props.noteContext?.noteId ?? 'null');
 
@@ -131,7 +130,7 @@ export const MkEmoji = (props: {
   const { t } = useTranslation();
 
   const parsed = Twemoji.parse(props.emoji, {
-    base: injectCurrentSite(),
+    base: site!,
     ext: '.svg',
     folder: '/twemoji',
     className: cn('h-[1.25em] align-[-0.25em] transition-all inline', props.innerClassName),

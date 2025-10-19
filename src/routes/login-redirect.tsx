@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/dialog';
 import { Spinner } from '@/components/ui/spinner';
 import { LoginLayout } from '@/layouts/login-layout';
-import { injectCurrentSite, saveToAccountList, storeUserToken } from '@/services/inject-misskey-api';
+import { saveToAccountList, site, storeUserToken } from '@/services/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/login-redirect')({
@@ -41,14 +41,14 @@ function RouteComponent() {
   useQuery({
     queryKey: ['login-redirect', session],
     queryFn: () =>
-      fetch(new URL(`/api/miauth/${session}/check`, injectCurrentSite()), {
+      fetch(new URL(`/api/miauth/${session}/check`, site!), {
         method: 'POST',
       })
         .then((res) => res.json() as Promise<{ ok: boolean; token: string }>)
         .then((res) => {
           if (res.ok) {
             storeUserToken(res.token);
-            saveToAccountList({ site: injectCurrentSite(), token: res.token });
+            saveToAccountList({ site: site!, token: res.token });
             window.location.href = new URL('/', window.location.origin).toString();
           } else {
             setError(true);

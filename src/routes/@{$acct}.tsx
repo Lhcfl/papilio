@@ -27,7 +27,6 @@ export const Route = createFileRoute('/@{$acct}')({
 function RouteComponent() {
   const { username, host } = acct.parse(Route.useParams().acct);
   const { t } = useTranslation();
-  const api = injectMisskeyApi();
 
   const {
     data: user,
@@ -36,11 +35,13 @@ function RouteComponent() {
   } = useQuery({
     queryKey: ['user', username, host],
     queryFn: () =>
-      api.request('users/show', { username, host }).then((res) => {
-        registerNote(res.pinnedNotes);
-        res.pinnedNotes = [];
-        return res;
-      }),
+      injectMisskeyApi()
+        .request('users/show', { username, host })
+        .then((res) => {
+          registerNote(res.pinnedNotes);
+          res.pinnedNotes = [];
+          return res;
+        }),
     staleTime: 1000 * 60 * 15, // 15 minutes
   });
 

@@ -4,7 +4,7 @@
  */
 
 import { getCompressionConfig, mimeTypeToFileExtension } from '@/lib/upload';
-import { getRelativeUrl, injectUserToken } from '@/services/inject-misskey-api';
+import { getRelativeUrl, token } from '@/services/inject-misskey-api';
 import { useMe } from '@/stores/me';
 import { useSiteMeta } from '@/stores/site';
 import { useUploadProgress } from '@/stores/upload-progress';
@@ -78,7 +78,7 @@ export function useUploader() {
     const formData = new FormData();
 
     // SAFE: non-null assertion because upload is not possible without user token
-    formData.append('i', injectUserToken()!);
+    formData.append('i', token!);
     formData.append('force', 'true');
     formData.append('file', fileToUpload);
     formData.append('name', name);

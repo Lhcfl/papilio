@@ -13,13 +13,7 @@ import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Spinner } from '@/components/ui/spinner';
 import { LoginLayout } from '@/layouts/login-layout';
-import {
-  getAccountList,
-  injectCurrentSiteOrNull,
-  injectUserToken,
-  saveToAccountList,
-  storeUserSite,
-} from '@/services/inject-misskey-api';
+import { getAccountList, saveToAccountList, site, storeUserSite, token } from '@/services/inject-misskey-api';
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
@@ -40,10 +34,8 @@ function RouteComponent() {
   useEffect(() => {
     const search = new URLSearchParams(window.location.search);
     if (search.has('noredirect')) {
-      const site = injectCurrentSiteOrNull();
-      const token = injectUserToken();
       if (token != null) {
-        saveToAccountList({ site, token });
+        saveToAccountList({ site: site!, token });
         if (import.meta.env.DEV) {
           console.log('saved account from login with noredirect:', { site, token });
           console.log(getAccountList());

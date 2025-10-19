@@ -5,7 +5,7 @@
 
 import { ConfirmDialogProvider } from '@/providers/confirm-dialog-provider';
 import { ErrorDialogProvider } from '@/providers/error-dialog-provider';
-import { injectUserToken } from '@/services/inject-misskey-api';
+import { token } from '@/services/inject-misskey-api';
 import { usePerference } from '@/stores/perference';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Outlet, createRootRoute, redirect } from '@tanstack/react-router';
@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 export const Route = createRootRoute({
   beforeLoad: (ctx) => {
     if (!ctx.matches.at(-1)?.staticData.noAuth) {
-      if (!injectUserToken()) {
+      if (token == null) {
         return redirect({ to: '/login' });
       }
     }

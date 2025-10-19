@@ -19,8 +19,8 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { HomeIcon, Trash2Icon } from 'lucide-react';
 import { useNoteQuery } from '@/hooks/use-note-query';
 import { registerNote, useNoteValue } from '@/hooks/use-note';
-import { injectMisskeyApi } from '@/services/inject-misskey-api';
 import { getNoteRemoteUrl } from '@/lib/note';
+import { misskeyApi } from '@/services/inject-misskey-api';
 
 export const Route = createFileRoute('/notes/$id')({
   component: RouteComponent,
@@ -45,14 +45,13 @@ function LoadedMain(props: { noteId: string }) {
   const { noteId } = props;
   const note = useNoteValue(noteId);
   const { t } = useTranslation();
-  const api = injectMisskeyApi();
   const isReply = note?.replyId != null;
 
   const { data: conversation, isPending: isConversationPending } = useQuery({
     queryKey: ['note-conversation', noteId],
     queryFn: () =>
       isReply
-        ? api.request('notes/conversation', { noteId: noteId }).then((ns) => registerNote(ns).reverse())
+        ? misskeyApi('notes/conversation', { noteId: noteId }).then((ns) => registerNote(ns).reverse())
         : Promise.resolve(null),
   });
 

@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { Spinner } from '@/components/ui/spinner';
 import { PERSIST_GC_TIME } from '@/plugins/persister';
-import { injectMisskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi, site } from '@/services/inject-misskey-api';
 import { useSetableMe } from '@/stores/me';
 import { useEmojis } from '@/stores/emojis';
 import { useSetableSiteMeta } from '@/stores/site';
@@ -44,8 +44,6 @@ function useLoaderQuery<
 }
 
 export const WithLoginLoader = (props: { children: React.ReactNode }) => {
-  const api = injectMisskeyApi();
-
   const setMe = useSetableMe((s) => s.setMe);
   const setEmojis = useEmojis((s) => s.setEmojis);
   const setMeta = useSetableSiteMeta((s) => s.setMeta);
@@ -53,7 +51,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
   const queries = [
     useLoaderQuery({
       queryKey: ['me'],
-      queryFn: () => api.request('i', {}).then(),
+      queryFn: () => misskeyApi('i', {}).then(),
       gcTime: PERSIST_GC_TIME,
       staleTime: 1000 * 60 * 60, // 1 hour
       onData: setMe,
@@ -61,7 +59,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
     useLoaderQuery({
       queryKey: ['custom-emojis'],
       refetchInterval: 1000 * 60 * 60, // 1 hours
-      queryFn: () => fetch(new URL('/api/emojis', api.origin)).then((r) => r.json()) as Promise<EmojisResponse>,
+      queryFn: () => fetch(new URL('/api/emojis', site!)).then((r) => r.json()) as Promise<EmojisResponse>,
       select: (data) => data.emojis,
       gcTime: PERSIST_GC_TIME,
       staleTime: 1000 * 60 * 60, // 1 hour
@@ -69,7 +67,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
     }),
     useLoaderQuery({
       queryKey: ['site-info'],
-      queryFn: () => api.request('meta', {}),
+      queryFn: () => misskeyApi('meta', {}),
       gcTime: PERSIST_GC_TIME,
       onData: setMeta,
       staleTime: 1000 * 60 * 60, // 1 hour
