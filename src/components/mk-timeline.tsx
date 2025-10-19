@@ -89,7 +89,7 @@ export const MkTimeline = (props: { type: TimelineTypes }) => {
   });
 
   return (
-    <MkInfiniteScrollByData infiniteQueryResult={query}>
+    <MkInfiniteScrollByData infiniteQueryResult={query} className="mk-timeline">
       {(id) => <MkNote key={id} noteId={id} showReply />}
     </MkInfiniteScrollByData>
   );
