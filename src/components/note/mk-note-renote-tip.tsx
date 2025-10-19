@@ -13,7 +13,7 @@ import { MkVisibilityIcon } from './mk-visibility-icon';
 import type { NoteWithExtension } from '@/types/note';
 import { useMe } from '@/stores/me';
 import { useDeleteNoteAction } from '@/hooks/note-actions';
-import { MenuOrDrawer, type Menu } from '../menu-or-drawer';
+import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 
 export const MkNoteRenoteTip = (props: { note: NoteWithExtension }) => {
   const meId = useMe((me) => me.id);

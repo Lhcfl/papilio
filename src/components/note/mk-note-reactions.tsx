@@ -4,7 +4,7 @@
  */
 
 import clsx from 'clsx';
-import { MkCustomEmoji, MkEmoji } from '../mk-emoji';
+import { MkCustomEmoji, MkEmoji } from '@/components/mk-emoji';
 import { normalizeEmojiName } from '@/lib/emojis';
 import { useReactNoteAction, useUndoReactNoteAction } from '@/hooks/note-actions';
 import type { NoteWithExtension } from '@/types/note';

@@ -5,21 +5,21 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from './ui/item';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item';
 import clsx from 'clsx';
 import type { Notification } from 'misskey-js/entities.js';
-import { MkNote } from './mk-note';
+import { MkNote } from '@/components/mk-note';
 import type { HTMLProps } from 'react';
-import { MkAvatar } from './mk-avatar';
-import { Button } from './ui/button';
+import { MkAvatar } from '@/components/mk-avatar';
+import { Button } from '@/components/ui/button';
 import { CheckIcon, ChevronLeftIcon, MoreHorizontalIcon, UserRoundPlusIcon, XIcon } from 'lucide-react';
-import { MkUserName } from './mk-user-name';
-import { MkI18n } from './mk-i18n';
-import { Spinner } from './ui/spinner';
-import { Tooltip, TooltipContent } from './ui/tooltip';
+import { MkUserName } from '@/components/mk-user-name';
+import { MkI18n } from '@/components/mk-i18n';
+import { Spinner } from '@/components/ui/spinner';
+import { Tooltip, TooltipContent } from '@/components/ui/tooltip';
 import { TooltipTrigger } from '@radix-ui/react-tooltip';
-import { NotificationItemMedia, ReactionEmoji } from './notification/item-media';
-import { NotificationDescription, NotificationTitle } from './notification/item-text';
+import { NotificationItemMedia, ReactionEmoji } from '@/components/notification/item-media';
+import { NotificationDescription, NotificationTitle } from '@/components/notification/item-text';
 import { useUserQuery } from '@/hooks/use-user';
 import { useAcceptFollowRequestAction, useFollowAction, useRejectFollowRequestAction } from '@/hooks/user-action';
 

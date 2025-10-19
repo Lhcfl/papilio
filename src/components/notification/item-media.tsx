@@ -4,8 +4,8 @@
  */
 
 import type { Notification } from 'misskey-js/entities.js';
-import { ItemMedia } from '../ui/item';
-import { MkAvatar } from '../mk-avatar';
+import { ItemMedia } from '@/components/ui/item';
+import { MkAvatar } from '@/components/mk-avatar';
 import clsx from 'clsx';
 import {
   AtSignIcon,
@@ -29,7 +29,7 @@ import {
   UserRoundPlusIcon,
   Users2Icon,
 } from 'lucide-react';
-import { MkCustomEmoji, MkEmoji } from '../mk-emoji';
+import { MkCustomEmoji, MkEmoji } from '@/components/mk-emoji';
 import type { NoteWithExtension } from '@/types/note';
 
 export const NotificationItemIcon = (type: Notification['type']) => {

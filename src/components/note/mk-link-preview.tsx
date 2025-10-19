@@ -7,9 +7,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
 import type { summaly } from '@misskey-dev/summaly';
-import { Avatar, AvatarImage } from '../ui/avatar';
-import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '../ui/item';
-import { Spinner } from '../ui/spinner';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
+import { Spinner } from '@/components/ui/spinner';
 import clsx from 'clsx';
 
 type SummalyResult = Awaited<ReturnType<typeof summaly>>;

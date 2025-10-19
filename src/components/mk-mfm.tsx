@@ -7,12 +7,12 @@ import { ClockIcon } from 'lucide-react';
 import * as mfm from 'mfm-js';
 import { nyaize as doNyaize } from 'misskey-js';
 import { useMemo, type CSSProperties } from 'react';
-import { MkCustomEmoji, MkEmoji } from './mk-emoji';
-import { MkHashTag } from './mk-hashtag';
-import { MkMention } from './mk-mention';
-import { MkUrl } from './mk-url';
+import { MkCustomEmoji, MkEmoji } from '@/components/mk-emoji';
+import { MkHashTag } from '@/components/mk-hashtag';
+import { MkMention } from '@/components/mk-mention';
+import { MkUrl } from '@/components/mk-url';
 import type { UserLite } from '@/types/user';
-import { MkCode } from './mk-code';
+import { MkCode } from '@/components/mk-code';
 
 function safeParseFloat(str: unknown): number | null {
   if (typeof str !== 'string' || str === '') return null;

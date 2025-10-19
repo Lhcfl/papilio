@@ -5,16 +5,16 @@
 
 import type { User } from 'misskey-js/entities.js';
 import type { HTMLProps } from 'react';
-import { Avatar, AvatarImage } from './ui/avatar';
-import { MkBlurHash } from './mk-blurhash';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { MkBlurHash } from '@/components/mk-blurhash';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { cn } from '@/lib/utils';
 import { Link } from '@tanstack/react-router';
-import { HoverCard, HoverCardTrigger, HoverCardContent } from './ui/hover-card';
-import { MkUserCard } from './mk-user-card';
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card';
+import { MkUserCard } from '@/components/mk-user-card';
 import { useUserQuery } from '@/hooks/use-user';
-import { MkUserCardSkeleton } from './mk-user-card-skeleton';
-import { ScrollArea } from './ui/scroll-area';
+import { MkUserCardSkeleton } from '@/components/mk-user-card-skeleton';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { acct } from 'misskey-js';
 
 export const MkAvatar = (

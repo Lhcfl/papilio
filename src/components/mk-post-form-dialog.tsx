@@ -5,9 +5,9 @@
 
 import { useState } from 'react';
 
-import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from './ui/dialog';
-import { MkPostForm } from './mk-post-form';
-import { Button } from './ui/button';
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { MkPostForm } from '@/components/mk-post-form';
+import { Button } from '@/components/ui/button';
 import { XIcon } from 'lucide-react';
 export const MkPostFormDialog = (props: { children: React.ReactNode }) => {
   const [showPostForm, setShowPostForm] = useState(false);

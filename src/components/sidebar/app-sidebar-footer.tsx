@@ -6,11 +6,11 @@
 import { ChevronsUpDownIcon, LogOutIcon, PencilIcon, UserRoundIcon, Users2Icon } from 'lucide-react';
 import { MkAvatar } from '@/components/mk-avatar';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { MkUserName } from '../mk-user-name';
+import { MkUserName } from '@/components/mk-user-name';
 import { useMe } from '@/stores/me';
 import { useTranslation } from 'react-i18next';
-import { MkPostFormDialog } from '../mk-post-form-dialog';
-import { MenuOrDrawer, type Menu } from '../menu-or-drawer';
+import { MkPostFormDialog } from '@/components/mk-post-form-dialog';
+import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { linkOptions } from '@tanstack/react-router';
 import { logout } from '@/services/inject-misskey-api';
 import { useAfterConfirm } from '@/stores/confirm-dialog';

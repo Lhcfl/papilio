@@ -4,7 +4,7 @@
  */
 
 import type { UserDetailed } from 'misskey-js/entities.js';
-import { MenuOrDrawer, type Menu } from '../menu-or-drawer';
+import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { useMe } from '@/stores/me';
 import { useTranslation } from 'react-i18next';
 import { copyToClipboard } from '@/lib/utils';
@@ -39,8 +39,8 @@ import {
   useUnmuteAction,
 } from '@/hooks/user-action';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
-import { MkI18n } from '../mk-i18n';
-import { MkUserName } from '../mk-user-name';
+import { MkI18n } from '@/components/mk-i18n';
+import { MkUserName } from '@/components/mk-user-name';
 
 export function MkUserMenu({ user, children }: { user: UserDetailed; children: React.ReactNode }) {
   const { t } = useTranslation();

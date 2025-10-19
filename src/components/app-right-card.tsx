@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { MkNotifications } from './infinite-loaders/mk-notifications';
-import { MkClock } from './note/mk-clock';
-import { ScrollArea } from './ui/scroll-area';
-import { Separator } from './ui/separator';
+import { MkNotifications } from '@/components/infinite-loaders/mk-notifications';
+import { MkClock } from '@/components/note/mk-clock';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 
 export const AppRightCard = () => {
   return (

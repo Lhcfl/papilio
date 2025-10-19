@@ -4,9 +4,9 @@
  */
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
-import { AppSidebarFooter } from './sidebar/app-sidebar-footer';
-import { AppSidebarHeader } from './sidebar/app-sidebar-header';
-import { AppSidebarMain } from './sidebar/app-sidebar-main';
+import { AppSidebarFooter } from '@/components/sidebar/app-sidebar-footer';
+import { AppSidebarHeader } from '@/components/sidebar/app-sidebar-header';
+import { AppSidebarMain } from '@/components/sidebar/app-sidebar-main';
 
 export const AppSidebar = () => {
   return (

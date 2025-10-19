@@ -31,7 +31,7 @@ import {
   useUnfavoriteNoteAction,
 } from '@/hooks/note-actions';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
-import type { Menu } from '../menu-or-drawer';
+import type { Menu } from '@/components/menu-or-drawer';
 import { errorMessageSafe } from '@/lib/error';
 import { linkOptions } from '@tanstack/react-router';
 

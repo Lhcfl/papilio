@@ -4,7 +4,7 @@
  */
 
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from './ui/drawer';
+import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,15 +14,15 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuCheckboxItem,
-} from './ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import { Link, type LinkOptions } from '@tanstack/react-router';
-import { Separator } from './ui/separator';
-import { Button } from './ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 import { useState, type ComponentProps } from 'react';
 import { cn } from '@/lib/utils';
-import { Switch } from './ui/switch';
-import { Label } from './ui/label';
-import { ScrollArea } from './ui/scroll-area';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export type MenuItem = {
   type: 'item';

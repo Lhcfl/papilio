@@ -4,8 +4,8 @@
  */
 
 import { useEmojis } from '@/stores/emojis';
-import { ScrollArea } from './ui/scroll-area';
-import { MkCustomEmoji } from './mk-emoji';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { MkCustomEmoji } from '@/components/mk-emoji';
 import type { EmojiSimple } from 'misskey-js/entities.js';
 
 export const MkCustomEmojiSearchPopup = (props: {

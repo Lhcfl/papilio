@@ -4,7 +4,7 @@
  */
 
 import { HardDriveUploadIcon, UploadCloudIcon, UploadIcon } from 'lucide-react';
-import { MenuOrDrawer, type Menu } from './menu-or-drawer';
+import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { useUploader, type UploadFileOptions } from '@/hooks/use-uploader';

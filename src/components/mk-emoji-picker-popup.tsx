@@ -6,8 +6,8 @@
 import { useState } from 'react';
 
 import type { EmojiSimple } from 'misskey-js/entities.js';
-import { MkEmojiPicker } from './mk-emoji-picker';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { MkEmojiPicker } from '@/components/mk-emoji-picker';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 export const MkEmojiPickerPopup = (props: {
   onEmojiChoose: (emoji: EmojiSimple | string) => void;

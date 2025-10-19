@@ -5,10 +5,10 @@
 
 import type { MfmNode } from 'mfm-js';
 import type { UserLite } from 'misskey-js/entities.js';
-import { MkAvatar } from '../mk-avatar';
-import { MkUserName } from '../mk-user-name';
+import { MkAvatar } from '@/components/mk-avatar';
+import { MkUserName } from '@/components/mk-user-name';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@radix-ui/react-accordion';
-import { MkMfm } from '../mk-mfm';
+import { MkMfm } from '@/components/mk-mfm';
 import type { HTMLProps } from 'react';
 
 export const MkPostFormPreview = ({

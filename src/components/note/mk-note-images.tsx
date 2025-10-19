@@ -8,7 +8,7 @@ import type { DriveFile } from 'misskey-js/entities.js';
 import { useState, type HTMLProps } from 'react';
 import { MkImage } from '@/components/mk-image';
 import { ImagesLightbox } from '@/components/images-lightbox';
-import { MkVideo } from '../mk-video';
+import { MkVideo } from '@/components/mk-video';
 
 export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivElement>) => {
   const { images, className: classNameProp, ...rest } = props;

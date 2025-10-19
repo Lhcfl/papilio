@@ -9,7 +9,7 @@ import { Image } from '@heroui/image';
 import clsx from 'clsx';
 import type { DriveFile } from 'misskey-js/entities.js';
 import type { HTMLProps } from 'react';
-import { MkBlurHash } from './mk-blurhash';
+import { MkBlurHash } from '@/components/mk-blurhash';
 
 export const MkImage = (props: { image: DriveFile } & HTMLProps<HTMLDivElement>) => {
   const { image, className, ...rest } = props;

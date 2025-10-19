@@ -5,11 +5,11 @@
 
 import { acct } from 'misskey-js';
 import type { NoteWithExtension } from '@/types/note';
-import { MkAvatar } from '../mk-avatar';
-import { MkTime } from '../mk-time';
-import { MkUserName } from '../mk-user-name';
+import { MkAvatar } from '@/components/mk-avatar';
+import { MkTime } from '@/components/mk-time';
+import { MkUserName } from '@/components/mk-user-name';
 import { MkVisibilityIcon } from './mk-visibility-icon';
-import { Avatar, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Link } from '@tanstack/react-router';
 import { useSiteMeta } from '@/stores/site';
 export const MkNoteHeader = (props: { note: NoteWithExtension }) => {

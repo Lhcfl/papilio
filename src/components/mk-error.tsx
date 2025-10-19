@@ -6,8 +6,8 @@
 import { useTranslation } from 'react-i18next';
 import { CircleXIcon } from 'lucide-react';
 import { type APIError, isAPIError } from 'misskey-js/api.js';
-import { Button } from './ui/button';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from './ui/empty';
+import { Button } from '@/components/ui/button';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 
 export function MkError(props: { error: Error | APIError; retry?: () => void }) {
   const { error, retry } = props;

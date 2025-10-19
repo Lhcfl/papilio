@@ -4,12 +4,12 @@
  */
 
 import { getDraftKey, useDraft, type DraftData, type DraftKeyProps } from '@/hooks/use-draft';
-import { Skeleton } from './ui/skeleton';
-import { InputGroup, InputGroupAddon, InputGroupTextarea } from './ui/input-group';
+import { Skeleton } from '@/components/ui/skeleton';
+import { InputGroup, InputGroupAddon, InputGroupTextarea } from '@/components/ui/input-group';
 import { useTranslation } from 'react-i18next';
-import { MkAvatar } from './mk-avatar';
+import { MkAvatar } from '@/components/mk-avatar';
 import { useMe } from '@/stores/me';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import {
   ChartColumnIcon,
   EyeIcon,
@@ -25,28 +25,28 @@ import {
   SmilePlusIcon,
   XIcon,
 } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { MkEmojiPickerPopup } from './mk-emoji-picker-popup';
+import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
 import type { DriveFile, EmojiSimple, User } from 'misskey-js/entities.js';
 import { useEffect, useRef, useState, type HTMLProps } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { misskeyApi, site } from '@/services/inject-misskey-api';
-import { Spinner } from './ui/spinner';
+import { Spinner } from '@/components/ui/spinner';
 import type { NoteWithExtension } from '@/types/note';
 import { cond } from '@/lib/match';
 import * as mfm from 'mfm-js';
 import { collectAst } from '@/lib/note';
-import { MkMention } from './mk-mention';
+import { MkMention } from '@/components/mk-mention';
 import { getAcctUserQueryOptions } from '@/hooks/use-user';
-import { MkVisibilityPicker } from './post-form/mk-visibility-picker';
+import { MkVisibilityPicker } from '@/components/post-form/mk-visibility-picker';
 import { useMount } from 'react-use';
-import { MkPostFormPreview } from './post-form/mk-post-form-preview';
-import { MkFileUploadMenu } from './mk-file-upload-menu';
+import { MkPostFormPreview } from '@/components/post-form/mk-post-form-preview';
+import { MkFileUploadMenu } from '@/components/mk-file-upload-menu';
 import { toast } from 'sonner';
 import { errorMessageSafe } from '@/lib/error';
 import { useUploader } from '@/hooks/use-uploader';
-import { MkPostFormFiles } from './post-form/mk-post-form-files';
+import { MkPostFormFiles } from '@/components/post-form/mk-post-form-files';
 import { extractMention } from '@/lib/mention';
 
 type MkPostFormProps = DraftKeyProps & {

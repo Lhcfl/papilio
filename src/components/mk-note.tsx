@@ -4,19 +4,19 @@
  */
 
 import clsx from 'clsx';
-import { MkNoteActions } from './note/mk-note-actions';
-import { MkNoteBody } from './note/mk-note-body';
-import { MkNoteHeader } from './note/mk-note-header';
-import { MkNoteReactions } from './note/mk-note-reactions';
-import { MkNoteRenoteTip } from './note/mk-note-renote-tip';
+import { MkNoteActions } from '@/components/note/mk-note-actions';
+import { MkNoteBody } from '@/components/note/mk-note-body';
+import { MkNoteHeader } from '@/components/note/mk-note-header';
+import { MkNoteReactions } from '@/components/note/mk-note-reactions';
+import { MkNoteRenoteTip } from '@/components/note/mk-note-renote-tip';
 import { useState, type HTMLProps } from 'react';
 import { useAppearNote, useNoteValue } from '@/hooks/use-note';
 import { useTranslateAction } from '@/hooks/note-actions';
 import { useDebugger } from '@/debug/debug';
 import { isPureRenote } from 'misskey-js/note.js';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { FoldVerticalIcon } from 'lucide-react';
-import { MkNoteReplyLine } from './note/mk-note-reply-line';
+import { MkNoteReplyLine } from '@/components/note/mk-note-reply-line';
 
 export const MkNote = (
   props: {

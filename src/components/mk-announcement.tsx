@@ -4,8 +4,8 @@
  */
 
 import type { Announcement } from 'misskey-js/entities.js';
-import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from './ui/item';
-import { MkMfm } from './mk-mfm';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
+import { MkMfm } from '@/components/mk-mfm';
 import {
   CheckCircle,
   CheckIcon,
@@ -15,14 +15,14 @@ import {
   MessageCircleWarningIcon,
   XCircleIcon,
 } from 'lucide-react';
-import { Button } from './ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { useState } from 'react';
-import { Spinner } from './ui/spinner';
-import { MkTime } from './mk-time';
+import { Spinner } from '@/components/ui/spinner';
+import { MkTime } from '@/components/mk-time';
 
 export const MkAnnouncement = (props: { item: Announcement }) => {
   const { item } = props;

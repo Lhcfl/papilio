@@ -17,7 +17,7 @@ import {
   useCancelFollowRequestAction,
   useRejectFollowRequestAction,
 } from '@/hooks/user-action';
-import { Spinner } from './ui/spinner';
+import { Spinner } from '@/components/ui/spinner';
 import { useState } from 'react';
 
 export const MkFollowRequest = (props: { user: User; type: 'received' | 'sent' }) => {

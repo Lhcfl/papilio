@@ -4,7 +4,7 @@
  */
 
 import { AlertCircleIcon } from 'lucide-react';
-import { Item, ItemContent, ItemMedia } from './ui/item';
+import { Item, ItemContent, ItemMedia } from '@/components/ui/item';
 
 export const MkAlert = (props: { children: React.ReactNode }) => {
   return (

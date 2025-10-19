@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { type MutationState, useMutationState } from '@tanstack/react-query';
 import { LanguagesIcon } from 'lucide-react';
 import type { NoteWithExtension } from '@/types/note';
-import { MkMfm } from '../mk-mfm';
-import { Item, ItemContent, ItemTitle } from '../ui/item';
-import { Skeleton } from '../ui/skeleton';
+import { MkMfm } from '@/components/mk-mfm';
+import { Item, ItemContent, ItemTitle } from '@/components/ui/item';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export const MkNoteTranslation = (props: { note: NoteWithExtension }) => {
   const { t } = useTranslation();

@@ -5,9 +5,9 @@
 
 import type { DraftData } from '@/hooks/use-draft';
 import type { ComponentProps } from 'react';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
-import { LabelAndDescription, MenuOrDrawer, type Menu } from '../menu-or-drawer';
+import { LabelAndDescription, MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { GlobeIcon, HomeIcon, LockIcon, MailIcon, WifiIcon, WifiOffIcon } from 'lucide-react';
 
 export const MkVisibilityPicker = (

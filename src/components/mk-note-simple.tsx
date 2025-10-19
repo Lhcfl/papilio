@@ -4,8 +4,8 @@
  */
 
 import type { NoteWithExtension } from '@/types/note';
-import { MkNoteBody } from './note/mk-note-body';
-import { MkNoteHeader } from './note/mk-note-header';
+import { MkNoteBody } from '@/components/note/mk-note-body';
+import { MkNoteHeader } from '@/components/note/mk-note-header';
 import { useNoteValue } from '@/hooks/use-note';
 import type { HTMLProps } from 'react';
 import { cn } from '@/lib/utils';

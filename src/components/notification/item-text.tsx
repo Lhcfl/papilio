@@ -6,10 +6,10 @@
 import { useTranslation } from 'react-i18next';
 
 import type { Notification } from 'misskey-js/entities.js';
-import { MkUserName } from '../mk-user-name';
+import { MkUserName } from '@/components/mk-user-name';
 import { getNoteExcerpt } from '@/services/note-excerpt';
 import { Link } from '@tanstack/react-router';
-import { MkMfm } from '../mk-mfm';
+import { MkMfm } from '@/components/mk-mfm';
 
 export const NotificationDescription = (props: { notification: Notification }) => {
   const { notification } = props;

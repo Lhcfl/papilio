@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import type { DriveFile } from 'misskey-js/entities.js';
 import type { HTMLProps } from 'react';
-import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '../ui/item';
+import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 
 export const GuessFileIcon = (props: { file: DriveFile }) => {
   const { file } = props;

@@ -5,15 +5,15 @@
 
 import type { DriveFile } from 'misskey-js/entities.js';
 import { useState, type HTMLProps } from 'react';
-import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '../ui/item';
-import { GuessFileIcon } from '../note/mk-note-file';
-import { Button } from '../ui/button';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
+import { GuessFileIcon } from '@/components/note/mk-note-file';
+import { Button } from '@/components/ui/button';
 import { EyeClosedIcon, EyeIcon, MoreHorizontalIcon, TextInitialIcon, Trash2Icon, XIcon } from 'lucide-react';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 import { usePermanentlyDeleteFileAction, useUpdateFileAction } from '@/hooks/use-file';
 import { useTranslation } from 'react-i18next';
-import { MenuOrDrawer, type Menu } from '../menu-or-drawer';
-import { ImagesLightbox } from '../images-lightbox';
+import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
+import { ImagesLightbox } from '@/components/images-lightbox';
 import { cn, onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 
 export function MkPostFormFiles(

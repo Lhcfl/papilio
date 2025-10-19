@@ -4,7 +4,7 @@
  */
 
 import { InfoIcon } from 'lucide-react';
-import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from './ui/empty';
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { useTranslation } from 'react-i18next';
 import { useSiteMeta } from '@/stores/site';
 

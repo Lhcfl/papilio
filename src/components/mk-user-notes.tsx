@@ -6,10 +6,10 @@
 import { registerNote } from '@/hooks/use-note';
 import { injectMisskeyApi } from '@/services/inject-misskey-api';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { MkError } from './mk-error';
-import { MkNote } from './mk-note';
-import { LoadingTrigger } from './loading-trigger';
-import { Spinner } from './ui/spinner';
+import { MkError } from '@/components/mk-error';
+import { MkNote } from '@/components/mk-note';
+import { LoadingTrigger } from '@/components/loading-trigger';
+import { Spinner } from '@/components/ui/spinner';
 import { useTranslation } from 'react-i18next';
 import { PinIcon } from 'lucide-react';
 

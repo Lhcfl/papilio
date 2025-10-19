@@ -11,8 +11,8 @@ import { type MfmNode, parse } from 'mfm-js';
 import type { HTMLProps } from 'react';
 import { MkMfm } from '@/components/mk-mfm';
 import type { NoteWithExtension } from '@/types/note';
-import { MkNoteSimple } from '../mk-note-simple';
-import { Button } from '../ui/button';
+import { MkNoteSimple } from '@/components/mk-note-simple';
+import { Button } from '@/components/ui/button';
 import { MkLinkPreview } from './mk-link-preview';
 import { MkNoteFile } from './mk-note-file';
 import { MkNoteImages } from './mk-note-images';
@@ -22,9 +22,9 @@ import { collectAst, countAst } from '@/lib/note';
 import { cn, onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 import { site } from '@/services/inject-misskey-api';
 import { cond } from '@/lib/match';
-import { MkMention } from '../mk-mention';
+import { MkMention } from '@/components/mk-mention';
 import { acct } from 'misskey-js';
-import { MkTime } from '../mk-time';
+import { MkTime } from '@/components/mk-time';
 import { useUsersQuery } from '@/hooks/use-user';
 
 interface NoteBodyCommonProps {

@@ -20,10 +20,10 @@ import {
 } from 'lucide-react';
 import { useState, type ComponentProps } from 'react';
 import { toast } from 'sonner';
-import { Button } from '../ui/button';
-import { Spinner } from '../ui/spinner';
+import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import { useNoteMenu } from './mk-note-menu';
-import { MkEmojiPickerPopup } from '../mk-emoji-picker-popup';
+import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
 import type { NoteWithExtension } from '@/types/note';
 import {
   useLikeNoteAction,
@@ -32,12 +32,12 @@ import {
   useUndoReactNoteAction,
   useUnrenoteAction,
 } from '@/hooks/note-actions';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useRightbarOrPopup } from '@/stores/rightbar-or-poup';
-import { MkPostForm } from '../mk-post-form';
-import { MkNoteSimple } from '../mk-note-simple';
+import { MkPostForm } from '@/components/mk-post-form';
+import { MkNoteSimple } from '@/components/mk-note-simple';
 import { VISIBILITIES } from '@/lib/note';
-import { MenuOrDrawer, type Menu } from '../menu-or-drawer';
+import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 
 const MkNoteActionButton = (
   props: {

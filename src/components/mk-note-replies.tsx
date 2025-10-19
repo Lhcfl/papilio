@@ -5,12 +5,12 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { type HTMLProps } from 'react';
-import { MkNote } from './mk-note';
+import { MkNote } from '@/components/mk-note';
 import clsx from 'clsx';
-import { LoadingTrigger } from './loading-trigger';
+import { LoadingTrigger } from '@/components/loading-trigger';
 import { injectMisskeyApi } from '@/services/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { MoreHorizontalIcon } from 'lucide-react';
 import { Link } from '@tanstack/react-router';

@@ -4,9 +4,9 @@
  */
 
 import { useNoteValue } from '@/hooks/use-note';
-import { MkMfm } from '../mk-mfm';
+import { MkMfm } from '@/components/mk-mfm';
 import { getNoteExcerpt } from '@/services/note-excerpt';
-import { MkAvatar } from '../mk-avatar';
+import { MkAvatar } from '@/components/mk-avatar';
 import { withNoSelection, withStopPrevent } from '@/lib/utils';
 
 export const MkNoteReplyLine = (props: { noteId: string; onExpand: () => void }) => {

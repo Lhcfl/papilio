@@ -4,13 +4,13 @@
  */
 
 import type { UserDetailed } from 'misskey-js/entities.js';
-import { MkUserName } from './mk-user-name';
+import { MkUserName } from '@/components/mk-user-name';
 import { acct } from 'misskey-js';
-import { MkBlurHash } from './mk-blurhash';
+import { MkBlurHash } from '@/components/mk-blurhash';
 import { Fragment, useState, type HTMLProps } from 'react';
 import { cn } from '@/lib/utils';
-import { MkAvatar } from './mk-avatar';
-import { Button } from './ui/button';
+import { MkAvatar } from '@/components/mk-avatar';
+import { Button } from '@/components/ui/button';
 import {
   BanIcon,
   CheckIcon,
@@ -28,10 +28,10 @@ import {
   VolumeOffIcon,
   XIcon,
 } from 'lucide-react';
-import { ButtonGroup } from './ui/button-group';
-import { MkMfm } from './mk-mfm';
+import { ButtonGroup } from '@/components/ui/button-group';
+import { MkMfm } from '@/components/mk-mfm';
 import { useTranslation } from 'react-i18next';
-import { Badge } from './ui/badge';
+import { Badge } from '@/components/ui/badge';
 import {
   useAcceptFollowRequestAction,
   useCancelFollowRequestAction,
@@ -40,17 +40,17 @@ import {
   useUnblockAction,
   useUnfollowAction,
 } from '@/hooks/user-action';
-import { Spinner } from './ui/spinner';
-import { MkI18n } from './mk-i18n';
-import { Separator } from './ui/separator';
-import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { Spinner } from '@/components/ui/spinner';
+import { MkI18n } from '@/components/mk-i18n';
+import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 import { useErrorDialogs } from '@/stores/error-dialog';
 import { errorMessageSafe } from '@/lib/error';
 import { useMe } from '@/stores/me';
 import { Link } from '@tanstack/react-router';
-import { MkUserMenu } from './user/mk-user-menu';
-import { Card, CardAction, CardContent, CardTitle } from './ui/card';
+import { MkUserMenu } from '@/components/user/mk-user-menu';
+import { Card, CardAction, CardContent, CardTitle } from '@/components/ui/card';
 
 export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElement>) => {
   const { user, className: classNameProps, ...divProps } = props;

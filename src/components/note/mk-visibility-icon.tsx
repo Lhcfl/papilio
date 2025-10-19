@@ -9,11 +9,11 @@ import { useMe } from '@/stores/me';
 import type { NoteWithExtension } from '@/types/note';
 import { EyeOffIcon, HomeIcon, LockIcon, MailIcon, MapPinIcon } from 'lucide-react';
 import type { HTMLProps } from 'react';
-import { Spinner } from '../ui/spinner';
-import { MkAvatar } from '../mk-avatar';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card';
+import { Spinner } from '@/components/ui/spinner';
+import { MkAvatar } from '@/components/mk-avatar';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { useTranslation } from 'react-i18next';
-import { MkUserName } from '../mk-user-name';
+import { MkUserName } from '@/components/mk-user-name';
 import { acct } from 'misskey-js';
 import type { User } from 'misskey-js/entities.js';
 
