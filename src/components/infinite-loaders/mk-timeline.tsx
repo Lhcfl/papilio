@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { MkNote } from './mk-note';
-import { MkInfiniteScrollByData } from './mk-infinite-scroll';
+import { MkNote } from '@/components/mk-note';
+import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -89,7 +89,7 @@ export const MkTimeline = (props: { type: TimelineTypes }) => {
   });
 
   return (
-    <MkInfiniteScrollByData infiniteQueryResult={query} className="mk-timeline">
+    <MkInfiniteScrollByData infiniteQueryResult={query} className="mk-timeline w-full">
       {(id) => <MkNote key={id} noteId={id} showReply />}
     </MkInfiniteScrollByData>
   );

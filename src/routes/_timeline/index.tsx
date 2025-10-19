@@ -4,7 +4,7 @@
  */
 
 import { createFileRoute } from '@tanstack/react-router';
-import { MkTimeline } from '@/components/mk-timeline';
+import { MkTimeline } from '@/components/infinite-loaders/mk-timeline';
 
 export const Route = createFileRoute('/_timeline/')({
   component: Index,

@@ -4,7 +4,7 @@
  */
 
 import { MkFollowRequest } from '@/components/mk-follow-request';
-import { MkInfiniteScroll } from '@/components/mk-infinite-scroll';
+import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';
 

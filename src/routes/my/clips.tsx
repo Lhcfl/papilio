@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { MkInfiniteScroll } from '@/components/mk-infinite-scroll';
+import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkTime } from '@/components/mk-time';
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 import { DefaultLayout } from '@/layouts/default-layout';

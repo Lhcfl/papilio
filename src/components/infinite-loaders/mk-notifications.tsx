@@ -5,14 +5,14 @@
 
 import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react/jsx-runtime';
-import { MkNotification } from './mk-notification';
+import { MkNotification } from '@/components/mk-notification';
 import { FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon } from 'lucide-react';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { NOTIFICATION_TYPES, type NotificationIncludeableType } from '@/lib/notifications';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
-import { MenuOrDrawer, type Menu, type MenuSwitch } from './menu-or-drawer';
-import { MkInfiniteScroll } from './mk-infinite-scroll';
+import { MenuOrDrawer, type Menu, type MenuSwitch } from '@/components/menu-or-drawer';
+import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 
 export const MkNotifications = (props: {
   excludeTypes?: NotificationIncludeableType[];

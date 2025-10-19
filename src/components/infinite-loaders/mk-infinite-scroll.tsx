@@ -9,11 +9,11 @@ import {
   type QueryFunction,
   type UseInfiniteQueryResult,
 } from '@tanstack/react-query';
-import { MkError } from './mk-error';
-import { LoadingTrigger } from './loading-trigger';
-import { Spinner } from './ui/spinner';
+import { MkError } from '@/components/mk-error';
+import { LoadingTrigger } from '@/components/loading-trigger';
+import { Spinner } from '@/components/ui/spinner';
 import { Fragment } from 'react/jsx-runtime';
-import { MkEmpty } from './mk-empty';
+import { MkEmpty } from '@/components/mk-empty';
 import type { HTMLProps } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -25,13 +25,15 @@ function getId<T>(item: unknown, fallback?: T) {
   return fallback;
 }
 
-export function MkInfiniteScroll<P>(props: {
-  queryFn: QueryFunction<P, unknown[], string>;
-  queryKey: unknown[];
-  initialPageParam?: string;
-  getNextPageParam?: (lastPage?: P) => string | undefined;
-  children: (data: FlatArray<P[], 1>) => React.ReactNode;
-}) {
+export function MkInfiniteScroll<P>(
+  props: {
+    queryFn: QueryFunction<P, unknown[], string>;
+    queryKey: unknown[];
+    initialPageParam?: string;
+    getNextPageParam?: (lastPage?: P) => string | undefined;
+    children: (data: FlatArray<P[], 1>) => React.ReactNode;
+  } & Omit<HTMLProps<HTMLDivElement>, 'children'>,
+) {
   const defaults = {
     initialPageParam: 'zzzzzzzzzzzzzzzzzz',
     getNextPageParam: (lastPage?: P) => {
@@ -42,7 +44,7 @@ export function MkInfiniteScroll<P>(props: {
     },
   };
 
-  const { queryKey, queryFn, initialPageParam, getNextPageParam, children } = { ...defaults, ...props };
+  const { queryKey, queryFn, initialPageParam, getNextPageParam, children, ...rest } = { ...defaults, ...props };
 
   const result = useInfiniteQuery({
     queryKey,
@@ -51,7 +53,7 @@ export function MkInfiniteScroll<P>(props: {
     getNextPageParam,
   });
 
-  return MkInfiniteScrollByData({ infiniteQueryResult: result, children: children });
+  return MkInfiniteScrollByData({ ...rest, infiniteQueryResult: result, children });
 }
 
 export function MkInfiniteScrollByData<TData>(
