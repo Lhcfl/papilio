@@ -182,7 +182,7 @@ function MkPostFormLoaded(
       if (props.editId || props.quoteId || props.replyId) {
         draft.remove();
       } else {
-        draft.resetExcept(['visibility', 'cw', 'hasCw', 'showPreview', 'reactionAcceptance']);
+        draft.resetExcept(['visibility', 'cw', 'hasCw', 'showPreview', 'reactionAcceptance', 'localOnly']);
       }
     },
   });
