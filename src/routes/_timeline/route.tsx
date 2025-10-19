@@ -4,14 +4,12 @@
  */
 
 import { useTranslation } from 'react-i18next';
-
-import { createFileRoute } from '@tanstack/react-router';
-import { MkTimeline } from '@/components/mk-timeline';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { useTimelineTabs } from '@/hooks/use-timeline-tabs';
 import { MkPostForm } from '@/components/mk-post-form';
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/_timeline')({
   component: Index,
 });
 
@@ -21,8 +19,16 @@ function Index() {
   const title = t('timeline');
 
   return (
-    <DefaultLayout tabs={tabs.map((tab) => ({ ...tab, comp: <MkTimeline type={tab.value} /> }))} title={title}>
-      <MkPostForm className="border" />
+    <DefaultLayout
+      isRouteTab
+      tabs={tabs.map((tab) => ({
+        ...tab,
+        value: tab.value == 'home' ? '/' : `/${tab.value}-timeline`,
+      }))}
+      title={title}
+    >
+      <MkPostForm className="border mb-2" />
+      <Outlet />
     </DefaultLayout>
   );
 }

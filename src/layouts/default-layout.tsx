@@ -65,7 +65,7 @@ function SidebarLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   useMainChannelListener();
 
   const [currentTabValue, setTabValue] = useState(tabs?.[0].value);
-  const removedTailingSlashPathname = location.pathname.replace(/\/+$/, '');
+  const removedTailingSlashPathname = location.pathname.replace(/\/+$/, '') || '/';
   const actualCurrentTab = tabs?.find(
     (tab) => tab.value === (isRouteTab ? removedTailingSlashPathname : currentTabValue),
   );

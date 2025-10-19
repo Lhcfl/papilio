@@ -19,14 +19,18 @@ import { Route as AccountSwitchRouteImport } from './routes/account-switch'
 import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as MissingRouteImport } from './routes/$missing'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as TimelineRouteRouteImport } from './routes/_timeline/route'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as TimelineIndexRouteImport } from './routes/_timeline/index'
 import { Route as TagTagRouteImport } from './routes/tag/$tag'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as NotesIdRouteImport } from './routes/notes/$id'
 import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
 import { Route as MyClipsRouteImport } from './routes/my/clips'
 import { Route as ClipsIdRouteImport } from './routes/clips/$id'
+import { Route as TimelineLocalTimelineRouteImport } from './routes/_timeline/local-timeline'
+import { Route as TimelineHybridTimelineRouteImport } from './routes/_timeline/hybrid-timeline'
+import { Route as TimelineGlobalTimelineRouteImport } from './routes/_timeline/global-timeline'
 import { Route as MyNotificationsRouteRouteImport } from './routes/my/notifications/route'
 import { Route as MyFollowRequestsRouteRouteImport } from './routes/my/follow-requests/route'
 import { Route as MyNotificationsIndexRouteImport } from './routes/my/notifications/index'
@@ -85,15 +89,19 @@ const SettingsRouteRoute = SettingsRouteRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const TimelineRouteRoute = TimelineRouteRouteImport.update({
+  id: '/_timeline',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsIndexRoute = SettingsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => SettingsRouteRoute,
+} as any)
+const TimelineIndexRoute = TimelineIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => TimelineRouteRoute,
 } as any)
 const TagTagRoute = TagTagRouteImport.update({
   id: '/tag/$tag',
@@ -124,6 +132,21 @@ const ClipsIdRoute = ClipsIdRouteImport.update({
   id: '/clips/$id',
   path: '/clips/$id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const TimelineLocalTimelineRoute = TimelineLocalTimelineRouteImport.update({
+  id: '/local-timeline',
+  path: '/local-timeline',
+  getParentRoute: () => TimelineRouteRoute,
+} as any)
+const TimelineHybridTimelineRoute = TimelineHybridTimelineRouteImport.update({
+  id: '/hybrid-timeline',
+  path: '/hybrid-timeline',
+  getParentRoute: () => TimelineRouteRoute,
+} as any)
+const TimelineGlobalTimelineRoute = TimelineGlobalTimelineRouteImport.update({
+  id: '/global-timeline',
+  path: '/global-timeline',
+  getParentRoute: () => TimelineRouteRoute,
 } as any)
 const MyNotificationsRouteRoute = MyNotificationsRouteRouteImport.update({
   id: '/my/notifications',
@@ -163,7 +186,6 @@ const MyFollowRequestsReceivedRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/settings': typeof SettingsRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
@@ -176,12 +198,16 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
   '/my/notifications': typeof MyNotificationsRouteRouteWithChildren
+  '/global-timeline': typeof TimelineGlobalTimelineRoute
+  '/hybrid-timeline': typeof TimelineHybridTimelineRoute
+  '/local-timeline': typeof TimelineLocalTimelineRoute
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/notes/$id': typeof NotesIdRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
+  '/': typeof TimelineIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
@@ -190,7 +216,6 @@ export interface FileRoutesByFullPath {
   '/my/notifications/': typeof MyNotificationsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
@@ -201,12 +226,16 @@ export interface FileRoutesByTo {
   '/posting': typeof PostingRoute
   '/search': typeof SearchRoute
   '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
+  '/global-timeline': typeof TimelineGlobalTimelineRoute
+  '/hybrid-timeline': typeof TimelineHybridTimelineRoute
+  '/local-timeline': typeof TimelineLocalTimelineRoute
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/notes/$id': typeof NotesIdRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
+  '/': typeof TimelineIndexRoute
   '/settings': typeof SettingsIndexRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
@@ -216,7 +245,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_timeline': typeof TimelineRouteRouteWithChildren
   '/settings': typeof SettingsRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
@@ -229,12 +258,16 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
   '/my/notifications': typeof MyNotificationsRouteRouteWithChildren
+  '/_timeline/global-timeline': typeof TimelineGlobalTimelineRoute
+  '/_timeline/hybrid-timeline': typeof TimelineHybridTimelineRoute
+  '/_timeline/local-timeline': typeof TimelineLocalTimelineRoute
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/notes/$id': typeof NotesIdRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
+  '/_timeline/': typeof TimelineIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
@@ -245,7 +278,6 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/settings'
     | '/$missing'
     | '/@{$acct}'
@@ -258,12 +290,16 @@ export interface FileRouteTypes {
     | '/search'
     | '/my/follow-requests'
     | '/my/notifications'
+    | '/global-timeline'
+    | '/hybrid-timeline'
+    | '/local-timeline'
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
     | '/notes/$id'
     | '/settings/profile'
     | '/tag/$tag'
+    | '/'
     | '/settings/'
     | '/my/follow-requests/received'
     | '/my/follow-requests/sent'
@@ -272,7 +308,6 @@ export interface FileRouteTypes {
     | '/my/notifications/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
@@ -283,12 +318,16 @@ export interface FileRouteTypes {
     | '/posting'
     | '/search'
     | '/my/follow-requests'
+    | '/global-timeline'
+    | '/hybrid-timeline'
+    | '/local-timeline'
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
     | '/notes/$id'
     | '/settings/profile'
     | '/tag/$tag'
+    | '/'
     | '/settings'
     | '/my/follow-requests/received'
     | '/my/follow-requests/sent'
@@ -297,7 +336,7 @@ export interface FileRouteTypes {
     | '/my/notifications'
   id:
     | '__root__'
-    | '/'
+    | '/_timeline'
     | '/settings'
     | '/$missing'
     | '/@{$acct}'
@@ -310,12 +349,16 @@ export interface FileRouteTypes {
     | '/search'
     | '/my/follow-requests'
     | '/my/notifications'
+    | '/_timeline/global-timeline'
+    | '/_timeline/hybrid-timeline'
+    | '/_timeline/local-timeline'
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
     | '/notes/$id'
     | '/settings/profile'
     | '/tag/$tag'
+    | '/_timeline/'
     | '/settings/'
     | '/my/follow-requests/received'
     | '/my/follow-requests/sent'
@@ -325,7 +368,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  TimelineRouteRoute: typeof TimelineRouteRouteWithChildren
   SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
   MissingRoute: typeof MissingRoute
   AtChar123acctChar125Route: typeof AtChar123acctChar125Route
@@ -417,11 +460,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/_timeline': {
+      id: '/_timeline'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof TimelineRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings/': {
@@ -430,6 +473,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/'
       preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof SettingsRouteRoute
+    }
+    '/_timeline/': {
+      id: '/_timeline/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof TimelineIndexRouteImport
+      parentRoute: typeof TimelineRouteRoute
     }
     '/tag/$tag': {
       id: '/tag/$tag'
@@ -472,6 +522,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/clips/$id'
       preLoaderRoute: typeof ClipsIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_timeline/local-timeline': {
+      id: '/_timeline/local-timeline'
+      path: '/local-timeline'
+      fullPath: '/local-timeline'
+      preLoaderRoute: typeof TimelineLocalTimelineRouteImport
+      parentRoute: typeof TimelineRouteRoute
+    }
+    '/_timeline/hybrid-timeline': {
+      id: '/_timeline/hybrid-timeline'
+      path: '/hybrid-timeline'
+      fullPath: '/hybrid-timeline'
+      preLoaderRoute: typeof TimelineHybridTimelineRouteImport
+      parentRoute: typeof TimelineRouteRoute
+    }
+    '/_timeline/global-timeline': {
+      id: '/_timeline/global-timeline'
+      path: '/global-timeline'
+      fullPath: '/global-timeline'
+      preLoaderRoute: typeof TimelineGlobalTimelineRouteImport
+      parentRoute: typeof TimelineRouteRoute
     }
     '/my/notifications': {
       id: '/my/notifications'
@@ -525,6 +596,24 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface TimelineRouteRouteChildren {
+  TimelineGlobalTimelineRoute: typeof TimelineGlobalTimelineRoute
+  TimelineHybridTimelineRoute: typeof TimelineHybridTimelineRoute
+  TimelineLocalTimelineRoute: typeof TimelineLocalTimelineRoute
+  TimelineIndexRoute: typeof TimelineIndexRoute
+}
+
+const TimelineRouteRouteChildren: TimelineRouteRouteChildren = {
+  TimelineGlobalTimelineRoute: TimelineGlobalTimelineRoute,
+  TimelineHybridTimelineRoute: TimelineHybridTimelineRoute,
+  TimelineLocalTimelineRoute: TimelineLocalTimelineRoute,
+  TimelineIndexRoute: TimelineIndexRoute,
+}
+
+const TimelineRouteRouteWithChildren = TimelineRouteRoute._addFileChildren(
+  TimelineRouteRouteChildren,
+)
+
 interface SettingsRouteRouteChildren {
   SettingsProfileRoute: typeof SettingsProfileRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
@@ -570,7 +659,7 @@ const MyNotificationsRouteRouteWithChildren =
   MyNotificationsRouteRoute._addFileChildren(MyNotificationsRouteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  TimelineRouteRoute: TimelineRouteRouteWithChildren,
   SettingsRouteRoute: SettingsRouteRouteWithChildren,
   MissingRoute: MissingRoute,
   AtChar123acctChar125Route: AtChar123acctChar125Route,
