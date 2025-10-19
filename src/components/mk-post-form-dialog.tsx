@@ -9,12 +9,13 @@ import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '
 import { MkPostForm } from '@/components/mk-post-form';
 import { Button } from '@/components/ui/button';
 import { XIcon } from 'lucide-react';
+
 export const MkPostFormDialog = (props: { children: React.ReactNode }) => {
   const [showPostForm, setShowPostForm] = useState(false);
   return (
     <Dialog open={showPostForm} onOpenChange={setShowPostForm}>
       <DialogTrigger asChild>{props.children}</DialogTrigger>
-      <DialogContent className="p-0 [&_>_[data-slot=dialog-close]]:hidden">
+      <DialogContent className="p-0 top-4 translate-y-0" showCloseButton={false}>
         <DialogTitle className="sr-only">posting</DialogTitle>
         <MkPostForm
           appendHeader={
