@@ -5,7 +5,8 @@
 
 import { getCurrentUserIDBName } from '@/plugins/idb';
 import type { Endpoints, SwitchCaseResponseType } from '@/types/sharkey-api';
-import { Stream, api } from 'misskey-js';
+import { Stream, api, type Channels } from 'misskey-js';
+import type { Connection } from 'misskey-js/streaming.js';
 
 export const site = localStorage.getItem('site') ?? null;
 export const token = localStorage.getItem('token') ?? null;
@@ -50,6 +51,23 @@ export const injectMisskeyStream = () => {
   }, 10000);
   return stream;
 };
+
+/**
+ * simpliy a wrapper of injectMisskeyStream().useChannel
+ * `use[A-Z]\w*` name means a hook for react compiler, but this is not a hook.
+ * we have to rename it so react compiler won't complain.
+ * @param channel
+ * @param params
+ * @param name
+ * @returns
+ */
+export function createStreamChannel<C extends keyof Channels>(
+  channel: C,
+  params?: Channels[C]['params'],
+  name?: string,
+): Connection<Channels[C]> {
+  return injectMisskeyStream().useChannel(channel, params, name);
+}
 
 export const storeUserSite = (site: string) => {
   localStorage.setItem('site', site);

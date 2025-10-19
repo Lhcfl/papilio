@@ -3,12 +3,19 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useInfiniteQuery, type QueryFunction } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  type InfiniteData,
+  type QueryFunction,
+  type UseInfiniteQueryResult,
+} from '@tanstack/react-query';
 import { MkError } from './mk-error';
 import { LoadingTrigger } from './loading-trigger';
 import { Spinner } from './ui/spinner';
 import { Fragment } from 'react/jsx-runtime';
 import { MkEmpty } from './mk-empty';
+import type { HTMLProps } from 'react';
+import { cn } from '@/lib/utils';
 
 function getId<T>(item: unknown, fallback?: T) {
   if (typeof item === 'string') return item;
@@ -37,17 +44,28 @@ export function MkInfiniteScroll<P>(props: {
 
   const { queryKey, queryFn, initialPageParam, getNextPageParam, children } = { ...defaults, ...props };
 
-  const { data, isPending, fetchNextPage, hasNextPage, error, refetch } = useInfiniteQuery({
+  const result = useInfiniteQuery({
     queryKey,
     queryFn,
     initialPageParam,
     getNextPageParam,
   });
 
+  return MkInfiniteScrollByData({ infiniteQueryResult: result, children: children });
+}
+
+export function MkInfiniteScrollByData<TData>(
+  props: {
+    infiniteQueryResult: UseInfiniteQueryResult<InfiniteData<TData>>;
+    children: (data: FlatArray<TData[], 1>) => React.ReactNode;
+  } & Omit<HTMLProps<HTMLDivElement>, 'children'>,
+) {
+  const { infiniteQueryResult, children, className, ...rest } = props;
+  const { data, isPending, fetchNextPage, hasNextPage, error, refetch } = infiniteQueryResult;
   const isEmpty = !isPending && data?.pages.flat(1).length === 0;
 
   return (
-    <div>
+    <div className={cn('mk-infinite-scroll', className)} {...rest}>
       {isEmpty && <MkEmpty />}
       {error && <MkError error={error} retry={() => refetch()} />}
       <div className="flex flex-col gap-2">
