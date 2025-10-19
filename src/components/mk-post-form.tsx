@@ -26,7 +26,7 @@ import {
   XIcon,
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import { cn, withDefer } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { MkEmojiPickerPopup } from './mk-emoji-picker-popup';
 import type { DriveFile, EmojiSimple, User } from 'misskey-js/entities.js';
 import { useEffect, useRef, useState, type HTMLProps } from 'react';
@@ -36,7 +36,6 @@ import { Spinner } from './ui/spinner';
 import type { NoteWithExtension } from '@/types/note';
 import { cond } from '@/lib/match';
 import * as mfm from 'mfm-js';
-import { acct } from 'misskey-js';
 import { collectAst } from '@/lib/note';
 import { MkMention } from './mk-mention';
 import { getAcctUserQueryOptions } from '@/hooks/use-user';
@@ -48,21 +47,7 @@ import { toast } from 'sonner';
 import { errorMessageSafe } from '@/lib/error';
 import { useUploader } from '@/hooks/use-uploader';
 import { MkPostFormFiles } from './post-form/mk-post-form-files';
-
-function extractMention(note: NoteWithExtension | undefined, me: { username: string; host: string | null }) {
-  if (!note) return '';
-  const mentions = [`@${acct.toString(note.user)}`];
-  if (note.text) {
-    const ast = mfm.parse(note.text);
-    mentions.push(
-      ...collectAst(ast, (node) => (node.type === 'mention' ? `@${acct.toString(node.props)}` : undefined)),
-    );
-  }
-  const res = new Set(mentions);
-  res.delete(`@${acct.toString(me)}`);
-  res.delete(`@${me.username}`);
-  return [...res, ''].join(' ');
-}
+import { extractMention } from '@/lib/mention';
 
 type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;
@@ -75,19 +60,22 @@ type MkPostFormProps = DraftKeyProps & {
   appendFooter?: React.ReactNode;
 } & HTMLProps<HTMLDivElement>;
 
-export const MkPostForm = (props: MkPostFormProps) => {
+export function MkPostForm(props: MkPostFormProps) {
   const me = useMe();
   const { replyId, editId, quoteId, visibilityRestrict, relatedNote } = props;
 
   const draftKey = getDraftKey({ replyId, editId, quoteId });
+
+  // make react compiler happy
+  const relatedCw = relatedNote?.cw;
 
   const draft = useDraft(draftKey, {
     visibility: visibilityRestrict?.at(0),
     localOnly: relatedNote?.localOnly,
     cw:
       cond([
-        [editId != null, relatedNote?.cw],
-        [replyId != null, relatedNote?.cw],
+        [editId != null, relatedCw],
+        [replyId != null, relatedCw],
         [true, null],
       ]) ?? undefined,
     text:
@@ -100,14 +88,14 @@ export const MkPostForm = (props: MkPostFormProps) => {
 
   if (draft == null) return <MkPostFormSkeleton />;
   return <MkPostFormLoaded {...props} draft={draft} draftKey={draftKey} />;
-};
+}
 
-const MkPostFormLoaded = (
+function MkPostFormLoaded(
   props: MkPostFormProps & {
     draftKey: string;
     draft: NonNullable<ReturnType<typeof useDraft>>;
   },
-) => {
+) {
   const {
     replyId,
     editId,
@@ -135,14 +123,6 @@ const MkPostFormLoaded = (
   const placeholder = t('_postForm._placeholders.f');
   const queryClient = useQueryClient();
   const uploadFile = useUploader();
-
-  useEffect(() => {
-    if (draft.visibility == 'specified' && unspecifiedMentions.length > 0) {
-      addUnspecifiedMentionUser();
-    }
-    // we only want to run this when visibility changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draft.visibility]);
 
   useMount(() => {
     const textarea = textareaRef.current;
@@ -208,6 +188,22 @@ const MkPostFormLoaded = (
   });
 
   const sendable = [draft.text.trim().length > 0, draft.hasCw && draft.cw.trim().length > 0].some((v) => v);
+
+  useEffect(() => {
+    if (draft.visibility == 'specified') {
+      addUnspecifiedMentionUser();
+    }
+  }, [draft.visibility, addUnspecifiedMentionUser]);
+
+  function focusTextarea() {
+    setTimeout(() => {
+      if (currentFocusTextarea == 'cw') {
+        cwRef.current?.focus();
+      } else {
+        textareaRef.current?.focus();
+      }
+    }, 10);
+  }
 
   function onEmojiChoose(emoji: string | EmojiSimple) {
     const textarea = currentFocusTextarea === 'cw' ? cwRef.current : textareaRef.current;
@@ -389,7 +385,7 @@ const MkPostFormLoaded = (
           <PostFormButton label={t('poll')}>
             <ChartColumnIcon />
           </PostFormButton>
-          <MkEmojiPickerPopup onEmojiChoose={onEmojiChoose} onClose={withDefer(() => textareaRef.current?.focus())}>
+          <MkEmojiPickerPopup onEmojiChoose={onEmojiChoose} onClose={focusTextarea}>
             <PostFormButton label={t('emoji')}>
               <SmilePlusIcon />
             </PostFormButton>
@@ -422,7 +418,7 @@ const MkPostFormLoaded = (
       </div>
     </div>
   );
-};
+}
 
 const PostFormButton = (
   props: { children: React.ReactNode; label: string; active?: boolean } & React.ComponentProps<typeof Button>,
