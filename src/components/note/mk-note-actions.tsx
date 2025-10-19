@@ -35,7 +35,6 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useRightbarOrPopup } from '@/stores/rightbar-or-poup';
 import { MkPostForm } from '@/components/mk-post-form';
-import { MkNoteSimple } from '@/components/mk-note-simple';
 import { VISIBILITIES } from '@/lib/note';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 
@@ -153,7 +152,6 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
       ),
       node: (
         <div className="p-2">
-          <MkNoteSimple noteId={note.id} disableRouteOnClick className="border text-sm rounded-md mb-2" />
           <MkPostForm
             {...postFormProps}
             autoFocus
@@ -161,6 +159,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
             onSuccess={closeRightbarOrPopup}
             visibilityRestrict={VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility))}
             relatedNote={note}
+            displayRelatedNote
           />
         </div>
       ),

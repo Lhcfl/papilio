@@ -48,6 +48,7 @@ import { errorMessageSafe } from '@/lib/error';
 import { useUploader } from '@/hooks/use-uploader';
 import { MkPostFormFiles } from '@/components/post-form/mk-post-form-files';
 import { extractMention } from '@/lib/mention';
+import { MkNoteSimple } from '@/components/mk-note-simple';
 
 type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;
@@ -58,6 +59,7 @@ type MkPostFormProps = DraftKeyProps & {
   appendHeader?: React.ReactNode;
   prependFooter?: React.ReactNode;
   appendFooter?: React.ReactNode;
+  displayRelatedNote?: boolean;
 } & HTMLProps<HTMLDivElement>;
 
 export function MkPostForm(props: MkPostFormProps) {
@@ -111,6 +113,7 @@ function MkPostFormLoaded(
     prependFooter,
     appendFooter,
     className,
+    displayRelatedNote,
     ...rest
   } = props;
 
@@ -236,9 +239,19 @@ function MkPostFormLoaded(
 
   return (
     <div className={cn('mk-post-form rounded-md @container', className)} {...rest}>
+      {displayRelatedNote && relatedNote && (
+        <MkNoteSimple
+          className="-m-2"
+          noteId={relatedNote.id}
+          disableRouteOnClick
+          bodyProps={{ className: 'text-sm!' }}
+          isSubNote
+          showLeftLine
+        />
+      )}
       <div className="mk-post-form__title p-2 border-b flex items-center justify-between">
         <div className="flex items-center">
-          <MkAvatar user={me} />
+          <MkAvatar user={me} className={cn({ 'ml-1': !!(displayRelatedNote && relatedNote) })} />
           {prependHeader}
         </div>
         <div className="mk-post-form__control flex items-center">

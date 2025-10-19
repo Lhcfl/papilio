@@ -7,25 +7,42 @@ import type { NoteWithExtension } from '@/types/note';
 import { MkNoteBody } from '@/components/note/mk-note-body';
 import { MkNoteHeader } from '@/components/note/mk-note-header';
 import { useNoteValue } from '@/hooks/use-note';
-import type { HTMLProps } from 'react';
+import type { ComponentProps, HTMLProps } from 'react';
 import { cn } from '@/lib/utils';
 
 export const MkNoteSimple = (
-  props: { noteId: NoteWithExtension['id']; disableRouteOnClick?: boolean } & HTMLProps<HTMLDivElement>,
+  props: {
+    noteId: NoteWithExtension['id'];
+    disableRouteOnClick?: boolean;
+    isSubNote?: boolean;
+    showLeftLine?: boolean;
+    bodyProps?: Omit<
+      ComponentProps<typeof MkNoteBody>,
+      'note' | 'showQuoteAsIcon' | 'showReplyAsIcon' | 'disableLinkPreview'
+    >;
+  } & HTMLProps<HTMLDivElement>,
 ) => {
-  const { noteId, className, disableRouteOnClick, ...rest } = props;
+  const { noteId, className, disableRouteOnClick, isSubNote, showLeftLine, bodyProps, ...rest } = props;
   const note = useNoteValue(noteId);
   if (!note) return null;
   return (
-    <div className={cn('mk-note-simple p-2', className)} {...rest}>
+    <div className={cn('mk-note-simple relative p-2', className)} {...rest}>
       <MkNoteHeader note={note} />
-      <MkNoteBody
-        note={note}
-        showReplyAsIcon
-        showQuoteAsIcon
-        disableLinkPreview
-        disableRouteOnClick={disableRouteOnClick}
-      />
+      <div
+        className={cn({
+          'pl-14': isSubNote,
+        })}
+      >
+        <MkNoteBody
+          {...bodyProps}
+          note={note}
+          showReplyAsIcon
+          showQuoteAsIcon
+          disableLinkPreview
+          disableRouteOnClick={disableRouteOnClick}
+        />
+      </div>
+      {isSubNote && showLeftLine && <div className="note-sub-line absolute -bottom-2 top-6 left-9 border-l-2" />}
     </div>
   );
 };
