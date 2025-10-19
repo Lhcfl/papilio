@@ -3,17 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { type HTMLProps } from 'react';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, type HTMLProps } from 'react';
 import { MkNote } from '@/components/mk-note';
 import clsx from 'clsx';
 import { LoadingTrigger } from '@/components/loading-trigger';
-import { injectMisskeyApi } from '@/services/inject-misskey-api';
+import { injectMisskeyStream, misskeyApi } from '@/services/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { MoreHorizontalIcon } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import type { NoteUpdatedEvent } from 'misskey-js/streaming.types.js';
 
 export const MkNoteReplies = (
   props: {
@@ -23,8 +24,30 @@ export const MkNoteReplies = (
   } & HTMLProps<HTMLDivElement>,
 ) => {
   const { noteId, indent = 0, depth = 0, className: classNameProps, ...divProps } = props;
-  const api = injectMisskeyApi();
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const stream = injectMisskeyStream();
+
+    function onNoteReplied(ev: NoteUpdatedEvent) {
+      const { id, type } = ev;
+      if (id != noteId) return;
+
+      // This is a sharkey/firefish extension event type
+      if (type === ('replied' as never)) {
+        void queryClient.invalidateQueries({
+          queryKey: ['note-replies', noteId],
+        });
+      }
+    }
+
+    stream.addListener('noteUpdated', onNoteReplied);
+
+    return () => {
+      stream.removeListener('noteUpdated', onNoteReplied);
+    };
+  }, [noteId, queryClient]);
 
   // TODO: maybe we can estimate the total count of replies from note.repliesCount?
   // but is's not accurate. You may be blocked to see some replies. And sometimes the note may be outdated.
@@ -32,7 +55,7 @@ export const MkNoteReplies = (
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ['note-replies', noteId],
     queryFn: ({ pageParam: sinceId }) =>
-      api.request('notes/replies', { noteId: noteId, sinceId }).then((ns) => registerNote(ns)),
+      misskeyApi('notes/replies', { noteId: noteId, sinceId }).then((ns) => registerNote(ns)),
     getNextPageParam: (lastPage) => lastPage.at(-1),
     staleTime: 1000 * 60 * 10, // 10 minutes
     initialPageParam: '0',

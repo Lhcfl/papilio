@@ -8,7 +8,7 @@ import { atom, getDefaultStore, useAtomValue } from 'jotai';
 import type { EmojiSimple, Note } from 'misskey-js/entities.js';
 import type { NoteUpdatedEvent } from 'misskey-js/streaming.types.js';
 import type { NoteWithExtension } from '@/types/note';
-import { injectMisskeyApi, injectMisskeyStream } from '@/services/inject-misskey-api';
+import { injectMisskeyStream } from '@/services/inject-misskey-api';
 import { useMe } from '@/stores/me';
 import { isPureRenote } from 'misskey-js/note.js';
 
@@ -89,11 +89,9 @@ export function useNoteUpdateListener() {
     if (import.meta.env.DEV) {
       console.log('[NoteUpdateListener]: subscribing to noteUpdated');
     }
-
-    const api = injectMisskeyApi();
     const stream = injectMisskeyStream();
 
-    async function onNoteUpdated({ type, id, body }: NoteUpdatedEvent) {
+    function onNoteUpdated({ type, id, body }: NoteUpdatedEvent) {
       if (import.meta.env.DEV) {
         console.log('[NoteUpdateListener]: noteUpdated', { type, id, body });
       }
@@ -102,10 +100,7 @@ export function useNoteUpdateListener() {
         case 'replied' as never: {
           const { id } = body as unknown as { id: string };
           try {
-            const note = await api.request('notes/show', { noteId: id });
-            // SAFETY: the note is a reply, so it must have replyId
-            GlobalNoteSingletonManager.patch(note.replyId!, (note) => ({ repliesCount: note.repliesCount + 1 }));
-            GlobalNoteSingletonManager.register([note]);
+            GlobalNoteSingletonManager.patch(id, (note) => ({ repliesCount: note.repliesCount + 1 }));
           } catch {
             /* empty */
           }
