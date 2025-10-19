@@ -12,6 +12,7 @@ export const useNoteQuery = (noteId: string) => {
   const data = useQuery({
     queryKey: ['note', noteId],
     queryFn: () => api.request('notes/show', { noteId }).then((note) => registerNote([note])[0]),
+    staleTime: 1000 * 60 * 60, // 1 hour
   });
   return data;
 };

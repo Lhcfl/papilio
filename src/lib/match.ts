@@ -23,3 +23,12 @@ export function cond<T>(arr: [boolean | undefined | null, T][], fallback?: T): T
     throw new Error('No match found');
   }
 }
+
+export function firstNonNull<T>(...args: (T | null | undefined)[]): T | null {
+  for (const arg of args) {
+    if (arg != null) {
+      return arg;
+    }
+  }
+  return null;
+}

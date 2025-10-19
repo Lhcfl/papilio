@@ -21,6 +21,7 @@ import { useNoteQuery } from '@/hooks/use-note-query';
 import { registerNote, useNoteValue } from '@/hooks/use-note';
 import { getNoteRemoteUrl } from '@/lib/note';
 import { misskeyApi } from '@/services/inject-misskey-api';
+import { firstNonNull } from '@/lib/match';
 
 export const Route = createFileRoute('/notes/$id')({
   component: RouteComponent,
@@ -34,9 +35,11 @@ function RouteComponent() {
 
   return (
     <DefaultLayout title={t('note')} headerRight={isLoading && <Spinner />}>
-      {isPending && <MkNoteSkeleton />}
-      {error && <MkError error={error} retry={() => refetch()} />}
-      {data && <LoadedMain noteId={id} />}
+      {firstNonNull([
+        isPending && <MkNoteSkeleton />,
+        data && <LoadedMain noteId={id} />,
+        error && <MkError error={error} retry={() => refetch()} />,
+      ])}
     </DefaultLayout>
   );
 }
@@ -53,9 +56,11 @@ function LoadedMain(props: { noteId: string }) {
       isReply
         ? misskeyApi('notes/conversation', { noteId: noteId }).then((ns) => registerNote(ns).reverse())
         : Promise.resolve(null),
+    // Conversation (parent replies chain) will never change, so we can cache it indefinitely
+    staleTime: Number.POSITIVE_INFINITY,
   });
 
-  if (note == null) {
+  if (note == null || note.isDeleted) {
     return (
       <Empty>
         <EmptyHeader>
