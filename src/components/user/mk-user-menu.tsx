@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import type { UserDetailed } from 'misskey-js/entities.js';
 import { MenuOrDrawer, type Menu } from '../menu-or-drawer';
 import { useMe } from '@/stores/me';
