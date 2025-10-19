@@ -18,7 +18,7 @@ export const MkHashTag = ({
   disableRoute?: boolean;
 } & HTMLAttributes<HTMLAnchorElement>) => {
   if (disableRoute) {
-    return <span className={cn('break-all break-words text-tertiary hover:underline', className)}>#{name}</span>;
+    return <span className={cn('break-all break-words text-tertiary', className)}>#{name}</span>;
   }
 
   return (
