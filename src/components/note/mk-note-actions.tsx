@@ -37,6 +37,10 @@ import { useRightbarOrPopup } from '@/stores/rightbar-or-poup';
 import { MkPostForm } from '@/components/mk-post-form';
 import { VISIBILITIES } from '@/lib/note';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
+import { useMisskeyForkFeatures } from '@/stores/node-info';
+import { useMutation } from '@tanstack/react-query';
+import { misskeyApi } from '@/services/inject-misskey-api';
+import { patchNote } from '@/hooks/use-note';
 
 const MkNoteActionButton = (
   props: {
@@ -45,7 +49,6 @@ const MkNoteActionButton = (
     loading?: boolean;
     disabled?: boolean;
     tooltip?: string;
-    onClick?: () => void;
   } & ComponentProps<typeof Button>,
 ) => {
   const { loading = false, disabled = false, icon, count = 0, tooltip, ...rest } = props;
@@ -76,8 +79,23 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const { mutate: unreact, isPending: isUnReacting } = useUndoReactNoteAction(note.id);
   const { mutate: react } = useReactNoteAction(note.id);
   const noteMenu = useNoteMenu({ onTranslate, note });
+  const features = useMisskeyForkFeatures();
 
   const [renoteLocalOnly, setRenoteLocalOnly] = useState(false);
+
+  const { mutate: syncNote } = useMutation({
+    mutationKey: ['sync:note/state', note.id],
+    mutationFn: async () => {
+      patchNote(note.id, { 'papi:isSyncing:notes/state': true });
+      const res = await misskeyApi('notes/state', { noteId: note.id });
+      patchNote(note.id, {
+        isFavorited: res.isFavorited,
+        isMutingThread: res.isMutedThread,
+        'papi:isSyncing:notes/state': false,
+      });
+      return res;
+    },
+  });
 
   const renoteMenu: Menu = [
     {
@@ -255,7 +273,14 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
         />
       )}
 
-      <MenuOrDrawer menu={noteMenu}>
+      <MenuOrDrawer
+        menu={noteMenu}
+        onOpen={() => {
+          if (!features.noNeedGetNoteState) {
+            syncNote();
+          }
+        }}
+      >
         <MkNoteActionButton icon={<MoreHorizontalIcon />} tooltip={t('menu')} />
       </MenuOrDrawer>
     </div>

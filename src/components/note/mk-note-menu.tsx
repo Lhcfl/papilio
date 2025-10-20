@@ -34,6 +34,7 @@ import { useAfterConfirm } from '@/stores/confirm-dialog';
 import type { Menu } from '@/components/menu-or-drawer';
 import { errorMessageSafe } from '@/lib/error';
 import { linkOptions } from '@tanstack/react-router';
+import { Spinner } from '@/components/ui/spinner';
 
 const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }, successMessage: string) => () =>
   props
@@ -129,9 +130,23 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
       type: 'group',
       items: [
         null, // separator
-        note.isFavorited
-          ? { id: 'unfavorite', type: 'item', onClick: () => unfavorite(), icon: <StarIcon />, label: t('unfavorite') }
-          : { id: 'favorite', type: 'item', onClick: () => favorite(), icon: <StarIcon />, label: t('favorite') },
+        note['papi:isSyncing:notes/state']
+          ? {
+              id: 'syncing-favorite',
+              type: 'item',
+              icon: <Spinner />,
+              label: null,
+              onClick: () => null,
+            }
+          : note.isFavorited
+            ? {
+                id: 'unfavorite',
+                type: 'item',
+                onClick: () => unfavorite(),
+                icon: <StarIcon />,
+                label: t('unfavorite'),
+              }
+            : { id: 'favorite', type: 'item', onClick: () => favorite(), icon: <StarIcon />, label: t('favorite') },
         {
           id: 'clip',
           type: 'item',
@@ -139,21 +154,29 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
           label: t('clip'),
           onClick: () => toast.info('not implemented'),
         },
-        note.isMutingThread
+        note['papi:isSyncing:notes/state']
           ? {
-              id: 'unmute-thread',
+              id: 'syncing-mute-thread',
               type: 'item',
-              onClick: () => unmuteThread(),
-              icon: <BellOffIcon />,
-              label: t('unmuteThread'),
+              icon: <Spinner />,
+              label: null,
+              onClick: () => null,
             }
-          : {
-              id: 'mute-thread',
-              type: 'item',
-              onClick: () => muteThread(),
-              icon: <BellOffIcon />,
-              label: t('muteThread'),
-            },
+          : note.isMutingThread
+            ? {
+                id: 'unmute-thread',
+                type: 'item',
+                onClick: () => unmuteThread(),
+                icon: <BellOffIcon />,
+                label: t('unmuteThread'),
+              }
+            : {
+                id: 'mute-thread',
+                type: 'item',
+                onClick: () => muteThread(),
+                icon: <BellOffIcon />,
+                label: t('muteThread'),
+              },
       ],
     },
     !isMine && {

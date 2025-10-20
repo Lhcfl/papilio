@@ -11,6 +11,8 @@ export type NoteWithExtension = Omit<
     Partial<Omit<SharkeyNote, keyof Note>> & {
       /** frontend extension. Mark a note as deleted */
       isDeleted?: boolean;
+      /** frontend extension. Mark a note as syncing */
+      'papi:isSyncing:notes/state'?: boolean;
     },
   'reply' | 'renote'
 >;

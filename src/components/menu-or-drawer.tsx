@@ -79,13 +79,27 @@ function findFirstLabel(menu: Menu): React.ReactNode {
   }
 }
 
-export const MenuOrDrawer = (props: { children: React.ReactNode; menu: Menu }) => {
+export const MenuOrDrawer = (props: {
+  children: React.ReactNode;
+  menu: Menu;
+  onOpen?: () => void;
+  onClose?: () => void;
+}) => {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
 
+  function onOpenChange(isOpen: boolean) {
+    setOpen(isOpen);
+    if (isOpen) {
+      props.onOpen?.();
+    } else {
+      props.onClose?.();
+    }
+  }
+
   if (isMobile) {
     return (
-      <Drawer open={open} onOpenChange={setOpen}>
+      <Drawer open={open} onOpenChange={onOpenChange}>
         <DrawerTrigger asChild>{props.children}</DrawerTrigger>
         <DrawerContent>
           <DrawerTitle className="sr-only">{findFirstLabel(props.menu)}</DrawerTitle>
@@ -102,7 +116,7 @@ export const MenuOrDrawer = (props: { children: React.ReactNode; menu: Menu }) =
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>{props.children}</DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="max-w-60 lg:max-w-75">
         {GenerateDropDownMenu(props.menu)}
