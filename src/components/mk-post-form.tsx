@@ -238,7 +238,7 @@ function MkPostFormLoaded(
   const postBtnLabel = props.replyId ? t('reply') : props.quoteId ? t('quote') : props.editId ? t('edit') : t('note');
 
   return (
-    <div className={cn('mk-post-form rounded-md @container', className)} {...rest}>
+    <div className={cn('mk-post-form rounded-md bg-background @container', className)} {...rest}>
       {displayRelatedNote && relatedNote && (
         <MkNoteSimple
           className="-m-2"
