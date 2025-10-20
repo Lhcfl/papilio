@@ -8,7 +8,7 @@ import { atom, getDefaultStore, useAtomValue } from 'jotai';
 import type { EmojiSimple, Note } from 'misskey-js/entities.js';
 import type { NoteUpdatedEvent } from 'misskey-js/streaming.types.js';
 import type { NoteWithExtension } from '@/types/note';
-import { injectMisskeyStream } from '@/services/inject-misskey-api';
+import { injectMisskeyStream, misskeyApi } from '@/services/inject-misskey-api';
 import { useMe } from '@/stores/me';
 import { isPureRenote } from 'misskey-js/note.js';
 
@@ -20,7 +20,6 @@ const flatten = (notes: (NoteWithExtension & Note)[]): NoteWithExtension[] =>
         ...flatten(notes.map((n) => n.renote).filter(Boolean) as Note[]),
         ...notes,
       ];
-
 class NoteSingletonManager {
   notes = new Map<string, ReturnType<typeof atom<NoteWithExtension>>>();
   global_null = atom<null>(null);
@@ -95,6 +94,7 @@ export function useNoteUpdateListener() {
       if (import.meta.env.DEV) {
         console.log('[NoteUpdateListener]: noteUpdated', { type, id, body });
       }
+      document.dispatchEvent(new CustomEvent(`papi:NoteUpdated/${id}`, { detail: { type, body } }));
       switch (type) {
         // Sharkey have "replied"
         case 'replied' as never: {
@@ -236,64 +236,33 @@ export const useAppearNote = (note: NoteWithExtension | null) => {
   return useAtomValue(a ?? GlobalNoteSingletonManager.global_null);
 };
 
-//   type NoteSingleton = {
-//   notes: Record<string, NoteWithExtension | undefined>
-//   register: (...note: NoteWithExtension[]) => string[]
-//   unregister: (noteId: string) => void
-//   patch: (
-//     noteId: string,
-//     patch: Partial<NoteWithExtension> | ((note: NoteWithExtension) => Partial<NoteWithExtension>),
-//   ) => void
-// }
+/**
+ * Due to network issues, or known bugs (e.g. renoting in users page won't trigger timeline.note event)
+ * Sometimes the main channel may miss some updates, causing the note state to be inconsist.
+ *
+ * This function will setup a fallback listener to re-fetch the note after 2 seconds,
+ * unless the main channel notifies an update before that.
+ *
+ * Please call this function in mutation hooks that may cause note state changes.
+ * @param noteId Note ID
+ */
+export const markAsChanged = (noteId: string) => {
+  const timeout = setTimeout(() => {
+    if (import.meta.env.DEV) {
+      console.log(`[NoteUpdate]: re-fetching note ${noteId} due to timeout`);
+    }
+    void misskeyApi('notes/show', { noteId }).then((note) => {
+      registerNote([note]);
+    });
+  }, 2000);
 
-// export const NoteUpdateListener = create<NoteSingleton>((set) => {
-//   const stream = injectMisskeyStream()
-
-//   return {
-//     notes: {},
-//     register: (...notes: NoteWithExtension[]) => {
-//       const ns = flatten(notes)
-
-//       set(state => ({
-//         notes: {
-//           ...state.notes,
-//           ...Object.fromEntries(ns.map(n => [n.id, n])),
-//         },
-//       }))
-
-//       if (import.meta.env.DEV) {
-//         console.log(
-//           '[NoteUpdateListener]: subscribed:',
-//           ns.map(n => n.id),
-//         )
-//       }
-
-//       for (const n of ns) {
-//         stream.send('sr', { id: n.id })
-//       }
-
-//       return notes.map(n => n.id)
-//     },
-
-//     unregister: (noteId: string) => {
-//       set((state) => {
-//         const newNotes = { ...state.notes }
-//         delete newNotes[noteId]
-//         return { notes: newNotes }
-//       })
-//       stream.send('un', { id: noteId })
-//     },
-
-//     patch: (
-//       noteId: string,
-//       patch: Partial<NoteWithExtension> | ((note: NoteWithExtension) => Partial<NoteWithExtension>),
-//     ) =>
-//       set((state) => {
-//         const note = state.notes[noteId]
-//         if (note == null) return {}
-//         return {
-//           notes: { ...state.notes, [noteId]: { ...note, ...(typeof patch === 'function' ? patch(note) : patch) } },
-//         }
-//       }),
-//   }
-// })
+  document.addEventListener(
+    `papi:NoteUpdated/${noteId}`,
+    () => {
+      clearTimeout(timeout);
+    },
+    {
+      once: true,
+    },
+  );
+};

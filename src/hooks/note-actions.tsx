@@ -6,19 +6,27 @@
 import { misskeyApi, type EndpointParamType } from '@/services/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { patchNote } from '@/hooks/use-note';
+import { markAsChanged, patchNote } from '@/hooks/use-note';
 
 export const useRenoteAction = (noteId: string) =>
   useMutation({
     mutationKey: ['renote', noteId],
     mutationFn: (props: Omit<EndpointParamType<'notes/create'>, 'renoteId'>) =>
       misskeyApi('notes/create', { renoteId: noteId, ...props }),
+    // renote and unrenote in some version of misskey/sharekey sometimes returns a wrong number of renotes
+    // so we just mark the note as changed to refetch it on success.
+    onSuccess: () => {
+      markAsChanged(noteId);
+    },
   });
 
 export const useUnrenoteAction = (noteId: string) =>
   useMutation({
     mutationKey: ['unrenote', noteId],
     mutationFn: () => misskeyApi('notes/unrenote', { noteId }),
+    onSuccess: () => {
+      markAsChanged(noteId);
+    },
   });
 
 export const useDeleteNoteAction = (noteId: string) =>
@@ -34,11 +42,17 @@ export const useReactNoteAction = (noteId: string) =>
   useMutation({
     mutationKey: ['reactNote', noteId],
     mutationFn: (reaction: string) => misskeyApi('notes/reactions/create', { noteId, reaction }),
+    onMutate: () => {
+      markAsChanged(noteId);
+    },
   });
 export const useUndoReactNoteAction = (noteId: string) =>
   useMutation({
     mutationKey: ['undoReactNote', noteId],
     mutationFn: () => misskeyApi('notes/reactions/delete', { noteId }),
+    onMutate: () => {
+      markAsChanged(noteId);
+    },
   });
 
 type RestArgumentsOf<T> = T extends (arg0: never, ...args: infer U) => unknown ? U : never;
