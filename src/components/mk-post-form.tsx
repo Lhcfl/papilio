@@ -54,6 +54,7 @@ import { MkNoteSimple } from '@/components/mk-note-simple';
 import { useSiteMeta } from '@/stores/site';
 import { Progress } from '@/components/ui/progress';
 import { useErrorDialogs } from '@/stores/error-dialog';
+import { useConfirmDialog } from '@/stores/confirm-dialog';
 
 type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;
@@ -126,7 +127,7 @@ function MkPostFormLoaded(
   const siteDomain = new URL(site!).hostname;
   const { t } = useTranslation();
   const maxNoteTextLength = useSiteMeta((m) => m.maxNoteTextLength);
-  const usedTextLengthLimitPercent = (draft.text.length / maxNoteTextLength) * 100;
+  const usedTextLengthLimitPercent = Math.min((draft.text.length / maxNoteTextLength) * 100, 100);
   const textLimitRemaining = maxNoteTextLength - draft.text.length;
   const me = useMe();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -141,7 +142,9 @@ function MkPostFormLoaded(
     [draft.text.trim().length > 0, draft.hasCw && draft.cw.trim().length > 0].some((v) => v);
 
   // performance: if exceeding limit too much, stop parse MFM, because the mfm parser is slow
-  const parsedText = textLimitRemaining > -10000 ? mfm.parse(draft.text) : [];
+  // this is actually a Self-DoS but sometimes users do that unintentionally (copy-paste huge text)
+  // so we just prevent it here
+  const parsedText = textLimitRemaining > -1000 ? mfm.parse(draft.text) : [];
   const mentionedUsers = collectAst(parsedText, (node) => (node.type === 'mention' ? node.props : undefined));
   const unspecifiedMentions = mentionedUsers.filter((u) =>
     draft.visibleUsers.every((vu) => u.username != vu.username || (u.host != siteDomain && u.host != vu.host)),
@@ -153,6 +156,7 @@ function MkPostFormLoaded(
 
   // #region Actions and Callbacks
   const pushErrorDialog = useErrorDialogs((s) => s.pushDialog);
+  const pushConfirmDialog = useConfirmDialog((s) => s.pushDialog);
 
   const { mutate: addUnspecifiedMentionUser, isPending: isAddingUser } = useMutation({
     mutationKey: ['add-unspecified-mention-user', draftKey],
@@ -388,6 +392,28 @@ function MkPostFormLoaded(
                 ev.preventDefault();
                 ev.stopPropagation();
                 void onFileUpload(Array.from(files).map((f) => uploadFile(f)));
+              }
+              const text = ev.clipboardData.getData('text');
+              if (text.length > 2000) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                pushConfirmDialog({
+                  title: t('areYouSure'),
+                  description: t('attachAsFileQuestion'),
+                  onConfirm: () => {
+                    const file = new File([new Blob([text], { type: 'text/plain' })], 'pasted-text.txt');
+                    void onFileUpload([uploadFile(file)]);
+                  },
+                  onCancel: () => {
+                    const textarea = textareaRef.current;
+                    if (!textarea) return;
+                    const start = textarea.selectionStart;
+                    const end = textarea.selectionEnd;
+                    const value = textarea.value;
+                    textarea.value = value.slice(0, start) + text + value.slice(end);
+                    textarea.selectionStart = textarea.selectionEnd = start + text.length;
+                  },
+                });
               }
             }}
           />
