@@ -40,6 +40,7 @@ import { Route as MyNotificationsMentionsRouteImport } from './routes/my/notific
 import { Route as MyFollowRequestsSentRouteImport } from './routes/my/follow-requests/sent'
 import { Route as MyFollowRequestsReceivedRouteImport } from './routes/my/follow-requests/received'
 import { Route as MyDriveFolderFolderRouteImport } from './routes/my/drive/folder/$folder'
+import { Route as MyDriveFileFileRouteImport } from './routes/my/drive/file/$file'
 
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
@@ -196,6 +197,11 @@ const MyDriveFolderFolderRoute = MyDriveFolderFolderRouteImport.update({
   path: '/my/drive/folder/$folder',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MyDriveFileFileRoute = MyDriveFileFileRouteImport.update({
+  id: '/my/drive/file/$file',
+  path: '/my/drive/file/$file',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRouteRouteWithChildren
@@ -227,6 +233,7 @@ export interface FileRoutesByFullPath {
   '/my/notifications/pm': typeof MyNotificationsPmRoute
   '/my/drive': typeof MyDriveIndexRoute
   '/my/notifications/': typeof MyNotificationsIndexRoute
+  '/my/drive/file/$file': typeof MyDriveFileFileRoute
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
 }
 export interface FileRoutesByTo {
@@ -257,6 +264,7 @@ export interface FileRoutesByTo {
   '/my/notifications/pm': typeof MyNotificationsPmRoute
   '/my/drive': typeof MyDriveIndexRoute
   '/my/notifications': typeof MyNotificationsIndexRoute
+  '/my/drive/file/$file': typeof MyDriveFileFileRoute
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
 }
 export interface FileRoutesById {
@@ -291,6 +299,7 @@ export interface FileRoutesById {
   '/my/notifications/pm': typeof MyNotificationsPmRoute
   '/my/drive/': typeof MyDriveIndexRoute
   '/my/notifications/': typeof MyNotificationsIndexRoute
+  '/my/drive/file/$file': typeof MyDriveFileFileRoute
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
 }
 export interface FileRouteTypes {
@@ -325,6 +334,7 @@ export interface FileRouteTypes {
     | '/my/notifications/pm'
     | '/my/drive'
     | '/my/notifications/'
+    | '/my/drive/file/$file'
     | '/my/drive/folder/$folder'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -355,6 +365,7 @@ export interface FileRouteTypes {
     | '/my/notifications/pm'
     | '/my/drive'
     | '/my/notifications'
+    | '/my/drive/file/$file'
     | '/my/drive/folder/$folder'
   id:
     | '__root__'
@@ -388,6 +399,7 @@ export interface FileRouteTypes {
     | '/my/notifications/pm'
     | '/my/drive/'
     | '/my/notifications/'
+    | '/my/drive/file/$file'
     | '/my/drive/folder/$folder'
   fileRoutesById: FileRoutesById
 }
@@ -411,6 +423,7 @@ export interface RootRouteChildren {
   NotesIdRoute: typeof NotesIdRoute
   TagTagRoute: typeof TagTagRoute
   MyDriveIndexRoute: typeof MyDriveIndexRoute
+  MyDriveFileFileRoute: typeof MyDriveFileFileRoute
   MyDriveFolderFolderRoute: typeof MyDriveFolderFolderRoute
 }
 
@@ -633,6 +646,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyDriveFolderFolderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/my/drive/file/$file': {
+      id: '/my/drive/file/$file'
+      path: '/my/drive/file/$file'
+      fullPath: '/my/drive/file/$file'
+      preLoaderRoute: typeof MyDriveFileFileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -718,6 +738,7 @@ const rootRouteChildren: RootRouteChildren = {
   NotesIdRoute: NotesIdRoute,
   TagTagRoute: TagTagRoute,
   MyDriveIndexRoute: MyDriveIndexRoute,
+  MyDriveFileFileRoute: MyDriveFileFileRoute,
   MyDriveFolderFolderRoute: MyDriveFolderFolderRoute,
 }
 export const routeTree = rootRouteImport

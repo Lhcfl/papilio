@@ -12,6 +12,10 @@ import { DialogTitle } from '@radix-ui/react-dialog';
 import { XIcon } from 'lucide-react';
 import { useMedia } from 'react-use';
 
+export const RIGHTBAR_OR_POPUP_ID = 'rbropi';
+export const RIGHTBAR_OR_POPUP_HEADERLEFT = `${RIGHTBAR_OR_POPUP_ID}__hdl`;
+export const RIGHTBAR_OR_POPUP_HEADERRIGHT = `${RIGHTBAR_OR_POPUP_ID}__hdr`;
+
 export const RightbarOrPopupProvider = () => {
   const isMobile = useMedia('(max-width: 64rem)', false);
   return isMobile ? <MobilePopup /> : <DesktopRightbar />;
@@ -33,9 +37,15 @@ const MobilePopup = () => {
       open={!!node && !closing}
     >
       <DialogContent className="p-0">
-        <ScrollArea className="px-4 pt-4 pb-2 max-h-[calc(100vh_-_8em)]">
+        <ScrollArea id={RIGHTBAR_OR_POPUP_ID} className="px-4 pt-4 pb-2 max-h-[calc(100vh_-_8em)]">
           <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
+            <DialogTitle>
+              <div className="flex items-center justify-between">
+                <div id={RIGHTBAR_OR_POPUP_HEADERLEFT} />
+                {title}
+                <div id={RIGHTBAR_OR_POPUP_HEADERRIGHT} />
+              </div>
+            </DialogTitle>
           </DialogHeader>
           {node}
         </ScrollArea>
@@ -53,12 +63,18 @@ const DesktopRightbar = () => {
   return (
     <div className="right-card-container border-l max-lg:hidden relative bg-sidebar">
       {node && !closing ? (
-        <ScrollArea className="w-110 xl:w-120 2xl:w-130 h-screen p-2">
+        <ScrollArea id={RIGHTBAR_OR_POPUP_ID} className="w-110 xl:w-120 2xl:w-130 h-screen p-2">
           <div className="flex items-center justify-between">
-            <div>{title}</div>
-            <Button onClick={close} variant="ghost">
-              <XIcon />
-            </Button>
+            <div className="flex items-center">
+              <div id={RIGHTBAR_OR_POPUP_HEADERLEFT} />
+              {title}
+            </div>
+            <div>
+              <div id={RIGHTBAR_OR_POPUP_HEADERRIGHT} />
+              <Button onClick={close} variant="ghost">
+                <XIcon />
+              </Button>
+            </div>
           </div>
           {node}
         </ScrollArea>

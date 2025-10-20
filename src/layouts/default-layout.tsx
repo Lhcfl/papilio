@@ -40,7 +40,8 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   );
 }
 
-const HEADER_RIGHT_PORTAL_ID = 'sdbr__h-r-portal';
+export const HEADER_LEFT_PORTAL_ID = 'sdbr__h-l-portal';
+export const HEADER_RIGHT_PORTAL_ID = 'sdbr__h-r-portal';
 
 export function HeaderRightPortal(props: { children: React.ReactNode }) {
   const [container, setContainer] = useState<HTMLElement | null>(null);
@@ -108,7 +109,6 @@ function SidebarLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
                 }
                 headerRight={
                   <>
-                    <div id={HEADER_RIGHT_PORTAL_ID} />
                     {actualCurrentTab?.headerRight}
                     {props.headerRight}
                   </>
@@ -151,6 +151,7 @@ function LayoutMiddle(props: {
       <header className="h-13 flex gap-1 items-center p-2 sticky top-0 bg-background border-b z-30">
         <SidebarTrigger className="size-8" />
         <div className="flex items-center gap-1">
+          <div id={HEADER_LEFT_PORTAL_ID} />
           {headerLeft ?? (
             <span
               className={cn('text-sm text-muted-foreground', {
@@ -162,7 +163,10 @@ function LayoutMiddle(props: {
           )}
         </div>
         <div className="flex-grow-1 w-0 text-center">{headerCenter}</div>
-        <div className="flex items-center">{headerRight}</div>
+        <div className="flex items-center">
+          <div id={HEADER_RIGHT_PORTAL_ID} />
+          {headerRight}
+        </div>
       </header>
       <div className="p-2 flex justify-center">
         <div className="main-area flex-[1_1] w-0 max-w-200">{children}</div>

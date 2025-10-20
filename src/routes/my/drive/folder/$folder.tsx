@@ -10,7 +10,7 @@ function RouteComponent() {
   const folderId = Route.useParams().folder;
 
   return (
-    <DefaultLayout>
+    <DefaultLayout title="">
       <MkDrive folderId={folderId} />
     </DefaultLayout>
   );

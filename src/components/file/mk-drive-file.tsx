@@ -1,15 +1,17 @@
 import { GuessFileIcon } from '@/components/file/guess-file-icon';
 import { MkImage } from '@/components/mk-image';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 import type { DriveFile } from 'misskey-js/entities.js';
+import type { HTMLProps } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export function MkDriveFile({ file }: { file: DriveFile }) {
+export function MkDriveFile({ file, className, ...props }: { file: DriveFile } & HTMLProps<HTMLDivElement>) {
   const { t } = useTranslation();
   const isImage = file.type.startsWith('image/');
 
   return (
-    <div className="border p-2 flex flex-col gap-1 items-center justify-center rounded-lg">
+    <div className={cn('border p-2 flex flex-col gap-1 items-center justify-center rounded-lg', className)} {...props}>
       {isImage ? (
         <MkImage
           image={file}

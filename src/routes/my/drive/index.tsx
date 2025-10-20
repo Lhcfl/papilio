@@ -8,7 +8,7 @@ export const Route = createFileRoute('/my/drive/')({
 
 function RouteComponent() {
   return (
-    <DefaultLayout>
+    <DefaultLayout title="">
       <MkDrive folderId={null} />
     </DefaultLayout>
   );

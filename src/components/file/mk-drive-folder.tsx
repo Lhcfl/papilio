@@ -1,5 +1,5 @@
 import type { DriveFolder } from 'misskey-js/entities.js';
-import { Item, ItemContent, ItemDescription, ItemHeader, ItemMedia } from '@/components/ui/item';
+import { Item, ItemContent, ItemHeader, ItemMedia } from '@/components/ui/item';
 import { Link } from '@tanstack/react-router';
 import { FolderIcon } from 'lucide-react';
 import type { HTMLProps } from 'react';
