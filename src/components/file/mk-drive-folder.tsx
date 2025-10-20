@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import type { DriveFolder } from 'misskey-js/entities.js';
 import { Item, ItemContent, ItemHeader, ItemMedia } from '@/components/ui/item';
 import { Link } from '@tanstack/react-router';

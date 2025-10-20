@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { GuessFileIcon } from '@/components/file/guess-file-icon';
 import { MkImage } from '@/components/mk-image';
 import { Badge } from '@/components/ui/badge';
