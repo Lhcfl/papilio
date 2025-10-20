@@ -12,6 +12,7 @@ import { useMe } from '@/stores/me';
 import { Button } from '@/components/ui/button';
 import {
   ChartColumnIcon,
+  CircleAlertIcon,
   EyeIcon,
   ImageIcon,
   MailIcon,
@@ -23,6 +24,7 @@ import {
   ReplyIcon,
   SendIcon,
   SmilePlusIcon,
+  XCircleIcon,
   XIcon,
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -49,6 +51,8 @@ import { useUploader } from '@/hooks/use-uploader';
 import { MkPostFormFiles } from '@/components/post-form/mk-post-form-files';
 import { extractMention } from '@/lib/mention';
 import { MkNoteSimple } from '@/components/mk-note-simple';
+import { useSiteMeta } from '@/stores/site';
+import { Progress } from '@/components/ui/progress';
 
 type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;
@@ -117,8 +121,12 @@ function MkPostFormLoaded(
     ...rest
   } = props;
 
+  // #region States And Hooks
   const siteDomain = new URL(site!).hostname;
   const { t } = useTranslation();
+  const maxNoteTextLength = useSiteMeta((m) => m.maxNoteTextLength);
+  const usedTextLengthLimitPercent = (draft.text.length / maxNoteTextLength) * 100;
+  const textLimitRemaining = maxNoteTextLength - draft.text.length;
   const me = useMe();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const cwRef = useRef<HTMLTextAreaElement>(null);
@@ -127,20 +135,21 @@ function MkPostFormLoaded(
   const queryClient = useQueryClient();
   const uploadFile = useUploader();
 
-  useMount(() => {
-    const textarea = textareaRef.current;
-    if (textarea && autoFocus) {
-      textarea.focus();
-    }
-    textarea?.setSelectionRange(draft.text.length, draft.text.length);
-  });
+  const sendable =
+    draft.text.length < maxNoteTextLength &&
+    [draft.text.trim().length > 0, draft.hasCw && draft.cw.trim().length > 0].some((v) => v);
 
   const parsedText = mfm.parse(draft.text);
   const mentionedUsers = collectAst(parsedText, (node) => (node.type === 'mention' ? node.props : undefined));
   const unspecifiedMentions = mentionedUsers.filter((u) =>
     draft.visibleUsers.every((vu) => u.username != vu.username || (u.host != siteDomain && u.host != vu.host)),
   );
+  const PostBtnIcon = props.replyId ? ReplyIcon : props.quoteId ? QuoteIcon : props.editId ? PencilIcon : SendIcon;
+  const postBtnLabel = props.replyId ? t('reply') : props.quoteId ? t('quote') : props.editId ? t('edit') : t('note');
 
+  // #endregion States And Hooks
+
+  // #region Actions and Callbacks
   const { mutate: addUnspecifiedMentionUser, isPending: isAddingUser } = useMutation({
     mutationKey: ['add-unspecified-mention-user', draftKey],
     mutationFn: () =>
@@ -190,14 +199,6 @@ function MkPostFormLoaded(
     },
   });
 
-  const sendable = [draft.text.trim().length > 0, draft.hasCw && draft.cw.trim().length > 0].some((v) => v);
-
-  useEffect(() => {
-    if (draft.visibility == 'specified') {
-      addUnspecifiedMentionUser();
-    }
-  }, [draft.visibility, addUnspecifiedMentionUser]);
-
   function focusTextarea() {
     setTimeout(() => {
       if (currentFocusTextarea == 'cw') {
@@ -233,9 +234,25 @@ function MkPostFormLoaded(
     }
     draft.update({ files: [...draft.files, ...oks] });
   }
+  // #region Actions and Callbacks
 
-  const PostBtnIcon = props.replyId ? ReplyIcon : props.quoteId ? QuoteIcon : props.editId ? PencilIcon : SendIcon;
-  const postBtnLabel = props.replyId ? t('reply') : props.quoteId ? t('quote') : props.editId ? t('edit') : t('note');
+  // #region Effects
+
+  useMount(() => {
+    const textarea = textareaRef.current;
+    if (textarea && autoFocus) {
+      textarea.focus();
+    }
+    textarea?.setSelectionRange(draft.text.length, draft.text.length);
+  });
+
+  useEffect(() => {
+    if (draft.visibility == 'specified') {
+      addUnspecifiedMentionUser();
+    }
+  }, [draft.visibility, addUnspecifiedMentionUser]);
+
+  // #endregion Effects
 
   return (
     <div className={cn('mk-post-form rounded-md bg-background @container', className)} {...rest}>
@@ -337,7 +354,9 @@ function MkPostFormLoaded(
           <InputGroupTextarea
             name="text"
             ref={textareaRef}
-            className="@max-sm:text-sm"
+            className={cn('@max-sm:text-sm', {
+              'pb-7': usedTextLengthLimitPercent >= 70,
+            })}
             placeholder={placeholder}
             value={draft.text}
             onChange={(e) => {
@@ -378,6 +397,23 @@ function MkPostFormLoaded(
           draft.update({ files: f(draft.files) });
         }}
       />
+      {usedTextLengthLimitPercent >= 70 && (
+        <div className="relative">
+          <div
+            className={cn(
+              'absolute right-1 bottom-1 px-1 py-0.5 flex items-center gap-1 text-sm bg-background border rounded-md pointer-events-none',
+              {
+                'text-yellow-500': textLimitRemaining >= 0,
+                'text-red-500': textLimitRemaining < 0,
+              },
+            )}
+          >
+            {textLimitRemaining >= 0 ? <CircleAlertIcon className="size-4" /> : <XCircleIcon className="size-4" />}
+            {t('remainingN', { n: textLimitRemaining })}
+          </div>
+          <Progress value={usedTextLengthLimitPercent} className="rounded-none h-0.5" />
+        </div>
+      )}
       <div className="mk-post-form__footer border-t flex justify-between p-2">
         <div className="mk-post-form__action flex @md:gap-1">
           {prependFooter}
