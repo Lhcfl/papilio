@@ -9,6 +9,8 @@ import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { useUploader, type UploadFileOptions } from '@/hooks/use-uploader';
 import type { DriveFile } from 'misskey-js/entities.js';
+import { MkDriveFileSelect } from '@/components/mk-drive-file-select';
+import { useState } from 'react';
 
 export const MkFileUploadMenu = (props: {
   children: React.ReactNode;
@@ -17,6 +19,7 @@ export const MkFileUploadMenu = (props: {
 }) => {
   const { children, allowMultiple = true, onUpload } = props;
   const { t } = useTranslation();
+  const [openDriveSelect, setOpenDriveSelect] = useState(false);
 
   const uploadFile = useUploader();
 
@@ -64,9 +67,23 @@ export const MkFileUploadMenu = (props: {
       id: 'upload-from-drive',
       icon: <HardDriveUploadIcon />,
       label: t('fromDrive'),
-      onClick: () => toast.error('Not implemented yet'),
+      onClick: () => {
+        setOpenDriveSelect(true);
+      },
     },
   ];
 
-  return <MenuOrDrawer menu={menu}>{children}</MenuOrDrawer>;
+  return (
+    <>
+      <MenuOrDrawer menu={menu}>{children}</MenuOrDrawer>
+      <MkDriveFileSelect
+        open={openDriveSelect}
+        setOpen={setOpenDriveSelect}
+        onFileSelect={(files) => {
+          setOpenDriveSelect(false);
+          onUpload(files.map((f) => Promise.resolve(f)));
+        }}
+      />
+    </>
+  );
 };

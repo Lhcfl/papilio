@@ -1,25 +1,25 @@
-import { HEADER_LEFT_PORTAL_ID, HEADER_RIGHT_PORTAL_ID } from '@/layouts/default-layout';
-import { RIGHTBAR_OR_POPUP_HEADERLEFT, RIGHTBAR_OR_POPUP_HEADERRIGHT } from '@/providers/rightbar-or-popup';
-import { useRightbarOrPopup } from '@/stores/rightbar-or-poup';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useMount } from 'react-use';
 
+export const PORTALABLE_HEADER_LEFT_CLASSNAME = 'ptrb-header__left';
+export const PORTALABLE_HEADER_RIGHT_CLASSNAME = 'ptrb-header__right';
+
 export function ContextualHeaderLeftPortal(props: { children: React.ReactNode }) {
-  const hasRightBar = useRightbarOrPopup((s) => s.node != null);
   const [container, setContainer] = useState<HTMLElement | null>(null);
   useMount(() => {
-    if (hasRightBar) {
-      const elem = document.getElementById(RIGHTBAR_OR_POPUP_HEADERLEFT);
-      if (elem) {
-        setContainer(elem);
+    const elems = document.getElementsByClassName(PORTALABLE_HEADER_LEFT_CLASSNAME) as HTMLCollectionOf<HTMLElement>;
+    let rankMax = -1;
+    let targetElem: HTMLElement | null = null;
+    for (const elem of elems) {
+      const rank = Number(elem.dataset.ptrbRank ?? 0);
+      if (rank > rankMax) {
+        rankMax = rank;
+        targetElem = elem;
       }
-      return;
     }
-    const elem = document.getElementById(HEADER_LEFT_PORTAL_ID);
-    if (elem) {
-      setContainer(elem);
-      return;
+    if (targetElem) {
+      setContainer(targetElem);
     }
   });
   if (!container) return null;
@@ -27,20 +27,20 @@ export function ContextualHeaderLeftPortal(props: { children: React.ReactNode })
 }
 
 export function ContextualHeaderRightPortal(props: { children: React.ReactNode }) {
-  const hasRightBar = useRightbarOrPopup((s) => s.node != null);
   const [container, setContainer] = useState<HTMLElement | null>(null);
   useMount(() => {
-    if (hasRightBar) {
-      const elem = document.getElementById(RIGHTBAR_OR_POPUP_HEADERRIGHT);
-      if (elem) {
-        setContainer(elem);
+    const elems = document.getElementsByClassName(PORTALABLE_HEADER_RIGHT_CLASSNAME) as HTMLCollectionOf<HTMLElement>;
+    let rankMax = -1;
+    let targetElem: HTMLElement | null = null;
+    for (const elem of elems) {
+      const rank = Number(elem.dataset.ptrbRank ?? 0);
+      if (rank > rankMax) {
+        rankMax = rank;
+        targetElem = elem;
       }
-      return;
     }
-    const elem = document.getElementById(HEADER_RIGHT_PORTAL_ID);
-    if (elem) {
-      setContainer(elem);
-      return;
+    if (targetElem) {
+      setContainer(targetElem);
     }
   });
   if (!container) return null;

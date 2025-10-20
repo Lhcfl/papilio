@@ -22,7 +22,7 @@ export function MkDriveFolder({
   );
   return (
     <div className="mk-drive-folder" {...props}>
-      <Item variant="outline" asChild>
+      <Item variant="outline" asChild className="w-full">
         {onClick == null ? (
           <Link to="/my/drive/folder/$folder" params={{ folder: folder.id }}>
             {inner}

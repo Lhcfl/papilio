@@ -8,11 +8,19 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { SearchIcon } from 'lucide-react';
-import type { DriveFolder } from 'misskey-js/entities.js';
+import type { DriveFile, DriveFolder } from 'misskey-js/entities.js';
 import { useTranslation } from 'react-i18next';
 
-export function MkDrive(props: { folderId?: string | null; onEnter?: (folder: DriveFolder | null) => void }) {
-  const { folderId, onEnter } = props;
+export function MkDrive(props: {
+  folderId?: string | null;
+  onEnter?: (folder: DriveFolder | null) => void;
+  selecting?: {
+    limit: number;
+    selected: DriveFile[];
+    setSelected: (files: DriveFile[]) => void;
+  };
+}) {
+  const { folderId, onEnter, selecting } = props;
   const { t } = useTranslation();
   const queryClient = useQueryClient();
 
@@ -57,9 +65,19 @@ export function MkDrive(props: { folderId?: string | null; onEnter?: (folder: Dr
       </ContextualHeaderRightPortal>
       {isFetchingSubFolders && <Skeleton className="w-full h-15 border" />}
       {subfolders?.map((folder) => (
-        <MkDriveFolder key={folder.id} folder={folder} />
+        <MkDriveFolder
+          key={folder.id}
+          folder={folder}
+          onClick={
+            onEnter
+              ? () => {
+                  onEnter(folder);
+                }
+              : undefined
+          }
+        />
       ))}
-      <MkDriveFiles folderId={folderId} />
+      <MkDriveFiles folderId={folderId} selecting={selecting} />
     </div>
   );
 }
