@@ -6,6 +6,7 @@ import { Breadcrumb, BreadcrumbList } from '@/components/ui/breadcrumb';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Skeleton } from '@/components/ui/skeleton';
 import { misskeyApi } from '@/services/inject-misskey-api';
+import { useMisskeyForkFeatures } from '@/stores/node-info';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { SearchIcon } from 'lucide-react';
 import type { DriveFile, DriveFolder } from 'misskey-js/entities.js';
@@ -27,6 +28,7 @@ export function MkDrive(props: {
   const queryClient = useQueryClient();
   const [searchValue, setSearchValue] = useState('');
   const [query, setQuery] = useState('');
+  const features = useMisskeyForkFeatures();
 
   const { data: folder } = useQuery({
     queryKey: ['drive/folders/show', folderId],
@@ -68,18 +70,20 @@ export function MkDrive(props: {
         </Breadcrumb>
       </ContextualHeaderLeftPortal>
       <ContextualHeaderRightPortal>
-        <InputGroup>
-          <InputGroupAddon>
-            <SearchIcon />
-          </InputGroupAddon>
-          <InputGroupInput
-            placeholder={t('search')}
-            value={searchValue}
-            onChange={(ev) => {
-              setSearchValue(ev.currentTarget.value);
-            }}
-          />
-        </InputGroup>
+        {features.searchFiles && (
+          <InputGroup>
+            <InputGroupAddon>
+              <SearchIcon />
+            </InputGroupAddon>
+            <InputGroupInput
+              placeholder={t('search')}
+              value={searchValue}
+              onChange={(ev) => {
+                setSearchValue(ev.currentTarget.value);
+              }}
+            />
+          </InputGroup>
+        )}
       </ContextualHeaderRightPortal>
       {isFetchingSubFolders && <Skeleton className="w-full h-15 border" />}
       {subfolders?.map((folder) => (

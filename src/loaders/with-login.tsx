@@ -5,7 +5,6 @@
 
 import { useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-
 import type { DefaultError, QueryKey, UseQueryOptions } from '@tanstack/react-query';
 import { CircleXIcon } from 'lucide-react';
 import type { EmojisResponse } from 'misskey-js/entities.js';
@@ -17,6 +16,7 @@ import { misskeyApi, site } from '@/services/inject-misskey-api';
 import { useSetableMe } from '@/stores/me';
 import { useEmojis } from '@/stores/emojis';
 import { useSetableSiteMeta } from '@/stores/site';
+import { useSetableNodeInfo } from '@/stores/node-info';
 
 function useLoaderQuery<
   TQueryFnData = unknown,
@@ -47,6 +47,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
   const setMe = useSetableMe((s) => s.setMe);
   const setEmojis = useEmojis((s) => s.setEmojis);
   const setMeta = useSetableSiteMeta((s) => s.setMeta);
+  const setNodeInfo = useSetableNodeInfo((s) => s.setMeta);
 
   const queries = [
     useLoaderQuery({
@@ -70,6 +71,13 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
       queryFn: () => misskeyApi('meta', {}),
       gcTime: PERSIST_GC_TIME,
       onData: setMeta,
+      staleTime: 1000 * 60 * 60, // 1 hour
+    }),
+    useLoaderQuery({
+      queryKey: ['node-info'],
+      queryFn: () => fetch(new URL('/nodeinfo/2.1', site!)).then((r) => r.json()),
+      gcTime: PERSIST_GC_TIME,
+      onData: setNodeInfo,
       staleTime: 1000 * 60 * 60, // 1 hour
     }),
   ];
