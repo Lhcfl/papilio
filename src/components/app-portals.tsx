@@ -11,9 +11,10 @@ export function ContextualHeaderLeftPortal(props: { children: React.ReactNode })
     const elems = document.getElementsByClassName(PORTALABLE_HEADER_LEFT_CLASSNAME) as HTMLCollectionOf<HTMLElement>;
     let rankMax = -1;
     let targetElem: HTMLElement | null = null;
+    console.log(elems);
     for (const elem of elems) {
       const rank = Number(elem.dataset.ptrbRank ?? 0);
-      if (rank > rankMax) {
+      if (rank >= rankMax) {
         rankMax = rank;
         targetElem = elem;
       }
@@ -34,7 +35,7 @@ export function ContextualHeaderRightPortal(props: { children: React.ReactNode }
     let targetElem: HTMLElement | null = null;
     for (const elem of elems) {
       const rank = Number(elem.dataset.ptrbRank ?? 0);
-      if (rank > rankMax) {
+      if (rank >= rankMax) {
         rankMax = rank;
         targetElem = elem;
       }

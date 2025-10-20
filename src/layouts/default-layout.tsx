@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import type { Tab } from '@/types/page-header';
 import { createPortal } from 'react-dom';
+import { PORTALABLE_HEADER_LEFT_CLASSNAME, PORTALABLE_HEADER_RIGHT_CLASSNAME } from '@/components/app-portals';
 
 interface SidebarLayoutProps<Ts extends Tab[]> {
   isRouteTab?: boolean;
@@ -40,7 +41,6 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   );
 }
 
-export const HEADER_LEFT_PORTAL_ID = 'sdbr__h-l-portal';
 export const HEADER_RIGHT_PORTAL_ID = 'sdbr__h-r-portal';
 
 export function HeaderRightPortal(props: { children: React.ReactNode }) {
@@ -151,7 +151,7 @@ function LayoutMiddle(props: {
       <header className="h-13 flex gap-1 items-center p-2 sticky top-0 bg-background border-b z-30">
         <SidebarTrigger className="size-8" />
         <div className="flex items-center gap-1">
-          <div id={HEADER_LEFT_PORTAL_ID} />
+          <div className={PORTALABLE_HEADER_LEFT_CLASSNAME} data-ptrb-rank="0" />
           {headerLeft ?? (
             <span
               className={cn('text-sm text-muted-foreground', {
@@ -164,6 +164,7 @@ function LayoutMiddle(props: {
         </div>
         <div className="flex-grow-1 w-0 text-center">{headerCenter}</div>
         <div className="flex items-center">
+          <div className={PORTALABLE_HEADER_RIGHT_CLASSNAME} data-ptrb-rank="0" />
           <div id={HEADER_RIGHT_PORTAL_ID} />
           {headerRight}
         </div>
