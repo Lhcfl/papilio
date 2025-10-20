@@ -9,7 +9,9 @@ import { misskeyApi } from '@/services/inject-misskey-api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { SearchIcon } from 'lucide-react';
 import type { DriveFile, DriveFolder } from 'misskey-js/entities.js';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'react-use';
 
 export function MkDrive(props: {
   folderId?: string | null;
@@ -23,6 +25,8 @@ export function MkDrive(props: {
   const { folderId, onEnter, selecting } = props;
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+  const [searchValue, setSearchValue] = useState('');
+  const [query, setQuery] = useState('');
 
   const { data: folder } = useQuery({
     queryKey: ['drive/folders/show', folderId],
@@ -46,6 +50,14 @@ export function MkDrive(props: {
     enabled: folderId == null || folder != null,
   });
 
+  useDebounce(
+    () => {
+      setQuery(searchValue);
+    },
+    300,
+    [searchValue],
+  );
+
   return (
     <div className="flex flex-col gap-2">
       <ContextualHeaderLeftPortal>
@@ -60,7 +72,13 @@ export function MkDrive(props: {
           <InputGroupAddon>
             <SearchIcon />
           </InputGroupAddon>
-          <InputGroupInput placeholder={t('search')} />
+          <InputGroupInput
+            placeholder={t('search')}
+            value={searchValue}
+            onChange={(ev) => {
+              setSearchValue(ev.currentTarget.value);
+            }}
+          />
         </InputGroup>
       </ContextualHeaderRightPortal>
       {isFetchingSubFolders && <Skeleton className="w-full h-15 border" />}
@@ -77,7 +95,7 @@ export function MkDrive(props: {
           }
         />
       ))}
-      <MkDriveFiles folderId={folderId} selecting={selecting} />
+      <MkDriveFiles query={query} folderId={folderId} selecting={selecting} />
     </div>
   );
 }

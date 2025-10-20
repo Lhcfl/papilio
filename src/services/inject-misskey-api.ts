@@ -4,7 +4,8 @@
  */
 
 import { getCurrentUserIDBName } from '@/plugins/idb';
-import type { Endpoints, SwitchCaseResponseType } from '@/types/sharkey-api';
+import type { SwitchCaseResponseType as SkSwitchCaseResponseType } from '@@/sharkey-js/api.types';
+import type { Endpoints, SkEndpoints, SwitchCaseResponseType } from '@/types/sharkey-api';
 import { Stream, api, type Channels } from 'misskey-js';
 import type { Connection } from 'misskey-js/streaming.js';
 
@@ -22,6 +23,11 @@ export function misskeyApi<E extends keyof Endpoints>(
 ): Promise<SwitchCaseResponseType<E, Endpoints[E]['req']>> {
   return injectMisskeyApi().request(endpoint as never, params as never);
 }
+
+export const sharkeyApi = misskeyApi as <E extends keyof SkEndpoints>(
+  endpoint: E,
+  params: SkEndpoints[E]['req'],
+) => Promise<SkSwitchCaseResponseType<E, SkEndpoints[E]['req']>>;
 
 /**
  * Injects the Misskey API client.

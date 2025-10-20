@@ -1,28 +1,37 @@
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkDriveFile } from '@/components/file/mk-drive-file';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { sharkeyApi } from '@/services/inject-misskey-api';
 import { Link } from '@tanstack/react-router';
 import type { DriveFile } from 'misskey-js/entities.js';
 import { cn } from '@/lib/utils';
 
 export function MkDriveFiles(props: {
   folderId?: string | null;
+  query?: string;
   selecting?: {
     limit: number;
     selected: DriveFile[];
     setSelected: (files: DriveFile[]) => void;
   };
 }) {
-  const { folderId, selecting } = props;
+  const { folderId, query, selecting } = props;
   const selectLimit = selecting ? selecting.limit : 0;
   const selected = new Set(selecting?.selected.map((f) => f.id));
+  const qtrim = query?.trim();
+  const search = qtrim == '' ? undefined : qtrim;
 
   return (
     <MkInfiniteScroll
       queryFn={({ pageParam }) =>
-        misskeyApi('drive/files', { untilId: pageParam, folderId: props.folderId, limit: 50 })
+        sharkeyApi('drive/files', {
+          untilId: pageParam,
+          folderId: props.folderId,
+          limit: 50,
+          // This is a Sharkey-only parameter
+          searchQuery: search,
+        }) as Promise<DriveFile[]>
       }
-      queryKey={['drive', folderId]}
+      queryKey={search ? ['drive', folderId, search] : ['drive', folderId]}
       containerClassName="grid grid-cols-[repeat(auto-fill,minmax(calc(var(--spacing)*40),1fr))] gap-2"
     >
       {(file) => (
