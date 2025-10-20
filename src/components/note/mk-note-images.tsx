@@ -10,6 +10,7 @@ import { MkImage } from '@/components/mk-image';
 import { ImagesLightbox } from '@/components/images-lightbox';
 import { MkVideo } from '@/components/mk-video';
 import { cond } from '@/lib/match';
+import { onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 
 export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivElement>) => {
   const { images, className: classNameProp, ...rest } = props;
@@ -61,10 +62,10 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
               ])}
               style={count == 1 ? { aspectRatio: Math.max(aspectRatio(image), 3 / 4) } : undefined}
               className={clsx('cursor-zoom-in max-h-150', { 'row-span-2': count === 3 && index === 0 })}
-              onClick={() => {
+              onClick={onlyWhenNonInteractableContentClicked(() => {
                 setOpen(true);
                 setCurrentIndex(index);
-              }}
+              })}
             />
           ),
         )}
