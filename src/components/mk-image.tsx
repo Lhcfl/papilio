@@ -176,13 +176,14 @@ export const MkImage = (props: { image: DriveFile; containerAspectRatio?: number
           }}
           aria-label="Show sensitive content"
         >
-          <div className="flex flex-col items-center text-white drop-shadow-black drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+          <div className="flex flex-col items-center text-white drop-shadow-black drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] p-3">
             <EyeClosedIcon className="size-8" />
             <div className="text-sm mt-2">
               {t('sensitive')}
               <br />
               {t('clickToShow')}
             </div>
+            {image.comment && <div className="line-clamp-3 text-sm mt-2">ALT: {image.comment}</div>}
           </div>
         </button>
         {(isMyImage || image.comment != null) && (
