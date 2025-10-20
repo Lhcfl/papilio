@@ -18,9 +18,16 @@ import { useMe } from '@/stores/me';
 import { useUpdateFileAction } from '@/hooks/use-file';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 
-export const MkImage = (props: { image: DriveFile; containerAspectRatio?: number } & HTMLProps<HTMLDivElement>) => {
+export const MkImage = (
+  props: {
+    image: DriveFile;
+    containerAspectRatio?: number;
+    disableMenu?: boolean;
+    disableSensitiveOverlay?: boolean;
+  } & HTMLProps<HTMLDivElement>,
+) => {
   const { t } = useTranslation();
-  const { image, containerAspectRatio = 1, className, ...rest } = props;
+  const { image, containerAspectRatio = 1, disableMenu, disableSensitiveOverlay, className, ...rest } = props;
   const [loading, setLoading] = useState(true);
   const [hiddenBecauseSensitive, setHiddenBecauseSensitive] = useState(image.isSensitive);
   const [manuallyMarkedSensitive, setManuallyMarkedSensitive] = useState<boolean | null>(null);
@@ -30,7 +37,7 @@ export const MkImage = (props: { image: DriveFile; containerAspectRatio?: number
   const meId = useMe((me) => me.id);
   const iAmAdmin = useMe((me) => me.isAdmin);
   const isMyImage = image.userId === meId;
-  const isSensitive = manuallyMarkedSensitive ?? image.isSensitive;
+  const isSensitive = disableSensitiveOverlay ? false : (manuallyMarkedSensitive ?? image.isSensitive);
 
   const { mutateAsync: update } = useUpdateFileAction(image.id);
   const markAsSensitive = useAfterConfirm(
@@ -72,7 +79,7 @@ export const MkImage = (props: { image: DriveFile; containerAspectRatio?: number
     };
   }, [image.properties.height, image.properties.width, url]);
 
-  const showBlurHash = loading || hiddenBecauseSensitive;
+  const showBlurHash = loading || (hiddenBecauseSensitive && !disableSensitiveOverlay);
 
   const menu: Menu = [
     {
@@ -125,7 +132,7 @@ export const MkImage = (props: { image: DriveFile; containerAspectRatio?: number
   return (
     <div
       className={clsx(
-        'mk-image relative w-full flex items-center justify-center bg-muted rounded-md overflow-hidden',
+        'mk-image relative w-full flex items-center justify-center bg-accent rounded-md overflow-hidden',
         className,
       )}
       {...rest}
@@ -161,13 +168,12 @@ export const MkImage = (props: { image: DriveFile; containerAspectRatio?: number
           id={'image:' + image.id}
           blurhash={image.blurhash}
         />
+      </div>
+      {!disableSensitiveOverlay && (
         <button
           className={cn(
             'cursor-pointer bg-black/30 absolute inset-0 w-full h-full flex items-center justify-center transform-opacity duration-200 z-10',
-            {
-              'opacity-100': hiddenBecauseSensitive,
-              'opacity-0 pointer-events-none': !hiddenBecauseSensitive,
-            },
+            hiddenBecauseSensitive ? 'opacity-100' : 'opacity-0 pointer-events-none',
           )}
           onClick={(e) => {
             e.preventDefault();
@@ -186,20 +192,22 @@ export const MkImage = (props: { image: DriveFile; containerAspectRatio?: number
             {image.comment && <div className="line-clamp-3 text-sm mt-2">ALT: {image.comment}</div>}
           </div>
         </button>
-        {(isMyImage || image.comment != null) && (
-          <Tooltip>
-            <TooltipTrigger className="z-10 absolute top-2 right-2 px-2 py-1 backdrop-blur bg-foreground/50 text-background text-xs rounded-md">
-              <div>{image.comment ? <span>ALT</span> : <HeartCrackIcon className="size-4" />}</div>
-            </TooltipTrigger>
-            <TooltipContent>{image.comment ?? t('thisPostIsMissingAltText')}</TooltipContent>
-          </Tooltip>
-        )}
+      )}
+      {(isMyImage || image.comment != null) && (
+        <Tooltip>
+          <TooltipTrigger className="z-10 absolute top-2 right-2 px-2 py-1 backdrop-blur bg-foreground/50 text-background text-xs rounded-md">
+            <div>{image.comment ? <span>ALT</span> : <HeartCrackIcon className="size-4" />}</div>
+          </TooltipTrigger>
+          <TooltipContent>{image.comment ?? t('thisPostIsMissingAltText')}</TooltipContent>
+        </Tooltip>
+      )}
+      {!disableMenu && (
         <MenuOrDrawer menu={menu}>
           <Button size="icon-sm" className="absolute z-10 bottom-2 right-2 bg-foreground/50 backdrop-blur">
             <MoreHorizontalIcon />
           </Button>
         </MenuOrDrawer>
-      </div>
+      )}
     </div>
   );
 };

@@ -6,7 +6,7 @@
 import type { DriveFile } from 'misskey-js/entities.js';
 import { useState, type HTMLProps } from 'react';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
-import { GuessFileIcon } from '@/components/note/mk-note-file';
+import { GuessFileIcon } from '@/components/file/guess-file-icon';
 import { Button } from '@/components/ui/button';
 import { EyeClosedIcon, EyeIcon, MoreHorizontalIcon, TextInitialIcon, Trash2Icon, XIcon } from 'lucide-react';
 import { useAfterConfirm } from '@/stores/confirm-dialog';

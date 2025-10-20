@@ -34,10 +34,12 @@ import { Route as TimelineGlobalTimelineRouteImport } from './routes/_timeline/g
 import { Route as MyNotificationsRouteRouteImport } from './routes/my/notifications/route'
 import { Route as MyFollowRequestsRouteRouteImport } from './routes/my/follow-requests/route'
 import { Route as MyNotificationsIndexRouteImport } from './routes/my/notifications/index'
+import { Route as MyDriveIndexRouteImport } from './routes/my/drive/index'
 import { Route as MyNotificationsPmRouteImport } from './routes/my/notifications/pm'
 import { Route as MyNotificationsMentionsRouteImport } from './routes/my/notifications/mentions'
 import { Route as MyFollowRequestsSentRouteImport } from './routes/my/follow-requests/sent'
 import { Route as MyFollowRequestsReceivedRouteImport } from './routes/my/follow-requests/received'
+import { Route as MyDriveFolderFolderRouteImport } from './routes/my/drive/folder/$folder'
 
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
@@ -163,6 +165,11 @@ const MyNotificationsIndexRoute = MyNotificationsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => MyNotificationsRouteRoute,
 } as any)
+const MyDriveIndexRoute = MyDriveIndexRouteImport.update({
+  id: '/my/drive/',
+  path: '/my/drive/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MyNotificationsPmRoute = MyNotificationsPmRouteImport.update({
   id: '/pm',
   path: '/pm',
@@ -184,6 +191,11 @@ const MyFollowRequestsReceivedRoute =
     path: '/received',
     getParentRoute: () => MyFollowRequestsRouteRoute,
   } as any)
+const MyDriveFolderFolderRoute = MyDriveFolderFolderRouteImport.update({
+  id: '/my/drive/folder/$folder',
+  path: '/my/drive/folder/$folder',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRouteRouteWithChildren
@@ -213,7 +225,9 @@ export interface FileRoutesByFullPath {
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/my/drive': typeof MyDriveIndexRoute
   '/my/notifications/': typeof MyNotificationsIndexRoute
+  '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
 }
 export interface FileRoutesByTo {
   '/$missing': typeof MissingRoute
@@ -241,7 +255,9 @@ export interface FileRoutesByTo {
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/my/drive': typeof MyDriveIndexRoute
   '/my/notifications': typeof MyNotificationsIndexRoute
+  '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -273,7 +289,9 @@ export interface FileRoutesById {
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/my/drive/': typeof MyDriveIndexRoute
   '/my/notifications/': typeof MyNotificationsIndexRoute
+  '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -305,7 +323,9 @@ export interface FileRouteTypes {
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
+    | '/my/drive'
     | '/my/notifications/'
+    | '/my/drive/folder/$folder'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/$missing'
@@ -333,7 +353,9 @@ export interface FileRouteTypes {
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
+    | '/my/drive'
     | '/my/notifications'
+    | '/my/drive/folder/$folder'
   id:
     | '__root__'
     | '/_timeline'
@@ -364,7 +386,9 @@ export interface FileRouteTypes {
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
+    | '/my/drive/'
     | '/my/notifications/'
+    | '/my/drive/folder/$folder'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -386,6 +410,8 @@ export interface RootRouteChildren {
   MyFavoritesRoute: typeof MyFavoritesRoute
   NotesIdRoute: typeof NotesIdRoute
   TagTagRoute: typeof TagTagRoute
+  MyDriveIndexRoute: typeof MyDriveIndexRoute
+  MyDriveFolderFolderRoute: typeof MyDriveFolderFolderRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -565,6 +591,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyNotificationsIndexRouteImport
       parentRoute: typeof MyNotificationsRouteRoute
     }
+    '/my/drive/': {
+      id: '/my/drive/'
+      path: '/my/drive'
+      fullPath: '/my/drive'
+      preLoaderRoute: typeof MyDriveIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/my/notifications/pm': {
       id: '/my/notifications/pm'
       path: '/pm'
@@ -592,6 +625,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/my/follow-requests/received'
       preLoaderRoute: typeof MyFollowRequestsReceivedRouteImport
       parentRoute: typeof MyFollowRequestsRouteRoute
+    }
+    '/my/drive/folder/$folder': {
+      id: '/my/drive/folder/$folder'
+      path: '/my/drive/folder/$folder'
+      fullPath: '/my/drive/folder/$folder'
+      preLoaderRoute: typeof MyDriveFolderFolderRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -677,6 +717,8 @@ const rootRouteChildren: RootRouteChildren = {
   MyFavoritesRoute: MyFavoritesRoute,
   NotesIdRoute: NotesIdRoute,
   TagTagRoute: TagTagRoute,
+  MyDriveIndexRoute: MyDriveIndexRoute,
+  MyDriveFolderFolderRoute: MyDriveFolderFolderRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

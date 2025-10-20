@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import {
   BellIcon,
+  CloudIcon,
   CogIcon,
   HomeIcon,
   MegaphoneIcon,
@@ -36,6 +37,7 @@ export const AppSidebarMain = () => {
     { title: t('followRequests'), icon: UserPlusIcon, to: '/my/follow-requests' },
     { title: t('announcements'), icon: MegaphoneIcon, to: '/announcements' },
     { title: t('chat'), icon: MessageSquareIcon, to: '/chat' },
+    { title: t('drive'), icon: CloudIcon, to: '/my/drive' },
     { title: t('search'), icon: SearchIcon, to: '/search' },
     { title: t('settings'), icon: CogIcon, to: '/settings' },
   ]);
