@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 export const MkClock = () => {
   const [time, setTime] = useState(() => new Date());
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const dateTimeFormat = new Intl.DateTimeFormat(i18n.language, {
     year: 'numeric',
@@ -28,5 +28,14 @@ export const MkClock = () => {
     };
   }, []);
 
-  return <div>{dateTimeFormat.format(time)}</div>;
+  return (
+    <div className="h-20 flex">
+      <div className="left flex-1/2">{dateTimeFormat.format(time)}</div>
+      <div className="right flex-1/2 flex flex-col text-sm">
+        <div>{t('thisYear')}</div>
+        <div>{t('thisMonth')}</div>
+        <div>{t('today')}</div>
+      </div>
+    </div>
+  );
 };

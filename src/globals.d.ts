@@ -10,3 +10,8 @@ declare module '@tanstack/react-router' {
     noAuth?: boolean;
   }
 }
+
+declare global {
+  declare const __APP_VERSION__: string;
+  declare const __APP_REPO__: string;
+}

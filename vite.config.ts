@@ -4,9 +4,14 @@ import TanStackRouter from '@tanstack/router-plugin/vite';
 import React from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { visualizer as Visualizer } from 'rollup-plugin-visualizer';
+import PackageJSON from './package.json';
 
 // https://vite.dev/config/
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(PackageJSON.version),
+    __APP_REPO__: JSON.stringify(PackageJSON.repository.url),
+  },
   plugins: [
     TailWindCSS(),
     TanStackRouter({

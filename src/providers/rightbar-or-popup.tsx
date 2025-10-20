@@ -51,9 +51,9 @@ const DesktopRightbar = () => {
   const close = useRightbarOrPopup((s) => s.close);
 
   return (
-    <div className="right-card-container border-l max-lg:hidden relative">
+    <div className="right-card-container border-l max-lg:hidden relative bg-sidebar">
       {node && !closing ? (
-        <ScrollArea className="w-110 xl:w-120 h-screen p-2">
+        <ScrollArea className="w-110 xl:w-120 2xl:w-130 h-screen p-2">
           <div className="flex items-center justify-between">
             <div>{title}</div>
             <Button onClick={close} variant="ghost">
@@ -63,7 +63,9 @@ const DesktopRightbar = () => {
           {node}
         </ScrollArea>
       ) : (
-        <AppRightCard />
+        <div className="w-80 lg:w-100 xl:w-115 2xl:w-130 h-screen">
+          <AppRightCard />
+        </div>
       )}
     </div>
   );

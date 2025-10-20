@@ -164,7 +164,9 @@ function LayoutMiddle(props: {
         <div className="flex-grow-1 w-0 text-center">{headerCenter}</div>
         <div className="flex items-center">{headerRight}</div>
       </header>
-      <div className="p-2">{children}</div>
+      <div className="p-2 flex justify-center">
+        <div className="main-area flex-[1_1] w-0 max-w-200">{children}</div>
+      </div>
     </ScrollArea>
   );
 }
