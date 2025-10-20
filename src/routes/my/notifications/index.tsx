@@ -20,7 +20,7 @@ function RouteComponent() {
       <HeaderRightPortal>
         <MkNotificationsFilter excluded={excluded} setExcluded={setExcluded} />
       </HeaderRightPortal>
-      <MkNotifications excludeTypes={excluded} />;
+      <MkNotifications excludeTypes={excluded} />
     </>
   );
 }
