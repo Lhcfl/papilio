@@ -53,6 +53,7 @@ import { extractMention } from '@/lib/mention';
 import { MkNoteSimple } from '@/components/mk-note-simple';
 import { useSiteMeta } from '@/stores/site';
 import { Progress } from '@/components/ui/progress';
+import { useErrorDialogs } from '@/stores/error-dialog';
 
 type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;
@@ -139,7 +140,8 @@ function MkPostFormLoaded(
     draft.text.length < maxNoteTextLength &&
     [draft.text.trim().length > 0, draft.hasCw && draft.cw.trim().length > 0].some((v) => v);
 
-  const parsedText = mfm.parse(draft.text);
+  // performance: if exceeding limit too much, stop parse MFM, because the mfm parser is slow
+  const parsedText = textLimitRemaining > -10000 ? mfm.parse(draft.text) : [];
   const mentionedUsers = collectAst(parsedText, (node) => (node.type === 'mention' ? node.props : undefined));
   const unspecifiedMentions = mentionedUsers.filter((u) =>
     draft.visibleUsers.every((vu) => u.username != vu.username || (u.host != siteDomain && u.host != vu.host)),
@@ -150,6 +152,8 @@ function MkPostFormLoaded(
   // #endregion States And Hooks
 
   // #region Actions and Callbacks
+  const pushErrorDialog = useErrorDialogs((s) => s.pushDialog);
+
   const { mutate: addUnspecifiedMentionUser, isPending: isAddingUser } = useMutation({
     mutationKey: ['add-unspecified-mention-user', draftKey],
     mutationFn: () =>
@@ -360,6 +364,14 @@ function MkPostFormLoaded(
             placeholder={placeholder}
             value={draft.text}
             onChange={(e) => {
+              // If the user exceeded the limit by a large margin and is still typing, blur the textarea to prevent further input.
+              if (textLimitRemaining <= -1000 && draft.text.length < e.target.value.length) {
+                e.currentTarget.blur();
+                pushErrorDialog({
+                  description:
+                    'You have exceeded the maximum note length limit. Please shorten your note before continuing.',
+                });
+              }
               draft.update({ text: e.target.value });
             }}
             onFocus={() => {
