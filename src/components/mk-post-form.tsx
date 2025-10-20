@@ -127,6 +127,8 @@ function MkPostFormLoaded(
   const siteDomain = new URL(site!).hostname;
   const { t } = useTranslation();
   const maxNoteTextLength = useSiteMeta((m) => m.maxNoteTextLength);
+  // Why misskey doesn't have this in site meta? :(
+  const maxAttachments = 16;
   const usedTextLengthLimitPercent = Math.min((draft.text.length / maxNoteTextLength) * 100, 100);
   const textLimitRemaining = maxNoteTextLength - draft.text.length;
   const me = useMe();
@@ -455,7 +457,7 @@ function MkPostFormLoaded(
       <div className="mk-post-form__footer border-t flex justify-between p-2">
         <div className="mk-post-form__action flex @md:gap-1">
           {prependFooter}
-          <MkFileUploadMenu onUpload={onFileUpload}>
+          <MkFileUploadMenu onUpload={onFileUpload} limit={maxAttachments}>
             <PostFormButton label={t('addFile')}>
               <ImageIcon />
             </PostFormButton>

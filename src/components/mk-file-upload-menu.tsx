@@ -14,10 +14,10 @@ import { useState } from 'react';
 
 export const MkFileUploadMenu = (props: {
   children: React.ReactNode;
-  allowMultiple?: boolean;
+  limit?: number;
   onUpload: (promises: Promise<DriveFile>[]) => void;
 }) => {
-  const { children, allowMultiple = true, onUpload } = props;
+  const { children, limit = Number.POSITIVE_INFINITY, onUpload } = props;
   const { t } = useTranslation();
   const [openDriveSelect, setOpenDriveSelect] = useState(false);
 
@@ -26,7 +26,7 @@ export const MkFileUploadMenu = (props: {
   function uploadFilesFromDevice(opts: UploadFileOptions) {
     const input = document.createElement('input');
     input.type = 'file';
-    input.multiple = allowMultiple;
+    input.multiple = limit > 1;
     input.onchange = () => {
       if (!input.files) return;
       const files = Array.from(input.files);
@@ -79,6 +79,7 @@ export const MkFileUploadMenu = (props: {
       <MkDriveFileSelect
         open={openDriveSelect}
         setOpen={setOpenDriveSelect}
+        limit={limit}
         onFileSelect={(files) => {
           setOpenDriveSelect(false);
           onUpload(files.map((f) => Promise.resolve(f)));
