@@ -158,7 +158,7 @@ importers:
         version: 5.5.0(eslint@9.38.0(jiti@2.6.1))
       '@tailwindcss/vite':
         specifier: ^4.1.14
-        version: 4.1.14(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
+        version: 4.1.14(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
       '@tanstack/react-query-devtools':
         specifier: ^5.90.2
         version: 5.90.2(@tanstack/react-query@5.90.5(react@19.2.0))(react@19.2.0)
@@ -167,7 +167,7 @@ importers:
         version: 1.133.15(@tanstack/react-router@1.133.15(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@tanstack/router-core@1.133.15)(@types/node@24.8.1)(csstype@3.1.3)(esbuild@0.25.11)(jiti@2.6.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(solid-js@1.9.9)(tiny-invariant@1.3.3)(tsx@4.20.6)
       '@tanstack/router-plugin':
         specifier: ^1.133.15
-        version: 1.133.15(@tanstack/react-router@1.133.15(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
+        version: 1.133.15(@tanstack/react-router@1.133.15(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
       '@types/imurmurhash':
         specifier: ^0.1.4
         version: 0.1.4
@@ -188,7 +188,7 @@ importers:
         version: 66.5.4
       '@vitejs/plugin-react':
         specifier: ^5.0.4
-        version: 5.0.4(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
+        version: 5.0.4(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
       babel-plugin-react-compiler:
         specifier: ^1.0.0
         version: 1.0.0
@@ -245,10 +245,10 @@ importers:
         version: 8.46.1(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       unocss:
         specifier: ^66.5.4
-        version: 66.5.4(postcss@8.5.6)(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
+        version: 66.5.4(postcss@8.5.6)(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
       vite:
-        specifier: npm:rolldown-vite@7.1.17
-        version: rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
+        specifier: npm:rolldown-vite@7.1.14
+        version: rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
 
 packages:
 
@@ -3327,46 +3327,6 @@ packages:
       yaml:
         optional: true
 
-  rolldown-vite@7.1.17:
-    resolution: {integrity: sha512-bNUI0r4RuZxLeip7sOcZK3y4eYUcMAMM6ys68tbU/KWDH8lqaPFYE03Doc04Dz94jHmVg1OWyeBqlDOYntsLsA==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^20.19.0 || >=22.12.0
-      esbuild: ^0.25.0
-      jiti: '>=1.21.0'
-      less: ^4.0.0
-      sass: ^1.70.0
-      sass-embedded: ^1.70.0
-      stylus: '>=0.54.8'
-      sugarss: ^5.0.0
-      terser: ^5.16.0
-      tsx: ^4.8.1
-      yaml: ^2.4.2
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      esbuild:
-        optional: true
-      jiti:
-        optional: true
-      less:
-        optional: true
-      sass:
-        optional: true
-      sass-embedded:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-      tsx:
-        optional: true
-      yaml:
-        optional: true
-
   rolldown@1.0.0-beta.41:
     resolution: {integrity: sha512-U+NPR0Bkg3wm61dteD2L4nAM1U9dtaqVrpDXwC36IKRHpEO/Ubpid4Nijpa2imPchcVNHfxVFwSSMJdwdGFUbg==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -4406,7 +4366,8 @@ snapshots:
 
   '@oxc-project/types@0.93.0': {}
 
-  '@oxc-project/types@0.94.0': {}
+  '@oxc-project/types@0.94.0':
+    optional: true
 
   '@pkgr/core@0.2.9': {}
 
@@ -5041,7 +5002,8 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.0-beta.41': {}
 
-  '@rolldown/pluginutils@1.0.0-beta.43': {}
+  '@rolldown/pluginutils@1.0.0-beta.43':
+    optional: true
 
   '@sec-ant/readable-stream@0.4.1': {}
 
@@ -5160,12 +5122,12 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.1.14
       '@tailwindcss/oxide-win32-x64-msvc': 4.1.14
 
-  '@tailwindcss/vite@4.1.14(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))':
+  '@tailwindcss/vite@4.1.14(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))':
     dependencies:
       '@tailwindcss/node': 4.1.14
       '@tailwindcss/oxide': 4.1.14
       tailwindcss: 4.1.14
-      vite: rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
+      vite: rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
 
   '@tanstack/history@1.133.3': {}
 
@@ -5287,7 +5249,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@tanstack/router-plugin@1.133.15(@tanstack/react-router@1.133.15(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))':
+  '@tanstack/router-plugin@1.133.15(@tanstack/react-router@1.133.15(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))':
     dependencies:
       '@babel/core': 7.28.4
       '@babel/plugin-syntax-jsx': 7.27.1(@babel/core@7.28.4)
@@ -5305,7 +5267,7 @@ snapshots:
       zod: 3.25.76
     optionalDependencies:
       '@tanstack/react-router': 1.133.15(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      vite: rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
+      vite: rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
     transitivePeerDependencies:
       - supports-color
 
@@ -5485,13 +5447,13 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@unocss/astro@66.5.4(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))':
+  '@unocss/astro@66.5.4(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))':
     dependencies:
       '@unocss/core': 66.5.4
       '@unocss/reset': 66.5.4
-      '@unocss/vite': 66.5.4(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
+      '@unocss/vite': 66.5.4(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
     optionalDependencies:
-      vite: rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
+      vite: rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
 
   '@unocss/cli@66.5.4':
     dependencies:
@@ -5621,7 +5583,7 @@ snapshots:
     dependencies:
       '@unocss/core': 66.5.4
 
-  '@unocss/vite@66.5.4(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))':
+  '@unocss/vite@66.5.4(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))':
     dependencies:
       '@jridgewell/remapping': 2.3.5
       '@unocss/config': 66.5.4
@@ -5632,9 +5594,9 @@ snapshots:
       pathe: 2.0.3
       tinyglobby: 0.2.15
       unplugin-utils: 0.3.1
-      vite: rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
+      vite: rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
 
-  '@vitejs/plugin-react@5.0.4(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))':
+  '@vitejs/plugin-react@5.0.4(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))':
     dependencies:
       '@babel/core': 7.28.4
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.4)
@@ -5642,7 +5604,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.38
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
+      vite: rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
     transitivePeerDependencies:
       - supports-color
 
@@ -7034,22 +6996,6 @@ snapshots:
       jiti: 2.6.1
       tsx: 4.20.6
 
-  rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6):
-    dependencies:
-      '@oxc-project/runtime': 0.92.0
-      fdir: 6.5.0(picomatch@4.0.3)
-      lightningcss: 1.30.2
-      picomatch: 4.0.3
-      postcss: 8.5.6
-      rolldown: 1.0.0-beta.43
-      tinyglobby: 0.2.15
-    optionalDependencies:
-      '@types/node': 24.8.1
-      esbuild: 0.25.11
-      fsevents: 2.3.3
-      jiti: 2.6.1
-      tsx: 4.20.6
-
   rolldown@1.0.0-beta.41:
     dependencies:
       '@oxc-project/types': 0.93.0
@@ -7091,6 +7037,7 @@ snapshots:
       '@rolldown/binding-win32-arm64-msvc': 1.0.0-beta.43
       '@rolldown/binding-win32-ia32-msvc': 1.0.0-beta.43
       '@rolldown/binding-win32-x64-msvc': 1.0.0-beta.43
+    optional: true
 
   rollup-plugin-visualizer@6.0.5(rolldown@1.0.0-beta.43):
     dependencies:
@@ -7394,9 +7341,9 @@ snapshots:
 
   universalify@0.1.2: {}
 
-  unocss@66.5.4(postcss@8.5.6)(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)):
+  unocss@66.5.4(postcss@8.5.6)(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)):
     dependencies:
-      '@unocss/astro': 66.5.4(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
+      '@unocss/astro': 66.5.4(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
       '@unocss/cli': 66.5.4
       '@unocss/core': 66.5.4
       '@unocss/postcss': 66.5.4(postcss@8.5.6)
@@ -7414,9 +7361,9 @@ snapshots:
       '@unocss/transformer-compile-class': 66.5.4
       '@unocss/transformer-directives': 66.5.4
       '@unocss/transformer-variant-group': 66.5.4
-      '@unocss/vite': 66.5.4(rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
+      '@unocss/vite': 66.5.4(rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6))
     optionalDependencies:
-      vite: rolldown-vite@7.1.17(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
+      vite: rolldown-vite@7.1.14(@types/node@24.8.1)(esbuild@0.25.11)(jiti@2.6.1)(tsx@4.20.6)
     transitivePeerDependencies:
       - postcss
       - supports-color
