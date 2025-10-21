@@ -21,6 +21,7 @@ import type { Tab } from '@/types/page-header';
 import { createPortal } from 'react-dom';
 import { PORTALABLE_HEADER_LEFT_CLASSNAME, PORTALABLE_HEADER_RIGHT_CLASSNAME } from '@/components/app-portals';
 import { useUploadingHint } from '@/hooks/use-uploading-hint';
+import { usePerference } from '@/stores/perference';
 
 interface SidebarLayoutProps<Ts extends Tab[]> {
   isRouteTab?: boolean;
@@ -34,10 +35,11 @@ interface SidebarLayoutProps<Ts extends Tab[]> {
 }
 
 export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
+  const theme = usePerference((s) => s.theme);
   return (
     <WithLoginLoader>
       <SidebarLayout {...props} />
-      <Toaster />
+      <Toaster richColors theme={theme} />
     </WithLoginLoader>
   );
 }
