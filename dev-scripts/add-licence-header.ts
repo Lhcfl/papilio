@@ -9,7 +9,7 @@ import { chdir } from 'process';
 import chalk from 'chalk';
 
 const PROJECT_ROOT = path.resolve(import.meta.dirname, '..');
-const include_dir = ['src/**/*.{ts,tsx}', 'dev-scripts/**/*.{ts,tsx}'];
+const include_dir = ['src/**/*.{ts,tsx,css}', 'dev-scripts/**/*.{ts,tsx}'];
 const exclude_dir = ['src/components/ui/**', '**/*.gen.ts'];
 
 console.log('Working at:', PROJECT_ROOT);

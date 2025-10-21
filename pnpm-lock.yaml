@@ -128,9 +128,6 @@ importers:
       react-photoswipe-gallery:
         specifier: ^4.0.0
         version: 4.0.0(photoswipe@5.4.4)(prop-types@15.8.1)(react@19.2.0)
-      react-spring-lightbox:
-        specifier: ^1.8.0
-        version: 1.8.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(styled-components@6.1.19(react-dom@19.2.0(react@19.2.0))(react@19.2.0))
       react-use:
         specifier: ^17.6.0
         version: 17.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -1255,33 +1252,6 @@ packages:
 
   '@radix-ui/rect@1.1.1':
     resolution: {integrity: sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==}
-
-  '@react-spring/animated@9.7.5':
-    resolution: {integrity: sha512-Tqrwz7pIlsSDITzxoLS3n/v/YCUHQdOIKtOJf4yL6kYVSDTSmVK1LI1Q3M/uu2Sx4X3pIWF3xLUhlsA6SPNTNg==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-
-  '@react-spring/core@9.7.5':
-    resolution: {integrity: sha512-rmEqcxRcu7dWh7MnCcMXLvrf6/SDlSokLaLTxiPlAYi11nN3B5oiCUAblO72o+9z/87j2uzxa2Inm8UbLjXA+w==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-
-  '@react-spring/rafz@9.7.5':
-    resolution: {integrity: sha512-5ZenDQMC48wjUzPAm1EtwQ5Ot3bLIAwwqP2w2owG5KoNdNHpEJV263nGhCeKKmuA3vG2zLLOdu3or6kuDjA6Aw==}
-
-  '@react-spring/shared@9.7.5':
-    resolution: {integrity: sha512-wdtoJrhUeeyD/PP/zo+np2s1Z820Ohr/BbuVYv+3dVLW7WctoiN7std8rISoYoHpUXtbkpesSKuPIw/6U1w1Pw==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-
-  '@react-spring/types@9.7.5':
-    resolution: {integrity: sha512-HVj7LrZ4ReHWBimBvu2SKND3cDVUPWKLqRTmWe/fNY6o1owGOX0cAHbdPDTMelgBlVbrTKrre6lFkhqGZErK/g==}
-
-  '@react-spring/web@9.7.5':
-    resolution: {integrity: sha512-lmvqGwpe+CSttsWNZVr+Dg62adtKhauGwLyGE/RRyZ8AAMLgb9x3NDMA5RMElXo+IMyTkPp7nxTB8ZQlmhb6JQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
 
   '@rolldown/binding-android-arm64@1.0.0-beta.41':
     resolution: {integrity: sha512-Edflndd9lU7JVhVIvJlZhdCj5DkhYDJPIRn4Dx0RUdfc8asP9xHOI5gMd8MesDDx+BJpdIT/uAmVTearteU/mQ==}
@@ -3241,14 +3211,6 @@ packages:
       '@types/react':
         optional: true
 
-  react-spring-lightbox@1.8.0:
-    resolution: {integrity: sha512-vMYqr1Y8YR6hcT4XCeUglj/SAJ8xUU5ZdZX8td1ngACFf4lW/4WhSWlWTZ/8Bv6QGPRxlRAUR9V1fahsEfNTLg==}
-    engines: {node: '>=16', npm: '>=7'}
-    peerDependencies:
-      react: '>=16.8'
-      react-dom: '>=16.8'
-      styled-components: '>=5.X'
-
   react-style-singleton@2.2.3:
     resolution: {integrity: sha512-b6jSvxvVnyptAiLjbkWLE/lOnR4lfTtDAl+eUC7RZy+QQWc6wRzIV2CE6xBuMmDxc2qIihtDCZD5NPOFl7fRBQ==}
     engines: {node: '>=10'}
@@ -3264,12 +3226,6 @@ packages:
     peerDependencies:
       react: '*'
       tslib: '*'
-
-  react-use-gesture@9.1.3:
-    resolution: {integrity: sha512-CdqA2SmS/fj3kkS2W8ZU8wjTbVBAIwDWaRprX7OKaj7HlGwBasGEFggmk5qNklknqk9zK/h8D355bEJFTpqEMg==}
-    deprecated: This package is no longer maintained. Please use @use-gesture/react instead
-    peerDependencies:
-      react: '>= 16.8.0'
 
   react-use@17.6.0:
     resolution: {integrity: sha512-OmedEScUMKFfzn1Ir8dBxiLLSOzhKe/dPZwVxcujweSj45aNM7BEGPb9BEVIgVEqEXx6f3/TsXzwIktNgUR02g==}
@@ -4934,38 +4890,6 @@ snapshots:
       '@types/react-dom': 19.2.2(@types/react@19.2.2)
 
   '@radix-ui/rect@1.1.1': {}
-
-  '@react-spring/animated@9.7.5(react@19.2.0)':
-    dependencies:
-      '@react-spring/shared': 9.7.5(react@19.2.0)
-      '@react-spring/types': 9.7.5
-      react: 19.2.0
-
-  '@react-spring/core@9.7.5(react@19.2.0)':
-    dependencies:
-      '@react-spring/animated': 9.7.5(react@19.2.0)
-      '@react-spring/shared': 9.7.5(react@19.2.0)
-      '@react-spring/types': 9.7.5
-      react: 19.2.0
-
-  '@react-spring/rafz@9.7.5': {}
-
-  '@react-spring/shared@9.7.5(react@19.2.0)':
-    dependencies:
-      '@react-spring/rafz': 9.7.5
-      '@react-spring/types': 9.7.5
-      react: 19.2.0
-
-  '@react-spring/types@9.7.5': {}
-
-  '@react-spring/web@9.7.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
-    dependencies:
-      '@react-spring/animated': 9.7.5(react@19.2.0)
-      '@react-spring/core': 9.7.5(react@19.2.0)
-      '@react-spring/shared': 9.7.5(react@19.2.0)
-      '@react-spring/types': 9.7.5
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
 
   '@rolldown/binding-android-arm64@1.0.0-beta.41':
     optional: true
@@ -6963,15 +6887,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.2
 
-  react-spring-lightbox@1.8.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(styled-components@6.1.19(react-dom@19.2.0(react@19.2.0))(react@19.2.0)):
-    dependencies:
-      '@babel/runtime': 7.28.4
-      '@react-spring/web': 9.7.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-      react-use-gesture: 9.1.3(react@19.2.0)
-      styled-components: 6.1.19(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-
   react-style-singleton@2.2.3(@types/react@19.2.2)(react@19.2.0):
     dependencies:
       get-nonce: 1.0.1
@@ -6984,10 +6899,6 @@ snapshots:
     dependencies:
       react: 19.2.0
       tslib: 2.8.1
-
-  react-use-gesture@9.1.3(react@19.2.0):
-    dependencies:
-      react: 19.2.0
 
   react-use@17.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
