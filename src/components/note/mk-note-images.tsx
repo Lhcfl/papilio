@@ -5,12 +5,12 @@
 
 import clsx from 'clsx';
 import type { DriveFile } from 'misskey-js/entities.js';
-import { useState, type HTMLProps } from 'react';
+import type { HTMLProps } from 'react';
 import { MkImage } from '@/components/mk-image';
-import { ImagesLightbox } from '@/components/images-lightbox';
 import { MkVideo } from '@/components/mk-video';
 import { cond } from '@/lib/match';
 import { onlyWhenNonInteractableContentClicked } from '@/lib/utils';
+import { LightboxGallery, LightboxItem } from '@/components/lightbox';
 
 export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivElement>) => {
   const { images, className: classNameProp, ...rest } = props;
@@ -34,13 +34,10 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
     'images-many grid grid-cols-2': count > 5,
   });
 
-  const [open, setOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
   if (count === 0) return null;
 
   return (
-    <>
+    <LightboxGallery>
       <div className={className} data-images-count={count} {...rest}>
         {images.map((image, index) =>
           image.type.startsWith('video/') ? (
@@ -50,33 +47,27 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
               className={clsx('cursor-zoom-in', { 'row-span-2': count === 3 && index === 0 })}
             />
           ) : (
-            <MkImage
-              key={image.id}
-              image={image}
-              containerAspectRatio={cond([
-                [count === 1, Math.max(aspectRatio(image), 3 / 4)],
-                [count === 2 && !twoImageBothWide, 8 / 9],
-                [count === 2 && twoImageBothWide, 16 / 4.5],
-                [count === 3 && index === 0, 16 / 18],
-                [count >= 3, 16 / 9],
-              ])}
-              style={count == 1 ? { aspectRatio: Math.max(aspectRatio(image), 3 / 4) } : undefined}
-              className={clsx('cursor-zoom-in max-h-150', { 'row-span-2': count === 3 && index === 0 })}
-              onClick={onlyWhenNonInteractableContentClicked(() => {
-                setOpen(true);
-                setCurrentIndex(index);
-              })}
-            />
+            <LightboxItem key={image.id} image={image}>
+              {({ ref, open }) => (
+                <MkImage
+                  image={image}
+                  containerAspectRatio={cond([
+                    [count === 1, Math.max(aspectRatio(image), 3 / 4)],
+                    [count === 2 && !twoImageBothWide, 8 / 9],
+                    [count === 2 && twoImageBothWide, 16 / 4.5],
+                    [count === 3 && index === 0, 16 / 18],
+                    [count >= 3, 16 / 9],
+                  ])}
+                  style={count == 1 ? { aspectRatio: Math.max(aspectRatio(image), 3 / 4) } : undefined}
+                  className={clsx('cursor-zoom-in max-h-150', { 'row-span-2': count === 3 && index === 0 })}
+                  onClick={onlyWhenNonInteractableContentClicked(open)}
+                  imgProps={{ ref }}
+                />
+              )}
+            </LightboxItem>
           ),
         )}
       </div>
-      <ImagesLightbox
-        images={images}
-        open={open}
-        setOpen={setOpen}
-        currentIndex={currentIndex}
-        setCurrentIndex={setCurrentIndex}
-      />
-    </>
+    </LightboxGallery>
   );
 };

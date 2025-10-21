@@ -24,10 +24,12 @@ export const MkImage = (
     containerAspectRatio?: number;
     disableMenu?: boolean;
     disableSensitiveOverlay?: boolean;
+    imgProps?: HTMLProps<HTMLImageElement>;
   } & HTMLProps<HTMLDivElement>,
 ) => {
   const { t } = useTranslation();
-  const { image, containerAspectRatio = 1, disableMenu, disableSensitiveOverlay, className, ...rest } = props;
+  const { image, containerAspectRatio = 1, disableMenu, disableSensitiveOverlay, className, imgProps, ...rest } = props;
+  const { className: imgClassName, ...restImgProps } = imgProps ?? {};
   const [loading, setLoading] = useState(true);
   const [hiddenBecauseSensitive, setHiddenBecauseSensitive] = useState(image.isSensitive);
   const [manuallyMarkedSensitive, setManuallyMarkedSensitive] = useState<boolean | null>(null);
@@ -147,7 +149,7 @@ export const MkImage = (
         <img
           src={url}
           alt={image.comment ?? image.name}
-          className={cn('absolute inset-0 w-full h-full object-cover transition-opacity duration-200', {
+          className={cn('absolute inset-0 w-full h-full object-cover transition-opacity duration-200', imgClassName, {
             'opacity-0': showBlurHash,
             'opacity-100': !showBlurHash,
           })}
@@ -159,6 +161,7 @@ export const MkImage = (
           onError={() => {
             setLoading(false);
           }}
+          {...restImgProps}
         />
         <MkBlurHash
           className={cn('absolute inset-0 w-full h-full object-cover transform-opacity duration-200', {
@@ -198,7 +201,9 @@ export const MkImage = (
           <TooltipTrigger className="z-10 absolute top-2 right-2 px-2 py-1 backdrop-blur bg-foreground/50 text-background text-xs rounded-md">
             <div>{image.comment ? <span>ALT</span> : <HeartCrackIcon className="size-4" />}</div>
           </TooltipTrigger>
-          <TooltipContent>{image.comment ?? t('thisPostIsMissingAltText')}</TooltipContent>
+          <TooltipContent>
+            <div className="max-w-90">{image.comment ?? t('thisPostIsMissingAltText')}</div>
+          </TooltipContent>
         </Tooltip>
       )}
       {!disableMenu && (

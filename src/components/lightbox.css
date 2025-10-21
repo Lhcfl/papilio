@@ -1,0 +1,5 @@
+@reference "@/tailwind.css";
+
+.pswp__default-caption {
+  @apply bg-black/40 backdrop-blur-lg px-3! py-2! bottom-0! rounded-t-md! max-h-40! overflow-y-auto;
+}
