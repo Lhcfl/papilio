@@ -84,14 +84,6 @@ export function useUploader() {
     formData.append('name', name);
     if (folderId) formData.append('folderId', folderId);
 
-    add({
-      id,
-      name,
-      progressMax: undefined,
-      progressValue: undefined,
-      img: window.URL.createObjectURL(file),
-    });
-
     const xhr = new XMLHttpRequest();
     xhr.open('POST', getRelativeUrl('/api/drive/files/create'), true);
     xhr.upload.onprogress = (ev) => {
@@ -100,24 +92,25 @@ export function useUploader() {
       }
     };
 
-    return new Promise((resolve, reject) => {
-      xhr.addEventListener('load', function (ev) {
-        if (xhr.status !== 200 || ev.target == null || this.response == null) {
+    const promise = new Promise<DriveFile>((resolve, reject) => {
+      xhr.addEventListener('load', function (_ev) {
+        const ev = _ev as ProgressEvent<XMLHttpRequest>;
+        if (xhr.status !== 200 || ev.target == null || xhr.response == null) {
           // TODO: 消すのではなくて(ネットワーク的なエラーなら)再送できるようにしたい
           remove(id);
 
           if (xhr.status === 413) {
             reject(new Error(t('cannotUploadBecauseExceedsFileSizeLimit')));
-          } else if (this.response) {
+          } else if (xhr.response) {
             const safeParseResponse = () => {
-              if (typeof this.response != 'string') {
+              if (typeof xhr.response != 'string') {
                 reject(new Error('Unknown error: Server returned invalid response'));
                 throw new Error('Unknown error: Server returned invalid response');
               } else {
                 try {
-                  return JSON.parse(this.response) as { error?: { id: string; message: string; code: string } };
+                  return JSON.parse(xhr.response) as { error?: { id: string; message: string; code: string } };
                 } catch {
-                  console.error('Failed to parse response:', this.response);
+                  console.error('Failed to parse response:', xhr.response);
                   reject(new Error('Unknown error: Server returned invalid response'));
                   throw new Error('Unknown error: Server returned invalid response');
                 }
@@ -133,18 +126,29 @@ export function useUploader() {
               reject(new Error(`${res.error?.message}\n${res.error?.code}\n${res.error?.id}`));
             }
           } else {
-            reject(new Error(`Unknown error: ${JSON.stringify(this.response)}, ${JSON.stringify(xhr.response)}`));
+            reject(new Error(`Unknown error: ${JSON.stringify(xhr.response)}, ${JSON.stringify(xhr.response)}`));
           }
           return;
         }
 
-        const driveFile = JSON.parse(this.response as string) as DriveFile;
+        const driveFile = JSON.parse(xhr.response as string) as DriveFile;
         resolve(driveFile);
         remove(id);
       });
 
       xhr.send(formData);
     });
+
+    add({
+      id,
+      name,
+      progressMax: undefined,
+      progressValue: undefined,
+      img: window.URL.createObjectURL(file),
+      promise,
+    });
+
+    return promise;
   }
 
   return uploadFile;

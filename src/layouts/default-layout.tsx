@@ -20,6 +20,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router';
 import type { Tab } from '@/types/page-header';
 import { createPortal } from 'react-dom';
 import { PORTALABLE_HEADER_LEFT_CLASSNAME, PORTALABLE_HEADER_RIGHT_CLASSNAME } from '@/components/app-portals';
+import { useUploadingHint } from '@/hooks/use-uploading-hint';
 
 interface SidebarLayoutProps<Ts extends Tab[]> {
   isRouteTab?: boolean;
@@ -64,6 +65,7 @@ function SidebarLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   useTitle(pageTitle ?? `${title} · ${siteName}`);
   useNoteUpdateListener();
   useMainChannelListener();
+  useUploadingHint();
 
   const [currentTabValue, setTabValue] = useState(tabs?.[0].value);
   const removedTailingSlashPathname = location.pathname.replace(/\/+$/, '') || '/';
