@@ -138,6 +138,7 @@ function MkPostFormLoaded(
   const placeholder = t('_postForm._placeholders.f');
   const queryClient = useQueryClient();
   const uploadFile = useUploader();
+  const [isUploading, setIsUploading] = useState(false);
 
   const sendable =
     draft.text.length < maxNoteTextLength &&
@@ -233,7 +234,9 @@ function MkPostFormLoaded(
   }
 
   async function onFileUpload(promises: Promise<DriveFile>[]) {
+    setIsUploading(true);
     const allSettled = await Promise.allSettled(promises);
+    setIsUploading(false);
     const oks: DriveFile[] = [];
     for (const res of allSettled) {
       if (res.status === 'fulfilled') {
@@ -277,9 +280,10 @@ function MkPostFormLoaded(
         />
       )}
       <div className="mk-post-form__title p-2 border-b flex items-center justify-between">
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <MkAvatar user={me} className={cn({ 'ml-1': !!(displayRelatedNote && relatedNote) })} />
           {prependHeader}
+          {isUploading && <Spinner />}
         </div>
         <div className="mk-post-form__control flex items-center">
           <MkVisibilityPicker
