@@ -158,7 +158,9 @@ const NoteBodyCw = (props: NoteBodyCommonProps) => {
 
 const NoteBodyLong = (props: NoteBodyCommonProps) => {
   const { t } = useTranslation();
-  const [expanded, setExpanded] = useState(false);
+  const expandLongNote = usePerference((p) => p.expandLongNote);
+  const [manualExpanded, setExpanded] = useState<boolean | null>(null);
+  const expanded = manualExpanded ?? expandLongNote;
   return (
     <div className="note-body-long">
       <NoteBodyExpanded

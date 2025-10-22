@@ -47,6 +47,12 @@ export const NoteSettings = {
           name: t('showTranslationButtonInNoteFooter'),
         },
         {
+          kind: 'switch',
+          defaultValue: true,
+          key: 'expandLongNote',
+          name: t('expandLongNote'),
+        },
+        {
           kind: 'enum',
           key: 'notePostFormStyle',
           defaultValue: 'separate',
