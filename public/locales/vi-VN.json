@@ -4144,7 +4144,13 @@
   "youCanNotSeeBecauseYouAreBlocked": "You cannot see this user's posts",
   "_preference": {
     "showNoteActionsCount": "Show Note Action Counts",
-    "showNoteActionsCountDesc": "Toggle to show or hide the counts of actions on notes."
+    "showNoteActionsCountDesc": "Toggle to show or hide the counts of actions on notes.",
+    "notePostFormStyle": "Post Form Style",
+    "notePostFormStyleDesc": "Select the style of the post form when the 'Reply' and 'Quote' buttons are pressed.",
+    "notePostFormStyleOptions": {
+      "separate": "Separate",
+      "bottom": "Bottom"
+    }
   },
   "scheduleNoteFailed": "Đăng bài viết theo lịch trình không thành công",
   "scheduleNotePosted": "Bài viết theo lịch trình đã được đăng"

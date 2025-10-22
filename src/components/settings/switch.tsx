@@ -10,13 +10,13 @@ export function SwitchSettingItem({ item }: { item: SwitchSettings }) {
   const { t } = useTranslation();
 
   return (
-    <div>
-      <Label>
-        <Switch name={item.key} checked={value} onChange={setValue as never} />
-        <div className="ml-2">
-          <div>{t(item.name)}</div>
-          <div>{t(item.description)}</div>
+    <div className="w-full">
+      <Label className="w-full">
+        <div className="w-0 flex-[1_1]">
+          <div className="text-base">{t(item.name)}</div>
+          <div className="text-muted-foreground text-sm">{t(item.description)}</div>
         </div>
+        <Switch name={item.key} checked={value} onCheckedChange={setValue} />
       </Label>
     </div>
   );

@@ -1,28 +1,24 @@
-import { AppLanguageSelect } from '@/components/app-language-select';
+import { AppLanguageSelect } from '@/components/settings/app-language-select';
+import { CogIcon } from 'lucide-react';
 
 const t = (x: string) => x;
 
 export const GeneralSettings = {
   value: 'general',
-  name: t('settings'),
+  name: t('general'),
   description: 'TODO',
+  icon: <CogIcon />,
   categories: [
     {
+      icon: <CogIcon />,
       name: t('general'),
       description: 'TODO',
       items: [
         {
           kind: 'custom',
           name: t('language'),
+          direction: 'right' as 'right' | 'bottom',
           component: <AppLanguageSelect />,
-        },
-        {
-          kind: 'enum',
-          defaultValue: 'light',
-          values: ['light', 'dark'],
-          key: 'theme',
-          name: t('theme'),
-          description: t('_preference.themeDesc'),
         },
       ],
     },

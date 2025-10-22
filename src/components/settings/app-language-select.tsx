@@ -17,7 +17,7 @@ export const AppLanguageSelect = () => {
 
   return (
     <Select onValueChange={changeLanguage} value={i18n.language}>
-      <SelectTrigger className="w-100">
+      <SelectTrigger className="w-full">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

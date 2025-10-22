@@ -7,3 +7,8 @@ _drafts:
 _preference:
   showNoteActionsCount: "显示帖子操作计数"
   showNoteActionsCountDesc: "在帖子操作按钮上显示喜欢、重发等的计数。"
+  notePostFormStyle: "发帖框样式"
+  notePostFormStyleDesc: "选择按下“回复”和“引用”按钮时，发帖框的样式。"
+  notePostFormStyleOptions:
+    separate: "分离显示"
+    bottom: "底部显示"
