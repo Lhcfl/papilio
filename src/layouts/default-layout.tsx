@@ -8,20 +8,14 @@ import { useTitle } from 'react-use';
 import { AppSidebar } from '@/components/app-sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { Toaster } from '@/components/ui/sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { WithLoginLoader } from '@/loaders/with-login';
 import { useSiteMeta } from '@/stores/site';
-import { useNoteUpdateListener } from '@/hooks/use-note';
-import { useMainChannelListener } from '@/hooks/use-main-channel';
 import { RightbarOrPopupProvider } from '@/providers/rightbar-or-popup';
 import { cn } from '@/lib/utils';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import type { Tab } from '@/types/page-header';
 import { createPortal } from 'react-dom';
 import { PORTALABLE_HEADER_LEFT_CLASSNAME, PORTALABLE_HEADER_RIGHT_CLASSNAME } from '@/components/app-portals';
-import { useUploadingHint } from '@/hooks/use-uploading-hint';
-import { usePerference } from '@/stores/perference';
 
 interface SidebarLayoutProps<Ts extends Tab[]> {
   isRouteTab?: boolean;
@@ -32,16 +26,6 @@ interface SidebarLayoutProps<Ts extends Tab[]> {
   tabs?: Ts;
   onTabChange?: (value: Ts[number]['value']) => void;
   children?: React.ReactNode;
-}
-
-export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
-  const theme = usePerference((s) => s.theme);
-  return (
-    <WithLoginLoader>
-      <SidebarLayout {...props} />
-      <Toaster richColors theme={theme} />
-    </WithLoginLoader>
-  );
 }
 
 export const HEADER_RIGHT_PORTAL_ID = 'sdbr__h-r-portal';
@@ -57,7 +41,7 @@ export function HeaderRightPortal(props: { children: React.ReactNode }) {
   else return createPortal(props.children, container);
 }
 
-function SidebarLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
+export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   const siteName = useSiteMeta((s) => s.name);
   const navigate = useNavigate();
   const location = useLocation();
@@ -65,9 +49,6 @@ function SidebarLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   const { isRouteTab, tabs, onTabChange, title = siteName ?? 'papilio', pageTitle, children, ...rest } = props;
 
   useTitle(pageTitle ?? `${title} · ${siteName}`);
-  useNoteUpdateListener();
-  useMainChannelListener();
-  useUploadingHint();
 
   const [currentTabValue, setTabValue] = useState(tabs?.[0].value);
   const removedTailingSlashPathname = location.pathname.replace(/\/+$/, '') || '/';
