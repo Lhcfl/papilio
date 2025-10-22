@@ -35,6 +35,7 @@ import type { Menu } from '@/components/menu-or-drawer';
 import { errorMessageSafe } from '@/lib/error';
 import { linkOptions } from '@tanstack/react-router';
 import { Spinner } from '@/components/ui/spinner';
+import { useSiteMeta } from '@/stores/site';
 
 const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }, successMessage: string) => () =>
   props
@@ -49,6 +50,7 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
   const isAdmin = useMe((me) => me.isAdmin);
   const isMine = meId === note.userId;
   const remoteUrl = getNoteRemoteUrl(note);
+  const translatorAvailable = useSiteMeta((s) => s.translatorAvailable);
 
   const deleteNoteAction = useDeleteNoteAction(note.id);
   const favorite = withToast(useFavoriteNoteAction(note.id), t('favorited'));
@@ -122,7 +124,13 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
         },
         { id: 'show-on-remote', type: 'item', href: remoteUrl, icon: <ExternalLinkIcon />, label: t('showOnRemote') },
         { id: 'share', type: 'item', onClick: share, icon: <ShareIcon />, label: t('share') },
-        { id: 'translate', type: 'item', onClick: onTranslate, icon: <LanguagesIcon />, label: t('translate') },
+        translatorAvailable && {
+          id: 'translate',
+          type: 'item',
+          onClick: onTranslate,
+          icon: <LanguagesIcon />,
+          label: t('translate'),
+        },
       ],
     },
     {

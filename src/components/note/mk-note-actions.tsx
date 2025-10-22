@@ -9,6 +9,7 @@ import {
   HeartIcon,
   HeartMinusIcon,
   HomeIcon,
+  LanguagesIcon,
   LockIcon,
   MoreHorizontalIcon,
   QuoteIcon,
@@ -39,11 +40,12 @@ import { MkPostForm } from '@/components/mk-post-form';
 import { VISIBILITIES } from '@/lib/note';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useMutationState } from '@tanstack/react-query';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { patchNote } from '@/hooks/use-note';
 import { cn } from '@/lib/utils';
 import { usePerference } from '@/stores/perference';
+import { useSiteMeta } from '@/stores/site';
 
 const MkNoteActionButton = (
   props: {
@@ -90,6 +92,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
 
   const disableReactions = usePerference((x) => x.disableNoteReactions);
   const postFormStyle = usePerference((x) => x.notePostFormStyle);
+  const showTranslateInActions = usePerference((x) => x.showTranslateInActions);
   const openRightbarOrPopup = useRightbarOrPopup((s) => s.push);
   const closeRightbarOrPopup = useRightbarOrPopup((s) => s.close);
   const { mutate: renote, isPending: isRenoting } = useRenoteAction(note.id);
@@ -99,6 +102,12 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const { mutate: react } = useReactNoteAction(note.id);
   const noteMenu = useNoteMenu({ onTranslate, note });
   const features = useMisskeyForkFeatures();
+  const translatorAvailable = useSiteMeta((s) => s.translatorAvailable);
+  const hasTranslation =
+    useMutationState({
+      filters: { mutationKey: ['translateNote', note.id] },
+      select: (mu) => mu.state,
+    }).length > 0;
 
   const [renoteLocalOnly, setRenoteLocalOnly] = useState(false);
   const [postFormProps, setPostFormProps] = useState<ComponentProps<typeof MkPostForm> | null>(null);
@@ -327,7 +336,16 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
             tooltip={t('unlike')}
           />
         )}
-
+        {showTranslateInActions && translatorAvailable && (
+          <MkNoteActionButton
+            icon={<LanguagesIcon />}
+            onClick={() => {
+              onTranslate();
+            }}
+            activated={hasTranslation}
+            tooltip={t('translate')}
+          />
+        )}
         <MenuOrDrawer
           menu={noteMenu}
           onOpen={() => {

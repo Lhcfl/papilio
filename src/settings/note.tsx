@@ -41,6 +41,12 @@ export const NoteSettings = {
           name: t('collapseNotesRepliedTo'),
         },
         {
+          kind: 'switch',
+          defaultValue: false,
+          key: 'showTranslateInActions',
+          name: t('showTranslationButtonInNoteFooter'),
+        },
+        {
           kind: 'enum',
           key: 'notePostFormStyle',
           defaultValue: 'separate',
