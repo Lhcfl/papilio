@@ -167,10 +167,11 @@ function MkPostFormLoaded(
     {
       title: t('_drafts.delete'),
       description: (
-        <div>
-          <p>{t('_drafts.deleteAreYouSure')}</p>
-          <p>{t('_drafts.deleteConfirmLong')}</p>
-        </div>
+        <span>
+          {t('_drafts.deleteAreYouSure')}
+          <br />
+          {t('_drafts.deleteConfirmLong')}
+        </span>
       ),
       confirmIcon: <Trash2Icon />,
       confirmText: t('delete'),
