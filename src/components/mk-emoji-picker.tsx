@@ -18,6 +18,7 @@ import { emojiCharByCategory, emojilist as UnicodeEmojiList } from '@/assets/emo
 import { Separator } from '@/components/ui/separator';
 import { useEmojis } from '@/stores/emojis';
 import { useRecentEmojis } from '@/stores/recent-emoji';
+import { cn } from '@/lib/utils';
 
 type RecurisveEmojiCategories = Record<
   string,
@@ -37,7 +38,7 @@ export const MkEmojiPicker = (
     onEmojiChoose: (emoji: EmojiSimple | string) => void;
   } & HTMLProps<HTMLDivElement>,
 ) => {
-  const { onEmojiChoose: emitOnEmojiChoose, ...rest } = props;
+  const { onEmojiChoose: emitOnEmojiChoose, className, ...rest } = props;
   const customEmojis = useEmojis((s) => s.emojis);
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [search, setSearch] = useState('');
@@ -121,7 +122,7 @@ export const MkEmojiPicker = (
   }, [debouncedSearch, customEmojis, emojisByCategory]);
 
   return (
-    <div className="mk-emoji-picker" {...rest}>
+    <div className={cn('mk-emoji-picker flex flex-col', className)} {...rest}>
       <InputGroup>
         <InputGroupAddon>
           <SearchIcon />
@@ -137,7 +138,7 @@ export const MkEmojiPicker = (
           </InputGroupAddon>
         )}
       </InputGroup>
-      <ScrollArea className="mt-2 h-100 max-h-100 w-100 max-w-100 lg:h-120 lg:max-h-120 lg:w-120 lg:max-w-120">
+      <ScrollArea className="mt-2 h-0 flex-[1_1]">
         {searchedEmojis ? (
           <div>
             {searchedEmojis.unicodeNameHit.length > 0 && (
