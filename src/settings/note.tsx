@@ -48,7 +48,7 @@ export const NoteSettings = {
         },
         {
           kind: 'switch',
-          defaultValue: true,
+          defaultValue: false,
           key: 'expandLongNote',
           name: t('expandLongNote'),
         },
