@@ -775,6 +775,7 @@
   "alwaysMarkSensitive": "默认将媒体文件标记为敏感其詞雲",
   "loadRawImages": "以原圖現附圖",
   "disableShowingAnimatedImages": "不播放动画",
+  "disableShowingAnimatedImages_caption": "如果即使关闭了此设置但动画仍无法播放，则可能是浏览器或操作系统的辅助功能设置，又或者是省电设置等产生了干扰。",
   "highlightSensitiveMedia": "高亮显示敏感媒体",
   "verificationEmailSent": "已发送确认电子邮件。请访问电子邮件中的链接以完成设置。",
   "notSet": "未设置",
@@ -1171,6 +1172,7 @@
   "branding": "品牌",
   "enableServerMachineStats": "公开服务器硬件统计訊息",
   "enableIdenticonGeneration": "納生成人 Identicon",
+  "showRoleBadgesOfRemoteUsers": "显示远程用户的角色徽章",
   "turnOffToImprovePerformance": "关闭该擇可以提高性能。",
   "createInviteCode": "生成邀約码",
   "createWithOptions": "使用擇来作",
@@ -3121,7 +3123,7 @@
     "deleteAccount": "删除了账户",
     "deletePage": "删除了页面",
     "deleteFlash": "删除了 Play",
-    "deleteGalleryPost": "删除相册内容",
+    "deleteGalleryPost": "删除图集内容",
     "deleteChatRoom": "删除聊天室",
     "updateProxyAccountDescription": "更新代理账户的简介",
     "approve": "已被批准",
@@ -3411,8 +3413,8 @@
     "description3": "详情请看这里。{{link}}"
   },
   "_followRequest": {
-    "recieved": "已收到申请",
-    "sent": "已发送申请"
+    "recieved": "收到的请求",
+    "sent": "已发送的请求"
   },
   "_remoteLookupErrors": {
     "_federationNotAllowed": {
@@ -3560,6 +3562,7 @@
     "title": "编辑水印",
     "cover": "覆盖全体",
     "repeat": "平铺",
+    "preserveBoundingRect": "Adjust to prevent overflow when rotating",
     "opacity": "不透明度",
     "scale": "大小",
     "text": "文本",
@@ -3663,7 +3666,8 @@
     "listDrafts": "草稿一览",
     "schedule": "定时发布",
     "listScheduledNotes": "定时发布列表",
-    "cancelSchedule": "取消定时"
+    "cancelSchedule": "取消定时",
+    "deleteConfirmLong": "此草稿将被永久删除（真的很久！）。草稿中的所有内容将永久丢弃。"
   },
   "qr": "二维码",
   "_qr": {

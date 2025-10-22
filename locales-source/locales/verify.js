@@ -1,7 +1,5 @@
 import locales from './index.js';
 
-const showUntranslated = process.argv[2] == '-v';
-
 let valid = true;
 
 function writeError(type, lang, tree, data) {
@@ -36,10 +34,6 @@ function verify(expected, actual, lang, trace) {
 							writeError('missing_parameter', lang, trace ? `${trace}.${key}` : key, { parameter });
 						}
 					}
-
-				if (showUntranslated && actual[key] == expected[key]) {
-					writeError('untranslated', lang, trace ? `${trace}.${key}` : key, { original: expected[key] });
-				}
 			}
 		}
 	}

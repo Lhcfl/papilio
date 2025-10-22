@@ -775,6 +775,7 @@
   "alwaysMarkSensitive": "デフォルトでメディアをセンシティブ設定にする",
   "loadRawImages": "添付画像のサムネイルをオリジナル画質にする",
   "disableShowingAnimatedImages": "アニメーション画像を再生しない",
+  "disableShowingAnimatedImages_caption": "この設定に関わらずアニメーション画像が再生されないときは、ブラウザ・OSのアクセシビリティ設定や省電力設定等が干渉している場合があります。",
   "highlightSensitiveMedia": "メディアがセンシティブであることを分かりやすく表示",
   "verificationEmailSent": "確認のメールを送信しました。メールに記載されたリンクにアクセスして、設定を完了してください。",
   "notSet": "未設定",
@@ -1171,6 +1172,7 @@
   "branding": "ブランディング",
   "enableServerMachineStats": "サーバーのマシン情報を公開する",
   "enableIdenticonGeneration": "ユーザーごとのIdenticon生成を有効にする",
+  "showRoleBadgesOfRemoteUsers": "リモートユーザーに付与したロールバッジを表示する",
   "turnOffToImprovePerformance": "オフにするとパフォーマンスが向上します。",
   "createInviteCode": "招待コードを作成",
   "createWithOptions": "オプションを指定して作成",
@@ -3545,6 +3547,7 @@
     "title": "ウォーターマークの編集",
     "cover": "全体に被せる",
     "repeat": "敷き詰める",
+    "preserveBoundingRect": "回転時はみ出ないように調整する",
     "opacity": "不透明度",
     "scale": "サイズ",
     "text": "テキスト",
@@ -3648,7 +3651,8 @@
     "listDrafts": "下書き一覧",
     "schedule": "投稿予約",
     "listScheduledNotes": "予約投稿一覧",
-    "cancelSchedule": "予約解除"
+    "cancelSchedule": "予約解除",
+    "deleteConfirmLong": "The draft will be permanently deleted and cannot be recovered. Everything in the draft will be lost."
   },
   "qr": "二次元コード",
   "_qr": {

@@ -775,6 +775,7 @@
   "alwaysMarkSensitive": "Marcați ca sensibil în mod prestabilit",
   "loadRawImages": "Încărcați imagini originale în loc să afișați miniaturile",
   "disableShowingAnimatedImages": "Nu reda imaginile animate",
+  "disableShowingAnimatedImages_caption": "If animated images do not play even if this setting is disabled, it may be due to browser or OS accessibility settings, power-saving settings, or similar factors.",
   "highlightSensitiveMedia": "Evidențiază conținutul media sensibil",
   "verificationEmailSent": "A fost trimis un e-mail de confirmare. Urmează linkul din e-mail pentru a finaliza configurarea.",
   "notSet": "Nesetat",
@@ -1171,6 +1172,7 @@
   "branding": "Branding",
   "enableServerMachineStats": "Publicați statistici hardware ale serverului",
   "enableIdenticonGeneration": "Activați generarea identicon a utilizatorului",
+  "showRoleBadgesOfRemoteUsers": "Display the role badges assigned to remote users",
   "turnOffToImprovePerformance": "Oprirea acestei opțiuni poate crește performanța.",
   "createInviteCode": "Generează invitația",
   "createWithOptions": "Generează cu opțiuni",
@@ -3545,6 +3547,7 @@
     "title": "Edit Watermark",
     "cover": "Cover everything",
     "repeat": "spread all over",
+    "preserveBoundingRect": "Adjust to prevent overflow when rotating",
     "opacity": "Opacity",
     "scale": "Dimensiune",
     "text": "Text",
@@ -3648,7 +3651,8 @@
     "listDrafts": "List of Drafts",
     "schedule": "Schedule note",
     "listScheduledNotes": "Scheduled notes list",
-    "cancelSchedule": "Cancel schedule"
+    "cancelSchedule": "Cancel schedule",
+    "deleteConfirmLong": "The draft will be permanently deleted and cannot be recovered. Everything in the draft will be lost."
   },
   "qr": "QR Code",
   "_qr": {

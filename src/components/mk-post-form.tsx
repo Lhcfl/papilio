@@ -23,6 +23,7 @@ import {
   ReplyIcon,
   SendIcon,
   SmilePlusIcon,
+  Trash2Icon,
   XCircleIcon,
   XIcon,
 } from 'lucide-react';
@@ -53,7 +54,8 @@ import { MkNoteSimple } from '@/components/mk-note-simple';
 import { useSiteMeta } from '@/stores/site';
 import { Progress } from '@/components/ui/progress';
 import { useErrorDialogs } from '@/stores/error-dialog';
-import { useConfirmDialog } from '@/stores/confirm-dialog';
+import { useAfterConfirm, useConfirmDialog } from '@/stores/confirm-dialog';
+import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 
 type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;
@@ -161,6 +163,24 @@ function MkPostFormLoaded(
   const pushErrorDialog = useErrorDialogs((s) => s.pushDialog);
   const pushConfirmDialog = useConfirmDialog((s) => s.pushDialog);
 
+  const discardDraftWithConfirm = useAfterConfirm(
+    {
+      title: t('_drafts.delete'),
+      description: (
+        <div>
+          <p>{t('_drafts.deleteAreYouSure')}</p>
+          <p>{t('_drafts.deleteConfirmLong')}</p>
+        </div>
+      ),
+      confirmIcon: <Trash2Icon />,
+      confirmText: t('delete'),
+      variant: 'destructive',
+    },
+    () => {
+      draft.remove();
+    },
+  );
+
   const { mutate: addUnspecifiedMentionUser, isPending: isAddingUser } = useMutation({
     mutationKey: ['add-unspecified-mention-user', draftKey],
     mutationFn: () =>
@@ -253,6 +273,35 @@ function MkPostFormLoaded(
     draft.update({ files: [...draft.files, ...oks] });
   }
   // #region Actions and Callbacks
+
+  // #region Menu
+
+  const menu: Menu = [
+    {
+      id: 'lbl',
+      type: 'label',
+      label: t('newNote'),
+    },
+    {
+      type: 'group',
+      id: 'dangerous',
+      items: [
+        null,
+        {
+          id: 'discard',
+          type: 'item',
+          label: t('_drafts.delete'),
+          icon: <Trash2Icon />,
+          variant: 'destructive',
+          onClick: () => {
+            void discardDraftWithConfirm();
+          },
+        },
+      ],
+    },
+  ];
+
+  // #endregion Menu
 
   // #region Effects
 
@@ -495,9 +544,11 @@ function MkPostFormLoaded(
               <SmilePlusIcon />
             </PostFormButton>
           </MkEmojiPickerPopup>
-          <PostFormButton label={t('other')}>
-            <MoreHorizontalIcon />
-          </PostFormButton>
+          <MenuOrDrawer menu={menu}>
+            <PostFormButton label={t('other')}>
+              <MoreHorizontalIcon />
+            </PostFormButton>
+          </MenuOrDrawer>
         </div>
         <div className="flex gap-1">
           <PostFormButton

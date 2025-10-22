@@ -775,6 +775,7 @@
   "alwaysMarkSensitive": "預設標記檔案為敏感內容",
   "loadRawImages": "以原始圖檔顯示附件圖檔的縮圖",
   "disableShowingAnimatedImages": "不播放動態圖檔",
+  "disableShowingAnimatedImages_caption": "無論這個設定如何，如果動畫圖片無法播放，可能是因為瀏覽器或作業系統的無障礙設定、省電設定等產生了干擾。",
   "highlightSensitiveMedia": "強調敏感標記",
   "verificationEmailSent": "已發送驗證電子郵件。請點擊進入電子郵件中的連結以完成驗證。",
   "notSet": "未設定",
@@ -1171,6 +1172,7 @@
   "branding": "品牌宣傳",
   "enableServerMachineStats": "公佈伺服器的機器資訊",
   "enableIdenticonGeneration": "啟用生成使用者的 Identicon ",
+  "showRoleBadgesOfRemoteUsers": "显示远程用户的角色徽章",
   "turnOffToImprovePerformance": "關閉時會提高性能。",
   "createInviteCode": "建立邀請碼",
   "createWithOptions": "使用選項建立",
@@ -3517,7 +3519,7 @@
     "abortConfirm": "有些檔案尚未上傳，您要中止嗎？",
     "doneConfirm": "有些檔案尚未上傳，是否要完成上傳？",
     "maxFileSizeIsX": "可上傳的最大檔案大小為 {{x}}。",
-    "allowedTypes": "可上傳的檔案類型",
+    "allowedTypes": "可上傳的檔案類型。",
     "tip": "檔案尚未上傳。您可以在此對話框中進行上傳前的確認、重新命名、壓縮、裁切等操作。準備完成後，請點選「上傳」按鈕開始上傳。\n"
   },
   "_clientPerformanceIssueTip": {
@@ -3545,6 +3547,7 @@
     "title": "編輯浮水印",
     "cover": "覆蓋整體",
     "repeat": "佈局",
+    "preserveBoundingRect": "Adjust to prevent overflow when rotating",
     "opacity": "透明度",
     "scale": "大小",
     "text": "文字",
@@ -3648,7 +3651,8 @@
     "listDrafts": "草稿清單",
     "schedule": "排定發布",
     "listScheduledNotes": "排定發布列表",
-    "cancelSchedule": "解除排定"
+    "cancelSchedule": "解除排定",
+    "deleteConfirmLong": "此草稿将被永久删除（真的很久！）。草稿中的所有内容将永久丢弃。"
   },
   "qr": "二維條碼",
   "_qr": {

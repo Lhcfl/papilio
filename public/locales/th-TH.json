@@ -775,6 +775,7 @@
   "alwaysMarkSensitive": "ทำเครื่องหมายว่ามีเนื้อหาละเอียดอ่อนเป็นค่าเริ่มต้น",
   "loadRawImages": "โหลดภาพต้นฉบับแทนการแสดงภาพขนาดย่อ",
   "disableShowingAnimatedImages": "ไม่ต้องเล่นภาพเคลื่อนไหว",
+  "disableShowingAnimatedImages_caption": "If animated images do not play even if this setting is disabled, it may be due to browser or OS accessibility settings, power-saving settings, or similar factors.",
   "highlightSensitiveMedia": "ไฮไลท์สื่อที่มีเนื้อหาละเอียดอ่อน",
   "verificationEmailSent": "ได้ส่งอีเมลยืนยันแล้ว กรุณาเข้าลิงก์ที่ระบุในอีเมลเพื่อทำการตั้งค่าให้เสร็จสิ้น",
   "notSet": "ไม่ได้ตั้งค่า",
@@ -1171,6 +1172,7 @@
   "branding": "แบรนดิ้ง",
   "enableServerMachineStats": "เผยแพร่สถานะฮาร์ดแวร์ของเซิร์ฟเวอร์",
   "enableIdenticonGeneration": "เปิดใช้งานผู้ใช้สร้างตัวระบุ",
+  "showRoleBadgesOfRemoteUsers": "Display the role badges assigned to remote users",
   "turnOffToImprovePerformance": "การปิดส่วนนี้สามารถเพิ่มประสิทธิภาพได้",
   "createInviteCode": "สร้างรหัสเชิญ",
   "createWithOptions": "สร้างด้วยตัวเลือก",
@@ -3545,6 +3547,7 @@
     "title": "แก้ไขลายน้ำ",
     "cover": "ซ้อนทับทั่วทั้งพื้นที่",
     "repeat": "ปูให้เต็มพื้นที่",
+    "preserveBoundingRect": "Adjust to prevent overflow when rotating",
     "opacity": "ความทึบแสง",
     "scale": "ขนาด",
     "text": "ข้อความ",
@@ -3648,7 +3651,8 @@
     "listDrafts": "รายการฉบับร่าง",
     "schedule": "โพสต์กำหนดเวลา",
     "listScheduledNotes": "รายการโน้ตที่กำหนดเวลาไว้",
-    "cancelSchedule": "ยกเลิกกำหนดเวลา"
+    "cancelSchedule": "ยกเลิกกำหนดเวลา",
+    "deleteConfirmLong": "The draft will be permanently deleted and cannot be recovered. Everything in the draft will be lost."
   },
   "qr": "QR โค้ด",
   "_qr": {

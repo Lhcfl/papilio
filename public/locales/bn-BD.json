@@ -775,6 +775,7 @@
   "alwaysMarkSensitive": "সর্বদা স্পর্শকাতর হিসাবে চিহ্নিত করুন",
   "loadRawImages": "সংযুক্ত ছবির থাম্বনেইলটি দেখানর পরিবর্তে আসল ছবি দেখান",
   "disableShowingAnimatedImages": "অ্যানিমেটেড চিত্র দেখানো বন্ধ করুন",
+  "disableShowingAnimatedImages_caption": "If animated images do not play even if this setting is disabled, it may be due to browser or OS accessibility settings, power-saving settings, or similar factors.",
   "highlightSensitiveMedia": "Highlight sensitive media",
   "verificationEmailSent": "নিশ্চিতকরণ ইমেল পাঠানো হয়েছে। সেটআপ সম্পূর্ণ করতে ইমেল এর লিঙ্ক অনুসরণ করুন।",
   "notSet": "সেট করা হয়নি",
@@ -1171,6 +1172,7 @@
   "branding": "Branding",
   "enableServerMachineStats": "Publish server hardware stats",
   "enableIdenticonGeneration": "Enable user identicon generation",
+  "showRoleBadgesOfRemoteUsers": "Display the role badges assigned to remote users",
   "turnOffToImprovePerformance": "Turning this off can increase performance.",
   "createInviteCode": "Generate invite",
   "createWithOptions": "Generate with options",
@@ -3545,6 +3547,7 @@
     "title": "Edit Watermark",
     "cover": "Cover everything",
     "repeat": "spread all over",
+    "preserveBoundingRect": "Adjust to prevent overflow when rotating",
     "opacity": "অস্বচ্ছতা",
     "scale": "আকার",
     "text": "লেখা",
@@ -3648,7 +3651,8 @@
     "listDrafts": "List of Drafts",
     "schedule": "Schedule note",
     "listScheduledNotes": "Scheduled notes list",
-    "cancelSchedule": "Cancel schedule"
+    "cancelSchedule": "Cancel schedule",
+    "deleteConfirmLong": "The draft will be permanently deleted and cannot be recovered. Everything in the draft will be lost."
   },
   "qr": "QR Code",
   "_qr": {

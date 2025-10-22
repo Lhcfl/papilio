@@ -775,6 +775,7 @@
   "alwaysMarkSensitive": "Marquer les médias comme contenu sensible par défaut",
   "loadRawImages": "Affichage complet des images jointes au lieu des vignettes",
   "disableShowingAnimatedImages": "Désactiver l'animation des images",
+  "disableShowingAnimatedImages_caption": "If animated images do not play even if this setting is disabled, it may be due to browser or OS accessibility settings, power-saving settings, or similar factors.",
   "highlightSensitiveMedia": "Mettre en évidence les médias sensibles",
   "verificationEmailSent": "Un e-mail de vérification a été envoyé. Veuillez accéder au lien pour compléter la vérification.",
   "notSet": "Non défini",
@@ -1171,6 +1172,7 @@
   "branding": "Image de marque",
   "enableServerMachineStats": "Publier les statistiques du matériel du serveur",
   "enableIdenticonGeneration": "Générer les identicons des utilisateurs",
+  "showRoleBadgesOfRemoteUsers": "Display the role badges assigned to remote users",
   "turnOffToImprovePerformance": "Désactiver peut améliorer la performance.",
   "createInviteCode": "Créer un code d'invitation",
   "createWithOptions": "Options",
@@ -3545,6 +3547,7 @@
     "title": "Edit Watermark",
     "cover": "Cover everything",
     "repeat": "spread all over",
+    "preserveBoundingRect": "Adjust to prevent overflow when rotating",
     "opacity": "Transparence",
     "scale": "Taille",
     "text": "Texte",
@@ -3648,7 +3651,8 @@
     "listDrafts": "List of Drafts",
     "schedule": "Schedule note",
     "listScheduledNotes": "Scheduled notes list",
-    "cancelSchedule": "Cancel schedule"
+    "cancelSchedule": "Cancel schedule",
+    "deleteConfirmLong": "The draft will be permanently deleted and cannot be recovered. Everything in the draft will be lost."
   },
   "qr": "QR Code",
   "_qr": {

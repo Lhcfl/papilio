@@ -775,6 +775,7 @@
   "alwaysMarkSensitive": "علّم افتراضيًا جميع ملاحظاتي كذات محتوى حساس",
   "loadRawImages": "حمّل الصور الأصلية بدلًا من المصغرات",
   "disableShowingAnimatedImages": "لا تشغّل الصور المتحركة",
+  "disableShowingAnimatedImages_caption": "If animated images do not play even if this setting is disabled, it may be due to browser or OS accessibility settings, power-saving settings, or similar factors.",
   "highlightSensitiveMedia": "Highlight sensitive media",
   "verificationEmailSent": "أُرسل بريد التحقق. أنقر على الرابط المضمن لإكمال التحقق.",
   "notSet": "لم يعيّن",
@@ -1171,6 +1172,7 @@
   "branding": "Branding",
   "enableServerMachineStats": "نشر إحصائيات عتاد الخادم",
   "enableIdenticonGeneration": "Enable user identicon generation",
+  "showRoleBadgesOfRemoteUsers": "Display the role badges assigned to remote users",
   "turnOffToImprovePerformance": "تفعيله قد يزيد الأداء.",
   "createInviteCode": "ولِّد دعوة",
   "createWithOptions": "Generate with options",
@@ -3545,6 +3547,7 @@
     "title": "Edit Watermark",
     "cover": "Cover everything",
     "repeat": "spread all over",
+    "preserveBoundingRect": "Adjust to prevent overflow when rotating",
     "opacity": "الشفافية",
     "scale": "الحجم",
     "text": "نص",
@@ -3648,7 +3651,8 @@
     "listDrafts": "List of Drafts",
     "schedule": "Schedule note",
     "listScheduledNotes": "Scheduled notes list",
-    "cancelSchedule": "Cancel schedule"
+    "cancelSchedule": "Cancel schedule",
+    "deleteConfirmLong": "The draft will be permanently deleted and cannot be recovered. Everything in the draft will be lost."
   },
   "qr": "QR Code",
   "_qr": {

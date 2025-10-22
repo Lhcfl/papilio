@@ -35,6 +35,7 @@ const languages = [
   ...new Set(
     locales_folders
       .flatMap((x) => fs.readdirSync(new URL(`locales-source/${x}`, PROJECT_ROOT)))
+      .filter((f) => f.endsWith('.yml'))
       .map((f) => f.replace(/\.yml$/, '')),
   ),
 ];
@@ -128,6 +129,7 @@ export function build() {
 
 const locales = build();
 
+fs.rmdirSync('public/locales', { recursive: true });
 fs.mkdirSync('public/locales', { recursive: true });
 
 for (const [key, val] of Object.entries(locales)) {

@@ -775,6 +775,7 @@
   "alwaysMarkSensitive": "Varsayılan olarak hassas olarak işaretle",
   "loadRawImages": "Küçük resimleri göstermek yerine orijinal resimleri yükle",
   "disableShowingAnimatedImages": "Animasyonlu görüntüleri oynatmayın",
+  "disableShowingAnimatedImages_caption": "If animated images do not play even if this setting is disabled, it may be due to browser or OS accessibility settings, power-saving settings, or similar factors.",
   "highlightSensitiveMedia": "Hassas medyayı vurgulayın",
   "verificationEmailSent": "Doğrulama e-postası gönderildi. Doğrulamayı tamamlamak için e-postadaki bağlantıyı takip edin.",
   "notSet": "Ayarlı değil",
@@ -1171,6 +1172,7 @@
   "branding": "Markalaşma",
   "enableServerMachineStats": "Sunucu donanım istatistiklerini yayınla",
   "enableIdenticonGeneration": "Kullanıcı identicon oluşturmayı etkinleştir",
+  "showRoleBadgesOfRemoteUsers": "Display the role badges assigned to remote users",
   "turnOffToImprovePerformance": "Devre dışı bırakma, daha yüksek performansa yol açabilir.",
   "createInviteCode": "Davet Kodu oluştur",
   "createWithOptions": "Seçeneklerle oluştur",
@@ -3547,6 +3549,7 @@
     "title": "Filigranı Düzenle",
     "cover": "Her şeyi örtün",
     "repeat": "her yere yayılmış",
+    "preserveBoundingRect": "Adjust to prevent overflow when rotating",
     "opacity": "Opaklık",
     "scale": "Boyut",
     "text": "Metin",
@@ -3650,7 +3653,8 @@
     "listDrafts": "Taslaklar Listesi",
     "schedule": "Schedule note",
     "listScheduledNotes": "Scheduled notes list",
-    "cancelSchedule": "Cancel schedule"
+    "cancelSchedule": "Cancel schedule",
+    "deleteConfirmLong": "The draft will be permanently deleted and cannot be recovered. Everything in the draft will be lost."
   },
   "qr": "QR Code",
   "_qr": {

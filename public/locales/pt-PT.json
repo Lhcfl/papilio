@@ -775,6 +775,7 @@
   "alwaysMarkSensitive": "Marcar como sensível por padrão",
   "loadRawImages": "Exibir as imagens originais ao invés de miniaturas",
   "disableShowingAnimatedImages": "Não reproduzir imagens animadas",
+  "disableShowingAnimatedImages_caption": "If animated images do not play even if this setting is disabled, it may be due to browser or OS accessibility settings, power-saving settings, or similar factors.",
   "highlightSensitiveMedia": "Destacar mídia sensível",
   "verificationEmailSent": "Um e-mail de confirmação foi enviado. Siga o link no e-mail para concluir a verificação.",
   "notSet": "Não definido",
@@ -1171,6 +1172,7 @@
   "branding": "Marca",
   "enableServerMachineStats": "Publicar estatísticas do hardware do servidor",
   "enableIdenticonGeneration": "Habilitar geração de identicon de usuário",
+  "showRoleBadgesOfRemoteUsers": "Display the role badges assigned to remote users",
   "turnOffToImprovePerformance": "Desligar isso pode melhorar o desempenho.",
   "createInviteCode": "Gerar convite",
   "createWithOptions": "Criar com opções",
@@ -3545,6 +3547,7 @@
     "title": "Editar marca d'água",
     "cover": "Cobrir tudo",
     "repeat": "Espalhar pelo conteúdo",
+    "preserveBoundingRect": "Adjust to prevent overflow when rotating",
     "opacity": "Opacidade",
     "scale": "Tamanho",
     "text": "Texto",
@@ -3648,7 +3651,8 @@
     "listDrafts": "Lista de Rascunhos",
     "schedule": "Agendar nota",
     "listScheduledNotes": "Lista de notas agendadas",
-    "cancelSchedule": "Cancelar agendamento"
+    "cancelSchedule": "Cancelar agendamento",
+    "deleteConfirmLong": "The draft will be permanently deleted and cannot be recovered. Everything in the draft will be lost."
   },
   "qr": "Código QR",
   "_qr": {

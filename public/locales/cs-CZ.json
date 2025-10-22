@@ -775,6 +775,7 @@
   "alwaysMarkSensitive": "Výchozně označovat jako citlivý",
   "loadRawImages": "Načítat originální obrázky místo náhledů",
   "disableShowingAnimatedImages": "Nepřehrávat animované obrázky",
+  "disableShowingAnimatedImages_caption": "If animated images do not play even if this setting is disabled, it may be due to browser or OS accessibility settings, power-saving settings, or similar factors.",
   "highlightSensitiveMedia": "Highlight sensitive media",
   "verificationEmailSent": "Ověřovací email byl zaslán. Ověření dokončíte kliknutím na odkaz v emailu.",
   "notSet": "Není nastaveno",
@@ -1171,6 +1172,7 @@
   "branding": "Značka",
   "enableServerMachineStats": "Zveřejněnit statistiky hardwaru serveru",
   "enableIdenticonGeneration": "Povolit generování identicon uživatele",
+  "showRoleBadgesOfRemoteUsers": "Display the role badges assigned to remote users",
   "turnOffToImprovePerformance": "Vypnutí této funkce může zvýšit výkon.",
   "createInviteCode": "Vygenerovat pozvánku",
   "createWithOptions": "Vygenerovat s nastavením",
@@ -3545,6 +3547,7 @@
     "title": "Edit Watermark",
     "cover": "Cover everything",
     "repeat": "spread all over",
+    "preserveBoundingRect": "Adjust to prevent overflow when rotating",
     "opacity": "Průhlednost",
     "scale": "Velikost",
     "text": "Text",
@@ -3648,7 +3651,8 @@
     "listDrafts": "List of Drafts",
     "schedule": "Schedule note",
     "listScheduledNotes": "Scheduled notes list",
-    "cancelSchedule": "Cancel schedule"
+    "cancelSchedule": "Cancel schedule",
+    "deleteConfirmLong": "The draft will be permanently deleted and cannot be recovered. Everything in the draft will be lost."
   },
   "qr": "QR Code",
   "_qr": {

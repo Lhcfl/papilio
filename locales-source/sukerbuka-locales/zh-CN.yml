@@ -1,2 +1,5 @@
 userBlockedYou: "{name} 屏蔽了你"
 youCanNotSeeBecauseYouAreBlocked: "您无法查看此用户的动态"
+
+_drafts: 
+  deleteConfirmLong: "此草稿将被永久删除（真的很久！）。草稿中的所有内容将永久丢弃。"

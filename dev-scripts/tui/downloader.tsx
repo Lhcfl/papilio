@@ -37,11 +37,18 @@ async function githubRequest(url: string) {
   return res.json();
 }
 
-async function listFiles(folder: string, override?: { repo: string; branch?: string }) {
-  const { repo: override_repo, branch: override_branch } = override ?? {};
-  const repo = override_repo ?? GITHUB_REPO;
-  const branch = override_branch ?? BRANCH;
-  const apiUrl = `https://api.github.com/repos/${repo}/contents/${folder}?ref=${branch}`;
+const parseFolder = (folder: string) => {
+  if (folder.includes(':')) {
+    const [fullRepo, path] = folder.split(':', 2);
+    const [owner, repo, branch] = fullRepo.split('/');
+    return { repo: `${owner}/${repo}`, branch, path };
+  }
+  return { repo: GITHUB_REPO, branch: BRANCH, path: folder };
+};
+
+async function listFiles(folder: string) {
+  const { repo, branch, path } = parseFolder(folder);
+  const apiUrl = `https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`;
   const data = await githubRequest(apiUrl);
 
   return data as {

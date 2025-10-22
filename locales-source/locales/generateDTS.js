@@ -3,15 +3,10 @@ import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 import * as yaml from 'js-yaml';
 import ts from 'typescript';
-import { merge } from './index.js';
-import { tryReadFile } from './index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-// braces preceded by backslashes are literal, they don't represent
-// parameters; they get cleaned up by `locales/index.js` before
-// getting shipped to the browser
-const parameterRegExp = /(?<!\\)\{(\w+)\}/g;
+const parameterRegExp = /\{(\w+)\}/g;
 
 function createMemberType(item) {
 	if (typeof item !== 'string') {
@@ -58,11 +53,7 @@ function createMembers(record) {
 }
 
 export default function generateDTS() {
-	const sharkeyLocale = yaml.load(tryReadFile(`${__dirname}/../sharkey-locales/en-US.yml`, 'utf-8'));
-	const stpvLocale = yaml.load(tryReadFile(`${__dirname}/../stpv-locales/zh-CN.yml`, 'utf-8'));
-	const misskeyLocale = yaml.load(tryReadFile(`${__dirname}/ja-JP.yml`, 'utf-8'));
-	const locale = merge(misskeyLocale, sharkeyLocale, stpvLocale);
-
+	const locale = yaml.load(fs.readFileSync(`${__dirname}/ja-JP.yml`, 'utf-8'));
 	const members = createMembers(locale);
 	const elements = [
 		ts.factory.createVariableStatement(
@@ -82,7 +73,7 @@ export default function generateDTS() {
 				ts.NodeFlags.Const,
 			),
 		),
-		ts.factory.createInterfaceDeclaration(
+		ts.factory.createTypeAliasDeclaration(
 			[ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
 			ts.factory.createIdentifier('ParameterizedString'),
 			[
@@ -93,20 +84,22 @@ export default function generateDTS() {
 					ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
 				),
 			],
-			undefined,
-			[
-				ts.factory.createPropertySignature(
-					undefined,
-					ts.factory.createComputedPropertyName(
-						ts.factory.createIdentifier('kParameters'),
-					),
-					undefined,
-					ts.factory.createTypeReferenceNode(
-						ts.factory.createIdentifier('T'),
+			ts.factory.createIntersectionTypeNode([
+				ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+				ts.factory.createTypeLiteralNode([
+					ts.factory.createPropertySignature(
 						undefined,
+						ts.factory.createComputedPropertyName(
+							ts.factory.createIdentifier('kParameters'),
+						),
+						undefined,
+						ts.factory.createTypeReferenceNode(
+							ts.factory.createIdentifier('T'),
+							undefined,
+						),
 					),
-				),
-			],
+				])
+			]),
 		),
 		ts.factory.createInterfaceDeclaration(
 			[ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
