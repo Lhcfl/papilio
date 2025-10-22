@@ -4,7 +4,6 @@
  */
 
 import { getDraftKey, useDraft, type DraftData, type DraftKeyProps } from '@/hooks/use-draft';
-import { Skeleton } from '@/components/ui/skeleton';
 import { InputGroup, InputGroupAddon, InputGroupTextarea } from '@/components/ui/input-group';
 import { useTranslation } from 'react-i18next';
 import { MkAvatar } from '@/components/mk-avatar';
@@ -76,16 +75,18 @@ export function MkPostForm(props: MkPostFormProps) {
 
   // make react compiler happy
   const relatedCw = relatedNote?.cw;
+  const defaultCw =
+    cond([
+      [editId != null, relatedCw],
+      [replyId != null, relatedCw],
+      [true, null],
+    ]) ?? undefined;
 
   const draft = useDraft(draftKey, {
     visibility: visibilityRestrict?.at(0),
     localOnly: relatedNote?.localOnly,
-    cw:
-      cond([
-        [editId != null, relatedCw],
-        [replyId != null, relatedCw],
-        [true, null],
-      ]) ?? undefined,
+    cw: defaultCw,
+    hasCw: defaultCw != null,
     text:
       cond([
         [editId != null, relatedNote?.text],
@@ -94,7 +95,6 @@ export function MkPostForm(props: MkPostFormProps) {
       ]) ?? undefined,
   });
 
-  if (draft == null) return <MkPostFormSkeleton />;
   return <MkPostFormLoaded {...props} draft={draft} draftKey={draftKey} />;
 }
 
@@ -109,7 +109,7 @@ function MkPostFormLoaded(
     editId,
     quoteId,
     onSuccess,
-    autoFocus,
+    autoFocus = true,
     draftKey,
     draft,
     relatedNote,
@@ -252,11 +252,18 @@ function MkPostFormLoaded(
   // #region Effects
 
   useMount(() => {
-    const textarea = textareaRef.current;
-    if (textarea && autoFocus) {
-      textarea.focus();
+    function onDraftLoaded() {
+      const textarea = textareaRef.current;
+      if (textarea && autoFocus) {
+        textarea.focus();
+      }
+      textarea?.setSelectionRange(draft.text.length, draft.text.length);
     }
-    textarea?.setSelectionRange(draft.text.length, draft.text.length);
+    document.addEventListener(`papi:draftLoaded/${draftKey}`, onDraftLoaded);
+
+    return () => {
+      document.removeEventListener(`papi:draftLoaded/${draftKey}`, onDraftLoaded);
+    };
   });
 
   useEffect(() => {
@@ -535,9 +542,3 @@ const PostFormButton = (
     </Tooltip>
   );
 };
-
-const MkPostFormSkeleton = () => (
-  <div className="mk-post-form-skeleton">
-    <Skeleton className="h-32 w-full" />
-  </div>
-);

@@ -66,7 +66,7 @@ export const useDraft = (
     }
   }
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState(defaultsWithFallback);
 
   const update = (data: Partial<DraftData>) => {
@@ -74,6 +74,7 @@ export const useDraft = (
   };
 
   const remove = () => {
+    setDraft(defaultsWithFallback);
     void IDB.del(draftKey, getCurrentUserSiteIDB());
   };
 
@@ -104,14 +105,17 @@ export const useDraft = (
         if (hasData(data)) {
           d = { ...defaultsWithFallback, ...data };
           setDraft(d);
+        } else {
+          setDraft(defaultsWithFallback);
         }
         opts?.onFirstLoad?.(d);
-        setLoading(false);
       })
       .catch((e: unknown) => {
         console.error(e);
-        setLoading(false);
         toast.error('Failed to load draft from IndexedDB. This should not happen. Please report this bug.');
+      })
+      .finally(() => {
+        document.dispatchEvent(new Event(`papi:draftLoaded/${draftKey}`));
       });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -130,5 +134,5 @@ export const useDraft = (
     [draft],
   );
 
-  return loading ? null : { ...draft, update, remove, resetExcept };
+  return { ...draft, update, remove, resetExcept };
 };

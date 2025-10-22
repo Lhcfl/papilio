@@ -5,7 +5,6 @@
 
 import { useIsFetching, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-
 import { MkAlert } from '@/components/mk-alert';
 import { MkError } from '@/components/mk-error';
 import { MkNote } from '@/components/mk-note';
@@ -22,6 +21,7 @@ import { registerNote, useNoteValue } from '@/hooks/use-note';
 import { getNoteRemoteUrl } from '@/lib/note';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { firstNonNull } from '@/lib/match';
+import { Separator } from '@/components/ui/separator';
 
 export const Route = createFileRoute('/notes/$id')({
   component: RouteComponent,
@@ -122,7 +122,10 @@ function LoadedMain(props: { noteId: string }) {
       <div>
         <MkNote noteId={noteId} showReply={false} detailed />
       </div>
-      <MkNoteReplies noteId={noteId} />
+      <div className="min-h-screen">
+        <Separator />
+        <MkNoteReplies noteId={noteId} />
+      </div>
     </div>
   );
 }

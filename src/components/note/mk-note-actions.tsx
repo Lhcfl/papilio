@@ -17,6 +17,7 @@ import {
   SmilePlusIcon,
   ToggleLeftIcon,
   ToggleRightIcon,
+  XIcon,
 } from 'lucide-react';
 import { useState, type ComponentProps } from 'react';
 import { toast } from 'sonner';
@@ -41,21 +42,35 @@ import { useMisskeyForkFeatures } from '@/stores/node-info';
 import { useMutation } from '@tanstack/react-query';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { patchNote } from '@/hooks/use-note';
+import { cn } from '@/lib/utils';
 
 const MkNoteActionButton = (
   props: {
     icon: React.ReactNode;
     count?: number;
+    activated?: boolean;
     loading?: boolean;
     disabled?: boolean;
     tooltip?: string;
   } & ComponentProps<typeof Button>,
 ) => {
-  const { loading = false, disabled = false, icon, count = 0, tooltip, ...rest } = props;
+  const { loading = false, disabled = false, activated, icon, count = 0, tooltip, className, ...rest } = props;
   return (
     <Tooltip delayDuration={1000}>
       <TooltipTrigger asChild>
-        <Button variant="ghost" size={count > 0 ? 'default' : 'icon'} disabled={disabled || loading} {...rest}>
+        <Button
+          variant="ghost"
+          className={cn(
+            'border border-transparent',
+            {
+              'text-tertiary hover:bg-tertiary/10': activated,
+            },
+            className,
+          )}
+          size={count > 0 ? 'default' : 'icon'}
+          disabled={disabled || loading}
+          {...rest}
+        >
           {loading ? <Spinner /> : icon}
           {count > 0 && <span>{count}</span>}
         </Button>
@@ -82,6 +97,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const features = useMisskeyForkFeatures();
 
   const [renoteLocalOnly, setRenoteLocalOnly] = useState(false);
+  const [postFormProps, setPostFormProps] = useState<ComponentProps<typeof MkPostForm> | null>(null);
 
   const { mutate: syncNote } = useMutation({
     mutationKey: ['sync:note/state', note.id],
@@ -185,104 +201,143 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   };
 
   const openQuoteForm = () => {
-    openForm({ icon: <QuoteIcon />, title: t('quote'), postFormProps: { quoteId: note.id } });
+    // openForm({ icon: <QuoteIcon />, title: t('quote'), postFormProps: { quoteId: note.id } });
+    setPostFormProps({
+      quoteId: note.id,
+      visibilityRestrict: VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility)),
+    });
   };
 
   const openReplyForm = () => {
-    openForm({ icon: <ReplyIcon />, title: t('reply'), postFormProps: { replyId: note.id } });
+    // openForm({ icon: <ReplyIcon />, title: t('reply'), postFormProps: { replyId: note.id } })
+    setPostFormProps({
+      replyId: note.id,
+      visibilityRestrict: VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility)),
+    });
   };
 
   return (
-    <div className="mk-note-actions flex p-2">
-      <MkNoteActionButton
-        icon={<ReplyIcon />}
-        count={note.repliesCount}
-        disabled={false}
-        loading={false}
-        tooltip={t('reply')}
-        onClick={() => {
-          openReplyForm();
-        }}
-      />
-      {isRenoted ? (
+    <div className="mk-note-actions p-2">
+      <div className="mk-note-actions__buttons flex">
         <MkNoteActionButton
-          className="text-tertiary hover:bg-tertiary/10"
-          icon={<RepeatIcon />}
-          count={note.renoteCount}
-          loading={isUnrenoting}
-          tooltip={t('unrenote')}
+          activated={postFormProps?.replyId != null}
+          className={cn({
+            'bg-tertiary/10': postFormProps?.replyId != null,
+          })}
+          icon={<ReplyIcon />}
+          count={note.repliesCount}
+          disabled={false}
+          loading={false}
+          tooltip={t('reply')}
           onClick={() => {
-            unrenote(void null, {
-              onSuccess: () => toast.success(t('unrenote')),
-            });
+            openReplyForm();
           }}
         />
-      ) : (
-        <MenuOrDrawer menu={renoteMenu}>
+        {isRenoted ? (
           <MkNoteActionButton
+            activated={isRenoted}
             icon={<RepeatIcon />}
             count={note.renoteCount}
-            disabled={note.visibility !== 'public' && note.visibility !== 'home'}
-            loading={isRenoting}
-            tooltip={t('renote')}
-          />
-        </MenuOrDrawer>
-      )}
-      <MkNoteActionButton
-        icon={<QuoteIcon />}
-        onClick={() => {
-          openQuoteForm();
-        }}
-        tooltip={t('quote')}
-      />
-      {note.myReaction == null ? (
-        <>
-          <MkNoteActionButton
-            icon={<HeartIcon />}
+            loading={isUnrenoting}
+            tooltip={t('unrenote')}
             onClick={() => {
-              like();
+              unrenote(void null, {
+                onSuccess: () => toast.success(t('unrenote')),
+              });
             }}
-            loading={isReacting}
-            tooltip={t('like')}
           />
-          {!isReacting && (
-            <MkEmojiPickerPopup
-              onEmojiChoose={(emoji) => {
-                react(typeof emoji === 'string' ? emoji : `:${emoji.name}:`);
-              }}
-              autoClose
-            >
-              <MkNoteActionButton
-                count={note.reactionCount}
-                icon={<SmilePlusIcon />}
-                loading={isReacting}
-                tooltip={t('doReaction')}
-              />
-            </MkEmojiPickerPopup>
-          )}
-        </>
-      ) : (
+        ) : (
+          <MenuOrDrawer menu={renoteMenu}>
+            <MkNoteActionButton
+              icon={<RepeatIcon />}
+              count={note.renoteCount}
+              disabled={note.visibility !== 'public' && note.visibility !== 'home'}
+              loading={isRenoting}
+              tooltip={t('renote')}
+            />
+          </MenuOrDrawer>
+        )}
         <MkNoteActionButton
-          className="text-tertiary hover:bg-tertiary/10"
-          icon={<HeartMinusIcon />}
+          activated={postFormProps?.quoteId != null}
+          className={cn({
+            'bg-tertiary/10': postFormProps?.quoteId != null,
+          })}
+          icon={<QuoteIcon />}
           onClick={() => {
-            unreact();
+            openQuoteForm();
           }}
-          loading={isUnReacting}
-          tooltip={t('unlike')}
+          tooltip={t('quote')}
+        />
+        {note.myReaction == null ? (
+          <>
+            <MkNoteActionButton
+              icon={<HeartIcon />}
+              onClick={() => {
+                like();
+              }}
+              loading={isReacting}
+              tooltip={t('like')}
+            />
+            {!isReacting && (
+              <MkEmojiPickerPopup
+                onEmojiChoose={(emoji) => {
+                  react(typeof emoji === 'string' ? emoji : `:${emoji.name}:`);
+                }}
+                autoClose
+              >
+                <MkNoteActionButton
+                  count={note.reactionCount}
+                  icon={<SmilePlusIcon />}
+                  loading={isReacting}
+                  tooltip={t('doReaction')}
+                />
+              </MkEmojiPickerPopup>
+            )}
+          </>
+        ) : (
+          <MkNoteActionButton
+            className="text-tertiary hover:bg-tertiary/10"
+            icon={<HeartMinusIcon />}
+            onClick={() => {
+              unreact();
+            }}
+            loading={isUnReacting}
+            tooltip={t('unlike')}
+          />
+        )}
+
+        <MenuOrDrawer
+          menu={noteMenu}
+          onOpen={() => {
+            if (!features.noNeedGetNoteState) {
+              syncNote();
+            }
+          }}
+        >
+          <MkNoteActionButton icon={<MoreHorizontalIcon />} tooltip={t('menu')} />
+        </MenuOrDrawer>
+      </div>
+      {postFormProps && (
+        <MkPostForm
+          {...postFormProps}
+          relatedNote={note}
+          className="mt-2 border"
+          appendHeader={
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                setPostFormProps(null);
+              }}
+            >
+              <XIcon />
+            </Button>
+          }
+          onSuccess={() => {
+            setPostFormProps(null);
+          }}
         />
       )}
-
-      <MenuOrDrawer
-        menu={noteMenu}
-        onOpen={() => {
-          if (!features.noNeedGetNoteState) {
-            syncNote();
-          }
-        }}
-      >
-        <MkNoteActionButton icon={<MoreHorizontalIcon />} tooltip={t('menu')} />
-      </MenuOrDrawer>
     </div>
   );
 };
