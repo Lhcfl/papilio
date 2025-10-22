@@ -22,12 +22,12 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
   return (
     <div className="mk-note-header flex items-center gap-2 p-2">
       <MkAvatar user={note.user} className="z-10" avatarProps={{ className: 'size-10' }} />
-      <div className="flex-grow-1 flex-shrink-1 w-0 flex flex-col">
+      <div className="flex w-0 flex-shrink-1 flex-grow-1 flex-col">
         <div className="flex justify-between gap-1">
-          <div className="user-name font-bold flex-grow-1 flex-shrink-1 w-0 line-clamp-1">
+          <div className="user-name line-clamp-1 w-0 flex-shrink-1 flex-grow-1 font-bold">
             <MkUserName user={note.user} />
           </div>
-          <span className="note-time flex items-center gap-2 flex-shrink-0 text-muted-foreground">
+          <span className="note-time text-muted-foreground flex flex-shrink-0 items-center gap-2">
             <Link className="" to="/notes/$id" params={{ id: note.id }}>
               <MkTime time={note.createdAt} className="text-sm" />
             </Link>
@@ -35,9 +35,9 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
           </span>
         </div>
         <div className="flex justify-between gap-2">
-          <div className="user-username text-sm text-gray-500 flex-shrink-0">@{acct.toString(note.user)}</div>
-          <div className="flex-grow-1 flex-shrink-1 w-0">
-            <div className="note-instance ml-auto max-w-full text-xs flex items-center gap-1 px-1 py-0.5 bg-muted rounded-xl w-fit">
+          <div className="user-username flex-shrink-0 text-sm text-gray-500">@{acct.toString(note.user)}</div>
+          <div className="w-0 flex-shrink-1 flex-grow-1">
+            <div className="note-instance bg-muted ml-auto flex w-fit max-w-full items-center gap-1 rounded-xl px-1 py-0.5 text-xs">
               <Avatar className="size-3">
                 <AvatarImage src={instanceIcon} />
               </Avatar>

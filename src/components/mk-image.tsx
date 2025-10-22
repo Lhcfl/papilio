@@ -134,7 +134,7 @@ export const MkImage = (
   return (
     <div
       className={clsx(
-        'mk-image relative w-full flex items-center justify-center bg-accent rounded-md overflow-hidden',
+        'mk-image bg-accent relative flex w-full items-center justify-center overflow-hidden rounded-md',
         className,
       )}
       {...rest}
@@ -149,7 +149,7 @@ export const MkImage = (
         <img
           src={url}
           alt={image.comment ?? image.name}
-          className={cn('absolute inset-0 w-full h-full object-cover transition-opacity duration-200', imgClassName, {
+          className={cn('absolute inset-0 h-full w-full object-cover transition-opacity duration-200', imgClassName, {
             'opacity-0': showBlurHash,
             'opacity-100': !showBlurHash,
           })}
@@ -164,7 +164,7 @@ export const MkImage = (
           {...restImgProps}
         />
         <MkBlurHash
-          className={cn('absolute inset-0 w-full h-full object-cover transform-opacity duration-200', {
+          className={cn('transform-opacity absolute inset-0 h-full w-full object-cover duration-200', {
             'opacity-100': showBlurHash,
             'opacity-0': !showBlurHash,
           })}
@@ -175,8 +175,8 @@ export const MkImage = (
       {!disableSensitiveOverlay && (
         <button
           className={cn(
-            'cursor-pointer bg-black/30 absolute inset-0 w-full h-full flex items-center justify-center transform-opacity duration-200 z-10',
-            hiddenBecauseSensitive ? 'opacity-100' : 'opacity-0 pointer-events-none',
+            'transform-opacity absolute inset-0 z-10 flex h-full w-full cursor-pointer items-center justify-center bg-black/30 duration-200',
+            hiddenBecauseSensitive ? 'opacity-100' : 'pointer-events-none opacity-0',
           )}
           onClick={(e) => {
             e.preventDefault();
@@ -185,20 +185,20 @@ export const MkImage = (
           }}
           aria-label="Show sensitive content"
         >
-          <div className="flex flex-col items-center text-white drop-shadow-black drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] p-3">
+          <div className="flex flex-col items-center p-3 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] drop-shadow-black">
             <EyeClosedIcon className="size-8" />
-            <div className="text-sm mt-2">
+            <div className="mt-2 text-sm">
               {t('sensitive')}
               <br />
               {t('clickToShow')}
             </div>
-            {image.comment && <div className="line-clamp-3 text-sm mt-2">ALT: {image.comment}</div>}
+            {image.comment && <div className="mt-2 line-clamp-3 text-sm">ALT: {image.comment}</div>}
           </div>
         </button>
       )}
       {(isMyImage || image.comment != null) && (
         <Tooltip>
-          <TooltipTrigger className="z-10 absolute top-2 right-2 px-2 py-1 backdrop-blur bg-foreground/50 text-background text-xs rounded-md">
+          <TooltipTrigger className="bg-foreground/50 text-background absolute top-2 right-2 z-10 rounded-md px-2 py-1 text-xs backdrop-blur">
             <div>{image.comment ? <span>ALT</span> : <HeartCrackIcon className="size-4" />}</div>
           </TooltipTrigger>
           <TooltipContent>
@@ -208,7 +208,7 @@ export const MkImage = (
       )}
       {!disableMenu && (
         <MenuOrDrawer menu={menu}>
-          <Button size="icon-sm" className="absolute z-10 bottom-2 right-2 bg-foreground/50 backdrop-blur">
+          <Button size="icon-sm" className="bg-foreground/50 absolute right-2 bottom-2 z-10 backdrop-blur">
             <MoreHorizontalIcon />
           </Button>
         </MenuOrDrawer>

@@ -644,7 +644,7 @@ export const MkMfm = (in_props: MfmProps) => {
           if (!nowrap) {
             return (
               <bdi key={Math.random()} className="block">
-                <blockquote className="opacity-80 pl-3 border-l-4 my-1">
+                <blockquote className="my-1 border-l-4 pl-3 opacity-80">
                   <bdi>{genEl(token.children, scale, true)}</bdi>
                 </blockquote>
               </bdi>
@@ -766,7 +766,7 @@ export const MkMfm = (in_props: MfmProps) => {
 
   return (
     <bdi className={classList.join(' ')}>
-      <span className={nowrap ? 'inline-block truncate line-clamp-1 whitespace-pre' : 'whitespace-pre-wrap'}>
+      <span className={nowrap ? 'line-clamp-1 inline-block truncate whitespace-pre' : 'whitespace-pre-wrap'}>
         {genEl(rootAst, rootScale ?? 1)}
       </span>
     </bdi>

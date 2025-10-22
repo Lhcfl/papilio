@@ -162,22 +162,22 @@ const PostFormImage = ({
   ];
 
   return (
-    <div className={cn('w-20 h-20 lg:w-30 lg:h-30 overflow-hidden border rounded-md relative', className)} {...props}>
+    <div className={cn('relative h-20 w-20 overflow-hidden rounded-md border lg:h-30 lg:w-30', className)} {...props}>
       <img
         src={file.url}
         alt={file.name}
-        className={cn('w-full h-full object-cover', imgClassName)}
+        className={cn('h-full w-full object-cover', imgClassName)}
         {...restImgProps}
       />
       <MenuOrDrawer menu={menu}>
-        <Button variant="secondary" size="icon-sm" className="absolute right-1 top-1 z-10 border">
+        <Button variant="secondary" size="icon-sm" className="absolute top-1 right-1 z-10 border">
           <MoreHorizontalIcon />
         </Button>
       </MenuOrDrawer>
-      <div className="absolute bottom-1 right-1 flex items-center gap-1">
+      <div className="absolute right-1 bottom-1 flex items-center gap-1">
         {badges.map((badge) =>
           badge.condition ? (
-            <div key={badge.id} className="flex items-center bg-accent rounded-sm border p-1">
+            <div key={badge.id} className="bg-accent flex items-center rounded-sm border p-1">
               <badge.icon className="size-3" />
             </div>
           ) : null,

@@ -55,12 +55,12 @@ export const MkClock = () => {
 
   return (
     <div className="flex py-2">
-      <div className="left flex-1/2 flex flex-col text-center">
+      <div className="left flex flex-1/2 flex-col text-center">
         <div className="text-sm">{dateFormat.format(time)}</div>
-        <div className="text-3xl flex-grow-1 flex items-center justify-center">{timeFormat.format(time)}</div>
+        <div className="flex flex-grow-1 items-center justify-center text-3xl">{timeFormat.format(time)}</div>
         <div className="text-sm">{weekDayI18n}</div>
       </div>
-      <div className="right flex-1/2 flex flex-col text-xs gap-2">
+      <div className="right flex flex-1/2 flex-col gap-2 text-xs">
         <div>
           <div className="flex justify-between">
             <span>{t('thisYear')}</span>

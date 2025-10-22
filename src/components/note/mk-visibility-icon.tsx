@@ -62,7 +62,7 @@ const VisibleUsersPopup = (props: { note: NoteWithExtension }) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+      <div className="text-muted-foreground flex items-center gap-1 text-xs">
         <MailIcon className="size-3" />
         {t('recipient')}
       </div>
@@ -72,7 +72,7 @@ const VisibleUsersPopup = (props: { note: NoteWithExtension }) => {
           <MkAvatar key={u.id} user={u} />
           <div className="flex flex-col">
             <MkUserName user={u} className="line-clamp-1 text-sm" />
-            <span className="text-sm text-muted-foreground line-clamp-1">@{acct.toString(u)}</span>
+            <span className="text-muted-foreground line-clamp-1 text-sm">@{acct.toString(u)}</span>
           </div>
         </div>
       ))}

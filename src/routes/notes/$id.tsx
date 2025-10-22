@@ -107,7 +107,7 @@ function LoadedMain(props: { noteId: string }) {
       {isReply && (
         <div className="w-full">
           {isConversationPending ? (
-            <div className="w-full p-2 flex justify-center items-baseline">
+            <div className="flex w-full items-baseline justify-center p-2">
               <Spinner />
             </div>
           ) : (

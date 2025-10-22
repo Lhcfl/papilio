@@ -137,7 +137,7 @@ export const MkEmojiPicker = (
           </InputGroupAddon>
         )}
       </InputGroup>
-      <ScrollArea className="mt-2 h-100 w-100 max-h-100 max-w-100 lg:w-120 lg:h-120 lg:max-h-120 lg:max-w-120">
+      <ScrollArea className="mt-2 h-100 max-h-100 w-100 max-w-100 lg:h-120 lg:max-h-120 lg:w-120 lg:max-w-120">
         {searchedEmojis ? (
           <div>
             {searchedEmojis.unicodeNameHit.length > 0 && (
@@ -148,8 +148,8 @@ export const MkEmojiPicker = (
             )}
             {searchedEmojis.categoryHit.length > 0 && (
               <div className="mk-emojis-by-category">
-                <div className="text-sm text-muted-foreground">{t('category')}</div>
-                <Accordion type="multiple" className="w-full mt-2">
+                <div className="text-muted-foreground text-sm">{t('category')}</div>
+                <Accordion type="multiple" className="mt-2 w-full">
                   {searchedEmojis.categoryHit.map((c) => (
                     <MkEmojiPickerFolder
                       key={c}
@@ -166,12 +166,12 @@ export const MkEmojiPicker = (
         ) : (
           <div>
             <div className="mk-emojis-recent mb-2" hidden={recentEmojis.emojis.length === 0}>
-              <div className="text-sm text-muted-foreground">{t('recentUsed')}</div>
+              <div className="text-muted-foreground text-sm">{t('recentUsed')}</div>
               <MkEmojiPickerEmojis emojis={recentEmojis.emojis} onEmojiChoose={onEmojiChoose} />
             </div>
 
             <div className="mk-emojis-by-category">
-              <div className="text-sm text-muted-foreground">{t('category')}</div>
+              <div className="text-muted-foreground text-sm">{t('category')}</div>
               <Accordion type="multiple" className="w-full">
                 {Object.entries(customEmojisRecursiveByCategory).map(([k, v]) => (
                   <MkEmojiPickerFolder key={k} name={k} ctnt={v} onEmojiChoose={onEmojiChoose} value={k || UNNAMED} />
@@ -180,7 +180,7 @@ export const MkEmojiPicker = (
                 {[...emojiCharByCategory.entries()].map(([k, v]) => (
                   <AccordionItem key={k} value={k}>
                     <AccordionTrigger className="p-1">
-                      <div className="flex items-center gap-2 w-full">
+                      <div className="flex w-full items-center gap-2">
                         <MkEmoji emoji={v[0]} className="min-w-8" innerClassName=" h-[1.8em]" />
                         <span>{k}</span>
                       </div>
@@ -217,7 +217,7 @@ const MkEmojiPickerFolder = (
   return (
     <AccordionItem {...rest}>
       <AccordionTrigger className="p-1">
-        <div className="flex items-center gap-2 w-full">
+        <div className="flex w-full items-center gap-2">
           <span className="min-w-8">{Representation}</span>
           <span>{realName}</span>
         </div>
@@ -248,7 +248,7 @@ const MkEmojiPickerEmojis = ({
       typeof emoji === 'string' ? (
         <button
           key={emoji}
-          className="p-1 rounded-md hover:bg-muted size-14 overflow-hidden"
+          className="hover:bg-muted size-14 overflow-hidden rounded-md p-1"
           onClick={() => {
             onEmojiChoose(emoji);
           }}
@@ -258,7 +258,7 @@ const MkEmojiPickerEmojis = ({
       ) : (
         <button
           key={emoji.name}
-          className="p-1 rounded-md hover:bg-muted size-14"
+          className="hover:bg-muted size-14 rounded-md p-1"
           onClick={() => {
             onEmojiChoose(emoji);
           }}

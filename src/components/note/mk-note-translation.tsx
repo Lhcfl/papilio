@@ -28,16 +28,16 @@ export const MkNoteTranslation = (props: { note: NoteWithExtension }) => {
     <Item variant="outline" className="mt-2">
       <ItemContent>
         <ItemTitle>
-          <span className="flex items-center ">
+          <span className="flex items-center">
             <LanguagesIcon className="size-4" /> {t('translatedFrom', { x: data?.sourceLang ?? '...' })}
           </span>
         </ItemTitle>
         <div className="text-muted-foreground">
           {status === 'pending' && (
             <div>
-              <Skeleton className="h-4 mt-2 w-full" />
-              <Skeleton className="h-4 mt-2 w-full" />
-              <Skeleton className="h-4 mt-2 w-[75%]" />
+              <Skeleton className="mt-2 h-4 w-full" />
+              <Skeleton className="mt-2 h-4 w-full" />
+              <Skeleton className="mt-2 h-4 w-[75%]" />
             </div>
           )}
           {data && (

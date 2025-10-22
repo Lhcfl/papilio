@@ -47,7 +47,7 @@ export const MkLinkPreview = (props: { url: string } & React.ComponentProps<type
             <ItemContent>
               <ItemTitle>{title}</ItemTitle>
               <ItemDescription className="text-wrap">{data.description}</ItemDescription>
-              <div className="text-xs flex items-center gap-1 text-muted-foreground">
+              <div className="text-muted-foreground flex items-center gap-1 text-xs">
                 <Avatar className="size-3">
                   <AvatarImage src={data.icon ?? undefined} />
                 </Avatar>

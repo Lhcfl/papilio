@@ -87,12 +87,12 @@ export const MkNoteReplies = (
              * 只有一个回复的时候，直接从上到下贯穿就行了
              */}
             {realIndent > 0 && replies.length > 1 && (
-              <div className="note-replies-line absolute top-1 left-0 h-9 w-9 border-l-2 border-b-2 rounded-bl-lg" />
+              <div className="note-replies-line absolute top-1 left-0 h-9 w-9 rounded-bl-lg border-b-2 border-l-2" />
             )}
             {/* 为了让后面的帖子也能够连接起来，还需要在左侧放置一根线
              */}
             {realIndent > 0 && index < replies.length - 1 && (
-              <div className="note-replies-line absolute top-0 left-0 -bottom-4 border-l-2" />
+              <div className="note-replies-line absolute top-0 -bottom-4 left-0 border-l-2" />
             )}
             <MkNote key={n} noteId={n} isSubNote hideReplyIcon showReply={false} />
             <MkNoteReplies className="-mt-4" noteId={n} indent={realIndent + 1} depth={depth + 1} />
@@ -101,7 +101,7 @@ export const MkNoteReplies = (
       {reachLimit && replies.length > 0 && (
         <div className="relative">
           {realIndent > 0 && replies.length > 1 && (
-            <div className="note-replies-line absolute top-1 left-0 h-9 w-9 border-l-2 border-b-2 rounded-bl-lg" />
+            <div className="note-replies-line absolute top-1 left-0 h-9 w-9 rounded-bl-lg border-b-2 border-l-2" />
           )}
           {/* 为了让后面的帖子也能够连接起来，还需要在左侧放置一根线
            */}
@@ -113,7 +113,7 @@ export const MkNoteReplies = (
           </Button>
         </div>
       )}
-      {!reachLimit && hasNextPage && <LoadingTrigger className="w-2 h-1" onShow={() => fetchNextPage()} />}
+      {!reachLimit && hasNextPage && <LoadingTrigger className="h-1 w-2" onShow={() => fetchNextPage()} />}
     </div>
   );
 };

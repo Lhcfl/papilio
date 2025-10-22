@@ -39,7 +39,7 @@ export const MkAnnouncement = (props: { item: Announcement }) => {
 
   return (
     <Item variant="outline" className="items-baseline">
-      <div className="translate-y-2 -mt-2">
+      <div className="-mt-2 translate-y-2">
         <ItemMedia variant="icon">
           {item.icon == 'info' && <InfoIcon />}
           {item.icon == 'error' && <XCircleIcon />}

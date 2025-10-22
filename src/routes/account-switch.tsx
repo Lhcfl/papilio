@@ -39,7 +39,7 @@ function RouteComponent() {
         <CardContent>
           <CardTitle>{t('switchAccount')}</CardTitle>
           <ScrollArea>
-            <div className="flex flex-col gap-2 my-2">
+            <div className="my-2 flex flex-col gap-2">
               {saved_accounts.map((account) => (
                 <AccountItem key={account.site + ':' + account.token} site={account.site} token={account.token} />
               ))}
@@ -72,7 +72,7 @@ function AccountItem(props: { token: string; site: string }) {
   }
 
   return account ? (
-    <Item asChild className="w-full hover:bg-accent flex-nowrap text-left">
+    <Item asChild className="hover:bg-accent w-full flex-nowrap text-left">
       <button type="button" onClick={onClick}>
         <ItemMedia variant="image">
           <MkAvatar user={account} />
@@ -81,7 +81,7 @@ function AccountItem(props: { token: string; site: string }) {
           <ItemTitle>
             <MkUserName user={account} />
           </ItemTitle>
-          <div className="text-sm text-muted-foreground flex flex-col">
+          <div className="text-muted-foreground flex flex-col text-sm">
             <div>{site}</div>
             <div className="text-xs">
               <code>{token}</code>
@@ -91,6 +91,6 @@ function AccountItem(props: { token: string; site: string }) {
       </button>
     </Item>
   ) : (
-    <Skeleton className="w-full h-10" />
+    <Skeleton className="h-10 w-full" />
   );
 }

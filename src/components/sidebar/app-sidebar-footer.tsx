@@ -83,7 +83,7 @@ export const AppSidebarFooter = () => {
               <span className="line-clamp-1 font-medium">
                 <MkUserName user={me} />
               </span>
-              <span className="truncate text-xs text-muted-foreground">@{me.username}</span>
+              <span className="text-muted-foreground truncate text-xs">@{me.username}</span>
             </div>
             <ChevronsUpDownIcon className="ml-auto" />
           </SidebarMenuButton>

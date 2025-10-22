@@ -79,7 +79,7 @@ export function MkInfiniteScrollByData<TData>(
       </div>
       <LoadingTrigger onShow={() => hasNextPage && !isFetchingNextPage && fetchNextPage()} />
       {(isPending || hasNextPage) && (
-        <div className="w-full p-3 flex justify-center">
+        <div className="flex w-full justify-center p-3">
           <Spinner />
         </div>
       )}

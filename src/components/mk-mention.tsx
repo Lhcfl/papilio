@@ -15,7 +15,7 @@ const MkMentionInner = (props: { username: string; host: string | null; children
   const src = getRelativeUrl(`/avatar/@${acct.toString(props)}`);
   return (
     <span className="flex items-center">
-      <Avatar className="size-5 mr-1">
+      <Avatar className="mr-1 size-5">
         <AvatarImage src={src} />
       </Avatar>
       @{username}
@@ -37,7 +37,7 @@ export const MkMention = (
 
   return (
     <span
-      className={cn('mk-username inline-block align-middle text-sm bg-muted px-2 py-0.5 rounded-full', className)}
+      className={cn('mk-username bg-muted inline-block rounded-full px-2 py-0.5 align-middle text-sm', className)}
       {...rest}
     >
       {noNavigate ? (

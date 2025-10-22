@@ -15,7 +15,7 @@ export const MkPostFormDialog = (props: { children: React.ReactNode }) => {
   return (
     <Dialog open={showPostForm} onOpenChange={setShowPostForm}>
       <DialogTrigger asChild>{props.children}</DialogTrigger>
-      <DialogContent className="p-0 top-4 translate-y-0" showCloseButton={false}>
+      <DialogContent className="top-4 translate-y-0 p-0" showCloseButton={false}>
         <DialogTitle className="sr-only">posting</DialogTitle>
         <MkPostForm
           appendHeader={

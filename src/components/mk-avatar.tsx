@@ -36,7 +36,7 @@ export const MkAvatar = (
           <HoverCardTrigger asChild>
             <MkAvatarMain user={user} {...avatarProps} disableRouteLink={disableRouteLink} />
           </HoverCardTrigger>
-          <HoverCardContent asChild className="w-80 h-100 p-0">
+          <HoverCardContent asChild className="h-100 w-80 p-0">
             <ScrollArea>
               <MkAvatarHoverCard user={user} />
             </ScrollArea>
@@ -59,7 +59,7 @@ const MkAvatarMain = (
     <Avatar className={cn('rounded-md', avatarClassNameProps)} {...avatarPropsRest} asChild>
       <Link to="/@{$acct}" params={{ acct: acct.toString(user) }} disabled={disableRouteLink}>
         <AvatarPrimitive.Fallback className="relative overflow-hidden">
-          <MkBlurHash id={'user:' + user.id} blurhash={user.avatarBlurhash} className="w-full h-full" />
+          <MkBlurHash id={'user:' + user.id} blurhash={user.avatarBlurhash} className="h-full w-full" />
         </AvatarPrimitive.Fallback>
         <AvatarImage src={user.avatarUrl} loading="lazy" decoding="async" />
       </Link>

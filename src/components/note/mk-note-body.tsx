@@ -66,12 +66,12 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
         <div className="note-body-text" onClick={onContentClick}>
           {showReplyAsIcon && note.replyId && (
             <Link className="text-tertiary mr-1 hover:underline" to="/notes/$id" params={{ id: note.replyId }}>
-              <ReplyIcon className="size-4 inline" />
+              <ReplyIcon className="inline size-4" />
             </Link>
           )}
           {showQuoteAsIcon && note.renoteId && (
             <Link className="text-tertiary mr-1 hover:underline" to="/notes/$id" params={{ id: note.renoteId }}>
-              <QuoteIcon className="size-4 inline" />
+              <QuoteIcon className="inline size-4" />
             </Link>
           )}
           <MkMfm
@@ -89,7 +89,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
         </div>
       )}
       {note.renoteId && !showQuoteAsIcon && (
-        <div className="note-body-quote mt-2 border rounded-md">
+        <div className="note-body-quote mt-2 rounded-md border">
           <MkNoteSimple noteId={note.renoteId} />
         </div>
       )}
@@ -160,7 +160,7 @@ const NoteBodyLong = (props: NoteBodyCommonProps) => {
     <div className="note-body-long">
       <NoteBodyExpanded
         className={cn({
-          'max-h-50 mb-[-2em] overflow-hidden mask-b-from-0': !expanded,
+          'mb-[-2em] max-h-50 overflow-hidden mask-b-from-0': !expanded,
           'mb-2': expanded,
         })}
         {...props}
@@ -234,7 +234,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
   return (
     <div className={cn('mk-note-body p-2 text-[0.95em] md:text-base', className)}>
       {note.visibility == 'specified' && (extraVisibleUsers.length > 0 || invisibleMentions.length > 0) && (
-        <div className="text-sm text-muted-foreground px-2 pb-2 mb-2 flex items-center flex-wrap gap-1 border-b">
+        <div className="text-muted-foreground mb-2 flex flex-wrap items-center gap-1 border-b px-2 pb-2 text-sm">
           <MailIcon className="size-3" />
           {t('recipient')}:
           {visibleUsers?.map((u) => (
@@ -245,7 +245,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
       {cond([
         [
           isHidden,
-          <div key="private" className="flex gap-2 text-muted-foreground items-center">
+          <div key="private" className="text-muted-foreground flex items-center gap-2">
             <LockIcon className="size-4" />
             {t('private')}
           </div>,
@@ -255,7 +255,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
         [true, <NoteBodyExpanded key="default" note={note} textAst={textAst} {...rest} />],
       ])}
       {detailed && (
-        <div className="note-time mt-4 text-sm text-muted-foreground">
+        <div className="note-time text-muted-foreground mt-4 text-sm">
           <p>
             {t('createdAt')}: <MkTime mode="detail" time={note.createdAt} />
           </p>

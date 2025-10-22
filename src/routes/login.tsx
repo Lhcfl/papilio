@@ -77,7 +77,7 @@ function RouteComponent() {
 
   return (
     <LoginLayout>
-      <form className="flex flex-col gap-6 max-w-xs w-full" onSubmit={onSubmit}>
+      <form className="flex w-full max-w-xs flex-col gap-6" onSubmit={onSubmit}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-1 text-center">
             <h1 className="text-2xl font-bold">{t('login')}</h1>

@@ -268,7 +268,7 @@ function MkPostFormLoaded(
   // #endregion Effects
 
   return (
-    <div className={cn('mk-post-form rounded-md bg-background @container', className)} {...rest}>
+    <div className={cn('mk-post-form bg-background @container rounded-md', className)} {...rest}>
       {displayRelatedNote && relatedNote && (
         <MkNoteSimple
           className="-m-2"
@@ -279,7 +279,7 @@ function MkPostFormLoaded(
           showLeftLine
         />
       )}
-      <div className="mk-post-form__title p-2 border-b flex items-center justify-between">
+      <div className="mk-post-form__title flex items-center justify-between border-b p-2">
         <div className="flex items-center gap-2">
           <MkAvatar user={me} className={cn({ 'ml-1': !!(displayRelatedNote && relatedNote) })} />
           {prependHeader}
@@ -304,9 +304,9 @@ function MkPostFormLoaded(
       </div>
       {draft.hasCw && (
         <div className="w-full">
-          <InputGroup className="rounded-none shadow-none border-none">
+          <InputGroup className="rounded-none border-none shadow-none">
             <InputGroupAddon align="block-start" className="-mb-4 p-2">
-              <span className="text-xs text-muted-foreground">{t('cw')}</span>
+              <span className="text-muted-foreground text-xs">{t('cw')}</span>
             </InputGroupAddon>
             <InputGroupTextarea
               className="min-h-2 @max-sm:text-sm"
@@ -325,10 +325,10 @@ function MkPostFormLoaded(
         </div>
       )}
       <div className="w-full">
-        <InputGroup className="border-none rounded-none shadow-none">
+        <InputGroup className="rounded-none border-none shadow-none">
           {draft.visibility === 'specified' && (
             <InputGroupAddon align="block-start" className="flex-col items-baseline">
-              <div className="flex flex-wrap gap-1 items-center">
+              <div className="flex flex-wrap items-center gap-1">
                 <MailIcon className="size-3" />
                 {t('recipient')}:
                 {draft.visibleUsers.map((u) => (
@@ -342,12 +342,12 @@ function MkPostFormLoaded(
                       draft.update({ visibleUsers: draft.visibleUsers.filter((x) => x.id != u.id) });
                     }}
                   >
-                    <XIcon className="size-4 ml-1" />
+                    <XIcon className="ml-1 size-4" />
                   </MkMention>
                 ))}
               </div>
               {unspecifiedMentions.length > 0 && (
-                <div className="flex flex-wrap gap-1 items-center">
+                <div className="flex flex-wrap items-center gap-1">
                   <MailWarningIcon className="size-3" />
                   {t('notSpecifiedMentionWarning')}:
                   {unspecifiedMentions.map((u) => (
@@ -426,7 +426,7 @@ function MkPostFormLoaded(
         </InputGroup>
       </div>
       <MkPostFormPreview
-        className="w-full p-2 flex gap-2"
+        className="flex w-full gap-2 p-2"
         user={me}
         text={draft.text}
         parsedText={parsedText}
@@ -445,7 +445,7 @@ function MkPostFormLoaded(
         <div className="relative">
           <div
             className={cn(
-              'absolute right-1 bottom-1 px-1 py-0.5 flex items-center gap-1 text-sm bg-background border rounded-md pointer-events-none',
+              'bg-background pointer-events-none absolute right-1 bottom-1 flex items-center gap-1 rounded-md border px-1 py-0.5 text-sm',
               {
                 'text-yellow-500': textLimitRemaining >= 0,
                 'text-red-500': textLimitRemaining < 0,
@@ -455,10 +455,10 @@ function MkPostFormLoaded(
             {textLimitRemaining >= 0 ? <CircleAlertIcon className="size-4" /> : <XCircleIcon className="size-4" />}
             {t('remainingN', { n: textLimitRemaining })}
           </div>
-          <Progress value={usedTextLengthLimitPercent} className="rounded-none h-0.5" />
+          <Progress value={usedTextLengthLimitPercent} className="h-0.5 rounded-none" />
         </div>
       )}
-      <div className="mk-post-form__footer border-t flex justify-between p-2">
+      <div className="mk-post-form__footer flex justify-between border-t p-2">
         <div className="mk-post-form__action flex @md:gap-1">
           {prependFooter}
           <MkFileUploadMenu onUpload={onFileUpload} limit={maxAttachments}>
@@ -538,6 +538,6 @@ const PostFormButton = (
 
 const MkPostFormSkeleton = () => (
   <div className="mk-post-form-skeleton">
-    <Skeleton className="w-full h-32" />
+    <Skeleton className="h-32 w-full" />
   </div>
 );

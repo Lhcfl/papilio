@@ -34,12 +34,12 @@ export const MkPostFormPreview = ({
       <div>
         <MkAvatar user={user} avatarProps={{ className: 'size-12' }} />
       </div>
-      <div className="flex flex-col text-sm gap-2 w-full">
+      <div className="flex w-full flex-col gap-2 text-sm">
         <MkUserName user={user} />
         {hasCw ? (
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="cw">
-              <AccordionTrigger className="p-0 mb-2">
+              <AccordionTrigger className="mb-2 p-0">
                 <MkMfm text={cw} />
               </AccordionTrigger>
               <AccordionContent>

@@ -54,7 +54,7 @@ export const MkNote = (
   const hasReply = note.repliesCount > 0;
 
   return (
-    <div className={clsx('mk-note flex flex-col p-2 relative', classNameProps)} {...divProps}>
+    <div className={clsx('mk-note relative flex flex-col p-2', classNameProps)} {...divProps}>
       {isPureRenote(note) && <MkNoteRenoteTip note={note} />}
       {showReply && showReplyState === 'subNote' && note.replyId != null && (
         <MkNote
@@ -86,12 +86,12 @@ export const MkNote = (
         <MkNoteReactions note={appearNote} />
         <MkNoteActions onTranslate={translate} note={appearNote} />
       </div>
-      {props.decorationBottomRight && <div className="absolute bottom-2 right-2">{props.decorationBottomRight}</div>}
+      {props.decorationBottomRight && <div className="absolute right-2 bottom-2">{props.decorationBottomRight}</div>}
       {/**
        * 回复树构造。
        * 对于每个 subnote, 并且有回复的话，显示左侧的连线。
        */}
-      {isSubNote && hasReply && <div className="note-sub-line absolute -bottom-2 top-6 left-9 border-l-2" />}
+      {isSubNote && hasReply && <div className="note-sub-line absolute top-6 -bottom-2 left-9 border-l-2" />}
       {isSubNote && onClose && (
         <Button
           className="note-close absolute top-18 left-9 -translate-x-1/2 rounded-full"

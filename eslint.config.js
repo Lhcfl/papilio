@@ -38,6 +38,7 @@ export default defineConfig([
 				rules: {
 					// 启用 prettier 检查
 					"prettier/prettier": ["error", {
+						plugins: ["prettier-plugin-tailwindcss"],
 						endOfLine: "lf",
 						singleQuote: true,
 						semi: true,

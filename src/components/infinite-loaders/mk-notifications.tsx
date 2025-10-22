@@ -42,7 +42,7 @@ export const MkNotifications = (props: {
       {(n) => (
         <Fragment key={n.id}>
           <MkNotification notification={n} />
-          <hr className="w-[80%] m-auto" />
+          <hr className="m-auto w-[80%]" />
         </Fragment>
       )}
     </MkInfiniteScroll>
@@ -69,7 +69,7 @@ export const MkNotificationsFilter = (props: {
           label: (
             <div>
               <div>{t('filter')}</div>
-              <div className="text-xs text-muted-foreground">{t('notificationSettingDesc')}</div>
+              <div className="text-muted-foreground text-xs">{t('notificationSettingDesc')}</div>
             </div>
           ),
         },

@@ -12,12 +12,12 @@ export const MkVideo = (props: { video: DriveFile } & HTMLProps<HTMLDivElement>)
   return (
     <div
       className={clsx(
-        'mk-image relative w-full flex items-center justify-center bg-muted rounded-md overflow-hidden',
+        'mk-image bg-muted relative flex w-full items-center justify-center overflow-hidden rounded-md',
         className,
       )}
       {...rest}
     >
-      <video src={video.url} controls className="w-full h-full" />
+      <video src={video.url} controls className="h-full w-full" />
     </div>
   );
 };

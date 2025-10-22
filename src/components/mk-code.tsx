@@ -10,10 +10,10 @@ const MkCodeHighlighted = lazy(() => import('./mk-code-highlight'));
 
 export function MkCode({ code, language = 'plaintext' }: { code: string; language?: string | null }) {
   return (
-    <div className="relative border rounded-md bg-accent">
-      <span className="lang-tag absolute right-0 top-0 p-2 text-muted-foreground font-mono">{language}</span>
-      <ScrollArea orientation="horizontal" className="flex p-2 text-sm md:p-4 lg:text-base overflow-x-auto">
-        <div className="flex-[1_1_auto] w-0">
+    <div className="bg-accent relative rounded-md border">
+      <span className="lang-tag text-muted-foreground absolute top-0 right-0 p-2 font-mono">{language}</span>
+      <ScrollArea orientation="horizontal" className="flex overflow-x-auto p-2 text-sm md:p-4 lg:text-base">
+        <div className="w-0 flex-[1_1_auto]">
           <Suspense
             fallback={
               <pre className="mk-code-fallback">

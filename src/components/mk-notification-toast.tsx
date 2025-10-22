@@ -11,7 +11,7 @@ export const MkNotificationToast = (props: { notification: Notification }) => {
   return (
     <SimpleNotification
       notification={notification}
-      className="w-70 bg-background z-20 shadow-sm"
+      className="bg-background z-20 w-70 shadow-sm"
       size="sm"
       variant="outline"
     />

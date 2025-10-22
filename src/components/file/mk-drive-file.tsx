@@ -16,22 +16,22 @@ export function MkDriveFile({ file, className, ...props }: { file: DriveFile } &
   const isImage = file.type.startsWith('image/');
 
   return (
-    <div className={cn('border p-2 flex flex-col gap-1 items-center justify-center rounded-lg', className)} {...props}>
+    <div className={cn('flex flex-col items-center justify-center gap-1 rounded-lg border p-2', className)} {...props}>
       {isImage ? (
         <MkImage
           image={file}
           containerAspectRatio={1}
-          className="w-full aspect-[1/1]"
+          className="aspect-[1/1] w-full"
           disableMenu
           disableSensitiveOverlay
         />
       ) : (
-        <div className="w-full aspect-[4/3] flex items-center justify-center bg-accent rounded-md">
+        <div className="bg-accent flex aspect-[4/3] w-full items-center justify-center rounded-md">
           <GuessFileIcon file={file} />
         </div>
       )}
       <div>{file.isSensitive && <Badge>{t('sensitive')}</Badge>}</div>
-      <div className="break-all text-sm text-center">{file.name}</div>
+      <div className="text-center text-sm break-all">{file.name}</div>
     </div>
   );
 }

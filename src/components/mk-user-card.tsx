@@ -75,8 +75,8 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
   const { mutate: reject, isPending: isRejecting } = useRejectFollowRequestAction(user);
 
   return (
-    <div className={cn('mk-user-card relative @container', classNameProps)} {...divProps}>
-      <div className="flex gap-1 absolute top-2 left-2 z-10">
+    <div className={cn('mk-user-card @container relative', classNameProps)} {...divProps}>
+      <div className="absolute top-2 left-2 z-10 flex gap-1">
         {badges
           .filter((b) => b.condition)
           .map((badge) => (
@@ -87,9 +87,9 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
           ))}
       </div>
       {user.hasPendingFollowRequestToYou && (
-        <Card className="flex -col absolute top-2 right-4 z-10 bg-background/50 backdrop-blur-2xl border-none py-2">
+        <Card className="-col bg-background/50 absolute top-2 right-4 z-10 flex border-none py-2 backdrop-blur-2xl">
           <CardContent className="px-2">
-            <CardTitle className="p-2 flex items-center gap-2 font-normal">
+            <CardTitle className="flex items-center gap-2 p-2 font-normal">
               <UserRoundPlusIcon className="size-4" />
               {t('receiveFollowRequest')}
             </CardTitle>
@@ -119,7 +119,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
         </Card>
       )}
       <MkUserCardBanner url={user.bannerUrl} blurhash={user.bannerBlurhash} className="h-48 @md:h-64" />
-      <div className="mt-2 px-2 @md:px-4 @lg:px-6 flex justify-between relative">
+      <div className="relative mt-2 flex justify-between px-2 @md:px-4 @lg:px-6">
         <MkAvatar
           user={user}
           disableRouteLink
@@ -147,8 +147,8 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
       </div>
       <div className="p-2 @md:p-4 @lg:px-6">
         <div>
-          <MkUserName user={user} className="font-bold text-lg @md:text-xl" />
-          <div className="text-sm text-muted-foreground">@{acct.toString(user)}</div>
+          <MkUserName user={user} className="text-lg font-bold @md:text-xl" />
+          <div className="text-muted-foreground text-sm">@{acct.toString(user)}</div>
         </div>
         {user.followedMessage && (
           <Alert className="bg-muted mt-2">
@@ -164,10 +164,10 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
         </div>
         <Separator />
         {user.fields.length > 0 && (
-          <div className="user-field mt-2 grid grid-cols-[auto_1fr] text-sm gap-2">
+          <div className="user-field mt-2 grid grid-cols-[auto_1fr] gap-2 text-sm">
             {user.fields.map((f) => (
               <Fragment key={`${f.name}-${f.value}`}>
-                <span className="text-muted-foreground max-w-30 @md:max-w-50 @lg:max-w-70 ">
+                <span className="text-muted-foreground max-w-30 @md:max-w-50 @lg:max-w-70">
                   <MkMfm text={f.name} author={user} emojiUrls={user.emojis} />
                 </span>
                 <span>
@@ -179,15 +179,15 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
         )}
         <div className="info mt-2">
           <span className="mr-4">
-            <span className="font-bold mr-2">{user.notesCount}</span>
+            <span className="mr-2 font-bold">{user.notesCount}</span>
             <span>{t('notes')}</span>
           </span>
           <span className="mr-4">
-            <span className="font-bold mr-2">{user.followersCount}</span>
+            <span className="mr-2 font-bold">{user.followersCount}</span>
             <span>{t('followers')}</span>
           </span>
           <span>
-            <span className="font-bold mr-2">{user.followingCount}</span>
+            <span className="mr-2 font-bold">{user.followingCount}</span>
             <span>{t('following')}</span>
           </span>
         </div>
@@ -311,14 +311,14 @@ const MkUserCardBanner = (props: { url: string | null; blurhash: string | null }
           src={url}
           alt="banner"
           loading="lazy"
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
           onLoad={() => {
             setLoading(false);
           }}
         />
       )}
       {url && loading && blurhash && (
-        <MkBlurHash blurhash={blurhash} id={url} className="w-full h-full absolute inset-0" />
+        <MkBlurHash blurhash={blurhash} id={url} className="absolute inset-0 h-full w-full" />
       )}
     </div>
   );

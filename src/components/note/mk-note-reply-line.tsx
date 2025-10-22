@@ -19,13 +19,13 @@ export const MkNoteReplyLine = (props: { noteId: string; onExpand: () => void })
 
   return (
     <div
-      className="mk-note-reply-line px-2 pt-2 flex relative gap-4 items-center cursor-pointer"
+      className="mk-note-reply-line relative flex cursor-pointer items-center gap-4 px-2 pt-2"
       onClick={withNoSelection(withStopPrevent(onExpand))}
     >
-      <MkAvatar user={note.user} className="ml-1 z-10" />
-      <div className="body line-clamp-2 w-full text-sm text-muted-foreground">
+      <MkAvatar user={note.user} className="z-10 ml-1" />
+      <div className="body text-muted-foreground line-clamp-2 w-full text-sm">
         {note.isHidden ? (
-          <span className="inline-flex gap-1 items-center">
+          <span className="inline-flex items-center gap-1">
             <LockIcon className="size-4" />({t('private')})
           </span>
         ) : (
@@ -33,7 +33,7 @@ export const MkNoteReplyLine = (props: { noteId: string; onExpand: () => void })
         )}
       </div>
 
-      <div className="note-reply-line absolute -bottom-2 top-6 left-7 border-l-2" />
+      <div className="note-reply-line absolute top-6 -bottom-2 left-7 border-l-2" />
     </div>
   );
 };

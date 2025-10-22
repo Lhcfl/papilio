@@ -37,7 +37,7 @@ const MobilePopup = () => {
       open={!!node && !closing}
     >
       <DialogContent className="p-0">
-        <ScrollArea id={RIGHTBAR_OR_POPUP_ID} className="px-4 pt-4 pb-2 max-h-[calc(100vh_-_8em)]">
+        <ScrollArea id={RIGHTBAR_OR_POPUP_ID} className="max-h-[calc(100vh_-_8em)] px-4 pt-4 pb-2">
           <DialogHeader>
             <DialogTitle>
               <div className="flex items-center justify-between">
@@ -61,9 +61,9 @@ const DesktopRightbar = () => {
   const close = useRightbarOrPopup((s) => s.close);
 
   return (
-    <div className="right-card-container border-l max-lg:hidden relative bg-sidebar">
+    <div className="right-card-container bg-sidebar relative border-l max-lg:hidden">
       {node && !closing ? (
-        <ScrollArea id={RIGHTBAR_OR_POPUP_ID} className="w-110 xl:w-120 2xl:w-130 h-screen p-2">
+        <ScrollArea id={RIGHTBAR_OR_POPUP_ID} className="h-screen w-110 p-2 xl:w-120 2xl:w-130">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <div id={RIGHTBAR_OR_POPUP_HEADERLEFT} />
@@ -79,7 +79,7 @@ const DesktopRightbar = () => {
           {node}
         </ScrollArea>
       ) : (
-        <div className="w-80 lg:w-100 xl:w-115 2xl:w-130 h-screen">
+        <div className="h-screen w-80 lg:w-100 xl:w-115 2xl:w-130">
           <AppRightCard />
         </div>
       )}

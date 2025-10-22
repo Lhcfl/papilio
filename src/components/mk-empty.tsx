@@ -17,7 +17,7 @@ export function MkEmpty() {
       <EmptyHeader>
         {emptyImageUrl ? (
           <EmptyMedia variant="default">
-            <img src={emptyImageUrl} alt="Empty" className="w-24 h-24 object-contain" />
+            <img src={emptyImageUrl} alt="Empty" className="h-24 w-24 object-contain" />
           </EmptyMedia>
         ) : (
           <EmptyMedia variant="icon">

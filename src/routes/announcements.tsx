@@ -60,7 +60,7 @@ function Announcements(props: { value: 'current' | 'previous' }) {
       </div>
       <LoadingTrigger onShow={() => hasNextPage && fetchNextPage()} />
       {(isPending || isFetchingNextPage) && (
-        <div className="w-full p-3 flex justify-center">
+        <div className="flex w-full justify-center p-3">
           <Spinner />
         </div>
       )}

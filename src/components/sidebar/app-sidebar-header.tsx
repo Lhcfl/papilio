@@ -22,7 +22,7 @@ export const AppSidebarHeader = () => {
           <SiteLogo />
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-medium">{metaName}</span>
-            <span className="truncate text-xs text-muted-foreground">{domain}</span>
+            <span className="text-muted-foreground truncate text-xs">{domain}</span>
           </div>
         </SidebarMenuButton>
         <Button

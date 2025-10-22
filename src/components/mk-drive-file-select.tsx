@@ -37,12 +37,12 @@ export function MkDriveFileSelect(
     <Dialog open={'open' in props ? props.open : open} onOpenChange={onOpenChange}>
       {'children' in props && <DialogTrigger asChild>{props.children}</DialogTrigger>}
       <DialogContent
-        className="max-w-300! w-[95%] max-h-[calc(100vh-4rem)] flex flex-col p-0 overflow-hidden"
+        className="flex max-h-[calc(100vh-4rem)] w-[95%] max-w-300! flex-col overflow-hidden p-0"
         showCloseButton={false}
       >
         <DialogTitle className="sr-only">Select a file</DialogTitle>
-        <ScrollArea className="flex-[1_1] h-0 max-h-full flex flex-col">
-          <div className="sticky top-0 bg-background z-30 border-b h-13 px-2 flex items-center justify-between">
+        <ScrollArea className="flex h-0 max-h-full flex-[1_1] flex-col">
+          <div className="bg-background sticky top-0 z-30 flex h-13 items-center justify-between border-b px-2">
             <div className={PORTALABLE_HEADER_LEFT_CLASSNAME} data-ptrb-rank={ptrbRank} />
             <div className="flex items-center gap-1">
               <div className={PORTALABLE_HEADER_RIGHT_CLASSNAME} data-ptrb-rank={ptrbRank} />

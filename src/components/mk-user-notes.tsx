@@ -37,7 +37,7 @@ export const MkUserNotes = (props: { userId: string; pinnedNotes?: string[] }) =
     <div className="mk-user-notes w-full">
       {pinnedNotes.map((id) => (
         <div key={id}>
-          <div className="text-sm text-tertiary px-4 -mb-2 flex gap-2 items-center">
+          <div className="text-tertiary -mb-2 flex items-center gap-2 px-4 text-sm">
             <PinIcon className="size-4" />
             {t('pinnedNote')}
           </div>
@@ -48,7 +48,7 @@ export const MkUserNotes = (props: { userId: string; pinnedNotes?: string[] }) =
       {data?.pages.flatMap((page) => page.map((id) => <MkNote key={id} noteId={id} showReply />))}
       {error && <MkError error={error} />}
       {(hasNextPage || isFetchingNextPage || isFetching) && (
-        <div className="w-full flex justify-center my-4">
+        <div className="my-4 flex w-full justify-center">
           <LoadingTrigger onShow={fetchNextPage}>
             <Spinner />
           </LoadingTrigger>

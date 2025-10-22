@@ -23,10 +23,10 @@ export const MkUrl = (
       href={url}
       rel="noopener noreferrer"
       target="_blank"
-      className="break-all break-words text-tertiary hover:underline"
+      className="text-tertiary break-words break-all hover:underline"
       {...rest}
     >
-      <LinkIcon className="size-4 inline mr-1 align-[-0.13em]" />
+      <LinkIcon className="mr-1 inline size-4 align-[-0.13em]" />
       {children ?? url}
     </a>
   );

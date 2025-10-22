@@ -30,7 +30,7 @@ export const MkEmojiPickerPopup = (props: {
   return (
     <Popover open={show} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>{props.children}</PopoverTrigger>
-      <PopoverContent className="w-fit h-fit">
+      <PopoverContent className="h-fit w-fit">
         <MkEmojiPicker onEmojiChoose={onEmojiChoose} />
       </PopoverContent>
     </Popover>

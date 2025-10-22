@@ -41,16 +41,16 @@ export function MkDriveFiles(props: {
     >
       {(file) => (
         <div className="relative">
-          <MkDriveFile className={cn('w-full h-full', { 'bg-tertiary/15': selected.has(file.id) })} file={file} />
+          <MkDriveFile className={cn('h-full w-full', { 'bg-tertiary/15': selected.has(file.id) })} file={file} />
           {selectLimit == 0 ? (
             <Link
               to="/my/drive/file/$file"
               params={{ file: file.id }}
-              className="absolute w-full h-full inset-0 z-10"
+              className="absolute inset-0 z-10 h-full w-full"
             />
           ) : (
             <>
-              <label className="absolute w-full h-full inset-0 z-10 p-2">
+              <label className="absolute inset-0 z-10 h-full w-full p-2">
                 <input
                   type={selectLimit == 1 ? 'radio' : 'checkbox'}
                   className="size-4"

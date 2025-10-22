@@ -28,7 +28,7 @@ export const LightboxGallery = ({ children }: { children: React.ReactNode }) => 
         },
         onInit: (el) => {
           createRoot(el).render(
-            <div className="w-full h-full flex items-center justify-center text-(--pswp-icon-color)">
+            <div className="flex h-full w-full items-center justify-center text-(--pswp-icon-color)">
               <TextInitialIcon className="size-5" />
             </div>,
           );

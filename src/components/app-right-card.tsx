@@ -16,13 +16,13 @@ export const AppRightCard = () => {
   const { t } = useTranslation();
 
   return (
-    <aside className="flex flex-col h-screen gap-2 p-2">
-      <div className="bg-background p-2 rounded-lg">
+    <aside className="flex h-screen flex-col gap-2 p-2">
+      <div className="bg-background rounded-lg p-2">
         <MkClock />
       </div>
-      <ScrollArea className="flex-[1_1] h-0 bg-background rounded-lg">
-        <header className="p-1 sticky top-0 border-b bg-background z-20 flex items-center justify-between">
-          <div className="title text-sm flex items-center gap-1 ml-2">
+      <ScrollArea className="bg-background h-0 flex-[1_1] rounded-lg">
+        <header className="bg-background sticky top-0 z-20 flex items-center justify-between border-b p-1">
+          <div className="title ml-2 flex items-center gap-1 text-sm">
             <BellIcon className="size-4" />
             {t('notifications')}
           </div>
@@ -31,7 +31,7 @@ export const AppRightCard = () => {
         <MkNotifications excludeTypes={excluded} />
       </ScrollArea>
       {/* TODO: translate this */}
-      <footer className="p-2 text-xs text-muted-foreground">
+      <footer className="text-muted-foreground p-2 text-xs">
         <p>
           <a href={__APP_REPO__} className="hover:underline">
             Papilio

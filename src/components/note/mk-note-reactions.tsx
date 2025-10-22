@@ -28,7 +28,7 @@ const NoteReaction = (props: {
     <button
       key={reaction}
       type="button"
-      className={clsx('mk-note-reaction flex items-center border rounded-md px-2 py-1 text-sm', {
+      className={clsx('mk-note-reaction flex items-center rounded-md border px-2 py-1 text-sm', {
         'border-primary/30 bg-primary-foreground cursor-pointer': host == null,
         'border-primary/10': host != null,
         'border-tertiary bg-tertiary/10': meReacted,
@@ -51,7 +51,7 @@ const NoteReaction = (props: {
       ) : (
         <MkEmoji emoji={name} innerClassName="h-[2em]" />
       )}
-      <span className="ml-1 text-xs text-muted-foreground">{count}</span>
+      <span className="text-muted-foreground ml-1 text-xs">{count}</span>
     </button>
   );
 };
@@ -90,7 +90,7 @@ export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
   }
 
   return (
-    <div className="mk-note-reactions flex flex-wrap px-2 mt-2 gap-1">
+    <div className="mk-note-reactions mt-2 flex flex-wrap gap-1 px-2">
       {reactions
         .sort(([, a], [, b]) => b - a)
         .map(([reaction, count]) => (

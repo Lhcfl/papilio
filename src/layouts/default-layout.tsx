@@ -133,13 +133,13 @@ function LayoutMiddle(props: {
   const { title, children, headerCenter, headerRight, headerLeft } = props;
   return (
     <ScrollArea className="h-screen">
-      <header className="h-13 flex gap-1 items-center p-2 sticky top-0 bg-background border-b z-30">
+      <header className="bg-background sticky top-0 z-30 flex h-13 items-center gap-1 border-b p-2">
         <SidebarTrigger className="size-8" />
         <div className="flex items-center gap-1">
           <div className={PORTALABLE_HEADER_LEFT_CLASSNAME} data-ptrb-rank="0" />
           {headerLeft ?? (
             <span
-              className={cn('text-sm text-muted-foreground', {
+              className={cn('text-muted-foreground text-sm', {
                 'max-sm:hidden': !!headerCenter,
               })}
             >
@@ -147,15 +147,15 @@ function LayoutMiddle(props: {
             </span>
           )}
         </div>
-        <div className="flex-grow-1 w-0 text-center">{headerCenter}</div>
+        <div className="w-0 flex-grow-1 text-center">{headerCenter}</div>
         <div className="flex items-center">
           <div className={PORTALABLE_HEADER_RIGHT_CLASSNAME} data-ptrb-rank="0" />
           <div id={HEADER_RIGHT_PORTAL_ID} />
           {headerRight}
         </div>
       </header>
-      <div className="p-2 flex justify-center">
-        <div className="main-area flex-[1_1] w-0 max-w-200">{children}</div>
+      <div className="flex justify-center p-2">
+        <div className="main-area w-0 max-w-200 flex-[1_1]">{children}</div>
       </div>
     </ScrollArea>
   );

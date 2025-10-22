@@ -135,7 +135,7 @@ const NotificationIconColor = (type: Notification['type']) => {
 };
 
 export const ReactionEmoji = (props: { reaction: string; note: NoteWithExtension }) => (
-  <span className="absolute right-0 bottom-0 text-primary-foreground size-6 rounded-sm p-0.5 flex items-center justify-center backdrop-blur-sm bg-secondary/40 overflow-hidden">
+  <span className="text-primary-foreground bg-secondary/40 absolute right-0 bottom-0 flex size-6 items-center justify-center overflow-hidden rounded-sm p-0.5 backdrop-blur-sm">
     {props.reaction.startsWith(':') ? (
       <MkCustomEmoji
         name={props.reaction}
@@ -165,7 +165,7 @@ export const NotificationItemMedia = (
             <MkAvatar user={notification.user} avatarProps={{ className: 'size-11 rounded-md' }} />
             <span
               className={clsx(
-                'absolute right-0 bottom-0 text-primary-foreground size-6 rounded-sm p-1 flex items-center justify-center',
+                'text-primary-foreground absolute right-0 bottom-0 flex size-6 items-center justify-center rounded-sm p-1',
                 NotificationIconColor(notification.type),
               )}
             >
@@ -190,7 +190,7 @@ export const NotificationItemMedia = (
     <ItemMedia {...mediaProps}>
       <span
         className={clsx(
-          'text-primary-foreground size-11 rounded-md p-1 flex items-center justify-center',
+          'text-primary-foreground flex size-11 items-center justify-center rounded-md p-1',
           NotificationIconColor(notification.type),
         )}
       >

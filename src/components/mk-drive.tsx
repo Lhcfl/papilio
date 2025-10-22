@@ -90,7 +90,7 @@ export function MkDrive(props: {
           </InputGroup>
         )}
       </ContextualHeaderRightPortal>
-      {isFetchingSubFolders && <Skeleton className="w-full h-15 border" />}
+      {isFetchingSubFolders && <Skeleton className="h-15 w-full border" />}
       {subfolders?.map((folder) => (
         <MkDriveFolder
           key={folder.id}

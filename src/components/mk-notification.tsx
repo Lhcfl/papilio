@@ -102,7 +102,7 @@ const FollowNotification = (props: { notification: PickNotification<'follow'> })
         <ItemTitle className="line-clamp-1">
           <NotificationTitle notification={notification} />
         </ItemTitle>
-        <div className="line-clamp-2 text-sm break-all text-muted-foreground">
+        <div className="text-muted-foreground line-clamp-2 text-sm break-all">
           <NotificationDescription notification={notification} />
         </div>
       </ItemContent>
@@ -201,7 +201,7 @@ const ReactionNotification = (props: { notification: PickNotification<'reaction'
     <Item className="items-start">
       <NotificationItemMedia notification={notification} className="items-start" />
       <ItemContent>
-        <div className="flex flex-wrap gap-2 mt-1">
+        <div className="mt-1 flex flex-wrap gap-2">
           {(expand ? reacters : reactersLess).map((r, i) => (
             // It's misskey API design that there's no ID for each reaction.
             // But for some times, the same user can react with the same emoji to one note.
@@ -238,7 +238,7 @@ const ReactionNotification = (props: { notification: PickNotification<'reaction'
             </Button>
           )}
         </div>
-        <div className="line-clamp-2 text-sm text-muted-foreground mt-2">
+        <div className="text-muted-foreground mt-2 line-clamp-2 text-sm">
           <NotificationDescription notification={notification} />
         </div>
       </ItemContent>
@@ -258,7 +258,7 @@ const RenoteNotification = (props: { notification: PickNotification<'renote' | '
     <Item className="items-start">
       <NotificationItemMedia notification={notification} className="items-start" />
       <ItemContent>
-        <div className="text-sm line-clamp-1">
+        <div className="line-clamp-1 text-sm">
           <MkI18n
             i18nKey="renotedBy"
             values={{
@@ -284,7 +284,7 @@ const RenoteNotification = (props: { notification: PickNotification<'renote' | '
             }}
           />
         </div>
-        <div className="flex flex-wrap gap-2 mt-1">
+        <div className="mt-1 flex flex-wrap gap-2">
           {(expand ? renoters : renotersLess).map((u) => (
             <MkAvatar key={u.id} user={u} avatarProps={{ className: 'mr-1 size-10' }} />
           ))}
@@ -313,7 +313,7 @@ const RenoteNotification = (props: { notification: PickNotification<'renote' | '
             </Button>
           )}
         </div>
-        <div className="line-clamp-2 text-sm text-muted-foreground mt-2">
+        <div className="text-muted-foreground mt-2 line-clamp-2 text-sm">
           <NotificationDescription notification={notification} />
         </div>
       </ItemContent>
@@ -330,7 +330,7 @@ export const SimpleNotification = (props: { notification: Notification } & React
         <ItemTitle className="line-clamp-1">
           <NotificationTitle notification={notification} />
         </ItemTitle>
-        <div className="line-clamp-2 text-sm break-all text-muted-foreground">
+        <div className="text-muted-foreground line-clamp-2 text-sm break-all">
           <NotificationDescription notification={notification} />
         </div>
       </ItemContent>

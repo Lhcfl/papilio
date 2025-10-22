@@ -103,7 +103,7 @@ export const MenuOrDrawer = (props: {
         <DrawerTrigger asChild>{props.children}</DrawerTrigger>
         <DrawerContent>
           <DrawerTitle className="sr-only">{findFirstLabel(props.menu)}</DrawerTitle>
-          <ScrollArea className="max-h-[75vh] flex flex-col">
+          <ScrollArea className="flex max-h-[75vh] flex-col">
             <div className="flex flex-col p-2">
               {GenerateDrawerMenu(props.menu, () => {
                 setOpen(false);
@@ -231,7 +231,7 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
         );
       case 'label':
         return (
-          <span className="text-sm text-muted-foreground px-2" key={x.id}>
+          <span className="text-muted-foreground px-2 text-sm" key={x.id}>
             {x.label}
           </span>
         );
@@ -299,7 +299,7 @@ const DrawerButton = ({ variant, className, ...props }: ComponentProps<typeof Bu
   return (
     <Button
       className={cn(
-        'justify-start h-fit',
+        'h-fit justify-start',
         {
           'text-destructive hover:bg-destructive/10 focus:bg-destructive/10 dark:focus:bg-destructive/20 dark:hover:bg-destructive/20 focus:text-destructive hover:text-destructive &:*:[svg]:!text-destructive':
             variant === 'destructive',
@@ -315,6 +315,6 @@ const DrawerButton = ({ variant, className, ...props }: ComponentProps<typeof Bu
 export const LabelAndDescription = (props: { label: string; description: string }) => (
   <div className="flex flex-col items-baseline">
     <div>{props.label}</div>
-    <div className="text-xs text-muted-foreground">{props.description}</div>
+    <div className="text-muted-foreground text-xs">{props.description}</div>
   </div>
 );

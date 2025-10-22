@@ -7,22 +7,22 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export const MkUserCardSkeleton = () => (
   <div>
-    <Skeleton className="w-full h-48" />
-    <div className="flex p-2 justify-between">
-      <div className="ml-2 p-2 bg-background -mt-14 z-10 rounded-lg">
+    <Skeleton className="h-48 w-full" />
+    <div className="flex justify-between p-2">
+      <div className="bg-background z-10 -mt-14 ml-2 rounded-lg p-2">
         <Skeleton className="size-18 rounded-lg" />
       </div>
-      <Skeleton className="w-14 h-7" />
+      <Skeleton className="h-7 w-14" />
     </div>
     <div className="px-2 pb-2">
-      <Skeleton className="w-full h-2 mb-2" />
-      <Skeleton className="w-full h-2 mb-2" />
-      <Skeleton className="w-[50%] h-2" />
+      <Skeleton className="mb-2 h-2 w-full" />
+      <Skeleton className="mb-2 h-2 w-full" />
+      <Skeleton className="h-2 w-[50%]" />
     </div>
     <div className="px-2 pb-2">
-      <Skeleton className="w-24 h-2 mb-2" />
-      <Skeleton className="w-17 h-2 mb-2" />
-      <Skeleton className="w-36 h-2 mb-2" />
+      <Skeleton className="mb-2 h-2 w-24" />
+      <Skeleton className="mb-2 h-2 w-17" />
+      <Skeleton className="mb-2 h-2 w-36" />
     </div>
   </div>
 );

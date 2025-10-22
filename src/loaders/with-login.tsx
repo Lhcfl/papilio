@@ -91,7 +91,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
 
   if (queries.some((q) => q.isError)) {
     return (
-      <div className="w-screen h-screen flex items-center justify-center">
+      <div className="flex h-screen w-screen items-center justify-center">
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
@@ -125,11 +125,11 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
 
   if (queries.some((q) => !q.data)) {
     return (
-      <div className="w-screen h-screen">
-        <div className="absolute w-screen h-screen flex justify-center items-center">
+      <div className="h-screen w-screen">
+        <div className="absolute flex h-screen w-screen items-center justify-center">
           <Spinner className="size-8" />
         </div>
-        <ul className="font-mono text-sm p-4">
+        <ul className="p-4 font-mono text-sm">
           <li>Booting Papilio...</li>
           {queries.map((query) => (
             <li key={query.key.join('/')}>

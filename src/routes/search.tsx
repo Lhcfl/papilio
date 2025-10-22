@@ -61,7 +61,7 @@ function NoteSearch() {
       {query.trim() != '' && (
         <div className="search-result mt-4">
           <Separator />
-          <div className="p-2 search-result-label text-sm text-muted-foreground">{t('searchResult')}</div>
+          <div className="search-result-label text-muted-foreground p-2 text-sm">{t('searchResult')}</div>
           <MkInfiniteScroll
             queryKey={['search/notes', query]}
             queryFn={({ pageParam }) =>

@@ -193,7 +193,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   };
 
   return (
-    <div className="mk-note-actions p-2 flex">
+    <div className="mk-note-actions flex p-2">
       <MkNoteActionButton
         icon={<ReplyIcon />}
         count={note.repliesCount}

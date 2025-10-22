@@ -54,9 +54,9 @@ function RouteComponent() {
       pageTitle={pageTitle}
       headerLeft={
         user && (
-          <div className="flex gap-1 items-center">
+          <div className="flex items-center gap-1">
             <MkAvatar user={user} avatarProps={{ className: 'size-6' }} />
-            <MkUserName user={user} className="text-sm max-w-40 line-clamp-1" />
+            <MkUserName user={user} className="line-clamp-1 max-w-40 text-sm" />
           </div>
         )
       }
@@ -76,19 +76,19 @@ const UserMain = (props: { user: UserDetailed | undefined; error: Error | null; 
         <div className="-mt-2">
           <div className="-mx-2">
             {user.isSuspended && (
-              <div className="p-4 bg-red-500 text-white flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-2 bg-red-500 p-4 text-sm text-white">
                 <BanIcon className="size-4 flex-shrink-0" />
                 {t('userSuspended')}
               </div>
             )}
             {user.isSilenced && (
-              <div className="p-4 bg-muted flex items-center gap-2 text-sm">
+              <div className="bg-muted flex items-center gap-2 p-4 text-sm">
                 <VolumeOffIcon className="size-4 flex-shrink-0" />
                 {t('userSilenced')}
               </div>
             )}
             {user.host != null && (
-              <div className="p-4 flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-2 p-4 text-sm">
                 <ExternalLinkIcon className="size-4 flex-shrink-0" />
                 <span>
                   {t('remoteUserCaution')} <MkUrl url={user.url!}>{t('openRemoteProfile')}</MkUrl>
