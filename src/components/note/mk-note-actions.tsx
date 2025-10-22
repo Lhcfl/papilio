@@ -56,6 +56,7 @@ const MkNoteActionButton = (
   } & ComponentProps<typeof Button>,
 ) => {
   const { loading = false, disabled = false, activated, icon, count = 0, tooltip, className, ...rest } = props;
+  const showCount = usePerference((x) => x.showNoteActionCounts);
   return (
     <Tooltip delayDuration={1000}>
       <TooltipTrigger asChild>
@@ -73,7 +74,7 @@ const MkNoteActionButton = (
           {...rest}
         >
           {loading ? <Spinner /> : icon}
-          {count > 0 && <span>{count}</span>}
+          {count > 0 && showCount && <span>{count}</span>}
         </Button>
       </TooltipTrigger>
       <TooltipContent>{tooltip}</TooltipContent>
@@ -87,6 +88,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
 
   const isRenoted = note.isRenoted;
 
+  const disableReactions = usePerference((x) => x.disableNoteReactions);
   const postFormStyle = usePerference((x) => x.notePostFormStyle);
   const openRightbarOrPopup = useRightbarOrPopup((s) => s.push);
   const closeRightbarOrPopup = useRightbarOrPopup((s) => s.close);
@@ -293,10 +295,11 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
               onClick={() => {
                 like();
               }}
+              count={disableReactions ? note.reactionCount : undefined}
               loading={isReacting}
               tooltip={t('like')}
             />
-            {!isReacting && (
+            {!isReacting && !disableReactions && (
               <MkEmojiPickerPopup
                 onEmojiChoose={(emoji) => {
                   react(typeof emoji === 'string' ? emoji : `:${emoji.name}:`);
@@ -319,6 +322,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
             onClick={() => {
               unreact();
             }}
+            count={disableReactions ? note.reactionCount : undefined}
             loading={isUnReacting}
             tooltip={t('unlike')}
           />

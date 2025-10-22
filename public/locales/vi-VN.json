@@ -4150,7 +4150,9 @@
     "notePostFormStyleOptions": {
       "separate": "Separate",
       "bottom": "Bottom"
-    }
+    },
+    "mergeNoteReactions": "Merge Note Reactions",
+    "mergeNoteReactionsDesc": "Merge reactions with the same name from different instances"
   },
   "scheduleNoteFailed": "Đăng bài viết theo lịch trình không thành công",
   "scheduleNotePosted": "Bài viết theo lịch trình đã được đăng"

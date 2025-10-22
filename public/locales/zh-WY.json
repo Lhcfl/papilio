@@ -4165,7 +4165,9 @@
     "notePostFormStyleOptions": {
       "separate": "分离显示",
       "bottom": "底部显示"
-    }
+    },
+    "mergeNoteReactions": "合并帖子反应",
+    "mergeNoteReactionsDesc": "将来自不同实例的同名反应合并"
   },
   "messaging": "聊天",
   "startMessaging": "增聊天",

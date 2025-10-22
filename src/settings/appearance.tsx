@@ -37,6 +37,20 @@ export const AppearanceSettings = {
           description: t('_preference.showNoteActionsCountDesc'),
         },
         {
+          kind: 'switch',
+          defaultValue: false,
+          key: 'disableNoteReactions',
+          name: t('_stpvPlus.disableAllReactions.label'),
+          description: t('_stpvPlus.disableAllReactions.caption'),
+        },
+        {
+          kind: 'switch',
+          defaultValue: true,
+          key: 'mergeNoteReactions',
+          name: t('_preference.mergeNoteReactions'),
+          description: t('_preference.mergeNoteReactionsDesc'),
+        },
+        {
           kind: 'enum',
           key: 'notePostFormStyle',
           defaultValue: 'separate',

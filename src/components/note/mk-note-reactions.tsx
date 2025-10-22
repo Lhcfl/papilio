@@ -9,6 +9,7 @@ import { normalizeEmojiName } from '@/lib/emojis';
 import { useReactNoteAction, useUndoReactNoteAction } from '@/hooks/note-actions';
 import type { NoteWithExtension } from '@/types/note';
 import { useEmojis } from '@/stores/emojis';
+import { usePerference } from '@/stores/perference';
 
 const NoteReaction = (props: {
   reaction: string;
@@ -58,19 +59,18 @@ const NoteReaction = (props: {
 
 export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
   const { note } = props;
+  const disableReactions = usePerference((x) => x.disableNoteReactions);
+  const mergeNoteReactions = usePerference((x) => x.mergeNoteReactions);
   let reactions = Object.entries(note.reactions);
-  let myReaction = note.myReaction;
   const emojisMap = useEmojis((s) => s.emojisMap);
 
   if (reactions.length === 0) {
     return null;
   }
 
-  const mergeSiteReactions = true;
+  let myReaction = note.myReaction;
 
-  // todo: make this configurable
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (mergeSiteReactions) {
+  if (mergeNoteReactions) {
     const map = reactions.reduce<Record<string, number>>((acc, [reaction, count]) => {
       const [normalizedName] = normalizeEmojiName(reaction);
       const emoji = emojisMap.get(normalizedName);
@@ -79,7 +79,7 @@ export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
         if (myReaction === reaction) {
           myReaction = name;
         }
-        acc[name] ||= 0;
+        acc[name] = acc[name] || 0;
         acc[name] += count;
       } else {
         acc[reaction] = count;
@@ -87,6 +87,10 @@ export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
       return acc;
     }, {});
     reactions = Object.entries(map);
+  }
+
+  if (disableReactions) {
+    return null;
   }
 
   return (

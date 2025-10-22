@@ -12,3 +12,5 @@ _preference:
   notePostFormStyleOptions:
     separate: "Separate"
     bottom: "Bottom"
+  mergeNoteReactions: "Merge Note Reactions"
+  mergeNoteReactionsDesc: "Merge reactions with the same name from different instances"
