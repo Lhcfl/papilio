@@ -1,9 +1,16 @@
 import { EnumSettingItem } from '@/components/settings/enum';
 import { SwitchSettingItem } from '@/components/settings/switch';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import { cn } from '@/lib/utils';
 import { DetailedSettings, type SettingsItems } from '@/settings';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/settings/$page')({
@@ -21,6 +28,18 @@ function RouteComponent() {
 
   return (
     <div>
+      <Breadcrumb className="mb-3 ml-2">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link to="/settings">{t('settings')}</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>{t(thisPageSettings.name)}</BreadcrumbItem>
+          <BreadcrumbSeparator />
+        </BreadcrumbList>
+      </Breadcrumb>
       <Accordion type="multiple">
         {thisPageSettings.categories.map((category) => (
           <AccordionItem
@@ -28,7 +47,7 @@ function RouteComponent() {
             value={category.name}
             className="mb-2 overflow-hidden rounded-lg border last:border-b-1"
           >
-            <AccordionTrigger className="bg-accent rounded-none px-3 hover:no-underline">
+            <AccordionTrigger className="rounded-none px-3 hover:no-underline">
               <div className="flex w-full items-center gap-3">
                 {category.icon}
                 <div>
@@ -37,7 +56,7 @@ function RouteComponent() {
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-3">
+            <AccordionContent className="border-t px-3">
               {category.items.map((item) => (
                 <div key={item.kind == 'custom' ? item.name : item.key} className="my-4">
                   <SettingItemPolymorph item={item} />
