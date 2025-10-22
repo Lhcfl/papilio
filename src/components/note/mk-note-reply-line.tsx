@@ -19,7 +19,7 @@ export const MkNoteReplyLine = (props: { noteId: string; onExpand: () => void })
 
   return (
     <div
-      className="mk-note-reply-line px-2 flex relative gap-4 items-center cursor-pointer"
+      className="mk-note-reply-line px-2 pt-2 flex relative gap-4 items-center cursor-pointer"
       onClick={withNoSelection(withStopPrevent(onExpand))}
     >
       <MkAvatar user={note.user} className="ml-1 z-10" />
