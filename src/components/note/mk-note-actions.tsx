@@ -44,7 +44,7 @@ import { useMutation, useMutationState } from '@tanstack/react-query';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { patchNote } from '@/hooks/use-note';
 import { cn } from '@/lib/utils';
-import { usePerference } from '@/stores/perference';
+import { usePreference } from '@/stores/perference';
 import { useSiteMeta } from '@/stores/site';
 
 const MkNoteActionButton = (
@@ -58,7 +58,7 @@ const MkNoteActionButton = (
   } & ComponentProps<typeof Button>,
 ) => {
   const { loading = false, disabled = false, activated, icon, count = 0, tooltip, className, ...rest } = props;
-  const showCount = usePerference((x) => x.showNoteActionCounts);
+  const showCount = usePreference((x) => x.showNoteActionCounts);
   return (
     <Tooltip delayDuration={1000}>
       <TooltipTrigger asChild>
@@ -90,9 +90,9 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
 
   const isRenoted = note.isRenoted;
 
-  const disableReactions = usePerference((x) => x.disableNoteReactions);
-  const postFormStyle = usePerference((x) => x.notePostFormStyle);
-  const showTranslateInActions = usePerference((x) => x.showTranslateInActions);
+  const disableReactions = usePreference((x) => x.disableNoteReactions);
+  const postFormStyle = usePreference((x) => x.notePostFormStyle);
+  const showTranslateInActions = usePreference((x) => x.showTranslateInActions);
   const openRightbarOrPopup = useRightbarOrPopup((s) => s.push);
   const closeRightbarOrPopup = useRightbarOrPopup((s) => s.close);
   const { mutate: renote, isPending: isRenoting } = useRenoteAction(note.id);

@@ -7,7 +7,7 @@
 /* eslint-disable react-x/no-array-index-key */
 
 import { cn } from '@/lib/utils';
-import { usePerference } from '@/stores/perference';
+import { usePreference } from '@/stores/perference';
 import { useQuery } from '@tanstack/react-query';
 import { Fragment, useMemo } from 'react';
 import { codeToTokens, bundledLanguages, bundledLanguagesAlias } from 'shiki';
@@ -24,7 +24,7 @@ const FontStyle = {
 
 export default function MkCodeHighlight(props: { code: string; language: string }) {
   const { language, code } = props;
-  const theme = usePerference((s) => s.theme);
+  const theme = usePreference((s) => s.theme);
   const codeHash = useMemo(() => new MurmurHash3(code).result(), [code]);
 
   const { data: tokens } = useQuery({

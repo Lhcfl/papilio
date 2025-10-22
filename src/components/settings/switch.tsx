@@ -1,12 +1,12 @@
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import type { SwitchSettings } from '@/settings';
-import { setterName, usePerference } from '@/stores/perference';
+import { setterName, usePreference } from '@/stores/perference';
 import { useTranslation } from 'react-i18next';
 
 export function SwitchSettingItem({ item }: { item: SwitchSettings }) {
-  const value = usePerference((p) => p[item.key]);
-  const setValue = usePerference((p) => p[setterName(item.key)]);
+  const value = usePreference((p) => p[item.key]);
+  const setValue = usePreference((p) => p[setterName(item.key)]);
   const { t } = useTranslation();
 
   return (

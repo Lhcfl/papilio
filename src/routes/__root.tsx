@@ -11,7 +11,7 @@ import { WithLoginLoader } from '@/loaders/with-login';
 import { ConfirmDialogProvider } from '@/providers/confirm-dialog-provider';
 import { ErrorDialogProvider } from '@/providers/error-dialog-provider';
 import { token } from '@/services/inject-misskey-api';
-import { usePerference } from '@/stores/perference';
+import { usePreference } from '@/stores/perference';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Outlet, createRootRoute, redirect, useChildMatches } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
@@ -29,7 +29,7 @@ export const Route = createRootRoute({
 });
 
 function RootRouteComponent() {
-  const theme = usePerference((p) => p.theme);
+  const theme = usePreference((p) => p.theme);
   const shouldLogin = useChildMatches({
     select: (matches) => !matches.some((x) => x.staticData.noAuth === true),
   });

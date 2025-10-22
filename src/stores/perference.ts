@@ -19,7 +19,7 @@ type PropSetters<T> = Record<
 
 type Perference = PropSetters<AllSettings> & AllSettings;
 
-export const usePerference = create<Perference>()(
+export const usePreference = create<Perference>()(
   persist(
     (set) => {
       function setKey<K extends keyof AllSettings>(

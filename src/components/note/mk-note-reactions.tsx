@@ -9,7 +9,7 @@ import { normalizeEmojiName } from '@/lib/emojis';
 import { useReactNoteAction, useUndoReactNoteAction } from '@/hooks/note-actions';
 import type { NoteWithExtension } from '@/types/note';
 import { useEmojis } from '@/stores/emojis';
-import { usePerference } from '@/stores/perference';
+import { usePreference } from '@/stores/perference';
 
 const NoteReaction = (props: {
   reaction: string;
@@ -59,8 +59,8 @@ const NoteReaction = (props: {
 
 export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
   const { note } = props;
-  const disableReactions = usePerference((x) => x.disableNoteReactions);
-  const mergeNoteReactions = usePerference((x) => x.mergeNoteReactions);
+  const disableReactions = usePreference((x) => x.disableNoteReactions);
+  const mergeNoteReactions = usePreference((x) => x.mergeNoteReactions);
   let reactions = Object.entries(note.reactions);
   const emojisMap = useEmojis((s) => s.emojisMap);
 

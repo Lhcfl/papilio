@@ -26,7 +26,7 @@ import { MkMention } from '@/components/mk-mention';
 import { acct } from 'misskey-js';
 import { MkTime } from '@/components/mk-time';
 import { useUsersQuery } from '@/hooks/use-user';
-import { usePerference } from '@/stores/perference';
+import { usePreference } from '@/stores/perference';
 
 interface NoteBodyCommonProps {
   note: NoteWithExtension;
@@ -50,7 +50,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
     ...rest
   } = props;
   const navigate = useNavigate();
-  const clickToOpen = usePerference((p) => p.clickToOpenNote);
+  const clickToOpen = usePreference((p) => p.clickToOpenNote);
 
   const urls = collectAst(textAst, (x) =>
     x.type === 'url' ? x.props.url : x.type === 'link' ? x.props.url : undefined,
@@ -158,7 +158,7 @@ const NoteBodyCw = (props: NoteBodyCommonProps) => {
 
 const NoteBodyLong = (props: NoteBodyCommonProps) => {
   const { t } = useTranslation();
-  const expandLongNote = usePerference((p) => p.expandLongNote);
+  const expandLongNote = usePreference((p) => p.expandLongNote);
   const [manualExpanded, setExpanded] = useState<boolean | null>(null);
   const expanded = manualExpanded ?? expandLongNote;
   return (
