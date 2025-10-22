@@ -14,3 +14,4 @@ _preference:
     bottom: "底部显示"
   mergeNoteReactions: "合并帖子反应"
   mergeNoteReactionsDesc: "将来自不同实例的同名反应合并"
+  notesSettingsDesc: "管理与帖子显示和行为相关的设置。"

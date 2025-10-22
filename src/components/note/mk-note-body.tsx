@@ -26,6 +26,7 @@ import { MkMention } from '@/components/mk-mention';
 import { acct } from 'misskey-js';
 import { MkTime } from '@/components/mk-time';
 import { useUsersQuery } from '@/hooks/use-user';
+import { usePerference } from '@/stores/perference';
 
 interface NoteBodyCommonProps {
   note: NoteWithExtension;
@@ -49,6 +50,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
     ...rest
   } = props;
   const navigate = useNavigate();
+  const clickToOpen = usePerference((p) => p.clickToOpenNote);
 
   const urls = collectAst(textAst, (x) =>
     x.type === 'url' ? x.props.url : x.type === 'link' ? x.props.url : undefined,
@@ -56,9 +58,10 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
 
   const images = note.files?.filter((f) => f.type.startsWith('image/') || f.type.startsWith('video/')) ?? [];
   const otherFiles = note.files?.filter((f) => !(f.type.startsWith('image/') || f.type.startsWith('video/'))) ?? [];
-  const onContentClick = disableRouteOnClick
-    ? undefined
-    : onlyWhenNonInteractableContentClicked(() => navigate({ to: '/notes/$id', params: { id: note.id } }));
+  const onContentClick =
+    disableRouteOnClick || !clickToOpen
+      ? undefined
+      : onlyWhenNonInteractableContentClicked(() => navigate({ to: '/notes/$id', params: { id: note.id } }));
 
   return (
     <div className={cn('mk-note-body overflow-hidden', className)} {...rest}>
