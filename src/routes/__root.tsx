@@ -42,10 +42,6 @@ function RootRouteComponent() {
     }
   }, [theme]);
 
-  useEffect(() => {
-    console.log('should login:', shouldLogin);
-  }, [shouldLogin]);
-
   return (
     <>
       {shouldLogin ? (

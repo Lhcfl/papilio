@@ -72,7 +72,7 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
       <SidebarInset className="grid grid-cols-[minmax(0,1fr)_auto]">
         <div className="main-container">
           {tabs ? (
-            <Tabs onValueChange={handleTabChange} value={actualCurrentTab?.value}>
+            <Tabs onValueChange={handleTabChange} value={actualCurrentTab?.value ?? 'default'}>
               <LayoutMiddle
                 {...rest}
                 title={title}
