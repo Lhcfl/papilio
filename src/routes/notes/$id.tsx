@@ -86,7 +86,9 @@ function LoadedMain(props: { noteId: string }) {
     if (el == null) return;
     if (note?.replyId == null) return;
     const scroller = el.closest('[data-slot="scroll-area-viewport"]');
-    console.log({ scroller }, 'scroll');
+    if (import.meta.env.DEV) {
+      console.log({ scroller }, 'scroll');
+    }
     scroller?.scrollBy(0, Math.max(0, el.clientHeight - 100));
   }
 

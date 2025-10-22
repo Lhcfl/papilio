@@ -236,7 +236,6 @@ function MkPostFormLoaded(
   async function onFileUpload(promises: Promise<DriveFile>[]) {
     setIsUploading(true);
     const allSettled = await Promise.allSettled(promises);
-    console.log(promises);
     setIsUploading(false);
     const oks: DriveFile[] = [];
     for (const res of allSettled) {

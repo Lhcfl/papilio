@@ -86,13 +86,13 @@ export function onlyWhenNonInteractableContentClicked<
     );
     if (interactable) {
       if (import.meta.env.DEV) {
-        console.log(interactable);
+        console.log('stopped click event because', { interactable });
       }
       return;
     }
     if (window.getSelection()?.toString()) {
       if (import.meta.env.DEV) {
-        console.log(window.getSelection()?.toString());
+        console.log('stopped click event because', { selection: window.getSelection()?.toString() });
       }
       return;
     }

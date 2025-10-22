@@ -14,12 +14,12 @@ export const useMainChannelListener = () => {
     const stream = injectMisskeyStream();
     const connection = stream.useChannel('main');
     if (import.meta.env.DEV) {
-      console.log('[useMainChannelListener] subscribed');
+      console.log('[useMainChannelListener] 🟢 subscribed');
     }
 
     connection.on('notification', (n) => {
       if (import.meta.env.DEV) {
-        console.log('[useMainChannelListener] received notification', n);
+        console.log('[useMainChannelListener] 🆕 on notification', n);
       }
 
       toast.custom((id) => <MkNotificationToast key={`toast-${id}`} notification={n} />);
@@ -27,7 +27,7 @@ export const useMainChannelListener = () => {
 
     return () => {
       if (import.meta.env.DEV) {
-        console.log('[useMainChannelListener] disposed');
+        console.log('[useMainChannelListener] 🔴 disposed');
       }
       connection.dispose();
     };

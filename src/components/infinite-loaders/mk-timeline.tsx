@@ -21,19 +21,16 @@ export const MkTimeline = (props: { type: TimelineTypes }) => {
   useEffect(() => {
     const channelName = `${type}Timeline` as const;
     if (import.meta.env.DEV) {
-      console.log(`[timeline] subscribing to channel ${channelName}`);
+      console.log(`[timeline] 🟢 subscribing to channel ${channelName}`);
     }
     const channel = createStreamChannel(channelName);
     channel.on('note', (note) => {
       if (import.meta.env.DEV) {
-        console.log('[timeline] new note received', note);
+        console.log('[timeline] 🆕', channelName, note);
       }
       const [id] = registerNote([note]);
 
       queryClient.setQueryData(['timeline', type], (data: (typeof query)['data']) => {
-        if (import.meta.env.DEV) {
-          console.log(data);
-        }
         const [page0, ...other] = data?.pages ?? [[]];
         const newPages = page0.length >= TIMELINE_PAGE_SIZE ? [[id], page0] : [[id, ...page0]];
 
@@ -47,7 +44,7 @@ export const MkTimeline = (props: { type: TimelineTypes }) => {
     });
     return () => {
       if (import.meta.env.DEV) {
-        console.log(`[timeline] channel ${channelName} disposed`);
+        console.log(`[timeline] 🔴 channel ${channelName} disposed`);
       }
       channel.dispose();
     };

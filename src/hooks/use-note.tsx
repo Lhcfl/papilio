@@ -78,13 +78,13 @@ export function useNoteUpdateListener() {
 
   useEffect(() => {
     if (import.meta.env.DEV) {
-      console.log('[NoteUpdateListener]: subscribing to noteUpdated');
+      console.log('[NoteUpdateListener]: 🟢 subscribing to noteUpdated');
     }
     const stream = injectMisskeyStream();
 
     function onNoteUpdated({ type, id, body }: NoteUpdatedEvent) {
       if (import.meta.env.DEV) {
-        console.log('[NoteUpdateListener]: noteUpdated', { type, id, body });
+        console.log(`[NoteUpdateListener]: ${type} -> ${id}`, body);
       }
       document.dispatchEvent(new CustomEvent(`papi:NoteUpdated/${id}`, { detail: { type, body } }));
       switch (type) {
@@ -197,7 +197,7 @@ export function useNoteUpdateListener() {
         }
 
         default: {
-          console.log('unhandled noteUpdated event', { type, id, body });
+          console.log('[NoteUpdateListener] ❌ unhandled noteUpdated event', { type, id, body });
           return {};
         }
       }
@@ -206,7 +206,7 @@ export function useNoteUpdateListener() {
     stream.on('noteUpdated', onNoteUpdated);
 
     return () => {
-      console.log('[NoteUpdateListener]: unsubscribing from noteUpdated');
+      console.log('[NoteUpdateListener]: 🔴 unsubscribing from noteUpdated');
       stream.off('noteUpdated', onNoteUpdated);
     };
   }, [meId]);
@@ -241,7 +241,7 @@ export const useAppearNote = (note: NoteWithExtension | null) => {
 export const markAsChanged = (noteId: string) => {
   const timeout = setTimeout(() => {
     if (import.meta.env.DEV) {
-      console.log(`[NoteUpdate]: re-fetching note ${noteId} due to timeout`);
+      console.log(`[NoteUpdate]: ♻️ re-fetching note ${noteId} due to timeout`);
     }
     void misskeyApi('notes/show', { noteId }).then((note) => {
       registerNote([note]);
@@ -258,3 +258,14 @@ export const markAsChanged = (noteId: string) => {
     },
   );
 };
+
+// Debugging utilities
+if (import.meta.env.DEV) {
+  const w = window as unknown as Record<string, unknown>;
+  w.getDefaultAtomStore = getDefaultStore;
+  w.getNoteDataById = (noteId: string) => {
+    const atom = GlobalNoteSingletonManager.notes.get(noteId);
+    if (!atom) return 'no such atom';
+    return getDefaultStore().get(atom);
+  };
+}

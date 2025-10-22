@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/my/follow-requests')({
   beforeLoad: (ctx) => {
-    console.log(ctx);
     if (ctx.location.href === '/my/follow-requests') {
       return redirect({
         to: '/my/follow-requests/received',
