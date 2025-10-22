@@ -208,6 +208,11 @@ function MkPostFormLoaded(
         draft.resetExcept(['visibility', 'cw', 'hasCw', 'showPreview', 'reactionAcceptance', 'localOnly']);
       }
     },
+    onError: (error) => {
+      pushErrorDialog({
+        description: errorMessageSafe(error),
+      });
+    },
   });
 
   function focusTextarea() {
