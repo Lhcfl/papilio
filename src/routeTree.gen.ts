@@ -24,6 +24,7 @@ import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as TimelineIndexRouteImport } from './routes/_timeline/index'
 import { Route as TagTagRouteImport } from './routes/tag/$tag'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
+import { Route as SettingsPageRouteImport } from './routes/settings/$page'
 import { Route as NotesIdRouteImport } from './routes/notes/$id'
 import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
 import { Route as MyClipsRouteImport } from './routes/my/clips'
@@ -114,6 +115,11 @@ const TagTagRoute = TagTagRouteImport.update({
 const SettingsProfileRoute = SettingsProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => SettingsRouteRoute,
+} as any)
+const SettingsPageRoute = SettingsPageRouteImport.update({
+  id: '/$page',
+  path: '/$page',
   getParentRoute: () => SettingsRouteRoute,
 } as any)
 const NotesIdRoute = NotesIdRouteImport.update({
@@ -223,6 +229,7 @@ export interface FileRoutesByFullPath {
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/notes/$id': typeof NotesIdRoute
+  '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
   '/': typeof TimelineIndexRoute
@@ -254,6 +261,7 @@ export interface FileRoutesByTo {
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/notes/$id': typeof NotesIdRoute
+  '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
   '/': typeof TimelineIndexRoute
@@ -289,6 +297,7 @@ export interface FileRoutesById {
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/notes/$id': typeof NotesIdRoute
+  '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
   '/_timeline/': typeof TimelineIndexRoute
@@ -324,6 +333,7 @@ export interface FileRouteTypes {
     | '/my/clips'
     | '/my/favorites'
     | '/notes/$id'
+    | '/settings/$page'
     | '/settings/profile'
     | '/tag/$tag'
     | '/'
@@ -355,6 +365,7 @@ export interface FileRouteTypes {
     | '/my/clips'
     | '/my/favorites'
     | '/notes/$id'
+    | '/settings/$page'
     | '/settings/profile'
     | '/tag/$tag'
     | '/'
@@ -389,6 +400,7 @@ export interface FileRouteTypes {
     | '/my/clips'
     | '/my/favorites'
     | '/notes/$id'
+    | '/settings/$page'
     | '/settings/profile'
     | '/tag/$tag'
     | '/_timeline/'
@@ -534,6 +546,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsProfileRouteImport
       parentRoute: typeof SettingsRouteRoute
     }
+    '/settings/$page': {
+      id: '/settings/$page'
+      path: '/$page'
+      fullPath: '/settings/$page'
+      preLoaderRoute: typeof SettingsPageRouteImport
+      parentRoute: typeof SettingsRouteRoute
+    }
     '/notes/$id': {
       id: '/notes/$id'
       path: '/notes/$id'
@@ -675,11 +694,13 @@ const TimelineRouteRouteWithChildren = TimelineRouteRoute._addFileChildren(
 )
 
 interface SettingsRouteRouteChildren {
+  SettingsPageRoute: typeof SettingsPageRoute
   SettingsProfileRoute: typeof SettingsProfileRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
 }
 
 const SettingsRouteRouteChildren: SettingsRouteRouteChildren = {
+  SettingsPageRoute: SettingsPageRoute,
   SettingsProfileRoute: SettingsProfileRoute,
   SettingsIndexRoute: SettingsIndexRoute,
 }

@@ -3,25 +3,26 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { AllSettings } from '@/settings';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { DefaultSettings } from '@/settings';
 
-const defaultPerference = {
-  theme: 'light' as 'light' | 'dark',
-  notePostFormStyle: 'separate' as 'separate' | 'bottom',
-};
+export function setterName<K extends string>(key: K): `set${Capitalize<K>}` {
+  return `set${key.charAt(0).toUpperCase() + key.slice(1)}` as `set${Capitalize<K>}`;
+}
 
 type PropSetters<T> = Record<
   `set${Capitalize<string & keyof T>}`,
   (updater: T[keyof T] | ((prev: T[keyof T]) => T[keyof T])) => void
 >;
 
-type Perference = PropSetters<typeof defaultPerference> & typeof defaultPerference;
+type Perference = PropSetters<AllSettings> & AllSettings;
 
 export const usePerference = create<Perference>()(
   persist(
     (set) => {
-      function setKey<K extends keyof typeof defaultPerference>(
+      function setKey<K extends keyof AllSettings>(
         key: K,
         updater: Perference[K] | ((prev: Perference[K]) => Perference[K]),
       ) {
@@ -33,18 +34,16 @@ export const usePerference = create<Perference>()(
       }
 
       const setters = Object.fromEntries(
-        (Object.keys(defaultPerference) as (keyof typeof defaultPerference)[]).map(
-          <K extends keyof typeof defaultPerference>(key: K) => [
-            `set${key.charAt(0).toUpperCase() + key.slice(1)}`,
-            (v: Perference[K] | ((prev: Perference[K]) => Perference[K])) => {
-              setKey(key, v);
-            },
-          ],
-        ),
-      ) as PropSetters<typeof defaultPerference>;
+        (Object.keys(DefaultSettings) as (keyof AllSettings)[]).map(<K extends keyof AllSettings>(key: K) => [
+          setterName(key),
+          (v: Perference[K] | ((prev: Perference[K]) => Perference[K])) => {
+            setKey(key, v);
+          },
+        ]),
+      ) as PropSetters<AllSettings>;
 
       return {
-        ...defaultPerference,
+        ...DefaultSettings,
         ...setters,
       };
     },
@@ -54,8 +53,7 @@ export const usePerference = create<Perference>()(
       partialize: (state) =>
         Object.fromEntries(
           Object.entries(state).filter(
-            ([key, value]) =>
-              key in defaultPerference && defaultPerference[key as keyof typeof defaultPerference] !== value,
+            ([key, value]) => key in DefaultSettings && DefaultSettings[key as keyof AllSettings] !== value,
           ),
         ),
     },

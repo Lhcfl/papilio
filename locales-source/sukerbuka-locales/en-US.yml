@@ -3,3 +3,7 @@ youCanNotSeeBecauseYouAreBlocked: "You cannot see this user's posts"
 
 _drafts: 
   deleteConfirmLong: "The draft will be permanently deleted and cannot be recovered. Everything in the draft will be lost."
+
+_preference:
+  showNoteActionsCount: "Show Note Action Counts"
+  showNoteActionsCountDesc: "Toggle to show or hide the counts of actions on notes."

@@ -4143,5 +4143,9 @@
   "stpvEmojiPickerItemSize": "Emoji size",
   "reportAcceptedBody": "Your report against {{target}} has been accepted. Thank you for your help! The administrators have taken appropriate action.",
   "userBlockedYou": "{{name}} blocked you",
-  "youCanNotSeeBecauseYouAreBlocked": "You cannot see this user's posts"
+  "youCanNotSeeBecauseYouAreBlocked": "You cannot see this user's posts",
+  "_preference": {
+    "showNoteActionsCount": "Show Note Action Counts",
+    "showNoteActionsCountDesc": "Toggle to show or hide the counts of actions on notes."
+  }
 }

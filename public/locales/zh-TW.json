@@ -4141,5 +4141,9 @@
   "stpvEmojiPickerItemSize": "表情符号大小",
   "reportAcceptedBody": "您对 {{target}} 的举报已被接受。感谢您的帮助！管理人员已经采取了适当的措施。",
   "userBlockedYou": "{{name}} 屏蔽了你",
-  "youCanNotSeeBecauseYouAreBlocked": "您无法查看此用户的动态"
+  "youCanNotSeeBecauseYouAreBlocked": "您无法查看此用户的动态",
+  "_preference": {
+    "showNoteActionsCount": "显示帖子操作计数",
+    "showNoteActionsCountDesc": "在帖子操作按钮上显示喜欢、重发等的计数。"
+  }
 }
