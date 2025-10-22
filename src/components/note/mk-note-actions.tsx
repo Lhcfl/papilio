@@ -43,6 +43,7 @@ import { useMutation } from '@tanstack/react-query';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { patchNote } from '@/hooks/use-note';
 import { cn } from '@/lib/utils';
+import { usePerference } from '@/stores/perference';
 
 const MkNoteActionButton = (
   props: {
@@ -86,6 +87,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
 
   const isRenoted = note.isRenoted;
 
+  const postFormStyle = usePerference((x) => x.notePostFormStyle);
   const openRightbarOrPopup = useRightbarOrPopup((s) => s.push);
   const closeRightbarOrPopup = useRightbarOrPopup((s) => s.close);
   const { mutate: renote, isPending: isRenoting } = useRenoteAction(note.id);
@@ -201,19 +203,35 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   };
 
   const openQuoteForm = () => {
-    // openForm({ icon: <QuoteIcon />, title: t('quote'), postFormProps: { quoteId: note.id } });
-    setPostFormProps({
-      quoteId: note.id,
-      visibilityRestrict: VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility)),
-    });
+    switch (postFormStyle) {
+      case 'bottom': {
+        setPostFormProps({
+          quoteId: note.id,
+          visibilityRestrict: VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility)),
+        });
+        return;
+      }
+      case 'separate': {
+        openForm({ icon: <QuoteIcon />, title: t('quote'), postFormProps: { quoteId: note.id } });
+        return;
+      }
+    }
   };
 
   const openReplyForm = () => {
-    // openForm({ icon: <ReplyIcon />, title: t('reply'), postFormProps: { replyId: note.id } })
-    setPostFormProps({
-      replyId: note.id,
-      visibilityRestrict: VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility)),
-    });
+    switch (postFormStyle) {
+      case 'bottom': {
+        setPostFormProps({
+          replyId: note.id,
+          visibilityRestrict: VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility)),
+        });
+        return;
+      }
+      case 'separate': {
+        openForm({ icon: <ReplyIcon />, title: t('reply'), postFormProps: { replyId: note.id } });
+        return;
+      }
+    }
   };
 
   return (

@@ -8,6 +8,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 const defaultPerference = {
   theme: 'light' as 'light' | 'dark',
+  notePostFormStyle: 'separate' as 'separate' | 'bottom',
 };
 
 type PropSetters<T> = Record<
