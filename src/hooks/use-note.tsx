@@ -36,11 +36,6 @@ class NoteSingletonManager {
       } else {
         const a = atom(n);
         stream.send('sr', { id: n.id });
-
-        if (import.meta.env.DEV) {
-          console.log('[NoteSingletonManager]: subscribed:', n.id);
-        }
-
         this.notes.set(n.id, a);
       }
     }
@@ -58,9 +53,6 @@ class NoteSingletonManager {
     const store = getDefaultStore();
     const a = this.notes.get(noteId);
     if (!a) return;
-    if (import.meta.env.DEV) {
-      console.log('[NoteSingletonManager]: unsubscribed:', noteId);
-    }
     stream.send('un', { id: noteId });
     store.set(a, (old) => ({ ...old, isDeleted: true }));
     this.notes.delete(noteId);
