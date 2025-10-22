@@ -51,6 +51,12 @@ export const AppearanceSettings = {
           description: t('_preference.mergeNoteReactionsDesc'),
         },
         {
+          kind: 'switch',
+          defaultValue: true,
+          key: 'collapseNotesRepliedTo',
+          name: t('collapseNotesRepliedTo'),
+        },
+        {
           kind: 'enum',
           key: 'notePostFormStyle',
           defaultValue: 'separate',

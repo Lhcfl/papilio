@@ -17,6 +17,7 @@ import { isPureRenote } from 'misskey-js/note.js';
 import { Button } from '@/components/ui/button';
 import { FoldVerticalIcon } from 'lucide-react';
 import { MkNoteReplyLine } from '@/components/note/mk-note-reply-line';
+import { usePerference } from '@/stores/perference';
 
 export const MkNote = (
   props: {
@@ -43,7 +44,9 @@ export const MkNote = (
   const note = useNoteValue(noteId);
   const appearNote = useAppearNote(note);
   const { mutate: translate } = useTranslateAction(noteId);
-  const [showReplyState, setShowReplyState] = useState<'subNote' | 'inline'>('inline');
+  const collapseNotesRepliedTo = usePerference((p) => p.collapseNotesRepliedTo);
+  const [manualShowReplyState, setShowReplyState] = useState<'subNote' | 'inline' | null>(null);
+  const showReplyState = manualShowReplyState ?? (collapseNotesRepliedTo ? 'inline' : 'subNote');
 
   useDebugger('MkNote', noteId);
 
@@ -61,6 +64,7 @@ export const MkNote = (
           noteId={note.replyId}
           isSubNote={true}
           className="reply-note -m-2"
+          showReply={collapseNotesRepliedTo}
           onClose={() => {
             setShowReplyState('inline');
           }}

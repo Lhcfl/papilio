@@ -14,7 +14,9 @@ export function SwitchSettingItem({ item }: { item: SwitchSettings }) {
       <Label className="w-full">
         <div className="w-0 flex-[1_1]">
           <div className="text-base">{t(item.name)}</div>
-          <div className="text-muted-foreground text-sm">{t(item.description)}</div>
+          {'description' in item && item.description && (
+            <div className="text-muted-foreground text-sm">{t(item.description)}</div>
+          )}
         </div>
         <Switch name={item.key} checked={value} onCheckedChange={setValue} />
       </Label>
