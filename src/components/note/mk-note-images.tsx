@@ -11,10 +11,12 @@ import { MkVideo } from '@/components/mk-video';
 import { cond } from '@/lib/match';
 import { onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 import { LightboxGallery, LightboxItem } from '@/components/lightbox';
+import { usePreference } from '@/stores/perference';
 
 export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivElement>) => {
   const { images, className: classNameProp, ...rest } = props;
   const count = images.length;
+  const noteOneImageMaxAspectRatio = usePreference((s) => s.noteOneImageMaxAspectRatio);
 
   const aspectRatio = (image?: DriveFile) => {
     const { width, height } = image?.properties ?? {};
@@ -34,6 +36,15 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
     'images-many grid grid-cols-2': count > 5,
   });
 
+  const firstImageAspectRatio = aspectRatio(images[0]);
+  const oneImageContainerAspectRatio = cond([
+    [noteOneImageMaxAspectRatio === '16:9', Math.max(16 / 9, firstImageAspectRatio)],
+    [noteOneImageMaxAspectRatio === '4:3', Math.max(4 / 3, firstImageAspectRatio)],
+    [noteOneImageMaxAspectRatio === '1:1', Math.max(1 / 1, firstImageAspectRatio)],
+    [noteOneImageMaxAspectRatio === '3:4', Math.max(3 / 4, firstImageAspectRatio)],
+    [noteOneImageMaxAspectRatio === '2:3', Math.max(2 / 3, firstImageAspectRatio)],
+  ]);
+
   if (count === 0) return null;
 
   return (
@@ -52,13 +63,13 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
                 <MkImage
                   image={image}
                   containerAspectRatio={cond([
-                    [count === 1, Math.max(aspectRatio(image), 3 / 4)],
+                    [count === 1, oneImageContainerAspectRatio],
                     [count === 2 && !twoImageBothWide, 8 / 9],
                     [count === 2 && twoImageBothWide, 16 / 4.5],
                     [count === 3 && index === 0, 16 / 18],
                     [count >= 3, 16 / 9],
                   ])}
-                  style={count == 1 ? { aspectRatio: Math.max(aspectRatio(image), 3 / 4) } : undefined}
+                  style={count == 1 ? { aspectRatio: oneImageContainerAspectRatio } : undefined}
                   className={clsx('max-h-150 cursor-zoom-in', { 'row-span-2': count === 3 && index === 0 })}
                   onClick={onlyWhenNonInteractableContentClicked(open)}
                   imgProps={{ ref }}

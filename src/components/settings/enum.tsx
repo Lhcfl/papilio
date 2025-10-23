@@ -8,11 +8,24 @@ export function EnumSettingItem({ item }: { item: EnumSettings }) {
   const setValue = usePreference((p) => p[setterName(item.key)]);
   const { t } = useTranslation();
 
+  function getValueDisplayName(val: string, index: number) {
+    if ('valuesI18n' in item) {
+      if (Array.isArray(item.valuesI18n[index])) {
+        return t(...(item.valuesI18n[index] as never));
+      }
+      return t(item.valuesI18n[index] as never);
+    } else {
+      return t(item.name + 'Options.' + val);
+    }
+  }
+
   return (
     <div className="flex items-center gap-2">
       <div className="w-0 flex-[1_1]">
         <div className="text-base">{t(item.name)}</div>
-        <div className="text-muted-foreground text-sm">{t(item.description)}</div>
+        {'description' in item && item.description && (
+          <div className="text-muted-foreground text-sm">{t(item.description)}</div>
+        )}
       </div>
       <Select onValueChange={setValue as never} value={value}>
         <SelectTrigger className="w-30 sm:w-50 md:w-70">
@@ -22,7 +35,7 @@ export function EnumSettingItem({ item }: { item: EnumSettings }) {
           <SelectGroup>
             {item.values.map((v, idx) => (
               <SelectItem key={v} value={v}>
-                {'valuesI18n' in item ? t(item.valuesI18n[idx]) : t(item.name + 'Options.' + v)}
+                {getValueDisplayName(v, idx)}
               </SelectItem>
             ))}
           </SelectGroup>

@@ -60,6 +60,20 @@ export const NoteSettings = {
           name: t('_preference.notePostFormStyle'),
           description: t('_preference.notePostFormStyleDesc'),
         },
+        {
+          kind: 'enum',
+          key: 'noteOneImageMaxAspectRatio',
+          defaultValue: '16:9',
+          values: ['16:9', '4:3', '1:1', '3:4', '2:3'],
+          valuesI18n: [
+            [t('limitTo'), { x: '16:9' }],
+            [t('limitTo'), { x: '4:3' }],
+            [t('limitTo'), { x: '1:1' }],
+            [t('limitTo'), { x: '3:4' }],
+            [t('limitTo'), { x: '2:3' }],
+          ],
+          name: t('mediaListWithOneImageAppearance'),
+        },
       ],
     },
     {
