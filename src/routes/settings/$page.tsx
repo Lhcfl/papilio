@@ -1,3 +1,4 @@
+import { MkEmpty } from '@/components/mk-empty';
 import { EnumSettingItem } from '@/components/settings/enum';
 import { SwitchSettingItem } from '@/components/settings/switch';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -9,8 +10,10 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { cn } from '@/lib/utils';
+import { queryAtom } from '@/routes/settings/-atoms';
 import { DetailedSettings, type SettingsItems } from '@/settings';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useLocation } from '@tanstack/react-router';
+import { useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/settings/$page')({
@@ -21,10 +24,33 @@ function RouteComponent() {
   const { t } = useTranslation();
   const page = Route.useParams().page;
   const thisPageSettings = DetailedSettings.find((p) => p.value === page);
+  const [catName, itemId] = useLocation().hash.split('::', 2);
+  const query = useAtomValue(queryAtom);
 
   if (!thisPageSettings) {
     return <div>404 not found</div>;
   }
+
+  const thisPageFiltered = {
+    ...thisPageSettings,
+    categories: thisPageSettings.categories
+      .map((cat) => ({
+        ...cat,
+        items: t(cat.name).toLocaleLowerCase().includes(query)
+          ? cat.items
+          : cat.items.filter((item) => {
+              const key = 'key' in item ? item.key.toLocaleLowerCase() : null;
+              const name = t(item.name).toLocaleLowerCase();
+              const description =
+                'description' in item && item.description ? t(item.description).toLocaleLowerCase() : '';
+
+              return !query || name.includes(query) || description.includes(query) || key?.includes(query);
+            }),
+      }))
+      .filter((cat) => cat.items.length > 0),
+  };
+
+  const defaultOpenCategory = catName ? [catName] : thisPageFiltered.categories.map((cat) => cat.name);
 
   return (
     <div>
@@ -40,8 +66,9 @@ function RouteComponent() {
           <BreadcrumbSeparator />
         </BreadcrumbList>
       </Breadcrumb>
-      <Accordion type="multiple">
-        {thisPageSettings.categories.map((category) => (
+      {thisPageFiltered.categories.length === 0 && <MkEmpty />}
+      <Accordion type="multiple" defaultValue={defaultOpenCategory}>
+        {thisPageFiltered.categories.map((category) => (
           <AccordionItem
             key={category.name}
             value={category.name}
@@ -56,9 +83,13 @@ function RouteComponent() {
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="border-t px-3">
+            <AccordionContent className="border-t">
               {category.items.map((item) => (
-                <div key={item.kind == 'custom' ? item.name : item.key} className="my-4">
+                <div key={item.kind == 'custom' ? item.name : item.key} className="relative my-4 px-3">
+                  {itemId == ('key' in item ? item.key : item.name) && (
+                    <div className="bg-tertiary absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 animate-ping rounded-full" />
+                  )}
+                  <a id={category.name + '::' + ('key' in item ? item.key : item.name)} />
                   <SettingItemPolymorph item={item} />
                 </div>
               ))}
