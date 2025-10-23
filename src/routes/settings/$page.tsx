@@ -79,7 +79,9 @@ function RouteComponent() {
                 {category.icon}
                 <div>
                   <h2 className="text-base">{t(category.name)}</h2>
-                  <span className="text-muted-foreground text-sm">{t(category.description)}</span>
+                  {'description' in category && category.description && (
+                    <span className="text-muted-foreground text-sm">{t(category.description)}</span>
+                  )}
                 </div>
               </div>
             </AccordionTrigger>

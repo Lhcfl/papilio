@@ -31,16 +31,19 @@ function RouteComponent() {
       for (const category of page.categories) {
         const categoryName = t(category.name).toLocaleLowerCase();
         const categoryKey = category.name.toLocaleLowerCase();
+        const catDescription = 'description' in category && category.description ? t(category.description) : undefined;
+        const descriptionLower = catDescription?.toLocaleLowerCase();
 
         if (
           pageName.includes(query) ||
           pageKey.includes(query) ||
           categoryName.includes(query) ||
-          categoryKey.includes(query)
+          categoryKey.includes(query) ||
+          descriptionLower?.includes(query)
         ) {
           results.push({
             page: { name: page.name, value: page.value },
-            category: { name: category.name, description: category.description },
+            category: { name: category.name, description: catDescription },
           });
         }
 
@@ -53,7 +56,7 @@ function RouteComponent() {
           if (name.includes(query) || descriptionLower?.includes(query) || key?.includes(query)) {
             results.push({
               page: { name: page.name, value: page.value },
-              category: { name: category.name, description: category.description },
+              category: { name: category.name, description: catDescription },
               item: { name: item.name, description, id: 'key' in item ? item.key : item.name },
             });
           }

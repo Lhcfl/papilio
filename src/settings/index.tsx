@@ -2,7 +2,7 @@ import { AppearanceSettings } from '@/settings/appearance';
 import { GeneralSettings } from '@/settings/general';
 import { NoteSettings } from '@/settings/note';
 
-export const DetailedSettings = [AppearanceSettings, GeneralSettings, NoteSettings] as const;
+export const DetailedSettings = [GeneralSettings, AppearanceSettings, NoteSettings] as const;
 
 function getAllSettings() {
   const DefaultSettings = {} as AllSettings;

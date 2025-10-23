@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Fragment, useMemo } from 'react';
 import { codeToTokens, bundledLanguages, bundledLanguagesAlias } from 'shiki';
 import MurmurHash3 from 'imurmurhash';
+import { MkCodeUnhighlighted } from '@/components/mk-code';
 
 const FontStyle = {
   NotSet: -1,
@@ -39,11 +40,7 @@ export default function MkCodeHighlight(props: { code: string; language: string 
   });
 
   if (tokens == null) {
-    return (
-      <pre className="mk-code-fallback">
-        <code className={language ? `language-${language}` : undefined}>{code}</code>
-      </pre>
-    );
+    return <MkCodeUnhighlighted code={code} language={language} />;
   }
 
   return (
