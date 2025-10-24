@@ -35,6 +35,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      DEBUG_REACT_COMPILER: 'true'
     
     steps:
       - name: Checkout code
