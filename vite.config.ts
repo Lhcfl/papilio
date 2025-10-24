@@ -5,6 +5,7 @@ import React from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { visualizer as Visualizer } from 'rollup-plugin-visualizer';
 import PackageJSON from './package.json';
+import { env } from 'node:process';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -32,5 +33,6 @@ export default defineConfig({
   build: {
     // We increase the chunk size warning limit because shiki can generate some large language defination chunks.
     chunkSizeWarningLimit: 800,
+    ...(env.DEBUG_NO_MINIFY === 'true' ? { minify: false } : {}),
   },
 });
