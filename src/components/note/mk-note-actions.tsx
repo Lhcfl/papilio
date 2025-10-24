@@ -334,12 +334,13 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
               setPostFormProps(null);
             }
           }}
+          hideClose
         >
           <MkPostForm
             {...postFormProps}
             relatedNote={note}
             displayRelatedNote
-            className="mt-2 border"
+            className="border"
             appendHeader={
               <Button
                 variant="ghost"

@@ -19,15 +19,16 @@ export const RightbarOrPopup = (props: {
   children: React.ReactNode;
   open: boolean;
   onOpenChange: (show: boolean) => void;
+  hideClose?: boolean;
 }) => {
-  const { children, title, open, onOpenChange } = props;
+  const { children, title, open, onOpenChange, hideClose } = props;
   const hideRightbar = useMedia('(max-width: 64rem)', false);
 
   if (hideRightbar) {
     return (
       <Dialog onOpenChange={onOpenChange} open={open}>
-        <DialogContent className="p-0">
-          <ScrollArea className="max-h-[calc(100vh_-_8em)] px-4 pt-4 pb-2">
+        <DialogContent className="top-6 translate-y-0 p-0" showCloseButton={!hideClose}>
+          <ScrollArea className="max-h-[calc(100vh_-_8em)]">
             <DialogHeader>
               <DialogTitle>
                 <div className="flex items-center justify-between">{title}</div>
@@ -45,16 +46,18 @@ export const RightbarOrPopup = (props: {
       <div>
         <div className="flex items-center justify-between">
           <div className="flex items-center">{title}</div>
-          <div>
-            <Button
-              onClick={() => {
-                onOpenChange(false);
-              }}
-              variant="ghost"
-            >
-              <XIcon />
-            </Button>
-          </div>
+          {!hideClose && (
+            <div>
+              <Button
+                onClick={() => {
+                  onOpenChange(false);
+                }}
+                variant="ghost"
+              >
+                <XIcon />
+              </Button>
+            </div>
+          )}
         </div>
         {children}
       </div>,
