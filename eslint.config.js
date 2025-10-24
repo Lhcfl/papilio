@@ -53,7 +53,7 @@ export default defineConfig([
 					"@typescript-eslint/prefer-nullish-coalescing": ["error", {
 						"ignoreConditionalTests": true,
 						"ignoreMixedLogicalExpressions": true,
-					}]
+					}],
 				},
 			},
 		],

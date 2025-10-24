@@ -134,7 +134,7 @@ export const useDraft = (draftKey: string, defaults?: Partial<DraftData>) => {
       }
     },
     300,
-    [draft],
+    [draftKey, draft, defaultsWithFallback],
   );
 
   return { ...draft, update, remove, resetExcept };
