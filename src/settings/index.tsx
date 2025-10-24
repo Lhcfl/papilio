@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { AppearanceSettings } from '@/settings/appearance';
 import { GeneralSettings } from '@/settings/general';
 import { NoteSettings } from '@/settings/note';

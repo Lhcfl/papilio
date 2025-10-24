@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import type { SwitchSettings } from '@/settings';

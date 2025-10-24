@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { MkEmpty } from '@/components/mk-empty';
 import { EnumSettingItem } from '@/components/settings/enum';
 import { SwitchSettingItem } from '@/components/settings/switch';
