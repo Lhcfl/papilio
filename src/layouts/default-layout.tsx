@@ -10,7 +10,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSiteMeta } from '@/stores/site';
-import { RightbarOrPopupProvider } from '@/providers/rightbar-or-popup';
+import { DesktopRightbar } from '@/providers/rightbar-or-popup';
 import { cn } from '@/lib/utils';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import type { Tab } from '@/types/page-header';
@@ -115,8 +115,8 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
             </div>
           )}
         </div>
-        <div className="right-container">
-          <RightbarOrPopupProvider />
+        <div className="right-container max-lg:hidden">
+          <DesktopRightbar />
         </div>
       </SidebarInset>
     </SidebarProvider>

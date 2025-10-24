@@ -7,16 +7,17 @@ import { MkNotifications, MkNotificationsFilter } from '@/components/infinite-lo
 import { MkClock } from '@/components/note/mk-clock';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { NotificationIncludeableType } from '@/lib/notifications';
+import { cn } from '@/lib/utils';
 import { BellIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useState, type HTMLProps } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export const AppRightCard = () => {
+export const AppRightCard = ({ className, ...props }: HTMLProps<HTMLDivElement>) => {
   const [excluded, setExcluded] = useState<NotificationIncludeableType[]>([]);
   const { t } = useTranslation();
 
   return (
-    <aside className="flex h-screen flex-col gap-2 p-2">
+    <aside className={cn('flex flex-col gap-2 p-2', className)} {...props}>
       <div className="bg-background rounded-lg p-2">
         <MkClock />
       </div>

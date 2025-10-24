@@ -35,7 +35,6 @@ import {
   useUnrenoteAction,
 } from '@/hooks/note-actions';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { useRightbarOrPopup } from '@/stores/rightbar-or-poup';
 import { MkPostForm } from '@/components/mk-post-form';
 import { VISIBILITIES } from '@/lib/note';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
@@ -46,6 +45,7 @@ import { patchNote } from '@/hooks/use-note';
 import { cn } from '@/lib/utils';
 import { usePreference } from '@/stores/perference';
 import { useSiteMeta } from '@/stores/site';
+import { RightbarOrPopup } from '@/providers/rightbar-or-popup';
 
 const MkNoteActionButton = (
   props: {
@@ -93,8 +93,6 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const disableReactions = usePreference((x) => x.disableNoteReactions);
   const postFormStyle = usePreference((x) => x.notePostFormStyle);
   const showTranslateInActions = usePreference((x) => x.showTranslateInActions);
-  const openRightbarOrPopup = useRightbarOrPopup((s) => s.push);
-  const closeRightbarOrPopup = useRightbarOrPopup((s) => s.close);
   const { mutate: renote, isPending: isRenoting } = useRenoteAction(note.id);
   const { mutate: unrenote, isPending: isUnrenoting } = useUnrenoteAction(note.id);
   const { mutate: like, isPending: isReacting } = useLikeNoteAction(note.id);
@@ -181,68 +179,18 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
     },
   ];
 
-  const openForm = ({
-    icon,
-    title,
-    postFormProps,
-  }: {
-    icon: React.ReactNode;
-    title: React.ReactNode;
-    postFormProps: React.ComponentProps<typeof MkPostForm>;
-  }) => {
-    openRightbarOrPopup({
-      title: (
-        <div className="flex gap-2">
-          {icon}
-          {title}
-        </div>
-      ),
-      node: (
-        <div className="p-2">
-          <MkPostForm
-            {...postFormProps}
-            autoFocus
-            className="border"
-            onSuccess={closeRightbarOrPopup}
-            visibilityRestrict={VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility))}
-            relatedNote={note}
-            displayRelatedNote
-          />
-        </div>
-      ),
+  const openQuoteForm = () => {
+    setPostFormProps({
+      quoteId: note.id,
+      visibilityRestrict: VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility)),
     });
   };
 
-  const openQuoteForm = () => {
-    switch (postFormStyle) {
-      case 'bottom': {
-        setPostFormProps({
-          quoteId: note.id,
-          visibilityRestrict: VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility)),
-        });
-        return;
-      }
-      case 'separate': {
-        openForm({ icon: <QuoteIcon />, title: t('quote'), postFormProps: { quoteId: note.id } });
-        return;
-      }
-    }
-  };
-
   const openReplyForm = () => {
-    switch (postFormStyle) {
-      case 'bottom': {
-        setPostFormProps({
-          replyId: note.id,
-          visibilityRestrict: VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility)),
-        });
-        return;
-      }
-      case 'separate': {
-        openForm({ icon: <ReplyIcon />, title: t('reply'), postFormProps: { replyId: note.id } });
-        return;
-      }
-    }
+    setPostFormProps({
+      replyId: note.id,
+      visibilityRestrict: VISIBILITIES.slice(VISIBILITIES.indexOf(note.visibility)),
+    });
   };
 
   return (
@@ -357,7 +305,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           <MkNoteActionButton icon={<MoreHorizontalIcon />} tooltip={t('menu')} />
         </MenuOrDrawer>
       </div>
-      {postFormProps && (
+      {postFormProps && postFormStyle === 'bottom' && (
         <MkPostForm
           {...postFormProps}
           relatedNote={note}
@@ -377,6 +325,37 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
             setPostFormProps(null);
           }}
         />
+      )}
+      {postFormStyle === 'separate' && (
+        <RightbarOrPopup
+          open={!!postFormProps}
+          onOpenChange={(open) => {
+            if (!open) {
+              setPostFormProps(null);
+            }
+          }}
+        >
+          <MkPostForm
+            {...postFormProps}
+            relatedNote={note}
+            displayRelatedNote
+            className="mt-2 border"
+            appendHeader={
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  setPostFormProps(null);
+                }}
+              >
+                <XIcon />
+              </Button>
+            }
+            onSuccess={() => {
+              setPostFormProps(null);
+            }}
+          />
+        </RightbarOrPopup>
       )}
     </div>
   );
