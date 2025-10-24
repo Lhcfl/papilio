@@ -5,17 +5,23 @@
 
 import { useEffect } from 'react';
 
-/* eslint-disable react-hooks/rules-of-hooks */
 const DEBUG_CONFIG = {
   enable_rerender_log: false,
 };
 
-export function useDebugger(...args: unknown[]) {
-  if (import.meta.env.DEV) {
+let useDebugger: (...args: unknown[]) => void;
+
+if (import.meta.env.DEV) {
+  useDebugger = (...args: unknown[]) => {
     useEffect(() => {
       if (DEBUG_CONFIG.enable_rerender_log) {
         console.log('[DEBUG] rerendered: ', ...args);
       }
     });
-  }
+  };
+} else {
+  // eslint-disable-next-line react-x/no-unnecessary-use-prefix
+  useDebugger = () => null;
 }
+
+export { useDebugger };

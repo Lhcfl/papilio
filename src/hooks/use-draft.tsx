@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import * as IDB from 'idb-keyval';
 import { getCurrentUserSiteIDB } from '@/plugins/idb';
 import { useDebounce } from 'react-use';
@@ -51,20 +51,18 @@ const DefaultDraftData = {
 
 export type DraftData = typeof DefaultDraftData;
 
-export const useDraft = (
-  draftKey: string,
-  defaults?: Partial<DraftData>,
-  opts?: {
-    onFirstLoad?: (data: DraftData) => void;
-  },
-) => {
-  const defaultsWithFallback = { ...DefaultDraftData };
+export const useDraft = (draftKey: string, defaults?: Partial<DraftData>) => {
+  const defaultsWithFallback = useMemo(() => {
+    const ret = { ...DefaultDraftData };
 
-  for (const k of Object.keys(DefaultDraftData) as (keyof DraftData)[]) {
-    if (defaults?.[k]) {
-      defaultsWithFallback[k] = defaults[k] as never;
+    // we only copy the provided keys from defaults
+    for (const k of Object.keys(DefaultDraftData) as (keyof DraftData)[]) {
+      if (defaults?.[k]) {
+        ret[k] = defaults[k] as never;
+      }
     }
-  }
+    return ret;
+  }, [defaults]);
 
   // const [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState(defaultsWithFallback);
@@ -101,14 +99,15 @@ export const useDraft = (
           return !!d;
         }
 
-        let d = draft;
+        if (import.meta.env.DEV) {
+          console.debug('[useDraft] loaded draft from IDB:', data);
+        }
+
         if (hasData(data)) {
-          d = { ...defaultsWithFallback, ...data };
-          setDraft(d);
+          setDraft({ ...defaultsWithFallback, ...data });
         } else {
           setDraft(defaultsWithFallback);
         }
-        opts?.onFirstLoad?.(d);
       })
       .catch((e: unknown) => {
         console.error(e);
@@ -117,17 +116,21 @@ export const useDraft = (
       .finally(() => {
         document.dispatchEvent(new Event(`papi:draftLoaded/${draftKey}`));
       });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draftKey, ...Object.values(defaultsWithFallback)]);
+  }, [draftKey, defaultsWithFallback]);
 
   useDebounce(
     () => {
       const idbStore = getCurrentUserSiteIDB();
       if (deepEqual(draft, defaultsWithFallback)) {
-        remove();
+        void IDB.del(draftKey, getCurrentUserSiteIDB());
+        if (import.meta.env.DEV) {
+          console.debug('[useDraft] removed draft because it is equal to defaults');
+        }
       } else {
         void IDB.set(draftKey, draft, idbStore);
+        if (import.meta.env.DEV) {
+          console.debug('[useDraft] saved draft');
+        }
       }
     },
     300,

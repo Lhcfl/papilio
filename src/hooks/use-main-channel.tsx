@@ -7,12 +7,11 @@ import { useEffect } from 'react';
 
 import { toast } from 'sonner';
 import { MkNotificationToast } from '@/components/mk-notification-toast';
-import { injectMisskeyStream } from '@/services/inject-misskey-api';
+import { createStreamChannel } from '@/services/inject-misskey-api';
 
 export const useMainChannelListener = () => {
   useEffect(() => {
-    const stream = injectMisskeyStream();
-    const connection = stream.useChannel('main');
+    const connection = createStreamChannel('main');
     if (import.meta.env.DEV) {
       console.log('[useMainChannelListener] 🟢 subscribed');
     }
