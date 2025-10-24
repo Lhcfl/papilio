@@ -27,7 +27,7 @@ function Index() {
       }))}
       title={title}
     >
-      <MkPostForm className="mb-2 border" />
+      <MkPostForm className="mb-2 border" autoFocus={false} />
       <Outlet />
     </DefaultLayout>
   );
