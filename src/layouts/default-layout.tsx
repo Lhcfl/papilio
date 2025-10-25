@@ -46,9 +46,9 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { isRouteTab, tabs, onTabChange, title = siteName ?? 'papilio', pageTitle, children, ...rest } = props;
+  const { isRouteTab, tabs, onTabChange, title, pageTitle, children, ...rest } = props;
 
-  useTitle(pageTitle ?? `${title} · ${siteName}`);
+  useTitle(pageTitle ?? (title ? `${title} · ${siteName}` : (siteName ?? 'Papilio')));
 
   const [currentTabValue, setTabValue] = useState(tabs?.[0].value);
   const removedTailingSlashPathname = location.pathname.replace(/\/+$/, '') || '/';
@@ -124,7 +124,7 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
 }
 
 function LayoutMiddle(props: {
-  title: string;
+  title?: string;
   headerRight?: React.ReactNode;
   headerCenter?: React.ReactNode;
   headerLeft?: React.ReactNode;
