@@ -94,7 +94,7 @@ export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
   }
 
   return (
-    <div className="mk-note-reactions flex flex-wrap gap-1 px-2">
+    <div className="mk-note-reactions flex flex-wrap gap-1 px-2 pb-2">
       {reactions
         .sort(([, a], [, b]) => b - a)
         .map(([reaction, count]) => (

@@ -194,7 +194,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   };
 
   return (
-    <div className="mk-note-actions p-2">
+    <div className="mk-note-actions p-2 pt-0">
       <div className="mk-note-actions__buttons flex">
         <MkNoteActionButton
           activated={postFormProps?.replyId != null}
