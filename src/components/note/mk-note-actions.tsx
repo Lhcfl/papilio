@@ -67,7 +67,7 @@ const MkNoteActionButton = (
           className={cn(
             'border border-transparent',
             {
-              'text-tertiary hover:bg-tertiary/10': activated,
+              'text-tertiary hover:bg-tertiary/10 hover:text-tertiary': activated,
             },
             className,
           )}
@@ -274,7 +274,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           </>
         ) : (
           <MkNoteActionButton
-            className="text-tertiary hover:bg-tertiary/10"
+            activated
             icon={<HeartMinusIcon />}
             onClick={() => {
               unreact();
