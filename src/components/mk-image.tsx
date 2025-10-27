@@ -18,22 +18,29 @@ import { useMe } from '@/stores/me';
 import { useUpdateFileAction } from '@/hooks/use-file';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 
-export const MkImage = (
-  props: {
-    image: DriveFile;
-    containerAspectRatio?: number;
-    disableMenu?: boolean;
-    disableSensitiveOverlay?: boolean;
-    imgProps?: HTMLProps<HTMLImageElement>;
-  } & HTMLProps<HTMLDivElement>,
-) => {
+export const MkImage = ({
+  image,
+  containerAspectRatio = 1,
+  disableMenu,
+  disableSensitiveOverlay,
+  loadRawImages,
+  imgProps,
+  className,
+  ...rest
+}: {
+  image: DriveFile;
+  containerAspectRatio?: number;
+  disableMenu?: boolean;
+  disableSensitiveOverlay?: boolean;
+  loadRawImages?: boolean;
+  imgProps?: HTMLProps<HTMLImageElement>;
+} & HTMLProps<HTMLDivElement>) => {
   const { t } = useTranslation();
-  const { image, containerAspectRatio = 1, disableMenu, disableSensitiveOverlay, className, imgProps, ...rest } = props;
   const { className: imgClassName, ...restImgProps } = imgProps ?? {};
   const [loading, setLoading] = useState(true);
   const [hiddenBecauseSensitive, setHiddenBecauseSensitive] = useState(image.isSensitive);
   const [manuallyMarkedSensitive, setManuallyMarkedSensitive] = useState<boolean | null>(null);
-  const url = image.thumbnailUrl ?? image.url;
+  const url = loadRawImages ? image.url : (image.thumbnailUrl ?? image.url);
   const aspect =
     image.properties.width && image.properties.height ? image.properties.width / image.properties.height : 1;
   const meId = useMe((me) => me.id);

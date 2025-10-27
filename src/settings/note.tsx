@@ -58,6 +58,12 @@ export const NoteSettings = {
           name: t('expandLongNote'),
         },
         {
+          kind: 'switch',
+          defaultValue: false,
+          key: 'loadRawImages',
+          name: t('loadRawImages'),
+        },
+        {
           kind: 'enum',
           key: 'notePostFormStyle',
           defaultValue: 'separate',

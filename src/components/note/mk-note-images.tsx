@@ -17,6 +17,7 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
   const { images, className: classNameProp, ...rest } = props;
   const count = images.length;
   const noteOneImageMaxAspectRatio = usePreference((s) => s.noteOneImageMaxAspectRatio);
+  const loadRawImages = usePreference((s) => s.loadRawImages);
 
   const aspectRatio = (image?: DriveFile) => {
     const { width, height } = image?.properties ?? {};
@@ -62,6 +63,7 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
               {({ ref, open }) => (
                 <MkImage
                   image={image}
+                  loadRawImages={loadRawImages}
                   containerAspectRatio={cond([
                     [count === 1, oneImageContainerAspectRatio],
                     [count === 2 && !twoImageBothWide, 8 / 9],
