@@ -16,6 +16,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router';
 import type { Tab } from '@/types/page-header';
 import { createPortal } from 'react-dom';
 import { PORTALABLE_HEADER_LEFT_CLASSNAME, PORTALABLE_HEADER_RIGHT_CLASSNAME } from '@/components/app-portals';
+import { Slot } from '@radix-ui/react-slot';
 
 interface SidebarLayoutProps<Ts extends Tab[]> {
   isRouteTab?: boolean;
@@ -46,13 +47,13 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { isRouteTab, tabs, onTabChange, title, pageTitle, children, ...rest } = props;
+  const { isRouteTab, tabs = [], onTabChange, title, pageTitle, children, ...rest } = props;
 
   useTitle(pageTitle ?? (title ? `${title} · ${siteName}` : (siteName ?? 'Papilio')));
 
-  const [currentTabValue, setTabValue] = useState(tabs?.[0].value);
+  const [currentTabValue, setTabValue] = useState(tabs.at(0)?.value);
   const removedTailingSlashPathname = location.pathname.replace(/\/+$/, '') || '/';
-  const actualCurrentTab = tabs?.find(
+  const actualCurrentTab = tabs.find(
     (tab) => tab.value === (isRouteTab ? removedTailingSlashPathname : currentTabValue),
   );
 
@@ -70,51 +71,48 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset className="grid grid-cols-[minmax(0,1fr)_auto]">
-        <div className="main-container">
-          {tabs ? (
-            <Tabs onValueChange={handleTabChange} value={actualCurrentTab?.value ?? 'default'}>
-              <LayoutMiddle
-                {...rest}
-                title={title}
-                headerCenter={
-                  <TabsList>
-                    {tabs.map((tab) => (
-                      <TabsTrigger key={tab.value} value={tab.value}>
-                        {tab.icon}
-                        <span
-                          className={cn({
-                            'max-sm:hidden': tab.value != actualCurrentTab?.value,
-                          })}
-                        >
-                          {tab.label}
-                        </span>
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                }
-                headerRight={
-                  <>
-                    {actualCurrentTab?.headerRight}
-                    {props.headerRight}
-                  </>
-                }
-              >
-                {children}
-                {tabs.map((tab) => (
-                  <TabsContent key={tab.value} value={tab.value}>
-                    {tab.comp}
-                  </TabsContent>
-                ))}
-              </LayoutMiddle>
-            </Tabs>
-          ) : (
-            <div>
-              <LayoutMiddle {...props} title={title}>
-                {children}
-              </LayoutMiddle>
-            </div>
-          )}
-        </div>
+        <Tabs
+          onValueChange={handleTabChange}
+          value={actualCurrentTab?.value ?? 'default'}
+          className="main-container h-screen"
+        >
+          <LayoutMiddle
+            className="h-0 flex-[1_1]"
+            {...rest}
+            title={title}
+            headerCenter={
+              tabs.length > 0 && (
+                <TabsList>
+                  {tabs.map((tab) => (
+                    <TabsTrigger key={tab.value} value={tab.value}>
+                      {tab.icon}
+                      <span
+                        className={cn({
+                          'max-sm:hidden': tab.value != actualCurrentTab?.value,
+                        })}
+                      >
+                        {tab.label}
+                      </span>
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              )
+            }
+            headerRight={
+              <>
+                {actualCurrentTab?.headerRight}
+                {props.headerRight}
+              </>
+            }
+          >
+            {children}
+            {tabs.map((tab) => (
+              <TabsContent key={tab.value} value={tab.value}>
+                {tab.comp}
+              </TabsContent>
+            ))}
+          </LayoutMiddle>
+        </Tabs>
         <div className="right-container max-lg:hidden">
           <DesktopRightbar />
         </div>
@@ -125,14 +123,15 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
 
 function LayoutMiddle(props: {
   title?: string;
+  className?: string;
   headerRight?: React.ReactNode;
   headerCenter?: React.ReactNode;
   headerLeft?: React.ReactNode;
   children: React.ReactNode;
 }) {
-  const { title, children, headerCenter, headerRight, headerLeft } = props;
+  const { title, className, children, headerCenter, headerRight, headerLeft } = props;
   return (
-    <ScrollArea className="h-screen">
+    <ScrollArea className={className}>
       <header className="bg-background sticky top-0 z-30 flex h-13 items-center gap-1 border-b p-2">
         <SidebarTrigger className="size-8" />
         <div className="flex items-center gap-1">
