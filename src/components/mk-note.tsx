@@ -79,7 +79,7 @@ export const MkNote = (
         />
       )}
       <MkNoteHeader note={appearNote} />
-      <div className={clsx({ 'pl-12': isSubNote })}>
+      <div className={clsx('relative', { 'pl-12': isSubNote })}>
         <MkNoteBody
           note={appearNote}
           disableLinkPreview={isSubNote}
@@ -89,6 +89,16 @@ export const MkNote = (
         />
         <MkNoteReactions note={appearNote} />
         <MkNoteActions onTranslate={translate} note={appearNote} />
+        {isSubNote && onClose && (
+          <Button
+            className="note-close absolute top-3 left-7.5 z-10 -translate-x-1/2 rounded-full"
+            onClick={onClose}
+            variant="outline"
+            size="icon-sm"
+          >
+            <FoldVerticalIcon />
+          </Button>
+        )}
       </div>
       {props.decorationBottomRight && <div className="absolute right-2 bottom-2">{props.decorationBottomRight}</div>}
       {/**
@@ -96,16 +106,6 @@ export const MkNote = (
        * 对于每个 subnote, 并且有回复的话，显示左侧的连线。
        */}
       {isSubNote && hasReply && <div className="note-sub-line absolute top-6 -bottom-2 left-9 border-l-2" />}
-      {isSubNote && onClose && (
-        <Button
-          className="note-close absolute top-18 left-9 -translate-x-1/2 rounded-full"
-          onClick={onClose}
-          variant="outline"
-          size="icon-sm"
-        >
-          <FoldVerticalIcon />
-        </Button>
-      )}
     </div>
   );
 };
