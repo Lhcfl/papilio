@@ -123,3 +123,13 @@ export const useThreadUnmuteAction = (noteId: string) =>
       patchNote(noteId, { isMutingThread: false });
     },
   });
+
+export const useNoteVoteAction = (noteId: string) =>
+  useMutation({
+    mutationKey: ['noteVote', noteId],
+    mutationFn: (choice: number) => misskeyApi('notes/polls/vote', { noteId, choice }),
+    // pollVoted is a event that misskey/sendkey sends when a vote is successful.
+    onMutate: () => {
+      markAsChanged(noteId);
+    },
+  });

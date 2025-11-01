@@ -27,6 +27,7 @@ import { acct } from 'misskey-js';
 import { MkTime } from '@/components/mk-time';
 import { useUsersQuery } from '@/hooks/use-user';
 import { usePreference } from '@/stores/perference';
+import { MkNotePoll } from '@/components/note/mk-note-poll';
 
 interface NoteBodyCommonProps {
   note: NoteWithExtension;
@@ -91,12 +92,13 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
           />
         </div>
       )}
+      <MkNoteTranslation note={note} />
+      {note.poll != null && <MkNotePoll noteId={note.id} poll={note.poll} />}
       {note.renoteId && !showQuoteAsIcon && (
         <div className="note-body-quote mt-2 rounded-md border">
           <MkNoteSimple noteId={note.renoteId} />
         </div>
       )}
-      <MkNoteTranslation note={note} />
       {images.length > 0 && <MkNoteImages images={images} className="mt-2" />}
       {otherFiles.map((f) => (
         <MkNoteFile className="mt-1" key={f.id} file={f} />
