@@ -43,7 +43,7 @@ export const MkNote = (
   } = props;
   const note = useNoteValue(noteId);
   const appearNote = useAppearNote(note);
-  const { mutate: translate } = useTranslateAction(noteId);
+  const { mutate: translate } = useTranslateAction(appearNote?.id ?? '');
   const collapseNotesRepliedTo = usePreference((p) => p.collapseNotesRepliedTo);
   const [manualShowReplyState, setShowReplyState] = useState<'subNote' | 'inline' | null>(null);
   const showReplyState = manualShowReplyState ?? (collapseNotesRepliedTo ? 'inline' : 'subNote');
@@ -59,9 +59,9 @@ export const MkNote = (
   return (
     <div className={clsx('mk-note relative flex flex-col p-2', classNameProps)} {...divProps}>
       {isPureRenote(note) && <MkNoteRenoteTip note={note} />}
-      {showReply && showReplyState === 'subNote' && note.replyId != null && (
+      {showReply && showReplyState === 'subNote' && appearNote.replyId != null && (
         <MkNote
-          noteId={note.replyId}
+          noteId={appearNote.replyId}
           isSubNote={true}
           className="reply-note -m-2"
           showReply={collapseNotesRepliedTo}
@@ -70,9 +70,9 @@ export const MkNote = (
           }}
         />
       )}
-      {showReply && showReplyState === 'inline' && note.replyId != null && (
+      {showReply && showReplyState === 'inline' && appearNote.replyId != null && (
         <MkNoteReplyLine
-          noteId={note.replyId}
+          noteId={appearNote.replyId}
           onExpand={() => {
             setShowReplyState('subNote');
           }}
