@@ -4,7 +4,7 @@
  */
 
 import { MkNotifications, MkNotificationsFilter } from '@/components/infinite-loaders/mk-notifications';
-import { MkClock } from '@/components/note/mk-clock';
+import { MkClock } from '@/components/mk-clock';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { NotificationIncludeableType } from '@/lib/notifications';
 import { cn } from '@/lib/utils';
