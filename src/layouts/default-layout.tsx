@@ -130,7 +130,7 @@ function LayoutMiddle(props: {
 }) {
   const { title, className, children, headerCenter, headerRight, headerLeft } = props;
   return (
-    <ScrollArea className={className}>
+    <ScrollArea className={className} id="main-scroll-area">
       <header className="bg-background sticky top-0 z-30 flex h-13 items-center gap-1 border-b p-2">
         <SidebarTrigger className="size-8" />
         <div className="flex items-center gap-1">

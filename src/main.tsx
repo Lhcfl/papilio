@@ -15,7 +15,11 @@ import { dehydrateOptions, localStoragePersister, queryClient } from '@/plugins/
 import { routeTree } from '@/routeTree.gen';
 
 // Create a new router instance
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  scrollToTopSelectors: [`#main-scroll-area > [data-slot="scroll-area-viewport"]`],
+  scrollRestoration: true,
+});
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
