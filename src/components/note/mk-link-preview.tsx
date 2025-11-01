@@ -5,18 +5,24 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-
 import type { summaly } from '@misskey-dev/summaly';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 import { Spinner } from '@/components/ui/spinner';
-import clsx from 'clsx';
+import { misskeyApi } from '@/services/inject-misskey-api';
+import { registerNote } from '@/hooks/use-note';
+import { MkNoteSimple } from '@/components/mk-note-simple';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { ExpandIcon, XIcon } from 'lucide-react';
+import { useState } from 'react';
 
 type SummalyResult = Awaited<ReturnType<typeof summaly>>;
 
-export const MkLinkPreview = (props: { url: string } & React.ComponentProps<typeof Item>) => {
-  const { url, className, ...rest } = props;
-  const { i18n } = useTranslation();
+export const MkLinkPreview = (props: { url: string; renoteId?: string | null } & React.ComponentProps<typeof Item>) => {
+  const { url, className, renoteId, ...rest } = props;
+  const { t, i18n } = useTranslation();
+  const [rich, setRich] = useState(true);
 
   const { data } = useQuery({
     queryKey: ['link-preview', url],
@@ -33,9 +39,44 @@ export const MkLinkPreview = (props: { url: string } & React.ComponentProps<type
 
   const title = data?.title ?? url;
   const thumbnail = data?.thumbnail ?? data?.icon;
+  const apuri = data?.activityPub;
+
+  const { data: apData } = useQuery({
+    queryKey: ['ap-note', apuri],
+    queryFn: () =>
+      misskeyApi('ap/show', { uri: apuri! })
+        .then((r) => {
+          if (r.type === 'Note') {
+            registerNote([r.object]);
+          }
+          return r;
+        })
+        .catch(() => ({ type: '_Nothing', object: null }) as const),
+    enabled: apuri != null,
+  });
+
+  if (rich) {
+    if (apData?.type == 'Note' && apData.object.id !== renoteId) {
+      return (
+        <div className={cn('note-body-quote relative overflow-hidden rounded-md border', className)}>
+          <MkNoteSimple noteId={apData.object.id} />
+          <div className="-mt-2 mb-4 px-4">
+            <Button
+              className="w-full"
+              onClick={() => {
+                setRich(false);
+              }}
+            >
+              <XIcon /> {t('close')}
+            </Button>
+          </div>
+        </div>
+      );
+    }
+  }
 
   return (
-    <Item variant="outline" className={clsx('break-words break-all', className)} {...rest} asChild size="sm">
+    <Item variant="outline" className={cn('break-words break-all', className)} {...rest} asChild size="sm">
       <a href={url} target="_blank">
         {data ? (
           <>
@@ -54,6 +95,21 @@ export const MkLinkPreview = (props: { url: string } & React.ComponentProps<type
                 {data.sitename}
               </div>
             </ItemContent>
+            {!rich && (
+              // why `!rich`? because when rich is false, there must be somthing to expand
+              <ItemActions>
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setRich(true);
+                  }}
+                  size="icon"
+                >
+                  <ExpandIcon />
+                </Button>
+              </ItemActions>
+            )}
           </>
         ) : (
           <ItemContent>

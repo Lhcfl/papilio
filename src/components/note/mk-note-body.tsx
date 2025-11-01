@@ -106,7 +106,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
       {urls.length > 0 && !disableLinkPreview && (
         <div className="note-body-url-previews">
           {urls.map((u) => (
-            <MkLinkPreview className="mt-1" key={u} url={u} />
+            <MkLinkPreview className="mt-1" key={u} url={u} renoteId={note.renoteId} />
           ))}
         </div>
       )}
