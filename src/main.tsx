@@ -8,7 +8,6 @@ import './tailwind.css';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import './plugins/i18n';
-
 import { StrictMode } from 'react';
 import { dehydrateOptions, localStoragePersister, queryClient } from '@/plugins/persister';
 // Import the generated route tree

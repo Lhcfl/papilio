@@ -33,7 +33,7 @@ export const MkClock = () => {
   }, []);
 
   const startOfThisYear = new Date(time.getFullYear(), 0, 0, 0, 0, 0).getTime();
-  const startOfThisMonth = new Date(time.getFullYear(), time.getMonth(), 0, 0, 0, 0).getTime();
+  const startOfThisMonth = new Date(time.getFullYear(), time.getMonth(), 1, 0, 0, 0).getTime();
   const startOfToday = new Date(time.getFullYear(), time.getMonth(), time.getDate(), 0, 0, 0).getTime();
   const endOfThisYear = new Date(time.getFullYear() + 1, 0, 0, 0, 0, 0).getTime();
   const endOfThisMonth = new Date(time.getFullYear(), time.getMonth() + 1, 0, 0, 0, 0).getTime();
@@ -64,21 +64,21 @@ export const MkClock = () => {
         <div>
           <div className="flex justify-between">
             <span>{t('thisYear')}</span>
-            <span>{Math.floor(yearProgress * 100)}%</span>
+            <span>{(yearProgress * 100).toFixed(1)}%</span>
           </div>
           <Progress value={yearProgress * 100} className='[&>[data-slot="progress-indicator"]]:bg-indigo-400!' />
         </div>
         <div>
           <div className="flex justify-between">
             <span>{t('thisMonth')}</span>
-            <span>{Math.floor(monthProgress * 100)}%</span>
+            <span>{(monthProgress * 100).toFixed(1)}%</span>
           </div>
           <Progress value={monthProgress * 100} className='[&>[data-slot="progress-indicator"]]:bg-green-500!' />
         </div>
         <div>
           <div className="flex justify-between">
             <span>{t('today')}</span>
-            <span>{Math.floor(dayProgress * 100)}%</span>
+            <span>{(dayProgress * 100).toFixed(1)}%</span>
           </div>
           <Progress value={dayProgress * 100} className='[&>[data-slot="progress-indicator"]]:bg-orange-500!' />
         </div>
