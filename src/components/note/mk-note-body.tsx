@@ -93,7 +93,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
         </div>
       )}
       <MkNoteTranslation note={note} />
-      {note.poll != null && <MkNotePoll noteId={note.id} poll={note.poll} />}
+      {note.poll != null && <MkNotePoll noteId={note.id} poll={note.poll} isRemote={note.userHost != null} />}
       {note.renoteId && !showQuoteAsIcon && (
         <div className="note-body-quote mt-2 rounded-md border">
           <MkNoteSimple noteId={note.renoteId} />

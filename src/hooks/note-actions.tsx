@@ -133,3 +133,12 @@ export const useNoteVoteAction = (noteId: string) =>
       markAsChanged(noteId);
     },
   });
+
+export const useNotePollRefreshAction = (noteId: string) =>
+  useMutation({
+    mutationKey: ['notePollRefresh', noteId],
+    mutationFn: () => misskeyApi('notes/polls/refresh', { noteId }),
+    onSuccess: () => {
+      markAsChanged(noteId);
+    },
+  });

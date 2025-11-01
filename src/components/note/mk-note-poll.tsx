@@ -10,8 +10,9 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Spinner } from '@/components/ui/spinner';
-import { useNoteVoteAction } from '@/hooks/note-actions';
+import { useNotePollRefreshAction, useNoteVoteAction } from '@/hooks/note-actions';
 import { cn } from '@/lib/utils';
+import { useMisskeyForkFeatures } from '@/stores/node-info';
 import { CheckIcon, CircleCheckBigIcon, CircleIcon, XIcon } from 'lucide-react';
 import type { Note } from 'misskey-js/entities.js';
 import { useEffect, useState } from 'react';
@@ -36,7 +37,15 @@ function remaining(durationMs: number | null, interval: number): [x: number, res
   return [x, rest];
 }
 
-export function MkNotePoll({ noteId, poll }: { noteId: string; poll: NonNullable<Note['poll']> }) {
+export function MkNotePoll({
+  noteId,
+  poll,
+  isRemote,
+}: {
+  noteId: string;
+  poll: NonNullable<Note['poll']>;
+  isRemote: boolean;
+}) {
   const { t } = useTranslation();
   const [now, setNow] = useState(() => new Date());
   const { choices, multiple, expiresAt } = poll;
@@ -47,6 +56,7 @@ export function MkNotePoll({ noteId, poll }: { noteId: string; poll: NonNullable
   const [remainingMinutes, remMinutesRest] = remaining(remHoursRest, 60 * 1000);
   const [remainingSeconds] = remaining(remMinutesRest, 1000);
   const { mutate, isPending } = useNoteVoteAction(noteId);
+  const { mutate: refresh, isPending: isRefreshing, isSuccess: hasRefreshed } = useNotePollRefreshAction(noteId);
   const meVoted = choices.some((c) => c.isVoted);
   const totalVotes = choices.reduce((sum, c) => sum + c.votes, 0);
   const maxVotes = Math.max(...choices.map((c) => c.votes));
@@ -54,6 +64,7 @@ export function MkNotePoll({ noteId, poll }: { noteId: string; poll: NonNullable
     (meVoted && !multiple) || // voted, but not multiple choice
     (expiresAfter != null && expiresAfter <= 0); // expired
   const showResult = meVoted || (expiresAfter != null && expiresAfter <= 0);
+  const canRefresh = useMisskeyForkFeatures().refreshPoll && isRemote && !hasRefreshed;
 
   const expiresI18n =
     expiresAfter == null
@@ -159,7 +170,23 @@ export function MkNotePoll({ noteId, poll }: { noteId: string; poll: NonNullable
           </AlertDialog>
         ))}
       </div>
-      <div className="text-muted-foreground mt-1 ml-1 text-sm">{hint}</div>
+      <div className="text-muted-foreground mt-1 ml-1 text-sm">
+        {hint}
+        {canRefresh && (
+          <button
+            type="button"
+            className="text-tertiary inline-flex items-center gap-1"
+            onClick={() => {
+              refresh();
+            }}
+            disabled={isRefreshing}
+          >
+            {' · '}
+            {isRefreshing && <Spinner />}
+            {t('reload')}
+          </button>
+        )}
+      </div>
     </div>
   );
 }
