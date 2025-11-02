@@ -5,6 +5,7 @@
 
 import { createRoot } from 'react-dom/client';
 import './tailwind.css';
+import './style.css';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import './plugins/i18n';
