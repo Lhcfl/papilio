@@ -25,7 +25,6 @@ import { Route as TimelineIndexRouteImport } from './routes/_timeline/index'
 import { Route as TagTagRouteImport } from './routes/tag/$tag'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as SettingsPageRouteImport } from './routes/settings/$page'
-import { Route as NotesIdRouteImport } from './routes/notes/$id'
 import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
 import { Route as MyClipsRouteImport } from './routes/my/clips'
 import { Route as ClipsIdRouteImport } from './routes/clips/$id'
@@ -34,8 +33,10 @@ import { Route as TimelineHybridTimelineRouteImport } from './routes/_timeline/h
 import { Route as TimelineGlobalTimelineRouteImport } from './routes/_timeline/global-timeline'
 import { Route as MyNotificationsRouteRouteImport } from './routes/my/notifications/route'
 import { Route as MyFollowRequestsRouteRouteImport } from './routes/my/follow-requests/route'
+import { Route as NotesIdIndexRouteImport } from './routes/notes.$id/index'
 import { Route as MyNotificationsIndexRouteImport } from './routes/my/notifications/index'
 import { Route as MyDriveIndexRouteImport } from './routes/my/drive/index'
+import { Route as NotesIdHistoryRouteImport } from './routes/notes.$id/history'
 import { Route as MyNotificationsPmRouteImport } from './routes/my/notifications/pm'
 import { Route as MyNotificationsMentionsRouteImport } from './routes/my/notifications/mentions'
 import { Route as MyFollowRequestsSentRouteImport } from './routes/my/follow-requests/sent'
@@ -122,11 +123,6 @@ const SettingsPageRoute = SettingsPageRouteImport.update({
   path: '/$page',
   getParentRoute: () => SettingsRouteRoute,
 } as any)
-const NotesIdRoute = NotesIdRouteImport.update({
-  id: '/notes/$id',
-  path: '/notes/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MyFavoritesRoute = MyFavoritesRouteImport.update({
   id: '/my/favorites',
   path: '/my/favorites',
@@ -167,6 +163,11 @@ const MyFollowRequestsRouteRoute = MyFollowRequestsRouteRouteImport.update({
   path: '/my/follow-requests',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NotesIdIndexRoute = NotesIdIndexRouteImport.update({
+  id: '/notes/$id/',
+  path: '/notes/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MyNotificationsIndexRoute = MyNotificationsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -175,6 +176,11 @@ const MyNotificationsIndexRoute = MyNotificationsIndexRouteImport.update({
 const MyDriveIndexRoute = MyDriveIndexRouteImport.update({
   id: '/my/drive/',
   path: '/my/drive/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotesIdHistoryRoute = NotesIdHistoryRouteImport.update({
+  id: '/notes/$id/history',
+  path: '/notes/$id/history',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MyNotificationsPmRoute = MyNotificationsPmRouteImport.update({
@@ -228,7 +234,6 @@ export interface FileRoutesByFullPath {
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
-  '/notes/$id': typeof NotesIdRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
@@ -238,8 +243,10 @@ export interface FileRoutesByFullPath {
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/notes/$id/history': typeof NotesIdHistoryRoute
   '/my/drive': typeof MyDriveIndexRoute
   '/my/notifications/': typeof MyNotificationsIndexRoute
+  '/notes/$id': typeof NotesIdIndexRoute
   '/my/drive/file/$file': typeof MyDriveFileFileRoute
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
 }
@@ -260,7 +267,6 @@ export interface FileRoutesByTo {
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
-  '/notes/$id': typeof NotesIdRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
@@ -270,8 +276,10 @@ export interface FileRoutesByTo {
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/notes/$id/history': typeof NotesIdHistoryRoute
   '/my/drive': typeof MyDriveIndexRoute
   '/my/notifications': typeof MyNotificationsIndexRoute
+  '/notes/$id': typeof NotesIdIndexRoute
   '/my/drive/file/$file': typeof MyDriveFileFileRoute
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
 }
@@ -296,7 +304,6 @@ export interface FileRoutesById {
   '/clips/$id': typeof ClipsIdRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
-  '/notes/$id': typeof NotesIdRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
@@ -306,8 +313,10 @@ export interface FileRoutesById {
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/notes/$id/history': typeof NotesIdHistoryRoute
   '/my/drive/': typeof MyDriveIndexRoute
   '/my/notifications/': typeof MyNotificationsIndexRoute
+  '/notes/$id/': typeof NotesIdIndexRoute
   '/my/drive/file/$file': typeof MyDriveFileFileRoute
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
 }
@@ -332,7 +341,6 @@ export interface FileRouteTypes {
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
-    | '/notes/$id'
     | '/settings/$page'
     | '/settings/profile'
     | '/tag/$tag'
@@ -342,8 +350,10 @@ export interface FileRouteTypes {
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
+    | '/notes/$id/history'
     | '/my/drive'
     | '/my/notifications/'
+    | '/notes/$id'
     | '/my/drive/file/$file'
     | '/my/drive/folder/$folder'
   fileRoutesByTo: FileRoutesByTo
@@ -364,7 +374,6 @@ export interface FileRouteTypes {
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
-    | '/notes/$id'
     | '/settings/$page'
     | '/settings/profile'
     | '/tag/$tag'
@@ -374,8 +383,10 @@ export interface FileRouteTypes {
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
+    | '/notes/$id/history'
     | '/my/drive'
     | '/my/notifications'
+    | '/notes/$id'
     | '/my/drive/file/$file'
     | '/my/drive/folder/$folder'
   id:
@@ -399,7 +410,6 @@ export interface FileRouteTypes {
     | '/clips/$id'
     | '/my/clips'
     | '/my/favorites'
-    | '/notes/$id'
     | '/settings/$page'
     | '/settings/profile'
     | '/tag/$tag'
@@ -409,8 +419,10 @@ export interface FileRouteTypes {
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
+    | '/notes/$id/history'
     | '/my/drive/'
     | '/my/notifications/'
+    | '/notes/$id/'
     | '/my/drive/file/$file'
     | '/my/drive/folder/$folder'
   fileRoutesById: FileRoutesById
@@ -432,9 +444,10 @@ export interface RootRouteChildren {
   ClipsIdRoute: typeof ClipsIdRoute
   MyClipsRoute: typeof MyClipsRoute
   MyFavoritesRoute: typeof MyFavoritesRoute
-  NotesIdRoute: typeof NotesIdRoute
   TagTagRoute: typeof TagTagRoute
+  NotesIdHistoryRoute: typeof NotesIdHistoryRoute
   MyDriveIndexRoute: typeof MyDriveIndexRoute
+  NotesIdIndexRoute: typeof NotesIdIndexRoute
   MyDriveFileFileRoute: typeof MyDriveFileFileRoute
   MyDriveFolderFolderRoute: typeof MyDriveFolderFolderRoute
 }
@@ -553,13 +566,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsPageRouteImport
       parentRoute: typeof SettingsRouteRoute
     }
-    '/notes/$id': {
-      id: '/notes/$id'
-      path: '/notes/$id'
-      fullPath: '/notes/$id'
-      preLoaderRoute: typeof NotesIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/my/favorites': {
       id: '/my/favorites'
       path: '/my/favorites'
@@ -616,6 +622,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyFollowRequestsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/notes/$id/': {
+      id: '/notes/$id/'
+      path: '/notes/$id'
+      fullPath: '/notes/$id'
+      preLoaderRoute: typeof NotesIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/my/notifications/': {
       id: '/my/notifications/'
       path: '/'
@@ -628,6 +641,13 @@ declare module '@tanstack/react-router' {
       path: '/my/drive'
       fullPath: '/my/drive'
       preLoaderRoute: typeof MyDriveIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notes/$id/history': {
+      id: '/notes/$id/history'
+      path: '/notes/$id/history'
+      fullPath: '/notes/$id/history'
+      preLoaderRoute: typeof NotesIdHistoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/my/notifications/pm': {
@@ -756,9 +776,10 @@ const rootRouteChildren: RootRouteChildren = {
   ClipsIdRoute: ClipsIdRoute,
   MyClipsRoute: MyClipsRoute,
   MyFavoritesRoute: MyFavoritesRoute,
-  NotesIdRoute: NotesIdRoute,
   TagTagRoute: TagTagRoute,
+  NotesIdHistoryRoute: NotesIdHistoryRoute,
   MyDriveIndexRoute: MyDriveIndexRoute,
+  NotesIdIndexRoute: NotesIdIndexRoute,
   MyDriveFileFileRoute: MyDriveFileFileRoute,
   MyDriveFolderFolderRoute: MyDriveFolderFolderRoute,
 }

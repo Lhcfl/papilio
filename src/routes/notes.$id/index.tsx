@@ -20,10 +20,9 @@ import { useNoteQuery } from '@/hooks/use-note-query';
 import { registerNote, useNoteValue } from '@/hooks/use-note';
 import { getNoteRemoteUrl } from '@/lib/note';
 import { misskeyApi } from '@/services/inject-misskey-api';
-import { firstNonNull } from '@/lib/match';
 import { Separator } from '@/components/ui/separator';
 
-export const Route = createFileRoute('/notes/$id')({
+export const Route = createFileRoute('/notes/$id/')({
   component: RouteComponent,
 });
 
@@ -35,11 +34,9 @@ function RouteComponent() {
 
   return (
     <DefaultLayout title={t('note')} headerRight={isLoading && <Spinner />}>
-      {firstNonNull([
-        isPending && <MkNoteSkeleton />,
-        data && <LoadedMain noteId={id} />,
-        error && <MkError error={error} retry={() => refetch()} />,
-      ])}
+      {isPending && <MkNoteSkeleton />}
+      {data && <LoadedMain noteId={id} />}
+      {!data && error && <MkError error={error} retry={() => refetch()} />}
     </DefaultLayout>
   );
 }

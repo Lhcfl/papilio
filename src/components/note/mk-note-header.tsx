@@ -12,6 +12,7 @@ import { MkVisibilityIcon } from '@/components/note/mk-visibility-icon';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Link } from '@tanstack/react-router';
 import { useSiteMeta } from '@/stores/site';
+import { PencilIcon } from 'lucide-react';
 export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
   const { note } = props;
   const metaName = useSiteMeta((s) => s.name);
@@ -28,6 +29,11 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
             <MkUserName user={note.user} />
           </div>
           <span className="note-time text-muted-foreground flex flex-shrink-0 items-center gap-2">
+            {note.updatedAt && note.updatedAt != note.createdAt && (
+              <Link className="text-muted-foreground" to="/notes/$id/history" params={{ id: note.id }}>
+                <PencilIcon className="size-4" />
+              </Link>
+            )}
             <Link className="" to="/notes/$id" params={{ id: note.id }}>
               <MkTime time={note.createdAt} className="text-sm" />
             </Link>

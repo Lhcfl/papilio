@@ -6,6 +6,7 @@
 import { useTranslation } from 'react-i18next';
 import {
   BellOffIcon,
+  ClockIcon,
   CopyIcon,
   ExternalLinkIcon,
   FlagIcon,
@@ -101,6 +102,17 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
           icon: <InfoIcon />,
           label: t('details'),
         },
+        note.updatedAt != null &&
+          note.createdAt !== note.updatedAt && {
+            id: 'show-history',
+            type: 'item',
+            to: linkOptions({
+              to: '/notes/$id/history',
+              params: { id: note.id },
+            }),
+            icon: <ClockIcon />,
+            label: t('_chat.history'),
+          },
         {
           id: 'copy-content',
           type: 'item',

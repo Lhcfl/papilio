@@ -268,7 +268,9 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
           </p>
           {note.updatedAt && note.updatedAt !== note.createdAt && (
             <p>
-              {t('updatedAt')}: <MkTime mode="detail" time={note.updatedAt} />
+              <Link to="/notes/$id/history" params={{ id: note.id }} className="hover:underline">
+                {t('updatedAt')}: <MkTime mode="detail" time={note.updatedAt} />
+              </Link>
             </p>
           )}
         </div>

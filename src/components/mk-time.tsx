@@ -22,15 +22,6 @@ function getDateSafe(n: Date | string | number) {
   }
 }
 
-const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-});
-
 export const MkTime = (
   props: {
     time: Date | string | number | null;
@@ -42,7 +33,16 @@ export const MkTime = (
   } & HTMLProps<HTMLTimeElement>,
 ) => {
   const { time, origin = null, mode = 'relative', colored = true, prepend, append, className, ...rest } = props;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const dateTimeFormat = new Intl.DateTimeFormat(i18n.language, {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  });
 
   const [realNow, setNow] = useState(() => Date.now());
   const datetime = time == null ? NaN : getDateSafe(time).getTime();
