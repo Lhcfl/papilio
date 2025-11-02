@@ -122,7 +122,7 @@ function LoadedMain(props: { noteId: string }) {
       <div>
         <MkNote noteId={noteId} showReply={false} detailed />
       </div>
-      <div className="min-h-screen">
+      <div className="min-h-[50vh]">
         <Separator />
         <MkNoteReplies noteId={noteId} />
       </div>

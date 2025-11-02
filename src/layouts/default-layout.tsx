@@ -75,7 +75,7 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
         <Tabs
           onValueChange={handleTabChange}
           value={actualCurrentTab?.value ?? 'default'}
-          className="main-container h-screen gap-0"
+          className="main-container h-dvh gap-0"
         >
           <LayoutMiddle
             className="h-0 flex-[1_1]"
