@@ -6,12 +6,22 @@ import { defineConfig } from 'vite';
 import { visualizer as Visualizer } from 'rollup-plugin-visualizer';
 import PackageJSON from './package.json';
 import { env } from 'node:process';
+import { exec } from 'node:child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
 
 // https://vite.dev/config/
 export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(PackageJSON.version),
     __APP_REPO__: JSON.stringify(PackageJSON.repository.url),
+    __APP_BUILD_DATE__: JSON.stringify(new Date().toISOString()),
+    __APP_COMMIT_HASH__: JSON.stringify(
+      await execAsync('git rev-parse --short HEAD')
+        .then((res) => res.stdout.trim())
+        .catch(() => 'unknown'),
+    ),
   },
   plugins: [
     TailWindCSS(),

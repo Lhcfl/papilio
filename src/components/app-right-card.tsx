@@ -37,9 +37,11 @@ export const AppRightCard = ({ className, ...props }: HTMLProps<HTMLDivElement>)
           <a href={__APP_REPO__} className="hover:underline">
             Papilio
           </a>{' '}
-          是以 AGPL-3.0 发布的自由软件。
+          是以 AGPL-3.0 发布的自由软件。构建于 {new Date(__APP_BUILD_DATE__).toLocaleDateString()}{' '}
+          <a href={__APP_REPO__ + '/commit/' + __APP_COMMIT_HASH__} className="hover:underline">
+            ({__APP_COMMIT_HASH__})
+          </a>
         </p>
-        <p>欢迎前往仓库提出 Issue 或者贡献代码。</p>
       </footer>
     </aside>
   );
