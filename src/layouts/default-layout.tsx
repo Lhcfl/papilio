@@ -16,6 +16,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router';
 import type { Tab } from '@/types/page-header';
 import { createPortal } from 'react-dom';
 import { PORTALABLE_HEADER_LEFT_CLASSNAME, PORTALABLE_HEADER_RIGHT_CLASSNAME } from '@/components/app-portals';
+import { AppNavBar } from '@/components/app-nav-bar';
 
 interface SidebarLayoutProps<Ts extends Tab[]> {
   isRouteTab?: boolean;
@@ -73,7 +74,7 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
         <Tabs
           onValueChange={handleTabChange}
           value={actualCurrentTab?.value ?? 'default'}
-          className="main-container h-screen"
+          className="main-container h-screen gap-0"
         >
           <LayoutMiddle
             className="h-0 flex-[1_1]"
@@ -111,6 +112,7 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
               </TabsContent>
             ))}
           </LayoutMiddle>
+          <AppNavBar className="sm:hidden" />
         </Tabs>
         <div className="right-container max-lg:hidden">
           <DesktopRightbar />
@@ -132,7 +134,7 @@ function LayoutMiddle(props: {
   return (
     <ScrollArea className={className} id="main-scroll-area">
       <header className="bg-background sticky top-0 z-30 flex h-13 items-center gap-1 border-b p-2">
-        <SidebarTrigger className="size-8" />
+        <SidebarTrigger className="size-8 max-sm:hidden" />
         <div className="flex items-center gap-1">
           <div className={PORTALABLE_HEADER_LEFT_CLASSNAME} data-ptrb-rank="0" />
           {headerLeft ?? (
