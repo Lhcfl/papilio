@@ -4,7 +4,7 @@
  */
 
 import type { User } from 'misskey-js/entities.js';
-import type { HTMLProps } from 'react';
+import type { CSSProperties, HTMLProps } from 'react';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { MkBlurHash } from '@/components/mk-blurhash';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
@@ -16,6 +16,8 @@ import { useUserQuery } from '@/hooks/use-user';
 import { MkUserCardSkeleton } from '@/components/mk-user-card-skeleton';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { acct } from 'misskey-js';
+import type { UserDetailed as SkUserDetailed } from '@@/sharkey-js/entities';
+import { usePreference } from '@/stores/perference';
 
 export const MkAvatar = (
   props: {
@@ -47,6 +49,23 @@ export const MkAvatar = (
   );
 };
 
+function getDecorationStyle(decoration: SkUserDetailed['avatarDecorations'][number]): CSSProperties {
+  const ret: CSSProperties = {};
+  if (decoration.angle != null) {
+    ret.rotate = `${decoration.angle * 360}deg`;
+  }
+  if (decoration.offsetX != null || decoration.offsetY != null) {
+    ret.translate = `${(decoration.offsetX ?? 0) * 100}% ${(decoration.offsetY ?? 0) * 100}%`;
+  }
+  if (decoration.flipH) {
+    ret.scale = '-1 1';
+  }
+  if (decoration.showBelow) {
+    ret.zIndex = '0';
+  }
+  return ret;
+}
+
 const MkAvatarMain = (
   props: {
     user: User;
@@ -55,15 +74,32 @@ const MkAvatarMain = (
 ) => {
   const { user, disableRouteLink, ...avatarProps } = props;
   const { className: avatarClassNameProps, ...avatarPropsRest } = avatarProps;
+  const showAvatarDecorations = usePreference((s) => s.showAvatarDecorations);
   return (
-    <Avatar className={cn('rounded-md', avatarClassNameProps)} {...avatarPropsRest} asChild>
-      <Link to="/@{$acct}" params={{ acct: acct.toString(user) }} disabled={disableRouteLink}>
-        <AvatarPrimitive.Fallback className="relative overflow-hidden">
-          <MkBlurHash id={'user:' + user.id} blurhash={user.avatarBlurhash} className="h-full w-full" />
-        </AvatarPrimitive.Fallback>
-        <AvatarImage src={user.avatarUrl} loading="lazy" decoding="async" />
-      </Link>
-    </Avatar>
+    <div className="relative">
+      <Avatar className={cn('rounded-md', avatarClassNameProps)} {...avatarPropsRest} asChild>
+        <Link to="/@{$acct}" params={{ acct: acct.toString(user) }} disabled={disableRouteLink}>
+          <AvatarPrimitive.Fallback className="relative overflow-hidden">
+            <MkBlurHash id={'user:' + user.id} blurhash={user.avatarBlurhash} className="h-full w-full" />
+          </AvatarPrimitive.Fallback>
+          <AvatarImage src={user.avatarUrl} loading="lazy" decoding="async" />
+        </Link>
+      </Avatar>
+      {showAvatarDecorations &&
+        user.avatarDecorations.map((decoration) => (
+          <img
+            key={decoration.id}
+            className="z-index-1 pointer-events-none absolute -top-1/2 -left-1/2 w-2/1 max-w-2/1"
+            src={decoration.url}
+            decoding="async"
+            loading="lazy"
+            style={getDecorationStyle(decoration)}
+            onError={(ev) => {
+              ev.currentTarget.style = 'display: none';
+            }}
+          />
+        ))}
+    </div>
   );
 };
 

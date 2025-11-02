@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { PaletteIcon } from 'lucide-react';
+import { CogIcon, PaletteIcon } from 'lucide-react';
 
 const t = (x: string) => x;
 
@@ -26,6 +26,19 @@ export const AppearanceSettings = {
           valuesI18n: ['light', 'dark'],
           name: t('theme'),
           description: t('myTheme'),
+        },
+      ],
+    },
+    {
+      icon: <CogIcon />,
+      name: t('general'),
+      description: 'TODO',
+      items: [
+        {
+          kind: 'switch',
+          defaultValue: true,
+          name: t('showAvatarDecorations'),
+          key: 'showAvatarDecorations',
         },
       ],
     },
