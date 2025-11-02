@@ -53,6 +53,7 @@ export function MkNotePoll({
 }) {
   const { t } = useTranslation();
   const [now, setNow] = useState(() => new Date());
+  const [manualShowResult, setManualShowResult] = useState(false);
   const { choices, multiple, expiresAt } = poll;
   const expiresAtDate = expiresAt ? new Date(expiresAt) : null;
   const expiresAfter = expiresAtDate ? expiresAtDate.getTime() - now.getTime() : null;
@@ -68,7 +69,7 @@ export function MkNotePoll({
   const disabled =
     (meVoted && !multiple) || // voted, but not multiple choice
     (expiresAfter != null && expiresAfter <= 0); // expired
-  const showResult = meVoted || (expiresAfter != null && expiresAfter <= 0);
+  const showResult = manualShowResult || meVoted || (expiresAfter != null && expiresAfter <= 0);
   const canRefresh = useMisskeyForkFeatures().refreshPoll && isRemote && !hasRefreshed;
 
   const expiresI18n =
@@ -177,6 +178,19 @@ export function MkNotePoll({
       </div>
       <div className="text-muted-foreground mt-1 ml-1 text-sm">
         {hint}
+        {!manualShowResult && !showResult && (
+          <button
+            type="button"
+            className="text-tertiary inline-flex items-center gap-1"
+            onClick={() => {
+              setManualShowResult(true);
+            }}
+            disabled={isRefreshing}
+          >
+            {' · '}
+            {t('_poll.showResult')}
+          </button>
+        )}
         {canRefresh && (
           <button
             type="button"
