@@ -90,12 +90,9 @@ export function useNoteUpdateListener() {
       switch (type) {
         // Sharkey have "replied"
         case 'replied' as never: {
+          // this id is the reply's id
           const { id } = body as unknown as { id: string };
-          try {
-            GlobalNoteSingletonManager.patch(id, (note) => ({ repliesCount: note.repliesCount + 1 }));
-          } catch {
-            /* empty */
-          }
+          markAsChanged(id); // notes/show will return the replied note's reply count, which will update the replied note's state
           return;
         }
 
