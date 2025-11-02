@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { MkError } from '@/components/mk-error';
 import { MkTime } from '@/components/mk-time';
 import { MkNoteBody } from '@/components/note/mk-note-body';
