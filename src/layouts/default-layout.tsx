@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { useTitle } from 'react-use';
+import { useMedia, useTitle } from 'react-use';
 import { AppSidebar } from '@/components/app-sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
@@ -46,6 +46,7 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
   const siteName = useSiteMeta((s) => s.name);
   const navigate = useNavigate();
   const location = useLocation();
+  const smbreakpoint = useMedia('(max-width: 40rem)');
 
   const { isRouteTab, tabs = [], onTabChange, title, pageTitle, children, ...rest } = props;
 
@@ -112,7 +113,7 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
               </TabsContent>
             ))}
           </LayoutMiddle>
-          <AppNavBar className="sm:hidden" />
+          {smbreakpoint && <AppNavBar />}
         </Tabs>
         <div className="right-container max-lg:hidden">
           <DesktopRightbar />
