@@ -50,16 +50,16 @@ export const MkTime = (
   const absolute = invalid ? t('nothing') : dateTimeFormat.format(datetime);
   const now = origin?.getTime() ?? realNow;
   const ago = (now - datetime) / 1000;
+  const nextInterval = ago < 60 ? 1000 : ago < 3600 ? 60000 : 180000;
 
   useEffect(() => {
-    const nextInterval = ago < 60 ? 10000 : ago < 3600 ? 60000 : 180000;
-    const id = setTimeout(() => {
+    const id = setInterval(() => {
       setNow(Date.now());
     }, nextInterval);
     return () => {
-      clearTimeout(id);
+      clearInterval(id);
     };
-  }, [ago, realNow]);
+  }, [nextInterval]);
 
   const relative =
     mode === 'absolute'
