@@ -11,6 +11,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { createStreamChannel, misskeyApi } from '@/services/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
 import type { TimelineTypes } from '@/types/timeline';
+import { HeaderRightPortal } from '@/layouts/default-layout';
+import { Button } from '@/components/ui/button';
+import { RefreshCwIcon } from 'lucide-react';
 
 const TIMELINE_PAGE_SIZE = 30;
 
@@ -85,9 +88,24 @@ export const MkTimeline = (props: { type: TimelineTypes }) => {
     refetchOnMount: 'always',
   });
 
+  const { refetch, isRefetching } = query;
+
   return (
-    <MkInfiniteScrollByData infiniteQueryResult={query} className="mk-timeline w-full">
-      {(id) => <MkNote key={id} noteId={id} showReply />}
-    </MkInfiniteScrollByData>
+    <>
+      <HeaderRightPortal>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={() => {
+            void refetch();
+          }}
+        >
+          <RefreshCwIcon className={isRefetching ? 'animate-spin' : ''} />
+        </Button>
+      </HeaderRightPortal>
+      <MkInfiniteScrollByData infiniteQueryResult={query} className="mk-timeline w-full">
+        {(id) => <MkNote key={id} noteId={id} showReply />}
+      </MkInfiniteScrollByData>
+    </>
   );
 };
