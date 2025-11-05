@@ -30,6 +30,7 @@ export const Route = createRootRoute({
 
 function RootRouteComponent() {
   const theme = usePreference((p) => p.theme);
+  const cssTextAutoSpace = usePreference((p) => p.cssTextAutospace);
   const shouldLogin = useChildMatches({
     select: (matches) => !matches.some((x) => x.staticData.noAuth === true),
   });
@@ -41,6 +42,10 @@ function RootRouteComponent() {
       document.body.classList.remove('dark');
     }
   }, [theme]);
+
+  useEffect(() => {
+    document.body.style.textAutospace = cssTextAutoSpace;
+  }, [cssTextAutoSpace]);
 
   return (
     <>

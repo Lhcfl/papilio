@@ -4152,8 +4152,15 @@
       "bottom": "Bottom"
     },
     "mergeNoteReactions": "Merge Note Reactions",
-    "mergeNoteReactionsDesc": "Merge reactions with the same name from different instances"
+    "mergeNoteReactionsDesc": "Merge reactions with the same name from different instances",
+    "cssTextAutospace": "CSS Text Auto-spacing",
+    "cssTextAutospaceDesc": "Specifies the spacing behavior between CJK characters and other characters.",
+    "cssTextAutospaceOptions": {
+      "normal": "normal (insert spacing)",
+      "no-autospace": "no-autospace (no spacing)"
+    }
   },
+  "browserExperimental": "This is an experimental browser feature that is only supported in the latest browser versions.",
   "scheduleNoteFailed": "Đăng bài viết theo lịch trình không thành công",
   "scheduleNotePosted": "Bài viết theo lịch trình đã được đăng"
 }

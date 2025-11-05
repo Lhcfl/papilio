@@ -4168,8 +4168,15 @@
     },
     "mergeNoteReactions": "合并帖子反应",
     "mergeNoteReactionsDesc": "将来自不同实例的同名反应合并",
+    "cssTextAutospace": "文本自动间距",
+    "cssTextAutospaceDesc": "指定 CJK 字符和其他字符之间的间距行为。",
+    "cssTextAutospaceOptions": {
+      "normal": "normal (插入间距)",
+      "no-autospace": "no-autospace (不插入间距)"
+    },
     "notesSettingsDesc": "管理与帖子显示和行为相关的设置。"
   },
+  "browserExperimental": "这是一项浏览器实验性功能，只有最新的浏览器版本才支持。",
   "messaging": "聊天",
   "startMessaging": "增聊天",
   "enableRegistration": "允许任何人注册",

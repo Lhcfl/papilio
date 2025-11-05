@@ -4,8 +4,10 @@
  */
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type { EnumSettings } from '@/settings';
 import { setterName, usePreference } from '@/stores/perference';
+import { FlaskConicalIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export function EnumSettingItem({ item }: { item: EnumSettings }) {
@@ -27,7 +29,17 @@ export function EnumSettingItem({ item }: { item: EnumSettings }) {
   return (
     <div className="flex items-center gap-2">
       <div className="w-0 flex-[1_1]">
-        <div className="text-base">{t(item.name)}</div>
+        <div className="inline-flex items-center gap-1 text-base">
+          {t(item.name)}
+          {'experimental' in item && item.experimental && (
+            <Tooltip>
+              <TooltipTrigger title="experimental" type="button">
+                <FlaskConicalIcon className="size-4 text-blue-500" />
+              </TooltipTrigger>
+              <TooltipContent>{t(item.experimental)}</TooltipContent>
+            </Tooltip>
+          )}
+        </div>
         {'description' in item && item.description && (
           <div className="text-muted-foreground text-sm">{t(item.description)}</div>
         )}
