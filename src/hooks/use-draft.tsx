@@ -36,12 +36,12 @@ const DefaultDraftData = {
     | 'nonSensitiveOnlyForLocalLikeOnlyForRemote',
   files: [] as DriveFile[],
   mediaIds: [] as string[],
-  poll: null as {
-    choices: string[];
-    multiple?: boolean;
-    expiresAt?: number | null;
-    expiredAfter?: number | null;
-  } | null,
+  poll: {
+    choices: ['', ''] as string[],
+    multiple: false,
+    expiresAt: null as number | null,
+    expiredAfter: null as number | null,
+  },
   showPoll: false,
   localOnly: false,
   text: '',

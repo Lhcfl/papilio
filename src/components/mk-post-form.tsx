@@ -12,6 +12,8 @@ import { Button } from '@/components/ui/button';
 import {
   ChartColumnIcon,
   CircleAlertIcon,
+  CircleXIcon,
+  CopyIcon,
   EyeIcon,
   ImageIcon,
   MailIcon,
@@ -28,7 +30,7 @@ import {
   XIcon,
 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+import { cn, copyToClipboard } from '@/lib/utils';
 import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
 import type { DriveFile, EmojiSimple, User } from 'misskey-js/entities.js';
 import { useEffect, useRef, useState, type HTMLProps } from 'react';
@@ -57,6 +59,8 @@ import { useErrorDialogs } from '@/stores/error-dialog';
 import { useAfterConfirm, useConfirmDialog } from '@/stores/confirm-dialog';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { MkPostFormPoll } from '@/components/post-form/mk-post-form-poll';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 
 type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;
@@ -72,6 +76,7 @@ type MkPostFormProps = DraftKeyProps & {
 
 export function MkPostForm(props: MkPostFormProps) {
   const me = useMe();
+  const { t } = useTranslation();
   const { replyId, editId, quoteId, visibilityRestrict, relatedNote } = props;
 
   const draftKey = getDraftKey({ replyId, editId, quoteId });
@@ -98,7 +103,45 @@ export function MkPostForm(props: MkPostFormProps) {
       ]) ?? undefined,
   });
 
-  return <MkPostFormLoaded {...props} draft={draft} draftKey={draftKey} />;
+  return (
+    <ErrorBoundary
+      fallbackRender={({ error }) => (
+        <div className="bg-muted rounded-md">
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <CircleXIcon />
+              </EmptyMedia>
+              <EmptyTitle>Failed to load</EmptyTitle>
+              <EmptyDescription>{errorMessageSafe(error)}</EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent className="flex flex-row justify-center">
+              <Button
+                onClick={() => {
+                  draft.remove();
+                }}
+                variant="destructive"
+              >
+                <Trash2Icon />
+                {t('reset')}
+              </Button>
+              <Button
+                onClick={async () => {
+                  await copyToClipboard(JSON.stringify(draft));
+                  toast.success(t('copiedToClipboard'));
+                }}
+              >
+                <CopyIcon />
+                Copy Raw Data
+              </Button>
+            </EmptyContent>
+          </Empty>
+        </div>
+      )}
+    >
+      <MkPostFormLoaded {...props} draft={draft} draftKey={draftKey} />
+    </ErrorBoundary>
+  );
 }
 
 function MkPostFormLoaded(
@@ -144,8 +187,15 @@ function MkPostFormLoaded(
   const [isUploading, setIsUploading] = useState(false);
 
   const sendable =
-    draft.text.length < maxNoteTextLength &&
-    [draft.text.trim().length > 0, draft.hasCw && draft.cw.trim().length > 0].some((v) => v);
+    draft.text.length < maxNoteTextLength && // limit
+    (!draft.hasCw || // no cw or
+      draft.cw.trim().length > 0) &&
+    (draft.text.trim().length > 0 ||
+      (draft.showPoll && // show poll and
+        draft.poll.choices.length >= 2 && // two choices at least
+        new Set(draft.poll.choices).size == draft.poll.choices.length && // all choices are unique
+        draft.poll.choices.every((c) => c.trim().length > 0)) || // no empty choice
+      draft.files.length > 0); // or has attachments
 
   // performance: if exceeding limit too much, stop parse MFM, because the mfm parser is slow
   // this is actually a Self-DoS but sometimes users do that unintentionally (copy-paste huge text)
@@ -205,7 +255,7 @@ function MkPostFormLoaded(
         ? (misskeyApi('notes/edit', {
             editId,
             cw: data.hasCw ? data.cw : undefined,
-            text: data.text,
+            text: data.text || null,
             fileIds: data.files.length > 0 ? data.files.map((f) => f.id) : undefined,
           }) as Promise<unknown>)
         : misskeyApi('notes/create', {
@@ -218,9 +268,9 @@ function MkPostFormLoaded(
             renoteId: quoteId,
             // TODO
             channelId: undefined,
-            text: data.text,
+            text: data.text || null,
             fileIds: data.files.length > 0 ? data.files.map((f) => f.id) : undefined,
-            poll: data.showPoll ? data.poll : undefined,
+            poll: data.showPoll ? data.poll : null,
           }),
     onSuccess: () => {
       onSuccess?.();
@@ -497,7 +547,15 @@ function MkPostFormLoaded(
         hasCw={draft.hasCw}
         showPreview={draft.showPreview}
       />
-      {draft.showPoll && <MkPostFormPoll className="w-full p-2" />}
+      {draft.showPoll && (
+        <MkPostFormPoll
+          className="w-full p-2"
+          poll={draft.poll}
+          setPoll={(poll) => {
+            draft.update({ poll });
+          }}
+        />
+      )}
       <MkPostFormFiles
         className="w-full p-2"
         files={draft.files}
