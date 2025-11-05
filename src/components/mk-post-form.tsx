@@ -56,6 +56,7 @@ import { Progress } from '@/components/ui/progress';
 import { useErrorDialogs } from '@/stores/error-dialog';
 import { useAfterConfirm, useConfirmDialog } from '@/stores/confirm-dialog';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
+import { MkPostFormPoll } from '@/components/post-form/mk-post-form-poll';
 
 type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;
@@ -219,7 +220,7 @@ function MkPostFormLoaded(
             channelId: undefined,
             text: data.text,
             fileIds: data.files.length > 0 ? data.files.map((f) => f.id) : undefined,
-            poll: data.poll,
+            poll: data.showPoll ? data.poll : undefined,
           }),
     onSuccess: () => {
       onSuccess?.();
@@ -496,6 +497,7 @@ function MkPostFormLoaded(
         hasCw={draft.hasCw}
         showPreview={draft.showPreview}
       />
+      {draft.showPoll && <MkPostFormPoll className="w-full p-2" />}
       <MkPostFormFiles
         className="w-full p-2"
         files={draft.files}
@@ -537,7 +539,13 @@ function MkPostFormLoaded(
           >
             <MessageSquareWarningIcon />
           </PostFormButton>
-          <PostFormButton label={t('poll')}>
+          <PostFormButton
+            label={t('poll')}
+            active={draft.showPoll}
+            onClick={() => {
+              draft.update({ showPoll: !draft.showPoll });
+            }}
+          >
             <ChartColumnIcon />
           </PostFormButton>
           <MkEmojiPickerPopup onEmojiChoose={onEmojiChoose} onClose={focusTextarea}>

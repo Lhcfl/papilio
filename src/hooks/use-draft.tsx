@@ -42,6 +42,7 @@ const DefaultDraftData = {
     expiresAt?: number | null;
     expiredAfter?: number | null;
   } | null,
+  showPoll: false,
   localOnly: false,
   text: '',
   cw: '',
