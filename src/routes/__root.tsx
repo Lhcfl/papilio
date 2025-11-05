@@ -44,6 +44,8 @@ function RootRouteComponent() {
   }, [theme]);
 
   useEffect(() => {
+    // see https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Properties/text-autospace
+    // @ts-ignore: this is a really new css property, so ts doesn't know about it yet
     document.body.style.textAutospace = cssTextAutoSpace;
   }, [cssTextAutoSpace]);
 
