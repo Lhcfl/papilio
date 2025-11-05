@@ -3,11 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
 import { Label } from '@/components/ui/label';
-import { Popover, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import type { DraftData } from '@/hooks/use-draft';
@@ -201,7 +199,24 @@ export function MkPostFormPoll({
                 });
               }}
             />
-            <InputGroupAddon align="inline-end">{t('_time.day')}</InputGroupAddon>
+            <InputGroupAddon align="inline-end">
+              <Select
+                value={expiredAfterOpt}
+                onValueChange={(v) => {
+                  setExpiredAfterOpt(v as 'second' | 'minute' | 'hour' | 'day');
+                }}
+              >
+                <SelectTrigger size="sm" className="border-none pr-1 shadow-none">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="second">{t('_time.second')}</SelectItem>
+                  <SelectItem value="minute">{t('_time.minute')}</SelectItem>
+                  <SelectItem value="hour">{t('_time.hour')}</SelectItem>
+                  <SelectItem value="day">{t('_time.day')}</SelectItem>
+                </SelectContent>
+              </Select>
+            </InputGroupAddon>
           </InputGroup>
         )}
       </div>
