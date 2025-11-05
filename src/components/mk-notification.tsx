@@ -102,7 +102,7 @@ const FollowNotification = (props: { notification: PickNotification<'follow'> })
         <ItemTitle className="line-clamp-1">
           <NotificationTitle notification={notification} />
         </ItemTitle>
-        <div className="text-muted-foreground line-clamp-2 text-sm break-all">
+        <div className="text-muted-foreground line-clamp-2 text-sm wrap-break-word">
           <NotificationDescription notification={notification} />
         </div>
       </ItemContent>
@@ -330,7 +330,7 @@ export const SimpleNotification = (props: { notification: Notification } & React
         <ItemTitle className="line-clamp-1">
           <NotificationTitle notification={notification} />
         </ItemTitle>
-        <div className="text-muted-foreground line-clamp-2 text-sm break-all">
+        <div className="text-muted-foreground line-clamp-2 text-sm wrap-break-word">
           <NotificationDescription notification={notification} />
         </div>
       </ItemContent>

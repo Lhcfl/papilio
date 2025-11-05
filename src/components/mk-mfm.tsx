@@ -13,6 +13,7 @@ import { MkMention } from '@/components/mk-mention';
 import { MkUrl } from '@/components/mk-url';
 import type { UserLite } from '@/types/user';
 import { MkCode } from '@/components/mk-code';
+import { cn } from '@/lib/utils';
 
 function safeParseFloat(str: unknown): number | null {
   if (typeof str !== 'string' || str === '') return null;
@@ -92,9 +93,6 @@ export const MkMfm = (in_props: MfmProps) => {
   );
 
   if (!text) return null;
-  const classList = ['mfm', 'break-words', 'break-all'];
-  if (isBlock) classList.push('block');
-  if (inlineMode) classList.push('mfm-inline');
 
   const genEl = (ast: mfm.MfmNode[], scale: number, disableNyaize = false) =>
     ast.map((token): React.ReactNode => {
@@ -765,7 +763,12 @@ export const MkMfm = (in_props: MfmProps) => {
     });
 
   return (
-    <bdi className={classList.join(' ')}>
+    <bdi
+      className={cn('mfm wrap-break-word', {
+        block: isBlock,
+        'mfm-inline': inlineMode,
+      })}
+    >
       <span className={nowrap ? 'line-clamp-1 inline-block truncate whitespace-pre' : 'whitespace-pre-wrap'}>
         {genEl(rootAst, rootScale ?? 1)}
       </span>

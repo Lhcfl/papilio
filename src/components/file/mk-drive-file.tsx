@@ -21,17 +21,17 @@ export function MkDriveFile({ file, className, ...props }: { file: DriveFile } &
         <MkImage
           image={file}
           containerAspectRatio={1}
-          className="aspect-[1/1] w-full"
+          className="aspect-square w-full"
           disableMenu
           disableSensitiveOverlay
         />
       ) : (
-        <div className="bg-accent flex aspect-[4/3] w-full items-center justify-center rounded-md">
+        <div className="bg-accent flex aspect-4/3 w-full items-center justify-center rounded-md">
           <GuessFileIcon file={file} />
         </div>
       )}
       <div>{file.isSensitive && <Badge>{t('sensitive')}</Badge>}</div>
-      <div className="text-center text-sm break-all">{file.name}</div>
+      <div className="text-center text-sm wrap-break-word">{file.name}</div>
     </div>
   );
 }
