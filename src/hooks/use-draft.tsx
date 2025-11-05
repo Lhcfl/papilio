@@ -40,7 +40,7 @@ const DefaultDraftData = {
     choices: ['', ''] as string[],
     multiple: false,
     expiresAt: null as number | null,
-    expiredAfter: null as number | null,
+    expiredAfter: (3 * 24 * 60 * 60 * 1000) as number | null, // default to 3 days
   },
   showPoll: false,
   localOnly: false,
