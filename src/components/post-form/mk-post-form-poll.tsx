@@ -19,23 +19,25 @@ export function MkPostFormPoll({
   setPoll: (poll: DraftData['poll']) => void;
   poll: DraftData['poll'];
 } & HTMLProps<HTMLDivElement>) {
+  const { multiple, choices } = poll;
+
   const { t } = useTranslation();
 
   function updateChoice(index: number, value: string) {
-    const newChoices = [...poll.choices];
+    const newChoices = [...choices];
     newChoices[index] = value;
     setPoll({ ...poll, choices: newChoices });
   }
 
   function removeChoice(index: number) {
-    const newChoices = [...poll.choices];
+    const newChoices = [...choices];
     newChoices.splice(index, 1);
     setPoll({ ...poll, choices: newChoices });
   }
 
   function moveChoiceUp(index: number) {
     if (index === 0) return;
-    const newChoices = [...poll.choices];
+    const newChoices = [...choices];
     const temp = newChoices[index - 1];
     newChoices[index - 1] = newChoices[index];
     newChoices[index] = temp;
@@ -43,8 +45,8 @@ export function MkPostFormPoll({
   }
 
   function moveChoiceDown(index: number) {
-    if (index === poll.choices.length - 1) return;
-    const newChoices = [...poll.choices];
+    if (index === choices.length - 1) return;
+    const newChoices = [...choices];
     const temp = newChoices[index + 1];
     newChoices[index + 1] = newChoices[index];
     newChoices[index] = temp;
@@ -54,7 +56,7 @@ export function MkPostFormPoll({
   return (
     <div {...props}>
       <div>
-        {[...poll.choices, ''].map((choice, index) => (
+        {[...choices, ''].map((choice, index) => (
           <InputGroup
             // eslint-disable-next-line react-x/no-array-index-key
             key={index}
@@ -62,12 +64,12 @@ export function MkPostFormPoll({
           >
             <InputGroupInput
               value={choice}
-              placeholder={index == poll.choices.length ? t('add') : t('_poll.choiceN', { n: index + 1 })}
+              placeholder={index == choices.length ? t('add') : t('_poll.choiceN', { n: index + 1 })}
               onChange={(ev) => {
                 updateChoice(index, ev.target.value);
               }}
             />
-            {index != poll.choices.length && (
+            {index != choices.length && (
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
                   disabled={index === 0}
@@ -78,7 +80,7 @@ export function MkPostFormPoll({
                   <ArrowUpIcon />
                 </InputGroupButton>
                 <InputGroupButton
-                  disabled={index === poll.choices.length - 1}
+                  disabled={index === choices.length - 1}
                   onClick={() => {
                     moveChoiceDown(index);
                   }}
@@ -100,7 +102,7 @@ export function MkPostFormPoll({
       <div>
         <Label>
           <Switch
-            checked={poll.multiple}
+            checked={multiple}
             onCheckedChange={(multiple) => {
               setPoll({ ...poll, multiple });
             }}
