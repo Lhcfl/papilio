@@ -9,10 +9,12 @@ import { MkNotification } from '@/components/mk-notification';
 import { FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NOTIFICATION_TYPES, type NotificationIncludeableType } from '@/lib/notifications';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { createStreamChannel, misskeyApi } from '@/services/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
 import { MenuOrDrawer, type Menu, type MenuSwitch } from '@/components/menu-or-drawer';
-import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
+import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
+import { infiniteQueryOptions, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 export const MkNotifications = (props: {
   excludeTypes?: NotificationIncludeableType[];
@@ -20,32 +22,66 @@ export const MkNotifications = (props: {
 }) => {
   const { excludeTypes, includeTypes } = props;
 
-  return (
-    <MkInfiniteScroll
-      queryKey={['notifications', excludeTypes, includeTypes]}
-      queryFn={({ pageParam: untilId }) =>
-        misskeyApi('i/notifications-grouped', {
-          untilId,
-          limit: 30,
-          excludeTypes,
-          includeTypes,
-        }).then((ns) =>
-          ns.map((n) => {
-            if ('note' in n) {
-              registerNote([n.note]);
-            }
-            return n;
-          }),
-        )
+  const opts = infiniteQueryOptions({
+    queryKey: ['notifications', excludeTypes, includeTypes],
+    queryFn: ({ pageParam: untilId }) =>
+      misskeyApi('i/notifications-grouped', {
+        untilId,
+        limit: 30,
+        excludeTypes,
+        includeTypes,
+      }).then((ns) =>
+        ns.map((n) => {
+          if ('note' in n) {
+            registerNote([n.note]);
+          }
+          return n;
+        }),
+      ),
+    initialPageParam: 'zzzzzzzzzzzzzzzzzz',
+    getNextPageParam: (lastPage) => lastPage.at(-1)?.id,
+  });
+
+  const query = useInfiniteQuery(opts);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const channel = createStreamChannel('main');
+    channel.on('notification', (notification) => {
+      if ('note' in notification) {
+        registerNote([notification.note]);
       }
-    >
+      queryClient.setQueryData(opts.queryKey, (old) => {
+        if (old) {
+          return {
+            ...old,
+            pages: old.pages.map((page, index) => {
+              if (index === 0) {
+                return [notification, ...page];
+              } else {
+                return page;
+              }
+            }),
+          };
+        } else {
+          return old;
+        }
+      });
+    });
+    return () => {
+      channel.dispose();
+    };
+  }, [opts.queryKey, queryClient]);
+
+  return (
+    <MkInfiniteScrollByData infiniteQueryResult={query}>
       {(n) => (
         <Fragment key={n.id}>
           <MkNotification notification={n} />
           <hr className="m-auto w-[80%]" />
         </Fragment>
       )}
-    </MkInfiniteScroll>
+    </MkInfiniteScrollByData>
   );
 };
 
