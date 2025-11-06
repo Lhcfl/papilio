@@ -23,7 +23,7 @@ function RouteComponent() {
   });
 
   const pageContent = page ? DetailedSettings.find((p) => p.value === page) : undefined;
-  const title = pageContent?.name ?? t('settings');
+  const title = pageContent?.name ? t(pageContent.name) : t('settings');
   const [query, setQuery] = useAtom(queryAtom);
 
   return (
