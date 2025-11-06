@@ -326,7 +326,7 @@ export const SimpleNotification = (props: { notification: Notification } & React
   return (
     <Item {...itemProps}>
       <NotificationItemMedia notification={notification} />
-      <ItemContent>
+      <ItemContent className="w-0 flex-[1_1]">
         <ItemTitle className="line-clamp-1">
           <NotificationTitle notification={notification} />
         </ItemTitle>
