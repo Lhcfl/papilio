@@ -15,14 +15,15 @@ import { Empty, EmptyContent, EmptyHeader, EmptyMedia } from '@/components/ui/em
 import { Spinner } from '@/components/ui/spinner';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { HomeIcon, QuoteIcon, ReplyAllIcon, SmilePlusIcon, Trash2Icon } from 'lucide-react';
+import { HomeIcon, QuoteIcon, RepeatIcon, ReplyAllIcon, SmilePlusIcon, Trash2Icon } from 'lucide-react';
 import { useNoteQuery } from '@/hooks/use-note-query';
 import { registerNote, useNoteValue } from '@/hooks/use-note';
 import { getNoteRemoteUrl } from '@/lib/note';
 import { misskeyApi } from '@/services/inject-misskey-api';
-import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
+import { NoteReactionsList } from '@/components/infinite-loaders/note-reactions-list';
+import { NoteRenotesList } from '@/components/infinite-loaders/note-renotes-list';
 
 export const Route = createFileRoute('/notes/$id/')({
   component: RouteComponent,
@@ -133,6 +134,10 @@ function LoadedMain(props: { noteId: string }) {
               <SmilePlusIcon />
               {t('reactions')}
             </TabsTrigger>
+            <TabsTrigger value="renotes">
+              <RepeatIcon />
+              {t('renotes')}
+            </TabsTrigger>
             {features.quotePage && (
               <TabsTrigger value="quotes">
                 <QuoteIcon />
@@ -141,11 +146,16 @@ function LoadedMain(props: { noteId: string }) {
             )}
           </TabsList>
           <TabsContent value="replies">
-            <MkNoteReplies noteId={noteId} />
+            <MkNoteReplies noteId={noteId} showEmpty />
           </TabsContent>
-          <TabsContent value="reactions">NOT IMPL</TabsContent>
+          <TabsContent value="reactions">
+            <NoteReactionsList noteId={noteId} />
+          </TabsContent>
+          <TabsContent value="renotes">
+            <NoteRenotesList noteId={noteId} />
+          </TabsContent>
           <TabsContent value="quotes">
-            <MkNoteReplies noteId={noteId} kind="renotes" />
+            <MkNoteReplies noteId={noteId} kind="renotes" showEmpty />
           </TabsContent>
         </Tabs>
       </div>

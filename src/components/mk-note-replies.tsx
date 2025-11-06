@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { MoreHorizontalIcon } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import type { NoteUpdatedEvent } from 'misskey-js/streaming.types.js';
+import { MkEmpty } from '@/components/mk-empty';
 
 export const MkNoteReplies = (
   props: {
@@ -22,9 +23,10 @@ export const MkNoteReplies = (
     noteId: string;
     indent?: number;
     depth?: number;
+    showEmpty?: boolean;
   } & HTMLProps<HTMLDivElement>,
 ) => {
-  const { noteId, kind = 'replies', indent = 0, depth = 0, className: classNameProps, ...divProps } = props;
+  const { noteId, kind = 'replies', indent = 0, depth = 0, showEmpty, className: classNameProps, ...divProps } = props;
   const { t } = useTranslation();
   const queryClient = useQueryClient();
 
@@ -55,7 +57,7 @@ export const MkNoteReplies = (
   // TODO: maybe we can estimate the total count of replies from note.repliesCount?
   // but is's not accurate. You may be blocked to see some replies. And sometimes the note may be outdated.
   // So we just load until there's no more replies.
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
+  const { data, isPending, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: [`notes/${kind}`, noteId],
     queryFn: ({ pageParam: sinceId }) =>
       kind == 'replies'
@@ -83,6 +85,7 @@ export const MkNoteReplies = (
       {...divProps}
       data-replies-count={replies.length}
     >
+      {showEmpty && !isPending && replies.length === 0 && <MkEmpty />}
       {!reachLimit &&
         replies.map((n, index) => (
           <div key={n} className="relative">
@@ -100,7 +103,7 @@ export const MkNoteReplies = (
               <div className="note-replies-line absolute top-0 -bottom-4 left-0 border-l-2" />
             )}
             <MkNote key={n} noteId={n} isSubNote hideReplyIcon showReply={false} />
-            <MkNoteReplies className="-mt-4" noteId={n} indent={realIndent + 1} depth={depth + 1} />
+            <MkNoteReplies kind={kind} className="-mt-4" noteId={n} indent={realIndent + 1} depth={depth + 1} />
           </div>
         ))}
       {reachLimit && replies.length > 0 && (
