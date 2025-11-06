@@ -27,13 +27,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { useNoteMenu } from '@/components/note/mk-note-menu';
 import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
 import type { NoteWithExtension } from '@/types/note';
-import {
-  useLikeNoteAction,
-  useReactNoteAction,
-  useRenoteAction,
-  useUndoReactNoteAction,
-  useUnrenoteAction,
-} from '@/hooks/note-actions';
+import { useReactNoteAction, useRenoteAction, useUndoReactNoteAction, useUnrenoteAction } from '@/hooks/note-actions';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { MkPostForm } from '@/components/mk-post-form';
 import { VISIBILITIES } from '@/lib/note';
@@ -43,7 +37,7 @@ import { useMutation, useMutationState } from '@tanstack/react-query';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { patchNote } from '@/hooks/use-note';
 import { cn } from '@/lib/utils';
-import { usePreference } from '@/stores/perference';
+import { usePreference, useUserPreference } from '@/stores/perference';
 import { useSiteMeta } from '@/stores/site';
 import { RightbarOrPopup } from '@/providers/rightbar-or-popup';
 
@@ -87,6 +81,7 @@ const MkNoteActionButton = (
 export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () => void }) => {
   const { note, onTranslate } = props;
   const { t } = useTranslation();
+  const defaultLike = useUserPreference((p) => p.defaultLike);
 
   const isRenoted = note.isRenoted;
 
@@ -95,9 +90,8 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const showTranslateInActions = usePreference((x) => x.showTranslateInActions);
   const { mutate: renote, isPending: isRenoting } = useRenoteAction(note.id);
   const { mutate: unrenote, isPending: isUnrenoting } = useUnrenoteAction(note.id);
-  const { mutate: like, isPending: isReacting } = useLikeNoteAction(note.id);
   const { mutate: unreact, isPending: isUnReacting } = useUndoReactNoteAction(note.id);
-  const { mutate: react } = useReactNoteAction(note.id);
+  const { mutate: react, isPending: isReacting } = useReactNoteAction(note.id);
   const noteMenu = useNoteMenu({ onTranslate, note });
   const features = useMisskeyForkFeatures();
   const translatorAvailable = useSiteMeta((s) => s.translatorAvailable);
@@ -250,7 +244,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
             <MkNoteActionButton
               icon={<HeartIcon />}
               onClick={() => {
-                like();
+                react(defaultLike ?? '❤');
               }}
               count={disableReactions ? note.reactionCount : undefined}
               loading={isReacting}

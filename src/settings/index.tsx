@@ -15,7 +15,7 @@ function getAllSettings() {
   for (const settingPage of DetailedSettings) {
     for (const category of settingPage.categories) {
       for (const item of category.items) {
-        if (item.kind === 'switch' || item.kind === 'enum') {
+        if ('key' in item && 'defaultValue' in item && !('user' in item)) {
           (DefaultSettings as Record<string, unknown>)[item.key] = item.defaultValue;
         }
       }
@@ -27,10 +27,35 @@ function getAllSettings() {
 
 export const DefaultSettings = getAllSettings();
 
+export const DefaultUserSettings = (() => {
+  const DefaultSettings = {} as AllUserSettings;
+
+  for (const settingPage of DetailedSettings) {
+    for (const category of settingPage.categories) {
+      for (const item of category.items) {
+        if ('key' in item && 'defaultValue' in item && 'user' in item) {
+          (DefaultSettings as Record<string, unknown>)[item.key] = item.defaultValue;
+        }
+      }
+    }
+  }
+
+  return DefaultSettings;
+})();
+
 export type SettingsItems = (typeof DetailedSettings)[number]['categories'][number]['items'][number];
 export type SwitchSettings = Extract<SettingsItems, { kind: 'switch' }>;
 export type EnumSettings = Extract<SettingsItems, { kind: 'enum' }>;
+export type CustomSettings = Extract<SettingsItems, { kind: 'custom'; defaultValue: string; user?: false }>;
 
 export type AllSettings = Record<SwitchSettings['key'], boolean> & {
   [K in EnumSettings['key']]: Extract<EnumSettings, { key: K }>['values'][number];
+} & {
+  [K in CustomSettings['key']]: Extract<CustomSettings, { key: K }>['defaultValue'];
+};
+
+type CustomUserSettings = Extract<SettingsItems, { kind: 'custom'; defaultValue: string; user: true }>;
+
+export type AllUserSettings = {
+  [K in CustomUserSettings['key']]?: Extract<CustomUserSettings, { key: K }>['defaultValue'];
 };

@@ -55,19 +55,6 @@ export const useUndoReactNoteAction = (noteId: string) =>
     },
   });
 
-type RestArgumentsOf<T> = T extends (arg0: never, ...args: infer U) => unknown ? U : never;
-
-// Like is a special reaction
-export const useLikeNoteAction = (noteId: string) => {
-  const res = useReactNoteAction(noteId);
-  return {
-    ...res,
-    mutate: (...args: RestArgumentsOf<typeof res.mutate>) => {
-      res.mutate('❤️', ...args);
-    },
-  };
-};
-
 export const useTranslateAction = (noteId: string) => {
   const { i18n } = useTranslation();
   return useMutation({

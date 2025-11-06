@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { NoteDefaultReaction } from '@/components/settings/note-default-reaction';
 import { NotebookIcon, PaletteIcon, RulerIcon } from 'lucide-react';
 
 const t = (x: string) => x;
@@ -97,6 +98,15 @@ export const NoteSettings = {
           key: 'clickToOpenNote',
           defaultValue: true,
           name: t('clickToOpen'),
+        },
+        {
+          kind: 'custom',
+          key: 'defaultLike',
+          defaultValue: '❤' as string,
+          name: t('defaultLike'),
+          direction: 'right' as 'right' | 'bottom',
+          user: true,
+          component: <NoteDefaultReaction />,
         },
       ],
     },
