@@ -14,6 +14,6 @@ import type {
   UserLite as SharkeyUserLite,
 } from '@@/sharkey-js/entities.js';
 
-export type UserDetailed = MisskeyUserDetailed & Partial<Omit<SharkeyUserDetailed, keyof MisskeyUserDetailed>>;
-export type User = MisskeyUser & Partial<Omit<SharkeyUser, keyof MisskeyUser>>;
-export type UserLite = MisskeyUserLite & Partial<Omit<SharkeyUserLite, keyof MisskeyUserLite>>;
+export type UserDetailed = MisskeyUserDetailed | SharkeyUserDetailed;
+export type User = MisskeyUser | SharkeyUser;
+export type UserLite = MisskeyUserLite | SharkeyUserLite;

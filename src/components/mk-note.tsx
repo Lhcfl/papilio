@@ -13,7 +13,6 @@ import { useState, type HTMLProps } from 'react';
 import { useAppearNote, useNoteValue } from '@/hooks/use-note';
 import { useTranslateAction } from '@/hooks/note-actions';
 import { useDebugger } from '@/debug/debug';
-import { isPureRenote } from 'misskey-js/note.js';
 import { Button } from '@/components/ui/button';
 import { FoldVerticalIcon } from 'lucide-react';
 import { MkNoteReplyLine } from '@/components/note/mk-note-reply-line';
@@ -58,7 +57,7 @@ export const MkNote = (
 
   return (
     <div className={clsx('mk-note relative flex flex-col p-2', classNameProps)} {...divProps}>
-      {isPureRenote(note) && <MkNoteRenoteTip note={note} />}
+      {appearNote.id != note.id && <MkNoteRenoteTip note={note} />}
       {showReply && showReplyState === 'subNote' && appearNote.replyId != null && (
         <MkNote
           noteId={appearNote.replyId}

@@ -12,12 +12,12 @@ import { injectMisskeyStream, misskeyApi } from '@/services/inject-misskey-api';
 import { useMe } from '@/stores/me';
 import { isPureRenote } from 'misskey-js/note.js';
 
-const flatten = (notes: (NoteWithExtension & Note)[]): NoteWithExtension[] =>
+const flatten = (notes: NoteWithExtension[]): NoteWithExtension[] =>
   notes.length == 0
     ? []
     : [
-        ...flatten(notes.map((n) => n.reply).filter(Boolean) as Note[]),
-        ...flatten(notes.map((n) => n.renote).filter(Boolean) as Note[]),
+        ...flatten(notes.map((n) => (n as Note).reply).filter(Boolean) as NoteWithExtension[]),
+        ...flatten(notes.map((n) => (n as Note).renote).filter(Boolean) as NoteWithExtension[]),
         ...notes,
       ];
 class NoteSingletonManager {
@@ -218,8 +218,8 @@ export const useAppearNote = (note: NoteWithExtension | null) => {
   const a =
     note == null
       ? null
-      : isPureRenote(note)
-        ? GlobalNoteSingletonManager.notes.get(note.renoteId)
+      : isPureRenote(note as Note)
+        ? GlobalNoteSingletonManager.notes.get(note.renoteId!)
         : GlobalNoteSingletonManager.notes.get(note.id);
 
   return useAtomValue(a ?? GlobalNoteSingletonManager.global_null);

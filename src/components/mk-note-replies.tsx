@@ -8,7 +8,7 @@ import { useEffect, type HTMLProps } from 'react';
 import { MkNote } from '@/components/mk-note';
 import clsx from 'clsx';
 import { LoadingTrigger } from '@/components/loading-trigger';
-import { injectMisskeyStream, misskeyApi } from '@/services/inject-misskey-api';
+import { injectMisskeyStream, misskeyApi, sharkeyApi } from '@/services/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
@@ -18,16 +18,19 @@ import type { NoteUpdatedEvent } from 'misskey-js/streaming.types.js';
 
 export const MkNoteReplies = (
   props: {
+    kind?: 'renotes' | 'replies';
     noteId: string;
     indent?: number;
     depth?: number;
   } & HTMLProps<HTMLDivElement>,
 ) => {
-  const { noteId, indent = 0, depth = 0, className: classNameProps, ...divProps } = props;
+  const { noteId, kind = 'replies', indent = 0, depth = 0, className: classNameProps, ...divProps } = props;
   const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    if (kind !== 'replies') return;
+
     const stream = injectMisskeyStream();
 
     function onNoteReplied(ev: NoteUpdatedEvent) {
@@ -47,15 +50,17 @@ export const MkNoteReplies = (
     return () => {
       stream.removeListener('noteUpdated', onNoteReplied);
     };
-  }, [noteId, queryClient]);
+  }, [noteId, queryClient, kind]);
 
   // TODO: maybe we can estimate the total count of replies from note.repliesCount?
   // but is's not accurate. You may be blocked to see some replies. And sometimes the note may be outdated.
   // So we just load until there's no more replies.
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['note-replies', noteId],
+    queryKey: [`notes/${kind}`, noteId],
     queryFn: ({ pageParam: sinceId }) =>
-      misskeyApi('notes/replies', { noteId: noteId, sinceId }).then((ns) => registerNote(ns)),
+      kind == 'replies'
+        ? misskeyApi('notes/children', { noteId: noteId, sinceId }).then((ns) => registerNote(ns))
+        : sharkeyApi('notes/renotes', { noteId: noteId, sinceId, quote: true }).then((ns) => registerNote(ns)),
     getNextPageParam: (lastPage) => lastPage.at(-1),
     staleTime: 1000 * 60 * 10, // 10 minutes
     initialPageParam: '0',

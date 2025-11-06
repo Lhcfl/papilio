@@ -15,12 +15,14 @@ import { Empty, EmptyContent, EmptyHeader, EmptyMedia } from '@/components/ui/em
 import { Spinner } from '@/components/ui/spinner';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { HomeIcon, Trash2Icon } from 'lucide-react';
+import { HomeIcon, QuoteIcon, ReplyAllIcon, SmilePlusIcon, Trash2Icon } from 'lucide-react';
 import { useNoteQuery } from '@/hooks/use-note-query';
 import { registerNote, useNoteValue } from '@/hooks/use-note';
 import { getNoteRemoteUrl } from '@/lib/note';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useMisskeyForkFeatures } from '@/stores/node-info';
 
 export const Route = createFileRoute('/notes/$id/')({
   component: RouteComponent,
@@ -46,6 +48,7 @@ function LoadedMain(props: { noteId: string }) {
   const note = useNoteValue(noteId);
   const { t } = useTranslation();
   const isReply = note?.replyId != null;
+  const features = useMisskeyForkFeatures();
 
   const { data: conversation, isPending: isConversationPending } = useQuery({
     queryKey: ['note-conversation', noteId],
@@ -120,8 +123,31 @@ function LoadedMain(props: { noteId: string }) {
         <MkNote noteId={noteId} showReply={false} detailed />
       </div>
       <div className="min-h-[50vh]">
-        <Separator />
-        <MkNoteReplies noteId={noteId} />
+        <Tabs defaultValue="replies">
+          <TabsList className="w-full">
+            <TabsTrigger value="replies">
+              <ReplyAllIcon />
+              {t('replies')}
+            </TabsTrigger>
+            <TabsTrigger value="reactions">
+              <SmilePlusIcon />
+              {t('reactions')}
+            </TabsTrigger>
+            {features.quotePage && (
+              <TabsTrigger value="quotes">
+                <QuoteIcon />
+                {t('quote')}
+              </TabsTrigger>
+            )}
+          </TabsList>
+          <TabsContent value="replies">
+            <MkNoteReplies noteId={noteId} />
+          </TabsContent>
+          <TabsContent value="reactions">NOT IMPL</TabsContent>
+          <TabsContent value="quotes">
+            <MkNoteReplies noteId={noteId} kind="renotes" />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
