@@ -557,7 +557,7 @@ export const MkMfm = (in_props: MfmProps) => {
         case 'url': {
           if (inlineMode) {
             return (
-              <span key={Math.random()} className="text-blue-500">
+              <span key={Math.random()} className="break-all text-blue-500">
                 {token.props.url}
               </span>
             );
