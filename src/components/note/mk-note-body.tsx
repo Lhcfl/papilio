@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useMemo, useState } from 'react';
+import { use, useMemo, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { ChevronDownIcon, ChevronUpIcon, LockIcon, MailIcon, QuoteIcon, ReplyIcon } from 'lucide-react';
@@ -28,6 +28,7 @@ import { MkTime } from '@/components/mk-time';
 import { useUsersQuery } from '@/hooks/use-user';
 import { usePreference } from '@/stores/perference';
 import { MkNotePoll } from '@/components/note/mk-note-poll';
+import { NoteDefaultStateContext } from '@/providers/expand-all-cw';
 
 interface NoteBodyCommonProps {
   note: NoteWithExtension;
@@ -117,8 +118,11 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
 const NoteBodyCw = (props: NoteBodyCommonProps) => {
   const { t } = useTranslation();
   const { note } = props;
+  const { expandAllCw } = use(NoteDefaultStateContext);
 
-  const [expanded, setExpanded] = useState<null | boolean>(null);
+  const [manualExpanded, setExpanded] = useState<null | boolean>(null);
+
+  const expanded = manualExpanded ?? expandAllCw;
 
   const details = [
     note.text && t('_cw.chars', { count: note.text.length }),

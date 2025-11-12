@@ -15,7 +15,16 @@ import { Empty, EmptyContent, EmptyHeader, EmptyMedia } from '@/components/ui/em
 import { Spinner } from '@/components/ui/spinner';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { HomeIcon, QuoteIcon, RepeatIcon, ReplyAllIcon, SmilePlusIcon, Trash2Icon } from 'lucide-react';
+import {
+  EyeClosedIcon,
+  EyeIcon,
+  HomeIcon,
+  QuoteIcon,
+  RepeatIcon,
+  ReplyAllIcon,
+  SmilePlusIcon,
+  Trash2Icon,
+} from 'lucide-react';
 import { useNoteQuery } from '@/hooks/use-note-query';
 import { registerNote, useNoteValue } from '@/hooks/use-note';
 import { getNoteRemoteUrl } from '@/lib/note';
@@ -24,6 +33,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
 import { NoteReactionsList } from '@/components/infinite-loaders/note-reactions-list';
 import { NoteRenotesList } from '@/components/infinite-loaders/note-renotes-list';
+import { NoteDefaultStateContext } from '@/providers/expand-all-cw';
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export const Route = createFileRoute('/notes/$id/')({
   component: RouteComponent,
@@ -34,12 +47,39 @@ function RouteComponent() {
   const { id } = Route.useParams();
   const { data, isPending, error, refetch } = useNoteQuery(id);
   const isLoading = useIsFetching({ predicate: (q) => q.queryKey[0] == 'note-replies' }) > 0;
+  const [expandAllCw, setExpandAllCw] = useState(false);
 
   return (
-    <DefaultLayout title={t('note')} headerRight={isLoading && <Spinner />}>
-      {isPending && <MkNoteSkeleton />}
-      {data && <LoadedMain noteId={id} />}
-      {!data && error && <MkError error={error} retry={() => refetch()} />}
+    <DefaultLayout
+      title={t('note')}
+      headerRight={
+        <>
+          {isLoading && <Spinner />}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon-sm"
+                variant="ghost"
+                className={cn({
+                  'text-tertiary bg-tertiary/10 hover:text-tertiary hover:bg-tertiary/20': expandAllCw,
+                })}
+                onClick={() => {
+                  setExpandAllCw(!expandAllCw);
+                }}
+              >
+                {expandAllCw ? <EyeIcon /> : <EyeClosedIcon />}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t('expandAllCws')}</TooltipContent>
+          </Tooltip>
+        </>
+      }
+    >
+      <NoteDefaultStateContext value={{ expandAllCw }}>
+        {data && <LoadedMain noteId={id} />}
+        {isPending && <MkNoteSkeleton />}
+        {!data && error && <MkError error={error} retry={() => refetch()} />}
+      </NoteDefaultStateContext>
     </DefaultLayout>
   );
 }
