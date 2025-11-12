@@ -4051,10 +4051,10 @@
   "verified": "Verified",
   "notVerified": "Not Verified",
   "hibernated": "Hibernated",
-  "keepCwDescription": "When replying to a post with a Content Warning, automatically use the same CW for the reply.",
-  "keepCwDisabled": "Disabled (do not copy CWs)",
-  "keepCwEnabled": "Enabled (copy CWs verbatim)",
-  "keepCwPrependRe": "Enabled (copy CW and prepend \"RE:\")",
+  "keepCwDescription": "回复带有内容警告的帖子时，自动使用相同的内容警告。",
+  "keepCwDisabled": "禁用（不复制内容警告）",
+  "keepCwEnabled": "启用（逐字复制内容警告）",
+  "keepCwPrependRe": "启用（复制内容警告并添加 \"RE:\"）",
   "noteFooterLabel": "Note controls",
   "rawUserDescription": "Packed user data in its raw form. Most of these fields are public and visible to all users.",
   "rawInfoDescription": "Extended user data in its raw form. These fields are private and can only be accessed by moderators.",
@@ -4174,6 +4174,7 @@
       "normal": "normal (插入间距)",
       "no-autospace": "no-autospace (不插入间距)"
     },
+    "postFormSettingsDesc": "管理与发帖框显示和行为相关的设置。",
     "notesSettingsDesc": "管理与帖子显示和行为相关的设置。"
   },
   "browserExperimental": "这是一项浏览器实验性功能，只有最新的浏览器版本才支持。",

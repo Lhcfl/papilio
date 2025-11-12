@@ -61,6 +61,7 @@ import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { MkPostFormPoll } from '@/components/post-form/mk-post-form-poll';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
+import { usePreference } from '@/stores/perference';
 
 type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;
@@ -74,9 +75,18 @@ type MkPostFormProps = DraftKeyProps & {
   displayRelatedNote?: boolean;
 } & HTMLProps<HTMLDivElement>;
 
+function preprendRE(text: string | null | undefined): string | null | undefined {
+  if (text == null) return text;
+  if (text.startsWith('RE')) {
+    return text;
+  }
+  return `RE: ${text}`;
+}
+
 export function MkPostForm(props: MkPostFormProps) {
   const me = useMe();
   const { t } = useTranslation();
+  const keepCw = usePreference((s) => s.keepCw);
   const { replyId, editId, quoteId, visibilityRestrict, relatedNote } = props;
 
   const draftKey = getDraftKey({ replyId, editId, quoteId });
@@ -86,7 +96,7 @@ export function MkPostForm(props: MkPostFormProps) {
   const defaultCw =
     cond([
       [editId != null, relatedCw],
-      [replyId != null, relatedCw],
+      [replyId != null, keepCw === 'enabled' ? relatedCw : keepCw === 'prependRE' ? preprendRE(relatedCw) : null],
       [true, null],
     ]) ?? undefined;
 

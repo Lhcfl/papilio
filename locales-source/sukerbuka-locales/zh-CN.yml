@@ -20,5 +20,11 @@ _preference:
   cssTextAutospaceOptions:
     normal: "normal (插入间距)"
     no-autospace: "no-autospace (不插入间距)"
+  postFormSettingsDesc: "管理与发帖框显示和行为相关的设置。"
 
 browserExperimental: "这是一项浏览器实验性功能，只有最新的浏览器版本才支持。"
+
+keepCwDescription: "回复带有内容警告的帖子时，自动使用相同的内容警告。"
+keepCwDisabled: "禁用"
+keepCwEnabled: "启用（原样复制内容警告）"
+keepCwPrependRe: "启用（复制内容警告并添加 \"RE:\"）"

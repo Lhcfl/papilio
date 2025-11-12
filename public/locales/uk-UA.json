@@ -4158,7 +4158,8 @@
     "cssTextAutospaceOptions": {
       "normal": "normal (insert spacing)",
       "no-autospace": "no-autospace (no spacing)"
-    }
+    },
+    "postFormSettingsDesc": "Manage settings related to the display and behavior of the post form."
   },
   "browserExperimental": "This is an experimental browser feature that is only supported in the latest browser versions."
 }
