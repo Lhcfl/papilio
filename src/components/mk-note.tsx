@@ -12,7 +12,6 @@ import { MkNoteRenoteTip } from '@/components/note/mk-note-renote-tip';
 import { useState, type HTMLProps } from 'react';
 import { useAppearNote, useNoteValue } from '@/hooks/use-note';
 import { useTranslateAction } from '@/hooks/note-actions';
-import { useDebugger } from '@/debug/debug';
 import { Button } from '@/components/ui/button';
 import { FoldVerticalIcon } from 'lucide-react';
 import { MkNoteReplyLine } from '@/components/note/mk-note-reply-line';
@@ -46,8 +45,6 @@ export const MkNote = (
   const collapseNotesRepliedTo = usePreference((p) => p.collapseNotesRepliedTo);
   const [manualShowReplyState, setShowReplyState] = useState<'subNote' | 'inline' | null>(null);
   const showReplyState = manualShowReplyState ?? (collapseNotesRepliedTo ? 'inline' : 'subNote');
-
-  useDebugger('MkNote', noteId);
 
   if (note == null || appearNote == null) {
     return null;

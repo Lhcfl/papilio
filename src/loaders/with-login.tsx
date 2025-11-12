@@ -2,8 +2,6 @@
  * SPDX-FileCopyrightText: Linca and papilio-project
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import { useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import type { DefaultError, QueryKey, UseQueryOptions } from '@tanstack/react-query';
 import { CircleXIcon } from 'lucide-react';
@@ -16,29 +14,16 @@ import { misskeyApi, site } from '@/services/inject-misskey-api';
 import { useSetableMe } from '@/stores/me';
 import { useEmojis } from '@/stores/emojis';
 import { useSetableSiteMeta } from '@/stores/site';
-import { useSetableNodeInfo } from '@/stores/node-info';
+import { useSetableNodeInfo, type NodeInfo } from '@/stores/node-info';
 
 function useLoaderQuery<
   TQueryFnData = unknown,
   TError = DefaultError,
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey,
->(
-  options: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey> & {
-    onData: (data: TData) => void;
-  },
-) {
-  const { onData, ...opts } = options;
+>(opts: UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>) {
   const { data, ...res } = useQuery(opts);
-  const key = options.queryKey;
-
-  if (data != null) onData(data);
-
-  useEffect(() => {
-    if (data != null) {
-      onData(data);
-    }
-  }, [data, onData]);
+  const key = opts.queryKey;
 
   return { key, data, ...res };
 }
@@ -52,32 +37,48 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
   const queries = [
     useLoaderQuery({
       queryKey: ['me'],
-      queryFn: () => misskeyApi('i', {}).then(),
+      queryFn: () =>
+        misskeyApi('i', {}).then((me) => {
+          setMe(me);
+          return me;
+        }),
       gcTime: PERSIST_GC_TIME,
       staleTime: 1000 * 60 * 60, // 1 hour
-      onData: setMe,
     }),
     useLoaderQuery({
       queryKey: ['custom-emojis'],
       refetchInterval: 1000 * 60 * 60, // 1 hours
-      queryFn: () => fetch(new URL('/api/emojis', site!)).then((r) => r.json()) as Promise<EmojisResponse>,
+      queryFn: () =>
+        fetch(new URL('/api/emojis', site!))
+          .then((r) => r.json() as Promise<EmojisResponse>)
+          .then((x) => {
+            setEmojis(x.emojis);
+            return x;
+          }),
       select: (data) => data.emojis,
       gcTime: PERSIST_GC_TIME,
       staleTime: 1000 * 60 * 60, // 1 hour
-      onData: setEmojis,
     }),
     useLoaderQuery({
       queryKey: ['site-info'],
-      queryFn: () => misskeyApi('meta', {}),
+      queryFn: () =>
+        misskeyApi('meta', {}).then((meta) => {
+          setMeta(meta);
+          return meta;
+        }),
       gcTime: PERSIST_GC_TIME,
-      onData: setMeta,
       staleTime: 1000 * 60 * 60, // 1 hour
     }),
     useLoaderQuery({
       queryKey: ['node-info'],
-      queryFn: () => fetch(new URL('/nodeinfo/2.1', site!)).then((r) => r.json()),
+      queryFn: () =>
+        fetch(new URL('/nodeinfo/2.1', site!))
+          .then((r) => r.json())
+          .then((info: NodeInfo) => {
+            setNodeInfo(info);
+            return info;
+          }),
       gcTime: PERSIST_GC_TIME,
-      onData: setNodeInfo,
       staleTime: 1000 * 60 * 60, // 1 hour
     }),
   ];
@@ -123,7 +124,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
     );
   }
 
-  if (queries.some((q) => !q.data)) {
+  if (queries.some((q) => q.isPending)) {
     return (
       <div className="h-screen w-screen">
         <div className="absolute flex h-screen w-screen items-center justify-center">

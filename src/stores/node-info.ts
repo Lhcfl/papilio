@@ -6,7 +6,7 @@
 import { SharkeyFeatures, type ForkFeature } from '@/lib/features';
 import { create } from 'zustand';
 
-interface NodeInfo {
+export interface NodeInfo {
   version: string;
   software: {
     name: string;
