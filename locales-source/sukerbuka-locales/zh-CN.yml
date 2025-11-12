@@ -21,6 +21,7 @@ _preference:
     normal: "normal (插入间距)"
     no-autospace: "no-autospace (不插入间距)"
   postFormSettingsDesc: "管理与发帖框显示和行为相关的设置。"
+  postFormDefaultsDesc: "设置打开发帖框时的默认值"
 
 browserExperimental: "这是一项浏览器实验性功能，只有最新的浏览器版本才支持。"
 

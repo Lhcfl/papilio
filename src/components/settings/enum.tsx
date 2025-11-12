@@ -14,6 +14,12 @@ export function EnumSettingItem({ item }: { item: EnumSettings }) {
   const value = usePreference((p) => p[item.key]);
   const setValue = usePreference((p) => p[setterName(item.key)]);
   const { t } = useTranslation();
+  const hiddenCondition = 'hidden' in item ? item.hidden : null;
+  const hidden = usePreference((p) => hiddenCondition?.(p) ?? false);
+
+  if (hidden) {
+    return null;
+  }
 
   function getValueDisplayName(val: string, index: number) {
     if ('valuesI18n' in item) {

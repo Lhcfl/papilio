@@ -4052,8 +4052,8 @@
   "notVerified": "Not Verified",
   "hibernated": "Hibernated",
   "keepCwDescription": "回复带有内容警告的帖子时，自动使用相同的内容警告。",
-  "keepCwDisabled": "禁用（不复制内容警告）",
-  "keepCwEnabled": "启用（逐字复制内容警告）",
+  "keepCwDisabled": "禁用",
+  "keepCwEnabled": "启用（原样复制内容警告）",
   "keepCwPrependRe": "启用（复制内容警告并添加 \"RE:\"）",
   "noteFooterLabel": "Note controls",
   "rawUserDescription": "Packed user data in its raw form. Most of these fields are public and visible to all users.",
@@ -4175,6 +4175,7 @@
       "no-autospace": "no-autospace (不插入间距)"
     },
     "postFormSettingsDesc": "管理与发帖框显示和行为相关的设置。",
+    "postFormDefaultsDesc": "设置打开发帖框时的默认值",
     "notesSettingsDesc": "管理与帖子显示和行为相关的设置。"
   },
   "browserExperimental": "这是一项浏览器实验性功能，只有最新的浏览器版本才支持。",

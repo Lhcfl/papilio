@@ -13,6 +13,12 @@ export function SwitchSettingItem({ item }: { item: SwitchSettings }) {
   const value = usePreference((p) => p[item.key]);
   const setValue = usePreference((p) => p[setterName(item.key)]);
   const { t } = useTranslation();
+  const hiddenCondition = 'hidden' in item ? item.hidden : null;
+  const hidden = usePreference((p) => hiddenCondition?.(p) ?? false);
+
+  if (hidden) {
+    return null;
+  }
 
   return (
     <div className="w-full">

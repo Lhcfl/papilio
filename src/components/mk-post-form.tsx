@@ -83,6 +83,32 @@ function preprendRE(text: string | null | undefined): string | null | undefined 
   return `RE: ${text}`;
 }
 
+function useDefaultVisibility(props: {
+  visibilityRestrict?: DraftData['visibility'][];
+  localOnly?: boolean;
+  isRemoteNote?: boolean;
+}) {
+  const rememberNoteVisibility = usePreference((s) => s.rememberVisibility);
+  const defaultNoteVisibility = usePreference((s) => s.defaultNoteVisibility);
+  const localOnly = usePreference((s) => s.defaultLocalOnly);
+
+  if (rememberNoteVisibility) {
+    return {
+      visibility: props.visibilityRestrict?.at(0),
+      localOnly: props.isRemoteNote ? false : props.localOnly,
+    };
+  }
+
+  return {
+    visibility: props.visibilityRestrict
+      ? props.visibilityRestrict.includes(defaultNoteVisibility)
+        ? defaultNoteVisibility
+        : props.visibilityRestrict.at(0)
+      : defaultNoteVisibility,
+    localOnly: props.isRemoteNote ? false : (props.localOnly ?? localOnly),
+  };
+}
+
 export function MkPostForm(props: MkPostFormProps) {
   const me = useMe();
   const { t } = useTranslation();
@@ -101,8 +127,11 @@ export function MkPostForm(props: MkPostFormProps) {
     ]) ?? undefined;
 
   const draft = useDraft(draftKey, {
-    visibility: visibilityRestrict?.at(0),
-    localOnly: relatedNote?.localOnly,
+    ...useDefaultVisibility({
+      visibilityRestrict,
+      localOnly: relatedNote?.localOnly,
+      isRemoteNote: relatedNote?.userHost != null,
+    }),
     cw: defaultCw,
     hasCw: defaultCw != null,
     text:
@@ -195,6 +224,7 @@ function MkPostFormLoaded(
   const queryClient = useQueryClient();
   const uploadFile = useUploader();
   const [isUploading, setIsUploading] = useState(false);
+  const rememberNoteVisibility = usePreference((s) => s.rememberVisibility);
 
   const sendable =
     draft.text.length < maxNoteTextLength && // limit
@@ -287,7 +317,13 @@ function MkPostFormLoaded(
       if (props.editId || props.quoteId || props.replyId) {
         draft.remove();
       } else {
-        draft.resetExcept(['visibility', 'cw', 'hasCw', 'showPreview', 'reactionAcceptance', 'localOnly']);
+        draft.resetExcept([
+          'cw',
+          'hasCw',
+          'showPreview',
+          'reactionAcceptance',
+          ...(rememberNoteVisibility ? (['visibility', 'localOnly'] as const) : []),
+        ]);
       }
     },
     onError: (error) => {
