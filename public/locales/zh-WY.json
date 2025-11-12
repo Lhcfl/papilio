@@ -3938,8 +3938,8 @@
   "scheduledNotes": "预定的帖子",
   "robotsTxt": "Custom robots.txt",
   "robotsTxtDescription": "Adding entries here will override the default robots.txt packaged with Sharkey.",
-  "defaultCW": "Default content warning for new posts",
-  "defaultCWDescription": "The value here will be auto-filled as the content warning for all new posts and replies.",
+  "defaultCW": "默认内容警告",
+  "defaultCWDescription": "设置发帖时的默认内容警告。留空表示没有内容警告。",
   "defaultCWPriority": "Automatic CW priority",
   "defaultCWPriorityDescription": "Select preferred action when default CW and keep CW settings are both enabled at the same time.",
   "_defaultCWPriority": {

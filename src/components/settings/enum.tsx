@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { SettingHeader } from '@/components/settings/header';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import type { EnumSettings } from '@/settings';
 import { setterName, usePreference } from '@/stores/perference';
-import { FlaskConicalIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export function EnumSettingItem({ item, highlighted }: { item: EnumSettings; highlighted?: boolean }) {
@@ -35,23 +34,7 @@ export function EnumSettingItem({ item, highlighted }: { item: EnumSettings; hig
 
   return (
     <div className="flex items-center gap-2">
-      <div className={cn('w-0 flex-[1_1]', { 'opacity-60': hidden })}>
-        <div className="inline-flex items-center gap-1 text-base">
-          {t(item.name)}
-          {'experimental' in item && item.experimental && (
-            <Tooltip>
-              <TooltipTrigger title="experimental" type="button">
-                <FlaskConicalIcon className="size-4 text-blue-500" />
-              </TooltipTrigger>
-              <TooltipContent>{t(item.experimental)}</TooltipContent>
-            </Tooltip>
-          )}
-        </div>
-        {'description' in item && item.description && (
-          <div className="text-muted-foreground text-sm">{t(item.description)}</div>
-        )}
-        {hidden && <div className="text-muted-foreground text-sm">{t('settingIsDisabled')}</div>}
-      </div>
+      <SettingHeader className={cn('w-0 flex-[1_1]', { 'opacity-60': hidden })} item={item} hidden={hidden} />
       <Select onValueChange={setValue as never} value={value} disabled={hidden}>
         <SelectTrigger className="w-30 sm:w-50 md:w-70">
           <SelectValue />

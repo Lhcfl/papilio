@@ -6,6 +6,7 @@
 import { MkEmpty } from '@/components/mk-empty';
 import { EnumSettingItem } from '@/components/settings/enum';
 import { SwitchSettingItem } from '@/components/settings/switch';
+import { TextSettingItem } from '@/components/settings/text';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import {
   Breadcrumb,
@@ -133,6 +134,8 @@ function SettingItemPolymorph({ item, highlighted }: { item: SettingsItems; high
           <div>{item.component}</div>
         </div>
       );
+    case 'text':
+      return <TextSettingItem item={item} highlighted={highlighted} />;
     default:
       return null;
   }

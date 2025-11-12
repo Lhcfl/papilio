@@ -29,4 +29,6 @@ keepCwDescription: "回复带有内容警告的帖子时，自动使用相同的
 keepCwDisabled: "禁用"
 keepCwEnabled: "启用（原样复制内容警告）"
 keepCwPrependRe: "启用（复制内容警告并添加 \"RE:\"）"
+defaultCW: "默认内容警告"
+defaultCWDescription: "设置发帖时的默认内容警告。留空表示没有内容警告。"
 settingIsDisabled: "由于某项设置覆盖了此选项，该选项被禁用。"

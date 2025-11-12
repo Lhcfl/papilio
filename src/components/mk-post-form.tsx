@@ -61,7 +61,7 @@ import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { MkPostFormPoll } from '@/components/post-form/mk-post-form-poll';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
-import { usePreference } from '@/stores/perference';
+import { usePreference, useUserPreference } from '@/stores/perference';
 
 type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;
@@ -113,6 +113,7 @@ export function MkPostForm(props: MkPostFormProps) {
   const me = useMe();
   const { t } = useTranslation();
   const keepCw = usePreference((s) => s.keepCw);
+  const userDefaultCw = useUserPreference((s) => s.defaultCW);
   const { replyId, editId, quoteId, visibilityRestrict, relatedNote } = props;
 
   const draftKey = getDraftKey({ replyId, editId, quoteId });
@@ -123,7 +124,7 @@ export function MkPostForm(props: MkPostFormProps) {
     cond([
       [editId != null, relatedCw],
       [replyId != null, keepCw === 'enabled' ? relatedCw : keepCw === 'prependRE' ? preprendRE(relatedCw) : null],
-      [true, null],
+      [true, userDefaultCw],
     ]) ?? undefined;
 
   const draft = useDraft(draftKey, {
@@ -133,7 +134,7 @@ export function MkPostForm(props: MkPostFormProps) {
       isRemoteNote: relatedNote?.userHost != null,
     }),
     cw: defaultCw,
-    hasCw: defaultCw != null,
+    hasCw: !!defaultCw,
     text:
       cond([
         [editId != null, relatedNote?.text],

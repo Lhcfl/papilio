@@ -45,6 +45,14 @@ export const PostFormSettings = {
           name: t('_visibility.disableFederation'),
           hidden: (settings: { rememberVisibility: boolean }) => settings.rememberVisibility,
         },
+        {
+          kind: 'text',
+          key: 'defaultCW',
+          defaultValue: '',
+          name: t('defaultCW'),
+          description: t('defaultCWDescription'),
+          user: true,
+        },
       ],
     },
     {

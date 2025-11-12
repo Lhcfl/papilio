@@ -56,7 +56,20 @@ export type AllSettings = Record<SwitchSettings['key'], boolean> & {
 };
 
 type CustomUserSettings = Extract<SettingsItems, { kind: 'custom'; defaultValue: string; user: true }>;
+type TextUserSettings = Extract<SettingsItems, { kind: 'text'; user: true }>;
+
+export interface ITextSettings {
+  readonly kind: 'text';
+  readonly key: string;
+  readonly defaultValue: string;
+  readonly name: string;
+  readonly description?: string;
+  readonly user?: true;
+  readonly hidden?: (settings: AllUserSettings | AllSettings) => boolean;
+}
 
 export type AllUserSettings = {
   [K in CustomUserSettings['key']]?: Extract<CustomUserSettings, { key: K }>['defaultValue'];
+} & {
+  [K in TextUserSettings['key']]?: Extract<TextUserSettings, { key: K }>['defaultValue'];
 };
