@@ -23,3 +23,4 @@ _preference:
   postFormDefaultsDesc: "Set default values for the post form when opened."
 
 browserExperimental: "This is an experimental browser feature that is only supported in the latest browser versions."
+settingIsDisabled: "This option is disabled due to a setting overriding it."

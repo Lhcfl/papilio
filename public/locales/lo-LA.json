@@ -4162,5 +4162,6 @@
     "postFormSettingsDesc": "Manage settings related to the display and behavior of the post form.",
     "postFormDefaultsDesc": "Set default values for the post form when opened."
   },
-  "browserExperimental": "This is an experimental browser feature that is only supported in the latest browser versions."
+  "browserExperimental": "This is an experimental browser feature that is only supported in the latest browser versions.",
+  "settingIsDisabled": "This option is disabled due to a setting overriding it."
 }

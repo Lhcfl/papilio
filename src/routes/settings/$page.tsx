@@ -91,15 +91,18 @@ function RouteComponent() {
               </div>
             </AccordionTrigger>
             <AccordionContent className="border-t">
-              {category.items.map((item) => (
-                <div key={item.kind == 'custom' ? item.name : item.key} className="relative my-4 px-3">
-                  {itemId == ('key' in item ? item.key : item.name) && (
-                    <div className="bg-tertiary absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 animate-ping rounded-full" />
-                  )}
-                  <a id={category.name + '::' + ('key' in item ? item.key : item.name)} />
-                  <SettingItemPolymorph item={item} />
-                </div>
-              ))}
+              {category.items.map((item) => {
+                const highlighted = itemId == ('key' in item ? item.key : item.name);
+                return (
+                  <div key={item.kind == 'custom' ? item.name : item.key} className="relative my-4 px-3">
+                    {highlighted && (
+                      <div className="bg-tertiary absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 animate-ping rounded-full" />
+                    )}
+                    <a id={category.name + '::' + ('key' in item ? item.key : item.name)} />
+                    <SettingItemPolymorph item={item} highlighted={highlighted} />
+                  </div>
+                );
+              })}
             </AccordionContent>
           </AccordionItem>
         ))}
@@ -108,14 +111,14 @@ function RouteComponent() {
   );
 }
 
-function SettingItemPolymorph({ item }: { item: SettingsItems }) {
+function SettingItemPolymorph({ item, highlighted }: { item: SettingsItems; highlighted?: boolean }) {
   const { t } = useTranslation();
 
   switch (item.kind) {
     case 'switch':
-      return <SwitchSettingItem item={item} />;
+      return <SwitchSettingItem item={item} highlighted={highlighted} />;
     case 'enum':
-      return <EnumSettingItem item={item} />;
+      return <EnumSettingItem item={item} highlighted={highlighted} />;
     case 'custom':
       return (
         <div

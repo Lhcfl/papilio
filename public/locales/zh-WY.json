@@ -4179,6 +4179,7 @@
     "notesSettingsDesc": "管理与帖子显示和行为相关的设置。"
   },
   "browserExperimental": "这是一项浏览器实验性功能，只有最新的浏览器版本才支持。",
+  "settingIsDisabled": "由于某项设置覆盖了此选项，该选项被禁用。",
   "messaging": "聊天",
   "startMessaging": "增聊天",
   "enableRegistration": "允许任何人注册",

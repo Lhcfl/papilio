@@ -74,7 +74,7 @@ function RouteComponent() {
             <Link
               to="/settings/$page"
               params={{ page: page.value }}
-              hash={[category.name, item?.name].join('::')}
+              hash={[category.name, item?.id].join('::')}
               onClick={() => {
                 setQuery('');
               }}

@@ -5,19 +5,20 @@
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 import type { EnumSettings } from '@/settings';
 import { setterName, usePreference } from '@/stores/perference';
 import { FlaskConicalIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export function EnumSettingItem({ item }: { item: EnumSettings }) {
+export function EnumSettingItem({ item, highlighted }: { item: EnumSettings; highlighted?: boolean }) {
   const value = usePreference((p) => p[item.key]);
   const setValue = usePreference((p) => p[setterName(item.key)]);
   const { t } = useTranslation();
   const hiddenCondition = 'hidden' in item ? item.hidden : null;
   const hidden = usePreference((p) => hiddenCondition?.(p) ?? false);
 
-  if (hidden) {
+  if (hidden && !highlighted) {
     return null;
   }
 
@@ -34,7 +35,7 @@ export function EnumSettingItem({ item }: { item: EnumSettings }) {
 
   return (
     <div className="flex items-center gap-2">
-      <div className="w-0 flex-[1_1]">
+      <div className={cn('w-0 flex-[1_1]', { 'opacity-60': hidden })}>
         <div className="inline-flex items-center gap-1 text-base">
           {t(item.name)}
           {'experimental' in item && item.experimental && (
@@ -49,8 +50,9 @@ export function EnumSettingItem({ item }: { item: EnumSettings }) {
         {'description' in item && item.description && (
           <div className="text-muted-foreground text-sm">{t(item.description)}</div>
         )}
+        {hidden && <div className="text-muted-foreground text-sm">{t('settingIsDisabled')}</div>}
       </div>
-      <Select onValueChange={setValue as never} value={value}>
+      <Select onValueChange={setValue as never} value={value} disabled={hidden}>
         <SelectTrigger className="w-30 sm:w-50 md:w-70">
           <SelectValue />
         </SelectTrigger>
