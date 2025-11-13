@@ -8,7 +8,6 @@ import { MkCustomEmoji, MkEmoji } from '@/components/mk-emoji';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import { EditIcon, Trash2Icon } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
 import { Spinner } from '@/components/ui/spinner';
 import { useUserPreference } from '@/stores/perference';
@@ -43,18 +42,13 @@ export const NoteDefaultReaction = () => {
             }
           }}
         >
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline" title={t('edit')}>
             <EditIcon />
           </Button>
         </MkEmojiPickerPopup>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size="sm" variant="outline" onClick={resetDefaultLike}>
-              <Trash2Icon />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>{t('delete')}</TooltipContent>
-        </Tooltip>
+        <Button size="sm" variant="outline" title={t('delete')} onClick={resetDefaultLike}>
+          <Trash2Icon />
+        </Button>
       </ButtonGroup>
     </div>
   );

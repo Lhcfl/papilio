@@ -28,7 +28,6 @@ import { useNoteMenu } from '@/components/note/mk-note-menu';
 import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
 import type { NoteWithExtension } from '@/types/note';
 import { useReactNoteAction, useRenoteAction, useUndoReactNoteAction, useUnrenoteAction } from '@/hooks/note-actions';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { MkPostForm } from '@/components/mk-post-form';
 import { VISIBILITIES } from '@/lib/note';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
@@ -54,27 +53,23 @@ const MkNoteActionButton = (
   const { loading = false, disabled = false, activated, icon, count = 0, tooltip, className, ...rest } = props;
   const showCount = usePreference((x) => x.showNoteActionCounts);
   return (
-    <Tooltip delayDuration={1000}>
-      <TooltipTrigger asChild>
-        <Button
-          variant="ghost"
-          className={cn(
-            'border border-transparent',
-            {
-              'text-tertiary hover:bg-tertiary/10 hover:text-tertiary': activated,
-            },
-            className,
-          )}
-          size={count > 0 ? 'default' : 'icon'}
-          disabled={disabled || loading}
-          {...rest}
-        >
-          {loading ? <Spinner /> : icon}
-          {count > 0 && showCount && <span>{count}</span>}
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>{tooltip}</TooltipContent>
-    </Tooltip>
+    <Button
+      variant="ghost"
+      title={tooltip}
+      className={cn(
+        'border border-transparent',
+        {
+          'text-tertiary hover:bg-tertiary/10 hover:text-tertiary': activated,
+        },
+        className,
+      )}
+      size={count > 0 ? 'default' : 'icon'}
+      disabled={disabled || loading}
+      {...rest}
+    >
+      {loading ? <Spinner /> : icon}
+      {count > 0 && showCount && <span>{count}</span>}
+    </Button>
   );
 };
 

@@ -29,7 +29,6 @@ import {
   XCircleIcon,
   XIcon,
 } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn, copyToClipboard } from '@/lib/utils';
 import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
 import type { DriveFile, EmojiSimple } from 'misskey-js/entities.js';
@@ -696,20 +695,16 @@ const PostFormButton = (
 ) => {
   const { children, label, active, className, ...rest } = props;
   return (
-    <Tooltip delayDuration={700}>
-      <TooltipTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className={cn(className, {
-            'bg-tertiary/10 text-tertiary hover:bg-tertiary/20 hover:text-tertiary': active,
-          })}
-          {...rest}
-        >
-          {children}
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>{label}</TooltipContent>
-    </Tooltip>
+    <Button
+      variant="ghost"
+      size="icon"
+      title={label}
+      className={cn(className, {
+        'bg-tertiary/10 text-tertiary hover:bg-tertiary/20 hover:text-tertiary': active,
+      })}
+      {...rest}
+    >
+      {children}
+    </Button>
   );
 };

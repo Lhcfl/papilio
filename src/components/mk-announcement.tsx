@@ -16,7 +16,6 @@ import {
   XCircleIcon,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
 import { misskeyApi } from '@/services/inject-misskey-api';
@@ -58,20 +57,16 @@ export const MkAnnouncement = (props: { item: Announcement }) => {
       </ItemContent>
       {!(item.isRead ?? isRead) && (
         <ItemActions>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                type="button"
-                variant={item.needConfirmationToRead ? 'default' : 'outline'}
-                onClick={() => {
-                  read();
-                }}
-              >
-                {isPending ? <Spinner /> : item.needConfirmationToRead ? <CheckIcon /> : <MailOpenIcon />}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>{t('gotIt')}</TooltipContent>
-          </Tooltip>
+          <Button
+            type="button"
+            title={t('gotIt')}
+            variant={item.needConfirmationToRead ? 'default' : 'outline'}
+            onClick={() => {
+              read();
+            }}
+          >
+            {isPending ? <Spinner /> : item.needConfirmationToRead ? <CheckIcon /> : <MailOpenIcon />}
+          </Button>
         </ItemActions>
       )}
     </Item>
