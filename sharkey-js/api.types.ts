@@ -1,3 +1,6 @@
+// @ts-nocheck
+//This file is auto downloaded by update-sharkey-js.ts
+
 import { Endpoints as Gen } from './autogen/endpoint.js';
 import { UserDetailed } from './autogen/models.js';
 import { AdminRolesCreateRequest, AdminRolesCreateResponse, UsersShowRequest } from './autogen/entities.js';

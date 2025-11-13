@@ -1,3 +1,6 @@
+// @ts-nocheck
+//This file is auto downloaded by update-sharkey-js.ts
+
 /*
  * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only

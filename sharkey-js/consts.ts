@@ -1,3 +1,6 @@
+// @ts-nocheck
+//This file is auto downloaded by update-sharkey-js.ts
+
 import type { operations } from './autogen/types.js';
 import type {
 	AbuseReportNotificationRecipient,

@@ -1,3 +1,6 @@
+// @ts-nocheck
+//This file is auto downloaded by update-sharkey-js.ts
+
 export type Acct = {
 	username: string;
 	host: string | null;

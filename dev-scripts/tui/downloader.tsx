@@ -6,6 +6,7 @@
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 import { mkdir, writeFile } from 'fs/promises';
 import { render, Text } from 'ink';
+import { createContext, use } from 'react';
 
 // you can provide your github token
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? '';
@@ -14,6 +15,8 @@ const BRANCH = 'stelpolva';
 const PROJECT_ROOT = new URL('../..', import.meta.url);
 
 const queryClient = new QueryClient();
+
+const FileContext = createContext<{ prepend?: string }>({});
 
 const Prepare = () => (
   <>
@@ -62,6 +65,7 @@ async function listFiles(folder: string) {
 const FileDownloader = (props: { url: string; to: string; filename: string }) => {
   const downloadDir = new URL(props.to + '/', PROJECT_ROOT);
   const fileUrl = new URL(props.filename, downloadDir);
+  const fileContext = use(FileContext);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['download', props.url, props.to, props.filename],
@@ -70,8 +74,11 @@ const FileDownloader = (props: { url: string; to: string; filename: string }) =>
       if (!res.ok) {
         throw new Error(`${props.url} - ${res.status} ${await res.text()}`);
       }
-      const buf = Buffer.from(await res.arrayBuffer());
+      let buf = Buffer.from(await res.arrayBuffer());
       await mkdir(downloadDir, { recursive: true });
+      if (fileContext.prepend) {
+        buf = Buffer.concat([Buffer.from(fileContext.prepend), buf]);
+      }
       await writeFile(fileUrl, buf);
       return true;
     },
@@ -132,11 +139,13 @@ const MultiDownloader = (props: { downloads: Record<string, string> }) => {
   ));
 };
 
-export const StartDownloaderTui = (downloads: Record<string, string>) => {
+export const StartDownloaderTui = (downloads: Record<string, string>, opts?: { prepend?: string }) => {
   render(
     <QueryClientProvider client={queryClient}>
-      <Prepare />
-      <MultiDownloader downloads={downloads} />
+      <FileContext value={{ prepend: opts?.prepend }}>
+        <Prepare />
+        <MultiDownloader downloads={downloads} />
+      </FileContext>
     </QueryClientProvider>,
   );
 };

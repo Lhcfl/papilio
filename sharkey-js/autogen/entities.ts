@@ -1,3 +1,6 @@
+// @ts-nocheck
+//This file is auto downloaded by update-sharkey-js.ts
+
 /* eslint @typescript-eslint/naming-convention: 0 */
 import { operations } from './types.js';
 

@@ -5,6 +5,11 @@
 
 import { StartDownloaderTui } from './tui/downloader';
 
-StartDownloaderTui({
-  'packages/misskey-js/src': 'sharkey-js',
-});
+StartDownloaderTui(
+  {
+    'packages/misskey-js/src': 'sharkey-js',
+  },
+  {
+    prepend: '// @ts-nocheck\n//This file is auto downloaded by update-sharkey-js.ts\n\n',
+  },
+);

@@ -1,3 +1,6 @@
+// @ts-nocheck
+//This file is auto downloaded by update-sharkey-js.ts
+
 import { components } from './types.js';
 export type Error = components['schemas']['Error'];
 export type UserLite = components['schemas']['UserLite'];

@@ -1,3 +1,6 @@
+// @ts-nocheck
+//This file is auto downloaded by update-sharkey-js.ts
+
 import type { Note, PureRenote } from './entities.js';
 
 export function isPureRenote(note: Note): note is PureRenote {

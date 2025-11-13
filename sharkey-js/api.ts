@@ -1,3 +1,6 @@
+// @ts-nocheck
+//This file is auto downloaded by update-sharkey-js.ts
+
 import './autogen/apiClientJSDoc.js';
 
 import { endpointReqTypes } from './autogen/endpoint.js';

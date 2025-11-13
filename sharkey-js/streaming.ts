@@ -1,3 +1,6 @@
+// @ts-nocheck
+//This file is auto downloaded by update-sharkey-js.ts
+
 import { EventEmitter } from 'eventemitter3';
 import _ReconnectingWebSocket, { Options } from 'reconnecting-websocket';
 import type { BroadcastEvents, Channels } from './streaming.types.js';
