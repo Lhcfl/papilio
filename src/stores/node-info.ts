@@ -4,8 +4,7 @@
  */
 
 import { SharkeyFeatures, type ForkFeature } from '@/lib/features';
-import { create } from 'zustand';
-
+import { createContext, use, useMemo } from 'react';
 export interface NodeInfo {
   version: string;
   software: {
@@ -38,24 +37,14 @@ export interface NodeInfo {
   };
 }
 
-interface NodeInfoState {
-  meta: NodeInfo | null;
-  setMeta: (meta: NodeInfo) => void;
-}
-
-export const useSetableNodeInfo = create<NodeInfoState>((set) => ({
-  meta: null as null | NodeInfo,
-  setMeta: (meta: NodeInfo | null) => {
-    set({ meta });
-  },
-}));
+export const NodeInfoContext = createContext<NodeInfo | null>(null);
 
 export const useNodeInfo = <T>(selector: (arg: NodeInfo) => T) =>
-  useSetableNodeInfo((state) => {
-    const meta = state.meta;
+  useMemo(() => {
+    const meta = use(NodeInfoContext);
     if (!meta) throw new Error('site meta is not set yet!');
     return selector(meta);
-  });
+  }, [selector]);
 
 export const useMisskeyForkFeatures = (): ForkFeature => {
   const name = useNodeInfo((meta) => meta.software.name);

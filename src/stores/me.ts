@@ -4,26 +4,16 @@
  */
 
 import type { MeDetailed } from 'misskey-js/entities.js';
-import { create } from 'zustand';
+import { createContext, use, useMemo } from 'react';
 
-interface MeState {
-  me: null | MeDetailed;
-  setMe: (user: MeDetailed | null) => void;
-}
-
-export const useSetableMe = create<MeState>((set) => ({
-  me: null,
-  setMe: (user) => {
-    set({ me: user });
-  },
-}));
+export const MeContext = createContext<MeDetailed | null>(null);
 
 export function useMe(): MeDetailed;
 export function useMe<T>(selector: (m: MeDetailed) => T): T | undefined;
 export function useMe<T>(selector?: (m: MeDetailed) => T) {
-  return useSetableMe((s) => {
-    const me = s.me;
-    if (me == null) return undefined;
+  return useMemo(() => {
+    const me = use(MeContext);
+    if (me == null) throw new Error('MeContext is not provided!');
     return selector ? selector(me) : me;
-  });
+  }, [selector]);
 }

@@ -4,23 +4,14 @@
  */
 
 import type { MetaLite } from 'misskey-js/entities.js';
-import { create } from 'zustand';
+import { createContext, use, useMemo } from 'react';
 
-interface SiteMetaState {
-  meta: MetaLite | null;
-  setMeta: (meta: MetaLite) => void;
-}
+export const SiteMetaContext = createContext<MetaLite | null>(null);
 
-export const useSetableSiteMeta = create<SiteMetaState>((set) => ({
-  meta: null as null | MetaLite,
-  setMeta: (meta: MetaLite | null) => {
-    set({ meta });
-  },
-}));
-
-export const useSiteMeta = <T>(selector: (arg: MetaLite) => T) =>
-  useSetableSiteMeta((state) => {
-    const meta = state.meta;
-    if (!meta) throw new Error('site meta is not set yet!');
+export function useSiteMeta<T>(selector: (arg: MetaLite) => T): T {
+  return useMemo(() => {
+    const meta = use(SiteMetaContext);
+    if (meta == null) throw new Error('SiteMetaContext is not provided!');
     return selector(meta);
-  });
+  }, [selector]);
+}
