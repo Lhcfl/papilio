@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '@radix-ui/react-tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { FlaskConicalIcon } from 'lucide-react';
 import type { HTMLProps } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +24,7 @@ export function SettingHeader({
         {t(item.name)}
         {'experimental' in item && item.experimental && (
           <Tooltip>
-            <TooltipTrigger title="experimental" type="button">
+            <TooltipTrigger title={t(item.experimental)} type="button">
               <FlaskConicalIcon className="size-4 text-blue-500" />
             </TooltipTrigger>
             <TooltipContent>{t(item.experimental)}</TooltipContent>
