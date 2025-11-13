@@ -3,9 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Note, NoteDraft } from 'misskey-js/entities.js';
+import { justGiveMeTheNoteByIdWithoutReactivity } from '@/hooks/use-note';
+import type { NoteWithExtension } from '@/types/note';
+import type { NoteDraft } from 'misskey-js/entities.js';
 
-export const getNoteExcerpt = (note: Note | NoteDraft) => {
+export const getNoteExcerpt = (note: NoteWithExtension | NoteDraft) => {
   let text = '';
   if (note.cw) {
     text += 'CW: ';
@@ -20,13 +22,19 @@ export const getNoteExcerpt = (note: Note | NoteDraft) => {
   if (note.files?.length) {
     text += `(${note.files.length} files)`;
   }
-  if (note.renote) {
-    text += 'RT: ' + getNoteExcerpt(note.renote);
-    text += '\n\n';
+  if (note.renoteId) {
+    const renote = justGiveMeTheNoteByIdWithoutReactivity(note.renoteId);
+    if (renote) {
+      text += 'RT: ' + getNoteExcerpt(renote);
+      text += '\n\n';
+    }
   }
-  if (note.reply) {
-    text += 'RE: ' + getNoteExcerpt(note.reply);
-    text += '\n\n';
+  if (note.replyId) {
+    const reply = justGiveMeTheNoteByIdWithoutReactivity(note.replyId);
+    if (reply) {
+      text += 'RE: ' + getNoteExcerpt(reply);
+      text += '\n\n';
+    }
   }
 
   return text;

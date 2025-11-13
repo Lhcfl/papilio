@@ -256,6 +256,19 @@ export const markAsChanged = (noteId: string) => {
   );
 };
 
+/**
+ * just get note value from default store without reactivity
+ * in some cases, you may want to get note value without reactivity
+ * @param noteId Note ID
+ * @returns Note value or null if not found
+ */
+export function justGiveMeTheNoteByIdWithoutReactivity(noteId: string) {
+  const a = GlobalNoteSingletonManager.notes.get(noteId);
+  if (!a) return null;
+  const store = getDefaultStore();
+  return store.get(a);
+}
+
 // Debugging utilities
 if (import.meta.env.DEV) {
   const w = window as unknown as Record<string, unknown>;
