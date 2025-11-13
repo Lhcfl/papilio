@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from 'misskey-js/entities.js';
+import type { User } from '@/types/user';
 import type { CSSProperties, HTMLProps } from 'react';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { MkBlurHash } from '@/components/mk-blurhash';
@@ -82,7 +82,7 @@ const MkAvatarMain = (
           <AvatarPrimitive.Fallback className="relative overflow-hidden">
             <MkBlurHash id={'user:' + user.id} blurhash={user.avatarBlurhash} className="h-full w-full" />
           </AvatarPrimitive.Fallback>
-          <AvatarImage src={user.avatarUrl} loading="lazy" decoding="async" />
+          <AvatarImage src={user.avatarUrl ?? undefined} loading="lazy" decoding="async" />
         </Link>
       </Avatar>
       {showAvatarDecorations &&

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { UserDetailed } from 'misskey-js/entities.js';
+import type { UserDetailed } from '@/types/user';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { useMe } from '@/stores/me';
 import { useTranslation } from 'react-i18next';

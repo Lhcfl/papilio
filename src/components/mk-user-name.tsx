@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from 'misskey-js/entities.js';
+import type { User } from '@/types/user';
 import type { HTMLProps } from 'react';
 import { MkMfm } from '@/components/mk-mfm';
 

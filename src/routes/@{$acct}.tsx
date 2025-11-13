@@ -17,7 +17,7 @@ import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { BanIcon, ExternalLinkIcon, VolumeOffIcon } from 'lucide-react';
 import { acct } from 'misskey-js';
-import type { UserDetailed } from 'misskey-js/entities.js';
+import type { UserDetailed } from '@/types/user';
 import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/@{$acct}')({

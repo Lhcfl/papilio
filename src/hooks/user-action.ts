@@ -5,7 +5,7 @@
 
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { useMutation, type MutationFunctionContext } from '@tanstack/react-query';
-import type { UserDetailed } from 'misskey-js/entities.js';
+import type { UserDetailed } from '@/types/user';
 
 const patch = (v: Partial<UserDetailed>) => (old: UserDetailed | undefined) => (old ? { ...old, ...v } : old);
 

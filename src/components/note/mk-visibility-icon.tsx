@@ -15,7 +15,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import { useTranslation } from 'react-i18next';
 import { MkUserName } from '@/components/mk-user-name';
 import { acct } from 'misskey-js';
-import type { User } from 'misskey-js/entities.js';
+import type { User } from '@/types/user';
 
 export const MkVisibilityIcon = (
   props: { note: NoteWithExtension; iconProps?: HTMLProps<SVGSVGElement> } & HTMLProps<HTMLDivElement>,

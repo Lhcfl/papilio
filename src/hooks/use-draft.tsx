@@ -7,9 +7,10 @@ import { useEffect, useMemo, useState } from 'react';
 import * as IDB from 'idb-keyval';
 import { getCurrentUserSiteIDB } from '@/plugins/idb';
 import { useDebounce } from 'react-use';
-import type { DriveFile, User } from 'misskey-js/entities.js';
+import type { DriveFile } from 'misskey-js/entities.js';
 import { deepEqual } from '@/lib/object';
 import { toast } from 'sonner';
+import type { User } from '@/types/user';
 
 export interface DraftKeyProps {
   replyId?: string | null;

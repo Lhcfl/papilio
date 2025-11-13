@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { UserDetailed } from 'misskey-js/entities.js';
+import type { UserDetailed } from '@/types/user';
 import { MkUserName } from '@/components/mk-user-name';
 import { acct } from 'misskey-js';
 import { MkBlurHash } from '@/components/mk-blurhash';

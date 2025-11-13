@@ -4,7 +4,7 @@
  */
 
 import type { MfmNode } from 'mfm-js';
-import type { UserLite } from 'misskey-js/entities.js';
+import type { UserLite } from '@/types/user';
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkUserName } from '@/components/mk-user-name';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@radix-ui/react-accordion';

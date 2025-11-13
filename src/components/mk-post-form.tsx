@@ -32,7 +32,8 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn, copyToClipboard } from '@/lib/utils';
 import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
-import type { DriveFile, EmojiSimple, User } from 'misskey-js/entities.js';
+import type { DriveFile, EmojiSimple } from 'misskey-js/entities.js';
+import type { User } from '@/types/user';
 import { useEffect, useRef, useState, type HTMLProps } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { misskeyApi, site } from '@/services/inject-misskey-api';
