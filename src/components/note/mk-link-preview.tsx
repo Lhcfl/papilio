@@ -21,7 +21,7 @@ type SummalyResult = Awaited<ReturnType<typeof summaly>>;
 
 export const MkLinkPreview = (props: { url: string; renoteId?: string | null } & React.ComponentProps<typeof Item>) => {
   const { url, className, renoteId, ...rest } = props;
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [rich, setRich] = useState(true);
 
   const { data } = useQuery({
@@ -58,18 +58,20 @@ export const MkLinkPreview = (props: { url: string; renoteId?: string | null } &
   if (rich) {
     if (apData?.type == 'Note' && apData.object.id !== renoteId) {
       return (
-        <div className={cn('note-body-quote relative overflow-hidden rounded-md border', className)}>
-          <MkNoteSimple noteId={apData.object.id} />
-          <div className="-mt-2 mb-4 px-4">
-            <Button
-              className="w-full"
-              onClick={() => {
-                setRich(false);
-              }}
-            >
-              <XIcon /> {t('close')}
-            </Button>
-          </div>
+        <div className={cn('note-body-quote overflow-hidden rounded-md border', className)}>
+          <MkNoteSimple
+            noteId={apData.object.id}
+            appendHeader={
+              <Button
+                size="icon-sm"
+                onClick={() => {
+                  setRich(false);
+                }}
+              >
+                <XIcon />
+              </Button>
+            }
+          />
         </div>
       );
     }

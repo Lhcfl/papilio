@@ -20,14 +20,15 @@ export const MkNoteSimple = (
       ComponentProps<typeof MkNoteBody>,
       'note' | 'showQuoteAsIcon' | 'showReplyAsIcon' | 'disableLinkPreview'
     >;
+    appendHeader?: React.ReactNode;
   } & HTMLProps<HTMLDivElement>,
 ) => {
-  const { noteId, className, disableRouteOnClick, isSubNote, showLeftLine, bodyProps, ...rest } = props;
+  const { noteId, className, disableRouteOnClick, isSubNote, showLeftLine, bodyProps, appendHeader, ...rest } = props;
   const note = useNoteValue(noteId);
   if (!note) return null;
   return (
     <div className={cn('mk-note-simple relative p-2', className)} {...rest}>
-      <MkNoteHeader note={note} />
+      <MkNoteHeader note={note} append={appendHeader} />
       <div
         className={cn({
           'pl-14': isSubNote,

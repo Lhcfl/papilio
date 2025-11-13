@@ -13,8 +13,9 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Link } from '@tanstack/react-router';
 import { useSiteMeta } from '@/stores/site';
 import { PencilIcon } from 'lucide-react';
-export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
-  const { note } = props;
+
+export const MkNoteHeader = (props: { note: NoteWithExtension; append?: React.ReactNode }) => {
+  const { note, append } = props;
   const metaName = useSiteMeta((s) => s.name);
   const metaIcon = useSiteMeta((s) => s.iconUrl);
   const instanceName = note.user.instance?.name ?? metaName ?? undefined;
@@ -23,7 +24,7 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
   return (
     <div className="mk-note-header flex items-center gap-2 p-2">
       <MkAvatar user={note.user} className="z-10" avatarProps={{ className: 'size-10' }} />
-      <div className="flex w-0 flex-shrink-1 flex-grow-1 flex-col">
+      <div className="flex w-0 flex-[1_1] flex-col">
         <div className="flex justify-between gap-1">
           <div className="user-name line-clamp-1 w-0 flex-shrink-1 flex-grow-1 font-bold">
             <MkUserName user={note.user} />
@@ -52,6 +53,7 @@ export const MkNoteHeader = (props: { note: NoteWithExtension }) => {
           </div>
         </div>
       </div>
+      {append}
     </div>
   );
 };
