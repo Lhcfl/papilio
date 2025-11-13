@@ -76,7 +76,7 @@ export const MkLinkPreview = (props: { url: string; renoteId?: string | null } &
   }
 
   return (
-    <Item variant="outline" className={cn('wrap-break-word', className)} {...rest} asChild size="sm">
+    <Item variant="outline" className={cn('wrap-anywhere', className)} {...rest} asChild size="sm">
       <a href={url} target="_blank">
         {data ? (
           <>
