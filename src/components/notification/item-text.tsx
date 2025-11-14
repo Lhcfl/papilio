@@ -50,7 +50,7 @@ export const NotificationDescription = (props: { notification: Notification }) =
     case 'chatRoomInvitationReceived':
       return t('_notification.chatRoomInvitationReceived');
     case 'achievementEarned':
-      return t(`_achievements._types.${notification.achievement}.title`);
+      return t(`_achievements._types._${notification.achievement}.description`);
     case 'exportCompleted':
       return t(`_exportOrImport.${notification.exportedEntity}`);
     case 'login':
@@ -102,7 +102,7 @@ export const NotificationTitle = (props: { notification: Notification }) => {
     case 'chatRoomInvitationReceived':
       return <MkUserName user={notification.invitation.user} />;
     case 'achievementEarned':
-      return t('_notification._types.achievementEarned');
+      return t(`_achievements._types._${notification.achievement}.title`);
     case 'exportCompleted':
       return t('_notification._types.exportCompleted');
     case 'login':
