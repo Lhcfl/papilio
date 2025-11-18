@@ -5,7 +5,7 @@
 
 import { MkNotifications, MkNotificationsFilter } from '@/components/infinite-loaders/mk-notifications';
 import { createFileRoute } from '@tanstack/react-router';
-import { HeaderRightPortal } from '@/layouts/default-layout';
+import { HeaderRightPortal } from '@/components/header-portal';
 import type { NotificationIncludeableType } from '@/lib/notifications';
 import { useState } from 'react';
 

@@ -11,7 +11,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { createStreamChannel, misskeyApi } from '@/services/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
 import type { TimelineTypes } from '@/types/timeline';
-import { HeaderRightPortal } from '@/layouts/default-layout';
+import { HeaderRightPortal } from '@/components/header-portal';
 import { Button } from '@/components/ui/button';
 import { RefreshCwIcon } from 'lucide-react';
 

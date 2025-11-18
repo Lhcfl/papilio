@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { PORTALABLE_HEADER_LEFT_CLASSNAME, PORTALABLE_HEADER_RIGHT_CLASSNAME } from '@/components/app-portals';
 import { MkDrive } from '@/components/mk-drive';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { getHeaderLeftId, getHeaderRightId, WindowContext } from '@/providers/window-provider';
 import { CheckIcon, XIcon } from 'lucide-react';
 import type { DriveFile } from 'misskey-js/entities.js';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 
 export function MkDriveFileSelect(
   props: {
@@ -19,6 +19,7 @@ export function MkDriveFileSelect(
     ptrbRank?: number;
   } & ({ open: boolean; setOpen: (v: boolean) => void } | { children: React.ReactNode }),
 ) {
+  const popupId = useId();
   const { onFileSelect, limit = Number.POSITIVE_INFINITY, ptrbRank = 999 } = props;
   const [open, setOpen] = useState(false);
   const [currentFolder, setCurrentFolder] = useState<string | null>(null);
@@ -43,9 +44,9 @@ export function MkDriveFileSelect(
         <DialogTitle className="sr-only">Select a file</DialogTitle>
         <ScrollArea className="flex h-0 max-h-full flex-[1_1] flex-col">
           <div className="bg-background sticky top-0 z-30 flex h-13 items-center justify-between border-b px-2">
-            <div className={PORTALABLE_HEADER_LEFT_CLASSNAME} data-ptrb-rank={ptrbRank} />
+            <div id={getHeaderLeftId(popupId)} data-ptrb-rank={ptrbRank} />
             <div className="flex items-center gap-1">
-              <div className={PORTALABLE_HEADER_RIGHT_CLASSNAME} data-ptrb-rank={ptrbRank} />
+              <div id={getHeaderRightId(popupId)} data-ptrb-rank={ptrbRank} />
               <DialogClose
                 asChild
                 onClick={() => {
@@ -65,18 +66,20 @@ export function MkDriveFileSelect(
             </div>
           </div>
           <div className="p-2">
-            <MkDrive
-              key={currentFolder}
-              folderId={currentFolder}
-              onEnter={(f) => {
-                setCurrentFolder(f?.id ?? null);
-              }}
-              selecting={{
-                limit: limit,
-                selected: selected,
-                setSelected: setSelected,
-              }}
-            />
+            <WindowContext value={{ headerId: popupId }}>
+              <MkDrive
+                key={currentFolder}
+                folderId={currentFolder}
+                onEnter={(f) => {
+                  setCurrentFolder(f?.id ?? null);
+                }}
+                selecting={{
+                  limit: limit,
+                  selected: selected,
+                  setSelected: setSelected,
+                }}
+              />
+            </WindowContext>
           </div>
         </ScrollArea>
       </DialogContent>

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { ContextualHeaderLeftPortal, ContextualHeaderRightPortal } from '@/components/app-portals';
 import { MkDriveBreadcrumb } from '@/components/file/mk-drive-breadcrumb';
 import { MkDriveFolder } from '@/components/file/mk-drive-folder';
+import { HeaderLeftPortal, HeaderRightPortal } from '@/components/header-portal';
 import { MkDriveFiles } from '@/components/infinite-loaders/mk-drive-files';
 import { Breadcrumb, BreadcrumbList } from '@/components/ui/breadcrumb';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
@@ -67,14 +67,14 @@ export function MkDrive(props: {
 
   return (
     <div className="flex flex-col gap-2">
-      <ContextualHeaderLeftPortal>
+      <HeaderLeftPortal>
         <Breadcrumb>
           <BreadcrumbList>
             <MkDriveBreadcrumb folder={folder} onSelect={onEnter} />
           </BreadcrumbList>
         </Breadcrumb>
-      </ContextualHeaderLeftPortal>
-      <ContextualHeaderRightPortal>
+      </HeaderLeftPortal>
+      <HeaderRightPortal>
         {features.searchFiles && (
           <InputGroup>
             <InputGroupAddon>
@@ -89,7 +89,7 @@ export function MkDrive(props: {
             />
           </InputGroup>
         )}
-      </ContextualHeaderRightPortal>
+      </HeaderRightPortal>
       {isFetchingSubFolders && <Skeleton className="h-15 w-full border" />}
       {subfolders?.map((folder) => (
         <MkDriveFolder

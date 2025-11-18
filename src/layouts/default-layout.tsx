@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useMedia, useTitle } from 'react-use';
 import { AppSidebar } from '@/components/app-sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -14,9 +14,8 @@ import { DesktopRightbar } from '@/providers/rightbar-or-popup';
 import { cn } from '@/lib/utils';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import type { Tab } from '@/types/page-header';
-import { createPortal } from 'react-dom';
-import { PORTALABLE_HEADER_LEFT_CLASSNAME, PORTALABLE_HEADER_RIGHT_CLASSNAME } from '@/components/app-portals';
 import { AppNavBar } from '@/components/app-nav-bar';
+import { getHeaderLeftId, getHeaderRightId } from '@/providers/window-provider';
 
 interface SidebarLayoutProps<Ts extends Tab[]> {
   isRouteTab?: boolean;
@@ -27,19 +26,6 @@ interface SidebarLayoutProps<Ts extends Tab[]> {
   tabs?: Ts;
   onTabChange?: (value: Ts[number]['value']) => void;
   children?: React.ReactNode;
-}
-
-export const HEADER_RIGHT_PORTAL_ID = 'sdbr__h-r-portal';
-
-export function HeaderRightPortal(props: { children: React.ReactNode }) {
-  const [container, setContainer] = useState<HTMLElement | null>(null);
-  useEffect(() => {
-    // We have to set container in useEffect, because the element may not be present.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setContainer(document.getElementById(HEADER_RIGHT_PORTAL_ID));
-  }, []);
-  if (!container) return null;
-  else return createPortal(props.children, container);
 }
 
 export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
@@ -137,7 +123,7 @@ function LayoutMiddle(props: {
       <header className="bg-background sticky top-0 z-30 flex h-13 items-center gap-1 border-b p-2">
         <SidebarTrigger className="size-8 max-sm:hidden" />
         <div className="flex items-center gap-1">
-          <div className={PORTALABLE_HEADER_LEFT_CLASSNAME} data-ptrb-rank="0" />
+          <div id={getHeaderLeftId('ptrb-header')} />
           {headerLeft ?? (
             <span
               className={cn('text-muted-foreground text-sm', {
@@ -150,8 +136,7 @@ function LayoutMiddle(props: {
         </div>
         <div className="w-0 flex-grow-1 text-center">{headerCenter}</div>
         <div className="flex items-center">
-          <div className={PORTALABLE_HEADER_RIGHT_CLASSNAME} data-ptrb-rank="0" />
-          <div id={HEADER_RIGHT_PORTAL_ID} />
+          <div id={getHeaderRightId('ptrb-header')} />
           {headerRight}
         </div>
       </header>
