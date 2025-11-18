@@ -61,8 +61,12 @@ function RootRouteComponent() {
       )}
       <ConfirmDialogProvider />
       <ErrorDialogProvider />
-      <TanStackRouterDevtools position="bottom-right" />
-      <ReactQueryDevtools />
+      {import.meta.env.DEV && (
+        <div className="max-sm:-translate-y-15">
+          <TanStackRouterDevtools position="bottom-right" />
+          <ReactQueryDevtools />
+        </div>
+      )}
       <Toaster richColors theme={theme} />
     </>
   );
