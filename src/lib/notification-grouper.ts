@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import type { Note, Notification } from 'misskey-js/entities.js';
 import type { Notification as SharkeyNotification } from 'sharkey-js/entities.js';
 

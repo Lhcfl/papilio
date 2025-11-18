@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { PERSIST_GC_TIME } from '@/plugins/persister';
 import { injectMisskeyStream, site } from '@/services/inject-misskey-api';
 import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query';

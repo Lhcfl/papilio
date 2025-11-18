@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { useMe } from '@/stores/me';
 import { unreadNotificationsAtom } from '@/stores/unread-notifications';
 import { linkOptions } from '@tanstack/react-router';
