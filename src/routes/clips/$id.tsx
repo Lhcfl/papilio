@@ -30,7 +30,7 @@ function RouteComponent() {
   const { t } = useTranslation();
   const noteEachClipsLimit = useMe((me) => me.policies.noteEachClipsLimit);
   return (
-    <DefaultLayout>
+    <DefaultLayout title={clip?.name}>
       {clip && (
         <Item variant="outline">
           <ItemMedia variant="icon">
