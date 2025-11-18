@@ -4,7 +4,6 @@
  */
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { CircleXIcon } from 'lucide-react';
-import type { EmojisResponse } from 'misskey-js/entities.js';
 import { Button } from '@/components/ui/button';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { Spinner } from '@/components/ui/spinner';
@@ -14,28 +13,12 @@ import { MeContext } from '@/stores/me';
 import { SiteMetaContext } from '@/stores/site';
 import { NodeInfoContext, type NodeInfo } from '@/stores/node-info';
 import { EmojisContext } from '@/stores/emojis';
-import { useEffect } from 'react';
-import { useSetAtom } from 'jotai';
-import { unreadNotificationsAtom } from '@/stores/unread-notifications';
+import { useEmojiLoader } from '@/loaders/emoji-loader';
+import { useMeLoader } from '@/loaders/me-loader';
 
 export const WithLoginLoader = (props: { children: React.ReactNode }) => {
-  const setUnreadNotificationsCount = useSetAtom(unreadNotificationsAtom);
-
-  const me = useQuery({
-    queryKey: ['me'],
-    queryFn: () => misskeyApi('i', {}),
-    gcTime: PERSIST_GC_TIME,
-    staleTime: 1000 * 60 * 60, // 1 hour
-  });
-
-  const emojis = useQuery({
-    queryKey: ['custom-emojis'],
-    refetchInterval: 1000 * 60 * 60, // 1 hours
-    queryFn: () => fetch(new URL('/api/emojis', site!)).then((r) => r.json() as Promise<EmojisResponse>),
-    select: (data) => data.emojis,
-    gcTime: PERSIST_GC_TIME,
-    staleTime: 1000 * 60 * 60, // 1 hour
-  });
+  const me = useMeLoader();
+  const emojis = useEmojiLoader();
 
   const meta = useQuery({
     queryKey: ['site-info'],
@@ -59,10 +42,6 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
     void queryClient.invalidateQueries();
     window.location.reload();
   }
-
-  useEffect(() => {
-    setUnreadNotificationsCount(me.data?.unreadNotificationsCount ?? 0);
-  }, [me.data?.unreadNotificationsCount, setUnreadNotificationsCount]);
 
   if (queries.some(([, q]) => q.isError)) {
     return (
