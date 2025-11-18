@@ -45,6 +45,8 @@ export const MkNotifications = (props: {
       })),
     initialPageParam: 'zzzzzzzzzzzzzzzzzz',
     getNextPageParam: (lastPage) => lastPage.raw.at(-1)?.id,
+    staleTime: Infinity,
+    refetchOnWindowFocus: 'always',
   });
 
   const query = useInfiniteQuery(opts);
@@ -55,6 +57,13 @@ export const MkNotifications = (props: {
     channel.on('notification', (notification) => {
       if ('note' in notification) {
         registerNote([notification.note]);
+      }
+      const [, excludeTypes, includeTypes] = opts.queryKey;
+      if (excludeTypes?.includes(notification.type as NotificationIncludeableType)) {
+        return;
+      }
+      if (includeTypes && !includeTypes.includes(notification.type as NotificationIncludeableType)) {
+        return;
       }
       queryClient.setQueryData(opts.queryKey, (old) => {
         if (old) {
