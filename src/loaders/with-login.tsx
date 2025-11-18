@@ -14,8 +14,13 @@ import { MeContext } from '@/stores/me';
 import { SiteMetaContext } from '@/stores/site';
 import { NodeInfoContext, type NodeInfo } from '@/stores/node-info';
 import { EmojisContext } from '@/stores/emojis';
+import { useEffect } from 'react';
+import { useSetAtom } from 'jotai';
+import { unreadNotificationsAtom } from '@/stores/unread-notifications';
 
 export const WithLoginLoader = (props: { children: React.ReactNode }) => {
+  const setUnreadNotificationsCount = useSetAtom(unreadNotificationsAtom);
+
   const me = useQuery({
     queryKey: ['me'],
     queryFn: () => misskeyApi('i', {}),
@@ -54,6 +59,10 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
     void queryClient.invalidateQueries();
     window.location.reload();
   }
+
+  useEffect(() => {
+    setUnreadNotificationsCount(me.data?.unreadNotificationsCount ?? 0);
+  }, [me.data?.unreadNotificationsCount, setUnreadNotificationsCount]);
 
   if (queries.some(([, q]) => q.isError)) {
     return (

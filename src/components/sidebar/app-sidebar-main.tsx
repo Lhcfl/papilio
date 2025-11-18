@@ -25,16 +25,25 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { Link, linkOptions } from '@tanstack/react-router';
+import { useAtomValue } from 'jotai';
+import { unreadNotificationsAtom } from '@/stores/unread-notifications';
+import { useMe } from '@/stores/me';
 
 export const AppSidebarMain = () => {
   const { t } = useTranslation();
+  const unreadNotificationsCount = useAtomValue(unreadNotificationsAtom);
 
   const data = linkOptions([
     { title: t('home'), icon: HomeIcon, to: '/' },
-    { title: t('notifications'), icon: BellIcon, to: '/my/notifications' },
+    { title: t('notifications'), icon: BellIcon, to: '/my/notifications', count: unreadNotificationsCount },
     { title: t('favorites'), icon: StarIcon, to: '/my/favorites' },
     { title: t('clips'), icon: StarIcon, to: '/my/clips' },
-    { title: t('followRequests'), icon: UserPlusIcon, to: '/my/follow-requests' },
+    {
+      title: t('followRequests'),
+      icon: UserPlusIcon,
+      to: '/my/follow-requests',
+      ding: useMe((me) => me.hasPendingReceivedFollowRequest),
+    },
     { title: t('announcements'), icon: MegaphoneIcon, to: '/announcements' },
     { title: t('chat'), icon: MessageSquareIcon, to: '/chat' },
     { title: t('drive'), icon: CloudIcon, to: '/my/drive' },
@@ -52,6 +61,12 @@ export const AppSidebarMain = () => {
                 <Link to={item.to}>
                   <item.icon />
                   {item.title}
+                  {'count' in item && item.count > 0 && (
+                    <span className="count bg-tertiary text-secondary rounded-sm px-1.5 py-0.5 text-xs">
+                      {item.count}
+                    </span>
+                  )}
+                  {'ding' in item && item.ding && <span className="ding bg-tertiary h-2 w-2 rounded-full" />}
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
