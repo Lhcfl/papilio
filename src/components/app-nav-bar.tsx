@@ -6,6 +6,7 @@
 import { MkPostFormDialog } from '@/components/mk-post-form-dialog';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { useSidebarItems } from '@/hooks/use-sidebar';
 import { cn } from '@/lib/utils';
 import { unreadNotificationsAtom } from '@/stores/unread-notifications';
 import { Link } from '@tanstack/react-router';
@@ -15,10 +16,17 @@ import type { HTMLProps } from 'react';
 
 export function AppNavBar({ className, ...props }: HTMLProps<HTMLDivElement>) {
   const unreadNotificationsCount = useAtomValue(unreadNotificationsAtom);
+  const sidebarItems = useSidebarItems();
+  const hasDing = sidebarItems.some((item) => 'ding' in item && item.ding);
 
   return (
     <nav className={cn('flex w-full gap-2 border-t p-2', className)} {...props}>
-      <SidebarTrigger className="h-10 flex-1/4" variant="secondary" />
+      <div className="relative h-10 flex-1/4">
+        <SidebarTrigger className="h-full w-full" variant="secondary" />
+        {hasDing && (
+          <span className="ding bg-tertiary absolute top-1/2 left-1/2 z-10 h-2 w-2 translate-x-3 -translate-y-3 rounded-full" />
+        )}
+      </div>
       <Button variant="secondary" className="h-10 flex-1/4" asChild>
         <Link to="/">
           <HomeIcon />
