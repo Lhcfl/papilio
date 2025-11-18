@@ -75,7 +75,7 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
                       {tab.icon}
                       <span
                         className={cn({
-                          'max-sm:hidden': tab.value != actualCurrentTab?.value,
+                          '@max-xl:hidden': tab.value != actualCurrentTab?.value,
                         })}
                       >
                         {tab.label}
@@ -120,24 +120,28 @@ function LayoutMiddle(props: {
   const { title, className, children, headerCenter, headerRight, headerLeft } = props;
   return (
     <ScrollArea className={className} id="main-scroll-area">
-      <header className="bg-background sticky top-0 z-30 flex h-13 items-center gap-1 border-b p-2">
-        <SidebarTrigger className="size-8 max-sm:hidden" />
-        <div className="flex items-center gap-1">
-          <div id={getHeaderLeftId('ptrb-header')} />
-          {headerLeft ?? (
-            <span
-              className={cn('text-muted-foreground text-sm', {
-                'max-sm:hidden': !!headerCenter,
-              })}
-            >
-              {title}
-            </span>
-          )}
-        </div>
-        <div className="w-0 flex-grow-1 text-center">{headerCenter}</div>
-        <div className="flex items-center">
-          <div id={getHeaderRightId('ptrb-header')} />
-          {headerRight}
+      <header className="bg-background @container sticky top-0 z-30 h-13 gap-1 border-b p-2">
+        <div className="relative flex w-full items-center justify-between">
+          <div className="flex items-center gap-1">
+            <SidebarTrigger className="-mr-2 size-8 max-sm:hidden" />
+            <div id={getHeaderLeftId('ptrb-header')} />
+            {headerLeft ?? (
+              <span
+                className={cn('text-muted-foreground text-sm', {
+                  '@max-xl:hidden': !!headerCenter,
+                })}
+              >
+                {title}
+              </span>
+            )}
+          </div>
+          <div className="@sm:absolute @sm:top-1/2 @sm:left-1/2 @sm:-translate-x-1/2 @sm:-translate-y-1/2">
+            {headerCenter}
+          </div>
+          <div className="flex items-center">
+            <div id={getHeaderRightId('ptrb-header')} />
+            {headerRight}
+          </div>
         </div>
       </header>
       <div className="flex justify-center p-2">
