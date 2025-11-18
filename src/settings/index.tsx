@@ -4,11 +4,11 @@
  */
 
 import { AppearanceSettings } from '@/settings/appearance';
-import { GeneralSettings } from '@/settings/general';
+import { BehaviorSettings } from '@/settings/behavior';
 import { NoteSettings } from '@/settings/note';
 import { PostFormSettings } from '@/settings/postform';
 
-export const DetailedSettings = [GeneralSettings, AppearanceSettings, NoteSettings, PostFormSettings] as const;
+export const DetailedSettings = [BehaviorSettings, AppearanceSettings, NoteSettings, PostFormSettings] as const;
 
 function getAllSettings() {
   const DefaultSettings = {} as AllSettings;

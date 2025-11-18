@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { AppLanguageSelect } from '@/components/settings/app-language-select';
 import { CogIcon, PaletteIcon } from 'lucide-react';
 
 const t = (x: string) => x;
@@ -35,6 +36,12 @@ export const AppearanceSettings = {
       description: 'TODO',
       items: [
         {
+          kind: 'custom',
+          name: t('language'),
+          direction: 'right' as 'right' | 'bottom',
+          component: <AppLanguageSelect />,
+        },
+        {
           kind: 'switch',
           defaultValue: true,
           name: t('showAvatarDecorations'),
@@ -48,6 +55,12 @@ export const AppearanceSettings = {
           name: t('_preference.cssTextAutospace'),
           description: t('_preference.cssTextAutospaceDesc'),
           experimental: t('browserExperimental'),
+        },
+        {
+          kind: 'switch',
+          key: 'groupNotifications',
+          defaultValue: true,
+          name: t('useGroupedNotifications'),
         },
       ],
     },
