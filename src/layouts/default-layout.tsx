@@ -121,7 +121,7 @@ function LayoutMiddle(props: {
   return (
     <ScrollArea className={className} id="main-scroll-area">
       <header className="bg-background @container sticky top-0 z-30 h-13 gap-1 border-b p-2">
-        <div className="relative flex w-full items-center justify-between">
+        <div className="relative flex h-full w-full items-center justify-between">
           <div className="flex items-center gap-1">
             <SidebarTrigger className="-mr-2 size-8 max-sm:hidden" />
             <div id={getHeaderLeftId('ptrb-header')} />
