@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { MkNotifications, MkNotificationsFilter } from '@/components/infinite-loaders/mk-notifications';
+import { MkNotifications } from '@/components/infinite-loaders/mk-notifications';
 import { MkClock } from '@/components/mk-clock';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import type { NotificationIncludeableType } from '@/lib/notifications';
 import { cn } from '@/lib/utils';
+import { getHeaderRightId, WindowContext } from '@/providers/window-provider';
 import { BellIcon } from 'lucide-react';
-import { useState, type HTMLProps } from 'react';
+import { type HTMLProps } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const AppRightCard = ({ className, ...props }: HTMLProps<HTMLDivElement>) => {
-  const [excluded, setExcluded] = useState<NotificationIncludeableType[]>([]);
   const { t } = useTranslation();
+  const headerId = 'sidebar';
 
   return (
     <aside className={cn('flex flex-col gap-2 p-2', className)} {...props}>
@@ -27,9 +27,11 @@ export const AppRightCard = ({ className, ...props }: HTMLProps<HTMLDivElement>)
             <BellIcon className="size-4" />
             {t('notifications')}
           </div>
-          <MkNotificationsFilter excluded={excluded} setExcluded={setExcluded} />
+          <div id={getHeaderRightId(headerId)} />
         </header>
-        <MkNotifications excludeTypes={excluded} />
+        <WindowContext value={{ headerId }}>
+          <MkNotifications />
+        </WindowContext>
       </ScrollArea>
       {/* TODO: translate this */}
       <footer className="text-muted-foreground p-2 text-xs">

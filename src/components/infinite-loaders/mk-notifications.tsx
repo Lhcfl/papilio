@@ -6,7 +6,7 @@
 import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react/jsx-runtime';
 import { MkNotification } from '@/components/mk-notification';
-import { FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon } from 'lucide-react';
+import { FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon, RefreshCwIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NOTIFICATION_TYPES, type NotificationIncludeableType } from '@/lib/notifications';
 import { createStreamChannel, misskeyApi } from '@/services/inject-misskey-api';
@@ -14,25 +14,22 @@ import { registerNote } from '@/hooks/use-note';
 import { MenuOrDrawer, type Menu, type MenuSwitch } from '@/components/menu-or-drawer';
 import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { infiniteQueryOptions, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { groupNotifications } from '@/lib/notification-grouper';
 import { usePreference } from '@/stores/perference';
+import { HeaderRightPortal } from '@/components/header-portal';
 
-export const MkNotifications = (props: {
-  excludeTypes?: NotificationIncludeableType[];
-  includeTypes?: NotificationIncludeableType[];
-}) => {
-  const { excludeTypes, includeTypes } = props;
+export const MkNotifications = () => {
+  const [excluded, setExcluded] = useState<NotificationIncludeableType[]>([]);
   const grouping = usePreference((p) => p.groupNotifications);
 
   const opts = infiniteQueryOptions({
-    queryKey: ['notifications', excludeTypes, includeTypes],
+    queryKey: ['notifications', excluded],
     queryFn: ({ pageParam: untilId }) =>
       misskeyApi('i/notifications', {
         untilId,
         limit: 99,
-        excludeTypes,
-        includeTypes,
+        excludeTypes: excluded,
       }).then((ns) => ({
         id: untilId,
         raw: ns.map((n) => {
@@ -50,6 +47,7 @@ export const MkNotifications = (props: {
   });
 
   const query = useInfiniteQuery(opts);
+  const { refetch, isRefetching } = query;
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -58,11 +56,8 @@ export const MkNotifications = (props: {
       if ('note' in notification) {
         registerNote([notification.note]);
       }
-      const [, excludeTypes, includeTypes] = opts.queryKey;
-      if (excludeTypes?.includes(notification.type as NotificationIncludeableType)) {
-        return;
-      }
-      if (includeTypes && !includeTypes.includes(notification.type as NotificationIncludeableType)) {
+      const [, excluded] = opts.queryKey;
+      if (excluded.includes(notification.type as NotificationIncludeableType)) {
         return;
       }
       queryClient.setQueryData(opts.queryKey, (old) => {
@@ -101,16 +96,30 @@ export const MkNotifications = (props: {
   }, [opts.queryKey, queryClient]);
 
   return (
-    <MkInfiniteScrollByData infiniteQueryResult={query}>
-      {(page) =>
-        (grouping ? page.grouped : page.raw).map((n) => (
-          <Fragment key={n.id}>
-            <MkNotification notification={n} />
-            <hr className="m-auto w-[80%]" />
-          </Fragment>
-        ))
-      }
-    </MkInfiniteScrollByData>
+    <>
+      <HeaderRightPortal>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={() => {
+            void refetch();
+          }}
+        >
+          <RefreshCwIcon className={isRefetching ? 'animate-spin' : ''} />
+        </Button>
+        <MkNotificationsFilter excluded={excluded} setExcluded={setExcluded} />
+      </HeaderRightPortal>
+      <MkInfiniteScrollByData infiniteQueryResult={query}>
+        {(page) =>
+          (grouping ? page.grouped : page.raw).map((n) => (
+            <Fragment key={n.id}>
+              <MkNotification notification={n} />
+              <hr className="m-auto w-[80%]" />
+            </Fragment>
+          ))
+        }
+      </MkInfiniteScrollByData>
+    </>
   );
 };
 
