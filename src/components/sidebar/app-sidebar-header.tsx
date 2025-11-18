@@ -5,15 +5,12 @@
 
 import { SiteLogo } from '@/components/site-logo';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { Button } from '@/components/ui/button';
-import { SunMoonIcon } from 'lucide-react';
 import { useSiteMeta } from '@/stores/site';
 import { site } from '@/services/inject-misskey-api';
-import { usePreference } from '@/stores/perference';
+import { AppThemeToggle } from '@/components/app-theme-toggle';
 export const AppSidebarHeader = () => {
   const metaName = useSiteMeta((m) => m.name);
   const domain = new URL(site!).origin;
-  const setTheme = usePreference((p) => p.setTheme);
 
   return (
     <SidebarMenu>
@@ -25,15 +22,7 @@ export const AppSidebarHeader = () => {
             <span className="text-muted-foreground truncate text-xs">{domain}</span>
           </div>
         </SidebarMenuButton>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => {
-            setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-          }}
-        >
-          <SunMoonIcon />
-        </Button>
+        <AppThemeToggle />
       </SidebarMenuItem>
     </SidebarMenu>
   );

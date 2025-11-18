@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, type HTMLProps } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePreference } from '@/stores/perference';
+import { cn } from '@/lib/utils';
 
 const MkCodeHighlighted = lazy(() => import('./mk-code-highlight'));
 
@@ -17,13 +18,18 @@ export function MkCodeUnhighlighted({ code, language = 'plaintext' }: { code: st
   );
 }
 
-export function MkCode({ code, language = 'plaintext' }: { code: string; language?: string | null }) {
+export function MkCode({
+  code,
+  language = 'plaintext',
+  className,
+  ...props
+}: { code: string; language?: string | null } & HTMLProps<HTMLDivElement>) {
   const disableHighlight = usePreference((s) => s.dataSaverCode);
 
   return (
-    <div className="bg-accent relative rounded-md border">
+    <div className={cn('bg-accent relative rounded-md border text-sm lg:text-base', className)} {...props}>
       <span className="lang-tag text-muted-foreground absolute top-0 right-0 p-2 font-mono">{language}</span>
-      <ScrollArea orientation="horizontal" className="flex overflow-x-auto p-2 text-sm md:p-4 lg:text-base">
+      <ScrollArea orientation="horizontal" className="flex overflow-x-auto p-2 md:p-4">
         <div className="w-0 flex-[1_1_auto]">
           {disableHighlight ? (
             <MkCodeUnhighlighted code={code} language={language} />

@@ -27,6 +27,7 @@ import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as SettingsPageRouteImport } from './routes/settings/$page'
 import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
 import { Route as MyClipsRouteImport } from './routes/my/clips'
+import { Route as DebugWsRouteImport } from './routes/debug/ws'
 import { Route as ClipsIdRouteImport } from './routes/clips/$id'
 import { Route as TimelineLocalTimelineRouteImport } from './routes/_timeline/local-timeline'
 import { Route as TimelineHybridTimelineRouteImport } from './routes/_timeline/hybrid-timeline'
@@ -133,6 +134,11 @@ const MyClipsRoute = MyClipsRouteImport.update({
   path: '/my/clips',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DebugWsRoute = DebugWsRouteImport.update({
+  id: '/debug/ws',
+  path: '/debug/ws',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClipsIdRoute = ClipsIdRouteImport.update({
   id: '/clips/$id',
   path: '/clips/$id',
@@ -232,6 +238,7 @@ export interface FileRoutesByFullPath {
   '/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/local-timeline': typeof TimelineLocalTimelineRoute
   '/clips/$id': typeof ClipsIdRoute
+  '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/settings/$page': typeof SettingsPageRoute
@@ -265,6 +272,7 @@ export interface FileRoutesByTo {
   '/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/local-timeline': typeof TimelineLocalTimelineRoute
   '/clips/$id': typeof ClipsIdRoute
+  '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/settings/$page': typeof SettingsPageRoute
@@ -302,6 +310,7 @@ export interface FileRoutesById {
   '/_timeline/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/_timeline/local-timeline': typeof TimelineLocalTimelineRoute
   '/clips/$id': typeof ClipsIdRoute
+  '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
   '/settings/$page': typeof SettingsPageRoute
@@ -339,6 +348,7 @@ export interface FileRouteTypes {
     | '/hybrid-timeline'
     | '/local-timeline'
     | '/clips/$id'
+    | '/debug/ws'
     | '/my/clips'
     | '/my/favorites'
     | '/settings/$page'
@@ -372,6 +382,7 @@ export interface FileRouteTypes {
     | '/hybrid-timeline'
     | '/local-timeline'
     | '/clips/$id'
+    | '/debug/ws'
     | '/my/clips'
     | '/my/favorites'
     | '/settings/$page'
@@ -408,6 +419,7 @@ export interface FileRouteTypes {
     | '/_timeline/hybrid-timeline'
     | '/_timeline/local-timeline'
     | '/clips/$id'
+    | '/debug/ws'
     | '/my/clips'
     | '/my/favorites'
     | '/settings/$page'
@@ -442,6 +454,7 @@ export interface RootRouteChildren {
   MyFollowRequestsRouteRoute: typeof MyFollowRequestsRouteRouteWithChildren
   MyNotificationsRouteRoute: typeof MyNotificationsRouteRouteWithChildren
   ClipsIdRoute: typeof ClipsIdRoute
+  DebugWsRoute: typeof DebugWsRoute
   MyClipsRoute: typeof MyClipsRoute
   MyFavoritesRoute: typeof MyFavoritesRoute
   TagTagRoute: typeof TagTagRoute
@@ -578,6 +591,13 @@ declare module '@tanstack/react-router' {
       path: '/my/clips'
       fullPath: '/my/clips'
       preLoaderRoute: typeof MyClipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/debug/ws': {
+      id: '/debug/ws'
+      path: '/debug/ws'
+      fullPath: '/debug/ws'
+      preLoaderRoute: typeof DebugWsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clips/$id': {
@@ -774,6 +794,7 @@ const rootRouteChildren: RootRouteChildren = {
   MyFollowRequestsRouteRoute: MyFollowRequestsRouteRouteWithChildren,
   MyNotificationsRouteRoute: MyNotificationsRouteRouteWithChildren,
   ClipsIdRoute: ClipsIdRoute,
+  DebugWsRoute: DebugWsRoute,
   MyClipsRoute: MyClipsRoute,
   MyFavoritesRoute: MyFavoritesRoute,
   TagTagRoute: TagTagRoute,
