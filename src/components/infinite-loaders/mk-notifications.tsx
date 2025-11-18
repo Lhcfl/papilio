@@ -26,6 +26,7 @@ export const MkNotifications = () => {
   const { t } = useTranslation();
 
   const { mutate: markAllAsRead, isPending: isMarkingAllAsRead } = useMutation({
+    mutationKey: ['notifications/mark-all-as-read'],
     mutationFn: () => misskeyApi('notifications/mark-all-as-read', {}),
   });
 
