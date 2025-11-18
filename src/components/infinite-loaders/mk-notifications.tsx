@@ -6,22 +6,28 @@
 import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react/jsx-runtime';
 import { MkNotification } from '@/components/mk-notification';
-import { FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon, RefreshCwIcon } from 'lucide-react';
+import { CheckCheckIcon, FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon, RefreshCwIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NOTIFICATION_TYPES, type NotificationIncludeableType } from '@/lib/notifications';
 import { createStreamChannel, misskeyApi } from '@/services/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
 import { MenuOrDrawer, type Menu, type MenuSwitch } from '@/components/menu-or-drawer';
 import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
-import { infiniteQueryOptions, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { groupNotifications } from '@/lib/notification-grouper';
 import { usePreference } from '@/stores/perference';
 import { HeaderRightPortal } from '@/components/header-portal';
+import { Spinner } from '@/components/ui/spinner';
 
 export const MkNotifications = () => {
   const [excluded, setExcluded] = useState<NotificationIncludeableType[]>([]);
   const grouping = usePreference((p) => p.groupNotifications);
+  const { t } = useTranslation();
+
+  const { mutate: markAllAsRead, isPending: isMarkingAllAsRead } = useMutation({
+    mutationFn: () => misskeyApi('notifications/mark-all-as-read', {}),
+  });
 
   const opts = infiniteQueryOptions({
     queryKey: ['notifications', excluded],
@@ -30,6 +36,7 @@ export const MkNotifications = () => {
         untilId,
         limit: 99,
         excludeTypes: excluded,
+        markAsRead: false,
       }).then((ns) => ({
         id: untilId,
         raw: ns.map((n) => {
@@ -44,6 +51,7 @@ export const MkNotifications = () => {
     getNextPageParam: (lastPage) => lastPage.raw.at(-1)?.id,
     staleTime: Infinity,
     refetchOnWindowFocus: 'always',
+    refetchOnReconnect: 'always',
   });
 
   const query = useInfiniteQuery(opts);
@@ -102,8 +110,19 @@ export const MkNotifications = () => {
           variant="ghost"
           size="icon-sm"
           onClick={() => {
+            markAllAsRead();
+          }}
+          title={t('markAllAsRead')}
+        >
+          {isMarkingAllAsRead ? <Spinner /> : <CheckCheckIcon />}
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={() => {
             void refetch();
           }}
+          title={t('reload')}
         >
           <RefreshCwIcon className={isRefetching ? 'animate-spin' : ''} />
         </Button>
@@ -203,11 +222,11 @@ export const MkNotificationsFilter = (props: {
   return (
     <MenuOrDrawer menu={menu}>
       {hasIncludedAll ? (
-        <Button variant="ghost" size="icon-sm">
+        <Button variant="ghost" size="icon-sm" title={t('filter')}>
           <FilterIcon />
         </Button>
       ) : (
-        <Button variant="ghost" size="icon-sm" className="bg-tertiary/10">
+        <Button variant="ghost" size="icon-sm" className="bg-tertiary/10" title={t('filter')}>
           <FilterXIcon className="text-tertiary" />
         </Button>
       )}
