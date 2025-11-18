@@ -53,30 +53,18 @@ export function groupNotifications(ns: Notification[]) {
   for (const [key, grouped] of groupping) {
     const [type, id] = key.split(':');
     switch (type) {
-      case 'renote': {
-        if (grouped.length === 1) {
-          res.push(grouped[0] as FrontendGroupedNotification);
-        } else {
-          res.push({
-            type: 'grouped:renote',
-            id,
-            note: (grouped as Extract<Notification, { type: 'renote' }>[])[0].note,
-            createdAt: (grouped as Extract<Notification, { type: 'renote' }>[])[0].createdAt,
-            grouped: grouped as Extract<Notification, { type: 'renote' }>[],
-          });
-        }
-        break;
-      }
+      case 'renote':
       case 'reaction': {
         if (grouped.length === 1) {
           res.push(grouped[0] as FrontendGroupedNotification);
         } else {
+          const g = grouped as Extract<Notification, { type: 'renote' }>[];
           res.push({
-            type: 'grouped:reaction',
-            id,
-            note: (grouped as Extract<Notification, { type: 'reaction' }>[])[0].note,
-            createdAt: (grouped as Extract<Notification, { type: 'reaction' }>[])[0].createdAt,
-            grouped: grouped as Extract<Notification, { type: 'reaction' }>[],
+            type: `grouped:${type}` as 'grouped:renote',
+            id: `${type}:${id}`,
+            note: g[0].note,
+            createdAt: g[0].createdAt,
+            grouped: g,
           });
         }
         break;
