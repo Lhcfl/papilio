@@ -12,9 +12,8 @@ import { MkNote } from '@/components/mk-note';
 import type { HTMLProps } from 'react';
 import { MkAvatar } from '@/components/mk-avatar';
 import { Button } from '@/components/ui/button';
-import { CheckIcon, ChevronLeftIcon, MoreHorizontalIcon, UserRoundPlusIcon, XIcon } from 'lucide-react';
+import { CheckIcon, ChevronLeftIcon, UserRoundPlusIcon, XIcon } from 'lucide-react';
 import { MkUserName } from '@/components/mk-user-name';
-import { MkI18n } from '@/components/mk-i18n';
 import { Spinner } from '@/components/ui/spinner';
 import { Tooltip, TooltipContent } from '@/components/ui/tooltip';
 import { TooltipTrigger } from '@radix-ui/react-tooltip';
@@ -23,6 +22,7 @@ import { NotificationDescription, NotificationTitle } from '@/components/notific
 import { useUserQuery } from '@/hooks/use-user';
 import { useAcceptFollowRequestAction, useFollowAction, useRejectFollowRequestAction } from '@/hooks/user-action';
 import type { FrontendGroupedNotification } from '@/lib/notification-grouper';
+import { MkTime } from '@/components/mk-time';
 
 type PickNotification<T extends FrontendGroupedNotification['type']> = Extract<
   FrontendGroupedNotification,
@@ -81,9 +81,9 @@ export const MkNotification = (
           case 'app':
             return <SimpleNotification notification={notification} />;
           case 'grouped:reaction':
-            return <ReactionNotification notification={notification} />;
+            return <ExpandableNotification notification={notification} />;
           case 'grouped:renote':
-            return <RenoteNotification notification={notification} />;
+            return <ExpandableNotification notification={notification} />;
           default:
             return <SimpleNotification notification={notification as unknown as Notification} />;
         }
@@ -194,10 +194,10 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
   );
 };
 
-const ReactionNotification = (props: { notification: PickNotification<'reaction' | 'grouped:reaction'> }) => {
+function ExpandableNotification(props: { notification: PickNotification<'grouped:reaction' | 'grouped:renote'> }) {
   const { notification } = props;
   const [expand, setExpand] = useState(false);
-  const ns = notification.type === 'reaction' ? [notification] : notification.grouped;
+  const ns = notification.grouped;
   const nsLess = ns.slice(0, 3);
   const hasMore = ns.length > 3;
 
@@ -206,22 +206,29 @@ const ReactionNotification = (props: { notification: PickNotification<'reaction'
       <NotificationItemMedia notification={notification} className="items-start" />
       <ItemContent>
         <div className="mt-1 flex flex-wrap gap-2">
-          {(expand ? ns : nsLess).map((r) => (
-            <div className="reacter relative" key={r.id}>
-              <MkAvatar user={r.user} avatarProps={{ className: 'mr-1 size-10' }} />
-              <ReactionEmoji reaction={r.reaction} note={notification.note} />
-            </div>
-          ))}
+          {(expand ? ns : nsLess).map((n) => {
+            switch (n.type) {
+              case 'reaction':
+                return (
+                  <div className="reacter relative" key={n.id}>
+                    <MkAvatar user={n.user} avatarProps={{ className: 'mr-1 size-10' }} />
+                    <ReactionEmoji reaction={n.reaction} note={notification.note} />
+                  </div>
+                );
+              case 'renote':
+                return <MkAvatar key={n.id} user={n.user} avatarProps={{ className: 'mr-1 size-10' }} />;
+            }
+          })}
           {hasMore && !expand && (
             <Button
               variant="outline"
               size="icon-lg"
-              className="rounded-full"
+              className="text-muted-foreground! rounded-full text-xs"
               onClick={() => {
                 setExpand(true);
               }}
             >
-              <MoreHorizontalIcon />
+              +{ns.length - 3}
             </Button>
           )}
           {hasMore && expand && (
@@ -241,84 +248,12 @@ const ReactionNotification = (props: { notification: PickNotification<'reaction'
           <NotificationDescription notification={notification} />
         </div>
       </ItemContent>
-    </Item>
-  );
-};
-
-const RenoteNotification = (props: { notification: PickNotification<'renote' | 'grouped:renote'> }) => {
-  const { notification } = props;
-  const { t } = useTranslation();
-  const [expand, setExpand] = useState(false);
-  const ns = notification.type === 'renote' ? [notification] : notification.grouped;
-  const nsLess = ns.slice(0, 3);
-  const hasMore = ns.length > 3;
-
-  return (
-    <Item className="items-start">
-      <NotificationItemMedia notification={notification} className="items-start" />
       <ItemContent>
-        <div className="line-clamp-1 text-sm">
-          <MkI18n
-            i18nKey="renotedBy"
-            values={{
-              user: hasMore ? (
-                <span>
-                  <span>{`${ns.length} ${t('users')}: `}</span>
-                  {nsLess.map((u, i) => [
-                    <span key={u.id}>
-                      {i > 0 && ', '}
-                      <MkUserName user={u.user} />
-                    </span>,
-                  ])}
-                  ...
-                </span>
-              ) : (
-                nsLess.map((u, i) => [
-                  <span key={u.id}>
-                    {i > 0 && ', '}
-                    <MkUserName user={u.user} />
-                  </span>,
-                ])
-              ),
-            }}
-          />
-        </div>
-        <div className="mt-1 flex flex-wrap gap-2">
-          {(expand ? ns : nsLess).map((u) => (
-            <MkAvatar key={u.id} user={u.user} avatarProps={{ className: 'mr-1 size-10' }} />
-          ))}
-          {hasMore && !expand && (
-            <Button
-              variant="outline"
-              size="icon-lg"
-              className="rounded-full"
-              onClick={() => {
-                setExpand(true);
-              }}
-            >
-              <MoreHorizontalIcon />
-            </Button>
-          )}
-          {hasMore && expand && (
-            <Button
-              variant="outline"
-              size="icon-lg"
-              className="rounded-full"
-              onClick={() => {
-                setExpand(false);
-              }}
-            >
-              <ChevronLeftIcon />
-            </Button>
-          )}
-        </div>
-        <div className="text-muted-foreground mt-2 line-clamp-2 text-sm">
-          <NotificationDescription notification={notification} />
-        </div>
+        <MkTime time={notification.createdAt} className="text-muted-foreground" />
       </ItemContent>
     </Item>
   );
-};
+}
 
 export const SimpleNotification = (props: { notification: Notification } & React.ComponentProps<typeof Item>) => {
   const { notification, ...itemProps } = props;
@@ -326,8 +261,13 @@ export const SimpleNotification = (props: { notification: Notification } & React
     <Item {...itemProps}>
       <NotificationItemMedia notification={notification} />
       <ItemContent className="w-0 flex-[1_1]">
-        <ItemTitle className="line-clamp-1">
-          <NotificationTitle notification={notification} />
+        <ItemTitle className="w-full">
+          <div className="line-clamp-1 w-0 flex-[1_1]">
+            <NotificationTitle notification={notification} />
+          </div>
+          <div className="text-muted-foreground">
+            <MkTime time={notification.createdAt} />
+          </div>
         </ItemTitle>
         <div className="text-muted-foreground line-clamp-2 text-sm wrap-break-word">
           <NotificationDescription notification={notification} />
