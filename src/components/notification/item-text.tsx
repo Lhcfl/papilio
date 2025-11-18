@@ -4,14 +4,13 @@
  */
 
 import { useTranslation } from 'react-i18next';
-
-import type { Notification } from 'misskey-js/entities.js';
 import { MkUserName } from '@/components/mk-user-name';
 import { getNoteExcerpt } from '@/services/note-excerpt';
 import { Link } from '@tanstack/react-router';
 import { MkMfm } from '@/components/mk-mfm';
+import type { FrontendGroupedNotification } from '@/lib/notification-grouper';
 
-export const NotificationDescription = (props: { notification: Notification }) => {
+export const NotificationDescription = (props: { notification: FrontendGroupedNotification }) => {
   const { notification } = props;
   const { t } = useTranslation();
 
@@ -21,6 +20,7 @@ export const NotificationDescription = (props: { notification: Notification }) =
     case 'reply':
     case 'quote':
     case 'reaction':
+    case 'grouped:reaction':
     case 'reaction:grouped':
       return (
         <Link to="/notes/$id" params={{ id: notification.note.id }}>
@@ -59,6 +59,7 @@ export const NotificationDescription = (props: { notification: Notification }) =
       return t('_notification.createToken');
     case 'app':
       return notification.body;
+    case 'grouped:renote':
     case 'renote:grouped':
       return getNoteExcerpt(notification.note);
     case 'test':
@@ -68,7 +69,7 @@ export const NotificationDescription = (props: { notification: Notification }) =
   }
 };
 
-export const NotificationTitle = (props: { notification: Notification }) => {
+export const NotificationTitle = (props: { notification: FrontendGroupedNotification }) => {
   const { notification } = props;
   const { t } = useTranslation();
 

@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Notification } from 'misskey-js/entities.js';
 import { ItemMedia } from '@/components/ui/item';
 import { MkAvatar } from '@/components/mk-avatar';
 import clsx from 'clsx';
@@ -31,6 +30,9 @@ import {
 } from 'lucide-react';
 import { MkCustomEmoji, MkEmoji } from '@/components/mk-emoji';
 import type { NoteWithExtension } from '@/types/note';
+import type { FrontendGroupedNotification } from '@/lib/notification-grouper';
+
+type Notification = FrontendGroupedNotification;
 
 export const NotificationItemIcon = (type: Notification['type']) => {
   switch (type) {
@@ -73,8 +75,10 @@ export const NotificationItemIcon = (type: Notification['type']) => {
     case 'app':
       return LayoutGridIcon;
     case 'reaction:grouped':
+    case 'grouped:reaction':
       return SmilePlusIcon;
     case 'renote:grouped':
+    case 'grouped:renote':
       return RepeatIcon;
     case 'test':
       return FlaskConicalIcon;
@@ -124,8 +128,10 @@ const NotificationIconColor = (type: Notification['type']) => {
     case 'app':
       return 'bg-zinc-500';
     case 'reaction:grouped':
+    case 'grouped:reaction':
       return 'bg-red-300';
     case 'renote:grouped':
+    case 'grouped:renote':
       return 'bg-purple-400';
     case 'test':
       return 'bg-gray-400';
@@ -149,7 +155,7 @@ export const ReactionEmoji = (props: { reaction: string; note: NoteWithExtension
 );
 
 export const NotificationItemMedia = (
-  props: { notification: Notification } & React.ComponentProps<typeof ItemMedia>,
+  props: { notification: FrontendGroupedNotification } & React.ComponentProps<typeof ItemMedia>,
 ) => {
   const { notification, ...mediaProps } = props;
   const ItemIcon = NotificationItemIcon(notification.type);

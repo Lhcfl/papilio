@@ -22,12 +22,16 @@ import { NotificationItemMedia, ReactionEmoji } from '@/components/notification/
 import { NotificationDescription, NotificationTitle } from '@/components/notification/item-text';
 import { useUserQuery } from '@/hooks/use-user';
 import { useAcceptFollowRequestAction, useFollowAction, useRejectFollowRequestAction } from '@/hooks/user-action';
+import type { FrontendGroupedNotification } from '@/lib/notification-grouper';
 
-type PickNotification<T extends Notification['type']> = Extract<Notification, { type: T }>;
+type PickNotification<T extends FrontendGroupedNotification['type']> = Extract<
+  FrontendGroupedNotification,
+  { type: T }
+>;
 
 export const MkNotification = (
   props: {
-    notification: Notification | { type: '_other' };
+    notification: FrontendGroupedNotification;
   } & HTMLProps<HTMLDivElement>,
 ) => {
   const { notification } = props;
@@ -76,9 +80,9 @@ export const MkNotification = (
             return <SimpleNotification notification={notification} />;
           case 'app':
             return <SimpleNotification notification={notification} />;
-          case 'reaction:grouped':
+          case 'grouped:reaction':
             return <ReactionNotification notification={notification} />;
-          case 'renote:grouped':
+          case 'grouped:renote':
             return <RenoteNotification notification={notification} />;
           default:
             return <SimpleNotification notification={notification as unknown as Notification} />;
@@ -190,25 +194,20 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
   );
 };
 
-const ReactionNotification = (props: { notification: PickNotification<'reaction' | 'reaction:grouped'> }) => {
+const ReactionNotification = (props: { notification: PickNotification<'reaction' | 'grouped:reaction'> }) => {
   const { notification } = props;
   const [expand, setExpand] = useState(false);
-  const reacters = notification.type === 'reaction' ? [notification] : notification.reactions;
-  const reactersLess = reacters.slice(0, 3);
-  const hasMore = reacters.length > 3;
+  const ns = notification.type === 'reaction' ? [notification] : notification.grouped;
+  const nsLess = ns.slice(0, 3);
+  const hasMore = ns.length > 3;
 
   return (
     <Item className="items-start">
       <NotificationItemMedia notification={notification} className="items-start" />
       <ItemContent>
         <div className="mt-1 flex flex-wrap gap-2">
-          {(expand ? reacters : reactersLess).map((r, i) => (
-            // It's misskey API design that there's no ID for each reaction.
-            // But for some times, the same user can react with the same emoji to one note.
-            // We just can't distinguish them.
-            // So here we use index as part of key.
-            // eslint-disable-next-line react-x/no-array-index-key
-            <div className="reacter relative" key={i}>
+          {(expand ? ns : nsLess).map((r) => (
+            <div className="reacter relative" key={r.id}>
               <MkAvatar user={r.user} avatarProps={{ className: 'mr-1 size-10' }} />
               <ReactionEmoji reaction={r.reaction} note={notification.note} />
             </div>
@@ -246,13 +245,13 @@ const ReactionNotification = (props: { notification: PickNotification<'reaction'
   );
 };
 
-const RenoteNotification = (props: { notification: PickNotification<'renote' | 'renote:grouped'> }) => {
+const RenoteNotification = (props: { notification: PickNotification<'renote' | 'grouped:renote'> }) => {
   const { notification } = props;
   const { t } = useTranslation();
   const [expand, setExpand] = useState(false);
-  const renoters = notification.type === 'renote' ? [notification.user] : notification.users;
-  const renotersLess = renoters.slice(0, 3);
-  const hasMore = renoters.length > 3;
+  const ns = notification.type === 'renote' ? [notification] : notification.grouped;
+  const nsLess = ns.slice(0, 3);
+  const hasMore = ns.length > 3;
 
   return (
     <Item className="items-start">
@@ -264,20 +263,20 @@ const RenoteNotification = (props: { notification: PickNotification<'renote' | '
             values={{
               user: hasMore ? (
                 <span>
-                  <span>{`${renoters.length} ${t('users')}: `}</span>
-                  {renotersLess.map((u, i) => [
+                  <span>{`${ns.length} ${t('users')}: `}</span>
+                  {nsLess.map((u, i) => [
                     <span key={u.id}>
                       {i > 0 && ', '}
-                      <MkUserName user={u} />
+                      <MkUserName user={u.user} />
                     </span>,
                   ])}
                   ...
                 </span>
               ) : (
-                renotersLess.map((u, i) => [
+                nsLess.map((u, i) => [
                   <span key={u.id}>
                     {i > 0 && ', '}
-                    <MkUserName user={u} />
+                    <MkUserName user={u.user} />
                   </span>,
                 ])
               ),
@@ -285,8 +284,8 @@ const RenoteNotification = (props: { notification: PickNotification<'renote' | '
           />
         </div>
         <div className="mt-1 flex flex-wrap gap-2">
-          {(expand ? renoters : renotersLess).map((u) => (
-            <MkAvatar key={u.id} user={u} avatarProps={{ className: 'mr-1 size-10' }} />
+          {(expand ? ns : nsLess).map((u) => (
+            <MkAvatar key={u.id} user={u.user} avatarProps={{ className: 'mr-1 size-10' }} />
           ))}
           {hasMore && !expand && (
             <Button

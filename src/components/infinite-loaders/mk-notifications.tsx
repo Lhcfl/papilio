@@ -15,6 +15,7 @@ import { MenuOrDrawer, type Menu, type MenuSwitch } from '@/components/menu-or-d
 import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { infiniteQueryOptions, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import { groupNotifications } from '@/lib/notification-grouper';
 
 export const MkNotifications = (props: {
   excludeTypes?: NotificationIncludeableType[];
@@ -25,21 +26,23 @@ export const MkNotifications = (props: {
   const opts = infiniteQueryOptions({
     queryKey: ['notifications', excludeTypes, includeTypes],
     queryFn: ({ pageParam: untilId }) =>
-      misskeyApi('i/notifications-grouped', {
+      misskeyApi('i/notifications', {
         untilId,
-        limit: 30,
+        limit: 99,
         excludeTypes,
         includeTypes,
-      }).then((ns) =>
-        ns.map((n) => {
+      }).then((ns) => ({
+        id: untilId,
+        raw: ns.map((n) => {
           if ('note' in n) {
             registerNote([n.note]);
           }
           return n;
         }),
-      ),
+        grouped: groupNotifications(ns),
+      })),
     initialPageParam: 'zzzzzzzzzzzzzzzzzz',
-    getNextPageParam: (lastPage) => lastPage.at(-1)?.id,
+    getNextPageParam: (lastPage) => lastPage.raw.at(-1)?.id,
   });
 
   const query = useInfiniteQuery(opts);
@@ -57,7 +60,12 @@ export const MkNotifications = (props: {
             ...old,
             pages: old.pages.map((page, index) => {
               if (index === 0) {
-                return [notification, ...page];
+                const newRaw = [notification, ...page.raw];
+                return {
+                  id: page.id,
+                  raw: newRaw,
+                  grouped: groupNotifications(newRaw),
+                };
               } else {
                 return page;
               }
@@ -75,12 +83,14 @@ export const MkNotifications = (props: {
 
   return (
     <MkInfiniteScrollByData infiniteQueryResult={query}>
-      {(n) => (
-        <Fragment key={n.id}>
-          <MkNotification notification={n} />
-          <hr className="m-auto w-[80%]" />
-        </Fragment>
-      )}
+      {(page) =>
+        page.grouped.map((n) => (
+          <Fragment key={n.id}>
+            <MkNotification notification={n} />
+            <hr className="m-auto w-[80%]" />
+          </Fragment>
+        ))
+      }
     </MkInfiniteScrollByData>
   );
 };
