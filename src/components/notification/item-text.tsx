@@ -64,6 +64,8 @@ export const NotificationDescription = (props: { notification: FrontendGroupedNo
       return getNoteExcerpt(notification.note);
     case 'test':
       return t('_notification.testNotification');
+    case 'edited':
+      return getNoteExcerpt(notification.note);
     default:
       return t('unknown');
   }
@@ -114,6 +116,8 @@ export const NotificationTitle = (props: { notification: FrontendGroupedNotifica
       return t('_notification._types.app');
     case 'test':
       return t('_notification._types.test');
+    case 'edited':
+      return t('_notification.edited');
     default:
       return t('unknown') + ` (${notification.type})`;
   }

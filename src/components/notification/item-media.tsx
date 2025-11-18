@@ -13,6 +13,7 @@ import {
   CalendarX2Icon,
   ChartColumnBigIcon,
   DownloadIcon,
+  EditIcon,
   FlaskConicalIcon,
   KeyRoundIcon,
   LayoutGridIcon,
@@ -82,6 +83,8 @@ export const NotificationItemIcon = (type: Notification['type']) => {
       return RepeatIcon;
     case 'test':
       return FlaskConicalIcon;
+    case 'edited':
+      return EditIcon;
     default:
       return BellIcon;
   }
@@ -135,6 +138,8 @@ const NotificationIconColor = (type: Notification['type']) => {
       return 'bg-purple-400';
     case 'test':
       return 'bg-gray-400';
+    case 'edited':
+      return 'bg-yellow-600';
     default:
       return 'bg-primary';
   }
@@ -165,6 +170,7 @@ export const NotificationItemMedia = (
     case 'receiveFollowRequest':
     case 'followRequestAccepted':
     case 'renote':
+    case 'edited':
       return (
         <ItemMedia {...mediaProps}>
           <div className="relative">
