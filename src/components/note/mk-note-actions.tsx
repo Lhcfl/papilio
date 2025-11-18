@@ -39,6 +39,7 @@ import { cn } from '@/lib/utils';
 import { usePreference, useUserPreference } from '@/stores/perference';
 import { useSiteMeta } from '@/stores/site';
 import { RightbarOrPopup } from '@/providers/rightbar-or-popup';
+import { AddClipModal } from '@/modals/add-clip-modal';
 
 const MkNoteActionButton = (
   props: {
@@ -77,6 +78,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const { note, onTranslate } = props;
   const { t } = useTranslation();
   const defaultLike = useUserPreference((p) => p.defaultLike);
+  const [showAddClipModal, setShowAddClipModal] = useState(false);
 
   const isRenoted = note.isRenoted;
 
@@ -87,7 +89,13 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const { mutate: unrenote, isPending: isUnrenoting } = useUnrenoteAction(note.id);
   const { mutate: unreact, isPending: isUnReacting } = useUndoReactNoteAction(note.id);
   const { mutate: react, isPending: isReacting } = useReactNoteAction(note.id);
-  const noteMenu = useNoteMenu({ onTranslate, note });
+  const noteMenu = useNoteMenu({
+    onTranslate,
+    note,
+    onClip: () => {
+      setShowAddClipModal(true);
+    },
+  });
   const features = useMisskeyForkFeatures();
   const translatorAvailable = useSiteMeta((s) => s.translatorAvailable);
   const hasTranslation =
@@ -347,6 +355,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           />
         </RightbarOrPopup>
       )}
+      <AddClipModal open={showAddClipModal} onOpenChange={setShowAddClipModal} noteId={note.id} />
     </div>
   );
 };

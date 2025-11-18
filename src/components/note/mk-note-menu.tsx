@@ -44,9 +44,9 @@ const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> 
     .then(() => toast.success(successMessage))
     .catch((e: unknown) => toast.error(errorMessageSafe(e)));
 
-export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void }) => {
+export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void; onClip: () => void }) => {
   const { t } = useTranslation();
-  const { note, onTranslate } = props;
+  const { note, onTranslate, onClip } = props;
   const meId = useMe((me) => me.id);
   const isAdmin = useMe((me) => me.isAdmin);
   const isMine = meId === note.userId;
@@ -172,7 +172,7 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
           type: 'item',
           icon: <PaperclipIcon />,
           label: t('clip'),
-          onClick: () => toast.info('not implemented'),
+          onClick: onClip,
         },
         note['papi:isSyncing:notes/state']
           ? {
