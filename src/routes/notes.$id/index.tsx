@@ -3,17 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useIsFetching, useQuery, useQueryErrorResetBoundary, useSuspenseQuery } from '@tanstack/react-query';
+import { useIsFetching, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { MkAlert } from '@/components/mk-alert';
-import { MkError } from '@/components/mk-error';
 import { MkNote } from '@/components/mk-note';
 import { MkNoteReplies } from '@/components/mk-note-replies';
 import { MkNoteSkeleton } from '@/components/mk-note-skeleton';
 import { Button } from '@/components/ui/button';
 import { Empty, EmptyContent, EmptyHeader, EmptyMedia } from '@/components/ui/empty';
 import { Spinner } from '@/components/ui/spinner';
-import { createFileRoute, Link, useRouter } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import {
   EyeClosedIcon,
   EyeIcon,
@@ -33,7 +32,7 @@ import { useMisskeyForkFeatures } from '@/stores/node-info';
 import { NoteReactionsList } from '@/components/infinite-loaders/note-reactions-list';
 import { NoteRenotesList } from '@/components/infinite-loaders/note-renotes-list';
 import { NoteDefaultStateContext } from '@/providers/expand-all-cw';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { PageTitle } from '@/layouts/sidebar-layout';
@@ -44,19 +43,7 @@ export const Route = createFileRoute('/notes/$id/')({
   component: RouteComponent,
   loader: ({ params }) => queryClient.ensureQueryData(noteQueryOptions(params.id)),
   pendingComponent: () => <MkNoteSkeleton />,
-  errorComponent: ErrorComponent,
 });
-
-function ErrorComponent({ error }: { error: Error }) {
-  const router = useRouter();
-  const boundary = useQueryErrorResetBoundary();
-
-  useEffect(() => {
-    boundary.reset();
-  }, [boundary]);
-
-  return <MkError error={error} retry={() => router.invalidate()} />;
-}
 
 function RouteComponent() {
   const { data: noteId } = useSuspenseQuery(noteQueryOptions(Route.useParams().id));
