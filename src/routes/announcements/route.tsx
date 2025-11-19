@@ -18,7 +18,7 @@ function RouteComponent() {
   return (
     <>
       <AppPageTabList>
-        <AppPageTab value="/announcements" label={t('currentAnnouncements')} icon={<HourglassIcon />} />
+        <AppPageTab value="/announcements/" label={t('currentAnnouncements')} icon={<HourglassIcon />} />
         <AppPageTab value="/announcements/previous" label={t('pastAnnouncements')} icon={<CalendarCheckIcon />} />
       </AppPageTabList>
       <Outlet />

@@ -6,7 +6,8 @@
 import { HeaderCenterPortal } from '@/components/header-portal';
 import { cn } from '@/lib/utils';
 import { PageTabContext } from '@/providers/page-tab-provider';
-import { useLocation, useNavigate } from '@tanstack/react-router';
+import { type FileRoutesByFullPath } from '@/routeTree.gen';
+import { useMatches, useNavigate } from '@tanstack/react-router';
 import { useAtom } from 'jotai';
 import { use } from 'react';
 
@@ -18,27 +19,43 @@ export function AppPageTabList({ children }: { children: React.ReactNode[] }) {
   );
 }
 
+type SlashRemoved<P extends string> = P extends '/' ? P : P extends `${infer R}/` ? R : P;
+
+function removeLastSlash<P extends string>(path: P): SlashRemoved<P> {
+  if (path.length > 1 && path.endsWith('/')) {
+    return path.slice(0, -1) as SlashRemoved<P>;
+  }
+  return path as SlashRemoved<P>;
+}
+
 export function AppPageTab({
   value,
   label,
   icon,
   children,
 }: {
-  value: string;
+  value: keyof FileRoutesByFullPath;
   label: string;
   icon: React.ReactNode;
   children?: React.ReactNode;
 }) {
   const [currentTabValue, setCurrentTabValue] = useAtom(use(PageTabContext));
-  const loc = useLocation();
-  const removedTailingSlashPathname = loc.pathname.replace(/\/+$/, '') || '/';
-  const navigate = useNavigate();
-  const isActive = children == null ? value == removedTailingSlashPathname : value === currentTabValue;
+  const lastMatchedLocationFullPath = useMatches({
+    select: (match) => match.at(-1)?.fullPath,
+  });
 
-  const handleTabChange = (value: string) => {
+  const allMatches = useMatches();
+  console.log(allMatches);
+
+  const navigate = useNavigate();
+  const isActive = children == null ? value == lastMatchedLocationFullPath : value === currentTabValue;
+
+  const handleTabChange = () => {
     setCurrentTabValue(value);
     if (children == null) {
-      void navigate({ to: value });
+      // tanstack router wants paths without trailing slashes
+      // so we add a type game to ensure that
+      void navigate({ to: removeLastSlash(value) });
     }
   };
 
@@ -46,9 +63,7 @@ export function AppPageTab({
     <button
       key={value}
       value={value}
-      onClick={() => {
-        handleTabChange(value);
-      }}
+      onClick={handleTabChange}
       className={cn('flex items-center gap-1 rounded-md border px-2 py-1 text-sm [&>svg]:size-4', {
         'bg-background': isActive,
         'border-transparent': !isActive,

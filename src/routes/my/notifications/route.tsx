@@ -21,7 +21,7 @@ function RouteComponent() {
     <>
       <PageTitle title={t('notifications')} />
       <AppPageTabList>
-        <AppPageTab value="/my/notifications" label={t('all')} icon={<BellIcon />} />
+        <AppPageTab value="/my/notifications/" label={t('all')} icon={<BellIcon />} />
         <AppPageTab value="/my/notifications/mentions" label={t('mentions')} icon={<AtSignIcon />} />
         <AppPageTab value="/my/notifications/pm" label={t('directNotes')} icon={<MailIcon />} />
       </AppPageTabList>
