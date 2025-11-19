@@ -8,6 +8,7 @@ import { MkClock } from '@/components/mk-clock';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { getHeaderRightId, WindowContext } from '@/providers/window-provider';
+import { site, token } from '@/services/inject-misskey-api';
 import { BellIcon } from 'lucide-react';
 import { type HTMLProps } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,24 +16,27 @@ import { useTranslation } from 'react-i18next';
 export const AppRightCard = ({ className, ...props }: HTMLProps<HTMLDivElement>) => {
   const { t } = useTranslation();
   const headerId = 'sidebar';
+  const isLoggedIn = site != null && token != null;
 
   return (
     <aside className={cn('flex flex-col gap-2 p-2', className)} {...props}>
       <div className="bg-background rounded-lg p-2">
         <MkClock />
       </div>
-      <ScrollArea className="bg-background h-0 flex-[1_1] rounded-lg">
-        <header className="bg-background sticky top-0 z-20 flex items-center justify-between border-b p-1">
-          <div className="title ml-2 flex items-center gap-1 text-sm">
-            <BellIcon className="size-4" />
-            {t('notifications')}
-          </div>
-          <div id={getHeaderRightId(headerId)} />
-        </header>
-        <WindowContext value={{ headerId }}>
-          <MkNotifications />
-        </WindowContext>
-      </ScrollArea>
+      {isLoggedIn && (
+        <ScrollArea className="bg-background h-0 flex-[1_1] rounded-lg">
+          <header className="bg-background sticky top-0 z-20 flex items-center justify-between border-b p-1">
+            <div className="title ml-2 flex items-center gap-1 text-sm">
+              <BellIcon className="size-4" />
+              {t('notifications')}
+            </div>
+            <div id={getHeaderRightId(headerId)} />
+          </header>
+          <WindowContext value={{ headerId }}>
+            <MkNotifications />
+          </WindowContext>
+        </ScrollArea>
+      )}
       {/* TODO: translate this */}
       <footer className="text-muted-foreground p-2 text-xs">
         <p>

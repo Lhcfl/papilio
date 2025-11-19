@@ -14,12 +14,20 @@ import { dehydrateOptions, localStoragePersister, queryClient } from '@/plugins/
 import { routeTree } from '@/routeTree.gen';
 import { SidebarLayout } from '@/layouts/sidebar-layout';
 import { MkError } from '@/components/mk-error';
+import { Spinner } from '@/components/ui/spinner';
 
 // Create a new router instance
 const router = createRouter({
   routeTree,
   scrollToTopSelectors: [`#main-scroll-area > [data-slot="scroll-area-viewport"]`],
   scrollRestoration: true,
+  defaultPendingComponent: () => (
+    <SidebarLayout>
+      <div className="flex w-full items-center p-4">
+        <Spinner />
+      </div>
+    </SidebarLayout>
+  ),
   defaultErrorComponent: (err) => (
     <SidebarLayout>
       <MkError error={err.error} />
