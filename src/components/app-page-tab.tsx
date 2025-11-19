@@ -43,13 +43,8 @@ export function AppPageTab({
   const lastMatchedLocationFullPath = useMatches({
     select: (match) => match.at(-1)?.fullPath,
   });
-
-  const allMatches = useMatches();
-  console.log(allMatches);
-
   const navigate = useNavigate();
   const isActive = children == null ? value == lastMatchedLocationFullPath : value === currentTabValue;
-
   const handleTabChange = () => {
     setCurrentTabValue(value);
     if (children == null) {
