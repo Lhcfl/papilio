@@ -8,7 +8,7 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { useTimelineTabs } from '@/hooks/use-timeline-tabs';
 import { MkPostForm } from '@/components/mk-post-form';
 import { PageTitle } from '@/layouts/sidebar-layout';
-import { AppPageTabs } from '@/components/app-page-tab';
+import { AppPageTab, AppPageTabList } from '@/components/app-page-tab';
 
 export const Route = createFileRoute('/_timeline')({
   component: Index,
@@ -22,12 +22,16 @@ function Index() {
   return (
     <>
       <PageTitle title={title} />
-      <AppPageTabs
-        tabs={tabs.map((t) => ({
-          ...t,
-          value: t.value == 'home' ? '/' : `/${t.value}-timeline`,
-        }))}
-      />
+      <AppPageTabList>
+        {tabs.map((t) => (
+          <AppPageTab
+            key={t.value}
+            value={t.value == 'home' ? '/' : `/${t.value}-timeline`}
+            label={t.label}
+            icon={t.icon}
+          />
+        ))}
+      </AppPageTabList>
       <MkPostForm className="mb-2 border" autoFocus={false} />
       <Outlet />
     </>

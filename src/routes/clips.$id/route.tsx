@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { AppPageTabs } from '@/components/app-page-tab';
+import { AppPageTab, AppPageTabList } from '@/components/app-page-tab';
 import { clipQueryOptions } from '@/hooks/use-clip';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryClient } from '@/plugins/persister';
@@ -26,12 +26,10 @@ function RouteComponent() {
 
   return (
     <>
-      <AppPageTabs
-        tabs={[
-          { value: `/clips/${clip.id}`, label: t('notes'), icon: <PaperclipIcon /> },
-          clip.userId == meId && { value: `/clips/${clip.id}/edit`, label: t('edit'), icon: <EditIcon /> },
-        ]}
-      />
+      <AppPageTabList>
+        <AppPageTab value="/clips" label={t('notes')} icon={<PaperclipIcon />} />
+        {clip.userId == meId && <AppPageTab value="/clips/edit" label={t('edit')} icon={<EditIcon />} />}
+      </AppPageTabList>
       <PageTitle title={clip.name} />
       <Outlet />
     </>

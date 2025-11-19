@@ -6,58 +6,64 @@
 import { HeaderCenterPortal } from '@/components/header-portal';
 import { cn } from '@/lib/utils';
 import { PageTabContext } from '@/providers/page-tab-provider';
-import type { Tab } from '@/types/page-header';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useAtom } from 'jotai';
 import { use } from 'react';
 
-export function AppPageTabs({ tabs, routerTab = true }: { tabs: Tab[]; routerTab?: boolean }) {
-  const filteredTabs = tabs.filter((x) => x) as Exclude<Tab, null | false>[];
+export function AppPageTabList({ children }: { children: React.ReactNode[] }) {
+  return (
+    <HeaderCenterPortal>
+      {children.length > 0 && <div className="bg-muted flex items-center rounded-lg p-1">{children}</div>}
+    </HeaderCenterPortal>
+  );
+}
+
+export function AppPageTab({
+  value,
+  label,
+  icon,
+  children,
+}: {
+  value: string;
+  label: string;
+  icon: React.ReactNode;
+  children?: React.ReactNode;
+}) {
   const [currentTabValue, setCurrentTabValue] = useAtom(use(PageTabContext));
   const loc = useLocation();
   const removedTailingSlashPathname = loc.pathname.replace(/\/+$/, '') || '/';
-  const actualCurrentTab = filteredTabs.find(
-    (tab) => tab.value === (routerTab ? removedTailingSlashPathname : currentTabValue),
-  );
   const navigate = useNavigate();
+  const isActive = children == null ? value == removedTailingSlashPathname : value === currentTabValue;
 
   const handleTabChange = (value: string) => {
     setCurrentTabValue(value);
-    if (routerTab) {
+    if (children == null) {
       void navigate({ to: value });
     }
   };
 
   return (
-    <HeaderCenterPortal>
-      {filteredTabs.length > 0 && (
-        <div className="bg-muted flex items-center rounded-lg p-1">
-          {filteredTabs.map((tab) => (
-            <button
-              key={tab.value}
-              value={tab.value}
-              onClick={() => {
-                handleTabChange(tab.value);
-              }}
-              className={cn('flex items-center gap-1 rounded-md border px-2 py-1 text-sm [&>svg]:size-4', {
-                'bg-background': tab.value === actualCurrentTab?.value,
-                'border-transparent': tab.value !== actualCurrentTab?.value,
-              })}
-              type="button"
-              title={tab.label}
-            >
-              {tab.icon}
-              <span
-                className={cn({
-                  '@max-xl:hidden': tab.value != actualCurrentTab?.value,
-                })}
-              >
-                {tab.label}
-              </span>
-            </button>
-          ))}
-        </div>
-      )}
-    </HeaderCenterPortal>
+    <button
+      key={value}
+      value={value}
+      onClick={() => {
+        handleTabChange(value);
+      }}
+      className={cn('flex items-center gap-1 rounded-md border px-2 py-1 text-sm [&>svg]:size-4', {
+        'bg-background': isActive,
+        'border-transparent': !isActive,
+      })}
+      type="button"
+      title={label}
+    >
+      {icon}
+      <span
+        className={cn({
+          '@max-xl:hidden': !isActive,
+        })}
+      >
+        {label}
+      </span>
+    </button>
   );
 }

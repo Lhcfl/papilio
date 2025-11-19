@@ -3,40 +3,22 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { AppPageTabs } from '@/components/app-page-tab';
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkNote } from '@/components/mk-note';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Separator } from '@/components/ui/separator';
 import { registerNote } from '@/hooks/use-note';
-import { PageTitle } from '@/layouts/sidebar-layout';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';
-import { SearchIcon, TextInitialIcon, UserRoundIcon } from 'lucide-react';
+import { SearchIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export const Route = createFileRoute('/search')({
+export const Route = createFileRoute('/search/note')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { t } = useTranslation();
-
-  return (
-    <>
-      <PageTitle title={t('search')} />
-      <AppPageTabs
-        tabs={[
-          { value: 'notes', label: t('notes'), icon: <TextInitialIcon />, comp: <NoteSearch /> },
-          { value: 'users', label: t('users'), icon: <UserRoundIcon />, comp: <UserSearch /> },
-        ]}
-      />
-    </>
-  );
-}
-
-function NoteSearch() {
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [searchText, setSearchText] = useState('');
@@ -78,35 +60,6 @@ function NoteSearch() {
           </MkInfiniteScroll>
         </div>
       )}
-    </div>
-  );
-}
-
-function UserSearch() {
-  const { t } = useTranslation();
-  const [query, setQuery] = useState('');
-  const [searchText, setSearchText] = useState('');
-
-  return (
-    <div>
-      <InputGroup>
-        <InputGroupAddon>
-          <SearchIcon />
-        </InputGroupAddon>
-        <InputGroupInput
-          value={searchText}
-          placeholder={t('search')}
-          onInput={(e) => {
-            setSearchText(e.currentTarget.value);
-          }}
-          onKeyUp={(e) => {
-            if (e.key == 'Enter') {
-              setQuery(e.currentTarget.value);
-            }
-          }}
-        />
-      </InputGroup>
-      {query}
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { AtSignIcon, BellIcon, MailIcon } from 'lucide-react';
 import { PageTitle } from '@/layouts/sidebar-layout';
-import { AppPageTabs } from '@/components/app-page-tab';
+import { AppPageTab, AppPageTabList } from '@/components/app-page-tab';
 
 export const Route = createFileRoute('/my/notifications')({
   component: RouteComponent,
@@ -20,23 +20,11 @@ function RouteComponent() {
   return (
     <>
       <PageTitle title={t('notifications')} />
-      <AppPageTabs
-        tabs={
-          [
-            {
-              icon: <BellIcon />,
-              label: t('all'),
-              value: '/my/notifications',
-            },
-            { icon: <AtSignIcon />, label: t('mentions'), value: '/my/notifications/mentions' },
-            {
-              icon: <MailIcon />,
-              label: t('directNotes'),
-              value: '/my/notifications/pm',
-            },
-          ] as const
-        }
-      />
+      <AppPageTabList>
+        <AppPageTab value="/my/notifications" label={t('all')} icon={<BellIcon />} />
+        <AppPageTab value="/my/notifications/mentions" label={t('mentions')} icon={<AtSignIcon />} />
+        <AppPageTab value="/my/notifications/pm" label={t('directNotes')} icon={<MailIcon />} />
+      </AppPageTabList>
       <Outlet />
     </>
   );

@@ -9,25 +9,29 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SearchRouteImport } from './routes/search'
 import { Route as PostingRouteImport } from './routes/posting'
 import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ChatRouteImport } from './routes/chat'
-import { Route as AnnouncementsRouteImport } from './routes/announcements'
 import { Route as AccountSwitchRouteImport } from './routes/account-switch'
 import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as MissingRouteImport } from './routes/$missing'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
+import { Route as SearchRouteRouteImport } from './routes/search/route'
+import { Route as AnnouncementsRouteRouteImport } from './routes/announcements/route'
 import { Route as TimelineRouteRouteImport } from './routes/_timeline/route'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as AnnouncementsIndexRouteImport } from './routes/announcements/index'
 import { Route as TimelineIndexRouteImport } from './routes/_timeline/index'
 import { Route as TagTagRouteImport } from './routes/tag/$tag'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as SettingsPageRouteImport } from './routes/settings/$page'
+import { Route as SearchUserRouteImport } from './routes/search/user'
+import { Route as SearchNoteRouteImport } from './routes/search/note'
 import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
 import { Route as MyClipsRouteImport } from './routes/my/clips'
 import { Route as DebugWsRouteImport } from './routes/debug/ws'
+import { Route as AnnouncementsPreviousRouteImport } from './routes/announcements/previous'
 import { Route as TimelineLocalTimelineRouteImport } from './routes/_timeline/local-timeline'
 import { Route as TimelineHybridTimelineRouteImport } from './routes/_timeline/hybrid-timeline'
 import { Route as TimelineGlobalTimelineRouteImport } from './routes/_timeline/global-timeline'
@@ -47,11 +51,6 @@ import { Route as ClipsIdEditRouteImport } from './routes/clips.$id/edit'
 import { Route as MyDriveFolderFolderRouteImport } from './routes/my/drive/folder/$folder'
 import { Route as MyDriveFileFileRouteImport } from './routes/my/drive/file/$file'
 
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PostingRoute = PostingRouteImport.update({
   id: '/posting',
   path: '/posting',
@@ -70,11 +69,6 @@ const LoginRoute = LoginRouteImport.update({
 const ChatRoute = ChatRouteImport.update({
   id: '/chat',
   path: '/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AnnouncementsRoute = AnnouncementsRouteImport.update({
-  id: '/announcements',
-  path: '/announcements',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountSwitchRoute = AccountSwitchRouteImport.update({
@@ -97,6 +91,16 @@ const SettingsRouteRoute = SettingsRouteRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SearchRouteRoute = SearchRouteRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnnouncementsRouteRoute = AnnouncementsRouteRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TimelineRouteRoute = TimelineRouteRouteImport.update({
   id: '/_timeline',
   getParentRoute: () => rootRouteImport,
@@ -105,6 +109,11 @@ const SettingsIndexRoute = SettingsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => SettingsRouteRoute,
+} as any)
+const AnnouncementsIndexRoute = AnnouncementsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AnnouncementsRouteRoute,
 } as any)
 const TimelineIndexRoute = TimelineIndexRouteImport.update({
   id: '/',
@@ -126,6 +135,16 @@ const SettingsPageRoute = SettingsPageRouteImport.update({
   path: '/$page',
   getParentRoute: () => SettingsRouteRoute,
 } as any)
+const SearchUserRoute = SearchUserRouteImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
+const SearchNoteRoute = SearchNoteRouteImport.update({
+  id: '/note',
+  path: '/note',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
 const MyFavoritesRoute = MyFavoritesRouteImport.update({
   id: '/my/favorites',
   path: '/my/favorites',
@@ -140,6 +159,11 @@ const DebugWsRoute = DebugWsRouteImport.update({
   id: '/debug/ws',
   path: '/debug/ws',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AnnouncementsPreviousRoute = AnnouncementsPreviousRouteImport.update({
+  id: '/previous',
+  path: '/previous',
+  getParentRoute: () => AnnouncementsRouteRoute,
 } as any)
 const TimelineLocalTimelineRoute = TimelineLocalTimelineRouteImport.update({
   id: '/local-timeline',
@@ -234,29 +258,33 @@ const MyDriveFileFileRoute = MyDriveFileFileRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/announcements': typeof AnnouncementsRouteRouteWithChildren
+  '/search': typeof SearchRouteRouteWithChildren
   '/settings': typeof SettingsRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
-  '/announcements': typeof AnnouncementsRoute
   '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
-  '/search': typeof SearchRoute
   '/clips/$id': typeof ClipsIdRouteRouteWithChildren
   '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
   '/my/notifications': typeof MyNotificationsRouteRouteWithChildren
   '/global-timeline': typeof TimelineGlobalTimelineRoute
   '/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/local-timeline': typeof TimelineLocalTimelineRoute
+  '/announcements/previous': typeof AnnouncementsPreviousRoute
   '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
+  '/search/note': typeof SearchNoteRoute
+  '/search/user': typeof SearchUserRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
   '/': typeof TimelineIndexRoute
+  '/announcements/': typeof AnnouncementsIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/clips/$id/edit': typeof ClipsIdEditRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
@@ -272,26 +300,29 @@ export interface FileRoutesByFullPath {
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
 }
 export interface FileRoutesByTo {
+  '/search': typeof SearchRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
-  '/announcements': typeof AnnouncementsRoute
   '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
-  '/search': typeof SearchRoute
   '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
   '/global-timeline': typeof TimelineGlobalTimelineRoute
   '/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/local-timeline': typeof TimelineLocalTimelineRoute
+  '/announcements/previous': typeof AnnouncementsPreviousRoute
   '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
+  '/search/note': typeof SearchNoteRoute
+  '/search/user': typeof SearchUserRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
   '/': typeof TimelineIndexRoute
+  '/announcements': typeof AnnouncementsIndexRoute
   '/settings': typeof SettingsIndexRoute
   '/clips/$id/edit': typeof ClipsIdEditRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
@@ -309,29 +340,33 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_timeline': typeof TimelineRouteRouteWithChildren
+  '/announcements': typeof AnnouncementsRouteRouteWithChildren
+  '/search': typeof SearchRouteRouteWithChildren
   '/settings': typeof SettingsRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
-  '/announcements': typeof AnnouncementsRoute
   '/chat': typeof ChatRoute
   '/login': typeof LoginRoute
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
-  '/search': typeof SearchRoute
   '/clips/$id': typeof ClipsIdRouteRouteWithChildren
   '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
   '/my/notifications': typeof MyNotificationsRouteRouteWithChildren
   '/_timeline/global-timeline': typeof TimelineGlobalTimelineRoute
   '/_timeline/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/_timeline/local-timeline': typeof TimelineLocalTimelineRoute
+  '/announcements/previous': typeof AnnouncementsPreviousRoute
   '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
+  '/search/note': typeof SearchNoteRoute
+  '/search/user': typeof SearchUserRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
   '/_timeline/': typeof TimelineIndexRoute
+  '/announcements/': typeof AnnouncementsIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/clips/$id/edit': typeof ClipsIdEditRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
@@ -349,29 +384,33 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/announcements'
+    | '/search'
     | '/settings'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
-    | '/announcements'
     | '/chat'
     | '/login'
     | '/login-redirect'
     | '/posting'
-    | '/search'
     | '/clips/$id'
     | '/my/follow-requests'
     | '/my/notifications'
     | '/global-timeline'
     | '/hybrid-timeline'
     | '/local-timeline'
+    | '/announcements/previous'
     | '/debug/ws'
     | '/my/clips'
     | '/my/favorites'
+    | '/search/note'
+    | '/search/user'
     | '/settings/$page'
     | '/settings/profile'
     | '/tag/$tag'
     | '/'
+    | '/announcements/'
     | '/settings/'
     | '/clips/$id/edit'
     | '/my/follow-requests/received'
@@ -387,26 +426,29 @@ export interface FileRouteTypes {
     | '/my/drive/folder/$folder'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/search'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
-    | '/announcements'
     | '/chat'
     | '/login'
     | '/login-redirect'
     | '/posting'
-    | '/search'
     | '/my/follow-requests'
     | '/global-timeline'
     | '/hybrid-timeline'
     | '/local-timeline'
+    | '/announcements/previous'
     | '/debug/ws'
     | '/my/clips'
     | '/my/favorites'
+    | '/search/note'
+    | '/search/user'
     | '/settings/$page'
     | '/settings/profile'
     | '/tag/$tag'
     | '/'
+    | '/announcements'
     | '/settings'
     | '/clips/$id/edit'
     | '/my/follow-requests/received'
@@ -423,29 +465,33 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_timeline'
+    | '/announcements'
+    | '/search'
     | '/settings'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
-    | '/announcements'
     | '/chat'
     | '/login'
     | '/login-redirect'
     | '/posting'
-    | '/search'
     | '/clips/$id'
     | '/my/follow-requests'
     | '/my/notifications'
     | '/_timeline/global-timeline'
     | '/_timeline/hybrid-timeline'
     | '/_timeline/local-timeline'
+    | '/announcements/previous'
     | '/debug/ws'
     | '/my/clips'
     | '/my/favorites'
+    | '/search/note'
+    | '/search/user'
     | '/settings/$page'
     | '/settings/profile'
     | '/tag/$tag'
     | '/_timeline/'
+    | '/announcements/'
     | '/settings/'
     | '/clips/$id/edit'
     | '/my/follow-requests/received'
@@ -463,16 +509,16 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   TimelineRouteRoute: typeof TimelineRouteRouteWithChildren
+  AnnouncementsRouteRoute: typeof AnnouncementsRouteRouteWithChildren
+  SearchRouteRoute: typeof SearchRouteRouteWithChildren
   SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
   MissingRoute: typeof MissingRoute
   AtChar123acctChar125Route: typeof AtChar123acctChar125Route
   AccountSwitchRoute: typeof AccountSwitchRoute
-  AnnouncementsRoute: typeof AnnouncementsRoute
   ChatRoute: typeof ChatRoute
   LoginRoute: typeof LoginRoute
   LoginRedirectRoute: typeof LoginRedirectRoute
   PostingRoute: typeof PostingRoute
-  SearchRoute: typeof SearchRoute
   ClipsIdRouteRoute: typeof ClipsIdRouteRouteWithChildren
   MyFollowRequestsRouteRoute: typeof MyFollowRequestsRouteRouteWithChildren
   MyNotificationsRouteRoute: typeof MyNotificationsRouteRouteWithChildren
@@ -489,13 +535,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/posting': {
       id: '/posting'
       path: '/posting'
@@ -522,13 +561,6 @@ declare module '@tanstack/react-router' {
       path: '/chat'
       fullPath: '/chat'
       preLoaderRoute: typeof ChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/announcements': {
-      id: '/announcements'
-      path: '/announcements'
-      fullPath: '/announcements'
-      preLoaderRoute: typeof AnnouncementsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/account-switch': {
@@ -559,6 +591,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/announcements': {
+      id: '/announcements'
+      path: '/announcements'
+      fullPath: '/announcements'
+      preLoaderRoute: typeof AnnouncementsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_timeline': {
       id: '/_timeline'
       path: ''
@@ -572,6 +618,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/'
       preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof SettingsRouteRoute
+    }
+    '/announcements/': {
+      id: '/announcements/'
+      path: '/'
+      fullPath: '/announcements/'
+      preLoaderRoute: typeof AnnouncementsIndexRouteImport
+      parentRoute: typeof AnnouncementsRouteRoute
     }
     '/_timeline/': {
       id: '/_timeline/'
@@ -601,6 +654,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsPageRouteImport
       parentRoute: typeof SettingsRouteRoute
     }
+    '/search/user': {
+      id: '/search/user'
+      path: '/user'
+      fullPath: '/search/user'
+      preLoaderRoute: typeof SearchUserRouteImport
+      parentRoute: typeof SearchRouteRoute
+    }
+    '/search/note': {
+      id: '/search/note'
+      path: '/note'
+      fullPath: '/search/note'
+      preLoaderRoute: typeof SearchNoteRouteImport
+      parentRoute: typeof SearchRouteRoute
+    }
     '/my/favorites': {
       id: '/my/favorites'
       path: '/my/favorites'
@@ -621,6 +688,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/debug/ws'
       preLoaderRoute: typeof DebugWsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/announcements/previous': {
+      id: '/announcements/previous'
+      path: '/previous'
+      fullPath: '/announcements/previous'
+      preLoaderRoute: typeof AnnouncementsPreviousRouteImport
+      parentRoute: typeof AnnouncementsRouteRoute
     }
     '/_timeline/local-timeline': {
       id: '/_timeline/local-timeline'
@@ -769,6 +843,33 @@ const TimelineRouteRouteWithChildren = TimelineRouteRoute._addFileChildren(
   TimelineRouteRouteChildren,
 )
 
+interface AnnouncementsRouteRouteChildren {
+  AnnouncementsPreviousRoute: typeof AnnouncementsPreviousRoute
+  AnnouncementsIndexRoute: typeof AnnouncementsIndexRoute
+}
+
+const AnnouncementsRouteRouteChildren: AnnouncementsRouteRouteChildren = {
+  AnnouncementsPreviousRoute: AnnouncementsPreviousRoute,
+  AnnouncementsIndexRoute: AnnouncementsIndexRoute,
+}
+
+const AnnouncementsRouteRouteWithChildren =
+  AnnouncementsRouteRoute._addFileChildren(AnnouncementsRouteRouteChildren)
+
+interface SearchRouteRouteChildren {
+  SearchNoteRoute: typeof SearchNoteRoute
+  SearchUserRoute: typeof SearchUserRoute
+}
+
+const SearchRouteRouteChildren: SearchRouteRouteChildren = {
+  SearchNoteRoute: SearchNoteRoute,
+  SearchUserRoute: SearchUserRoute,
+}
+
+const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(
+  SearchRouteRouteChildren,
+)
+
 interface SettingsRouteRouteChildren {
   SettingsPageRoute: typeof SettingsPageRoute
   SettingsProfileRoute: typeof SettingsProfileRoute
@@ -831,16 +932,16 @@ const MyNotificationsRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   TimelineRouteRoute: TimelineRouteRouteWithChildren,
+  AnnouncementsRouteRoute: AnnouncementsRouteRouteWithChildren,
+  SearchRouteRoute: SearchRouteRouteWithChildren,
   SettingsRouteRoute: SettingsRouteRouteWithChildren,
   MissingRoute: MissingRoute,
   AtChar123acctChar125Route: AtChar123acctChar125Route,
   AccountSwitchRoute: AccountSwitchRoute,
-  AnnouncementsRoute: AnnouncementsRoute,
   ChatRoute: ChatRoute,
   LoginRoute: LoginRoute,
   LoginRedirectRoute: LoginRedirectRoute,
   PostingRoute: PostingRoute,
-  SearchRoute: SearchRoute,
   ClipsIdRouteRoute: ClipsIdRouteRouteWithChildren,
   MyFollowRequestsRouteRoute: MyFollowRequestsRouteRouteWithChildren,
   MyNotificationsRouteRoute: MyNotificationsRouteRouteWithChildren,

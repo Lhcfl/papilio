@@ -5,7 +5,6 @@
 
 import { useTranslation } from 'react-i18next';
 import { GlobeIcon, HomeIcon, MapPinIcon, UsersIcon } from 'lucide-react';
-import type { Tab } from '@/types/page-header';
 import type { TimelineTypes } from '@/types/timeline';
 
 const timelineIcons = {
@@ -23,7 +22,7 @@ const getTimelineTranslationKey = (type: TimelineTypes) => {
 
 const timelines: TimelineTypes[] = ['home', 'local', 'hybrid', 'global'];
 
-export const useTimelineTabs = (): Exclude<Tab<TimelineTypes>, false | null>[] => {
+export const useTimelineTabs = () => {
   const { t } = useTranslation();
   return timelines.map((tl) => ({
     value: tl,

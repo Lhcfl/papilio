@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { AppPageTabs } from '@/components/app-page-tab';
+import { AppPageTab, AppPageTabList } from '@/components/app-page-tab';
 
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
@@ -26,16 +26,10 @@ function RouteComponent() {
   return (
     <>
       <PageTitle title={t('followRequests')} />
-      <AppPageTabs
-        tabs={[
-          {
-            value: '/my/follow-requests/received',
-            label: t('_followRequest.recieved'),
-            icon: <MailIcon />,
-          },
-          { value: '/my/follow-requests/sent', label: t('_followRequest.sent'), icon: <SendIcon /> },
-        ]}
-      />
+      <AppPageTabList>
+        <AppPageTab value="/my/follow-requests/received" label={t('_followRequest.recieved')} icon={<MailIcon />} />
+        <AppPageTab value="/my/follow-requests/sent" label={t('_followRequest.sent')} icon={<SendIcon />} />
+      </AppPageTabList>
       <Outlet />
     </>
   );
