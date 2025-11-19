@@ -24,7 +24,7 @@ interface SidebarLayoutProps<Ts extends Tab[]> {
   headerLeft?: React.ReactNode;
   headerRight?: React.ReactNode;
   tabs?: Ts;
-  onTabChange?: (value: Ts[number]['value']) => void;
+  onTabChange?: (value: Exclude<Ts[number], null | false>['value']) => void;
   children?: React.ReactNode;
 }
 
@@ -38,9 +38,10 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
 
   useTitle(pageTitle ?? (title ? `${title} · ${siteName}` : (siteName ?? 'Papilio')));
 
-  const [currentTabValue, setTabValue] = useState(tabs.at(0)?.value);
+  const filteredTabs = tabs.filter((x) => x) as Exclude<Ts[number], null | false>[];
+  const [currentTabValue, setTabValue] = useState(filteredTabs.at(0)?.value);
   const removedTailingSlashPathname = location.pathname.replace(/\/+$/, '') || '/';
-  const actualCurrentTab = tabs.find(
+  const actualCurrentTab = filteredTabs.find(
     (tab) => tab.value === (isRouteTab ? removedTailingSlashPathname : currentTabValue),
   );
 
@@ -50,7 +51,7 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
       void navigate({ to: value });
     }
     if (onTabChange) {
-      onTabChange(value as Ts[number]['value']);
+      onTabChange(value as Exclude<Ts[number], null | false>['value']);
     }
   };
 
@@ -68,9 +69,9 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
             {...rest}
             title={title}
             headerCenter={
-              tabs.length > 0 && (
+              filteredTabs.length > 0 && (
                 <TabsList>
-                  {tabs.map((tab) => (
+                  {filteredTabs.map((tab) => (
                     <TabsTrigger key={tab.value} value={tab.value}>
                       {tab.icon}
                       <span
@@ -93,7 +94,7 @@ export function DefaultLayout<Ts extends Tab[]>(props: SidebarLayoutProps<Ts>) {
             }
           >
             {children}
-            {tabs.map((tab) => (
+            {filteredTabs.map((tab) => (
               <TabsContent key={tab.value} value={tab.value}>
                 {tab.comp}
               </TabsContent>

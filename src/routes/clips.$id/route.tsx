@@ -1,0 +1,33 @@
+import { clipQueryOptions } from '@/hooks/use-clip';
+import { DefaultLayout } from '@/layouts/default-layout';
+import { queryClient } from '@/plugins/persister';
+import { useMe } from '@/stores/me';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
+import { EditIcon, PaperclipIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
+export const Route = createFileRoute('/clips/$id')({
+  component: RouteComponent,
+  loader: ({ params }) => queryClient.ensureQueryData(clipQueryOptions(params.id)),
+});
+
+function RouteComponent() {
+  const { t } = useTranslation();
+  const { id } = Route.useParams();
+  const { data: clip } = useSuspenseQuery(clipQueryOptions(id));
+  const meId = useMe((me) => me.id);
+
+  return (
+    <DefaultLayout
+      title={clip.name}
+      tabs={[
+        { value: `/clips/${clip.id}`, label: t('notes'), icon: <PaperclipIcon /> },
+        clip.userId == meId && { value: `/clips/${clip.id}/edit`, label: t('edit'), icon: <EditIcon /> },
+      ]}
+      isRouteTab
+    >
+      <Outlet />
+    </DefaultLayout>
+  );
+}

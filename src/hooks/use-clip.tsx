@@ -4,7 +4,7 @@
  */
 
 import { misskeyApi } from '@/services/inject-misskey-api';
-import { useMutation } from '@tanstack/react-query';
+import { queryOptions, useMutation } from '@tanstack/react-query';
 
 export const useCreateNewClipAction = () =>
   useMutation({
@@ -14,3 +14,11 @@ export const useCreateNewClipAction = () =>
       void ctx.client.refetchQueries({ queryKey: ['clips'] });
     },
   });
+
+export function clipQueryOptions(id: string) {
+  return queryOptions({
+    queryKey: ['clip', id],
+    queryFn: () => misskeyApi('clips/show', { clipId: id }),
+    staleTime: 10 * 1000,
+  });
+}

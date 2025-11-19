@@ -28,20 +28,22 @@ import { Route as SettingsPageRouteImport } from './routes/settings/$page'
 import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
 import { Route as MyClipsRouteImport } from './routes/my/clips'
 import { Route as DebugWsRouteImport } from './routes/debug/ws'
-import { Route as ClipsIdRouteImport } from './routes/clips/$id'
 import { Route as TimelineLocalTimelineRouteImport } from './routes/_timeline/local-timeline'
 import { Route as TimelineHybridTimelineRouteImport } from './routes/_timeline/hybrid-timeline'
 import { Route as TimelineGlobalTimelineRouteImport } from './routes/_timeline/global-timeline'
 import { Route as MyNotificationsRouteRouteImport } from './routes/my/notifications/route'
 import { Route as MyFollowRequestsRouteRouteImport } from './routes/my/follow-requests/route'
+import { Route as ClipsIdRouteRouteImport } from './routes/clips.$id/route'
 import { Route as NotesIdIndexRouteImport } from './routes/notes.$id/index'
 import { Route as MyNotificationsIndexRouteImport } from './routes/my/notifications/index'
 import { Route as MyDriveIndexRouteImport } from './routes/my/drive/index'
+import { Route as ClipsIdIndexRouteImport } from './routes/clips.$id/index'
 import { Route as NotesIdHistoryRouteImport } from './routes/notes.$id/history'
 import { Route as MyNotificationsPmRouteImport } from './routes/my/notifications/pm'
 import { Route as MyNotificationsMentionsRouteImport } from './routes/my/notifications/mentions'
 import { Route as MyFollowRequestsSentRouteImport } from './routes/my/follow-requests/sent'
 import { Route as MyFollowRequestsReceivedRouteImport } from './routes/my/follow-requests/received'
+import { Route as ClipsIdEditRouteImport } from './routes/clips.$id/edit'
 import { Route as MyDriveFolderFolderRouteImport } from './routes/my/drive/folder/$folder'
 import { Route as MyDriveFileFileRouteImport } from './routes/my/drive/file/$file'
 
@@ -139,11 +141,6 @@ const DebugWsRoute = DebugWsRouteImport.update({
   path: '/debug/ws',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ClipsIdRoute = ClipsIdRouteImport.update({
-  id: '/clips/$id',
-  path: '/clips/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TimelineLocalTimelineRoute = TimelineLocalTimelineRouteImport.update({
   id: '/local-timeline',
   path: '/local-timeline',
@@ -169,6 +166,11 @@ const MyFollowRequestsRouteRoute = MyFollowRequestsRouteRouteImport.update({
   path: '/my/follow-requests',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClipsIdRouteRoute = ClipsIdRouteRouteImport.update({
+  id: '/clips/$id',
+  path: '/clips/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NotesIdIndexRoute = NotesIdIndexRouteImport.update({
   id: '/notes/$id/',
   path: '/notes/$id/',
@@ -183,6 +185,11 @@ const MyDriveIndexRoute = MyDriveIndexRouteImport.update({
   id: '/my/drive/',
   path: '/my/drive/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ClipsIdIndexRoute = ClipsIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ClipsIdRouteRoute,
 } as any)
 const NotesIdHistoryRoute = NotesIdHistoryRouteImport.update({
   id: '/notes/$id/history',
@@ -210,6 +217,11 @@ const MyFollowRequestsReceivedRoute =
     path: '/received',
     getParentRoute: () => MyFollowRequestsRouteRoute,
   } as any)
+const ClipsIdEditRoute = ClipsIdEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => ClipsIdRouteRoute,
+} as any)
 const MyDriveFolderFolderRoute = MyDriveFolderFolderRouteImport.update({
   id: '/my/drive/folder/$folder',
   path: '/my/drive/folder/$folder',
@@ -232,12 +244,12 @@ export interface FileRoutesByFullPath {
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
   '/search': typeof SearchRoute
+  '/clips/$id': typeof ClipsIdRouteRouteWithChildren
   '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
   '/my/notifications': typeof MyNotificationsRouteRouteWithChildren
   '/global-timeline': typeof TimelineGlobalTimelineRoute
   '/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/local-timeline': typeof TimelineLocalTimelineRoute
-  '/clips/$id': typeof ClipsIdRoute
   '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
@@ -246,11 +258,13 @@ export interface FileRoutesByFullPath {
   '/tag/$tag': typeof TagTagRoute
   '/': typeof TimelineIndexRoute
   '/settings/': typeof SettingsIndexRoute
+  '/clips/$id/edit': typeof ClipsIdEditRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
   '/notes/$id/history': typeof NotesIdHistoryRoute
+  '/clips/$id/': typeof ClipsIdIndexRoute
   '/my/drive': typeof MyDriveIndexRoute
   '/my/notifications/': typeof MyNotificationsIndexRoute
   '/notes/$id': typeof NotesIdIndexRoute
@@ -271,7 +285,6 @@ export interface FileRoutesByTo {
   '/global-timeline': typeof TimelineGlobalTimelineRoute
   '/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/local-timeline': typeof TimelineLocalTimelineRoute
-  '/clips/$id': typeof ClipsIdRoute
   '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
@@ -280,11 +293,13 @@ export interface FileRoutesByTo {
   '/tag/$tag': typeof TagTagRoute
   '/': typeof TimelineIndexRoute
   '/settings': typeof SettingsIndexRoute
+  '/clips/$id/edit': typeof ClipsIdEditRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
   '/notes/$id/history': typeof NotesIdHistoryRoute
+  '/clips/$id': typeof ClipsIdIndexRoute
   '/my/drive': typeof MyDriveIndexRoute
   '/my/notifications': typeof MyNotificationsIndexRoute
   '/notes/$id': typeof NotesIdIndexRoute
@@ -304,12 +319,12 @@ export interface FileRoutesById {
   '/login-redirect': typeof LoginRedirectRoute
   '/posting': typeof PostingRoute
   '/search': typeof SearchRoute
+  '/clips/$id': typeof ClipsIdRouteRouteWithChildren
   '/my/follow-requests': typeof MyFollowRequestsRouteRouteWithChildren
   '/my/notifications': typeof MyNotificationsRouteRouteWithChildren
   '/_timeline/global-timeline': typeof TimelineGlobalTimelineRoute
   '/_timeline/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/_timeline/local-timeline': typeof TimelineLocalTimelineRoute
-  '/clips/$id': typeof ClipsIdRoute
   '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
   '/my/favorites': typeof MyFavoritesRoute
@@ -318,11 +333,13 @@ export interface FileRoutesById {
   '/tag/$tag': typeof TagTagRoute
   '/_timeline/': typeof TimelineIndexRoute
   '/settings/': typeof SettingsIndexRoute
+  '/clips/$id/edit': typeof ClipsIdEditRoute
   '/my/follow-requests/received': typeof MyFollowRequestsReceivedRoute
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
   '/notes/$id/history': typeof NotesIdHistoryRoute
+  '/clips/$id/': typeof ClipsIdIndexRoute
   '/my/drive/': typeof MyDriveIndexRoute
   '/my/notifications/': typeof MyNotificationsIndexRoute
   '/notes/$id/': typeof NotesIdIndexRoute
@@ -342,12 +359,12 @@ export interface FileRouteTypes {
     | '/login-redirect'
     | '/posting'
     | '/search'
+    | '/clips/$id'
     | '/my/follow-requests'
     | '/my/notifications'
     | '/global-timeline'
     | '/hybrid-timeline'
     | '/local-timeline'
-    | '/clips/$id'
     | '/debug/ws'
     | '/my/clips'
     | '/my/favorites'
@@ -356,11 +373,13 @@ export interface FileRouteTypes {
     | '/tag/$tag'
     | '/'
     | '/settings/'
+    | '/clips/$id/edit'
     | '/my/follow-requests/received'
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
     | '/notes/$id/history'
+    | '/clips/$id/'
     | '/my/drive'
     | '/my/notifications/'
     | '/notes/$id'
@@ -381,7 +400,6 @@ export interface FileRouteTypes {
     | '/global-timeline'
     | '/hybrid-timeline'
     | '/local-timeline'
-    | '/clips/$id'
     | '/debug/ws'
     | '/my/clips'
     | '/my/favorites'
@@ -390,11 +408,13 @@ export interface FileRouteTypes {
     | '/tag/$tag'
     | '/'
     | '/settings'
+    | '/clips/$id/edit'
     | '/my/follow-requests/received'
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
     | '/notes/$id/history'
+    | '/clips/$id'
     | '/my/drive'
     | '/my/notifications'
     | '/notes/$id'
@@ -413,12 +433,12 @@ export interface FileRouteTypes {
     | '/login-redirect'
     | '/posting'
     | '/search'
+    | '/clips/$id'
     | '/my/follow-requests'
     | '/my/notifications'
     | '/_timeline/global-timeline'
     | '/_timeline/hybrid-timeline'
     | '/_timeline/local-timeline'
-    | '/clips/$id'
     | '/debug/ws'
     | '/my/clips'
     | '/my/favorites'
@@ -427,11 +447,13 @@ export interface FileRouteTypes {
     | '/tag/$tag'
     | '/_timeline/'
     | '/settings/'
+    | '/clips/$id/edit'
     | '/my/follow-requests/received'
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
     | '/notes/$id/history'
+    | '/clips/$id/'
     | '/my/drive/'
     | '/my/notifications/'
     | '/notes/$id/'
@@ -451,9 +473,9 @@ export interface RootRouteChildren {
   LoginRedirectRoute: typeof LoginRedirectRoute
   PostingRoute: typeof PostingRoute
   SearchRoute: typeof SearchRoute
+  ClipsIdRouteRoute: typeof ClipsIdRouteRouteWithChildren
   MyFollowRequestsRouteRoute: typeof MyFollowRequestsRouteRouteWithChildren
   MyNotificationsRouteRoute: typeof MyNotificationsRouteRouteWithChildren
-  ClipsIdRoute: typeof ClipsIdRoute
   DebugWsRoute: typeof DebugWsRoute
   MyClipsRoute: typeof MyClipsRoute
   MyFavoritesRoute: typeof MyFavoritesRoute
@@ -600,13 +622,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DebugWsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/clips/$id': {
-      id: '/clips/$id'
-      path: '/clips/$id'
-      fullPath: '/clips/$id'
-      preLoaderRoute: typeof ClipsIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_timeline/local-timeline': {
       id: '/_timeline/local-timeline'
       path: '/local-timeline'
@@ -642,6 +657,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyFollowRequestsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/clips/$id': {
+      id: '/clips/$id'
+      path: '/clips/$id'
+      fullPath: '/clips/$id'
+      preLoaderRoute: typeof ClipsIdRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/notes/$id/': {
       id: '/notes/$id/'
       path: '/notes/$id'
@@ -662,6 +684,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/my/drive'
       preLoaderRoute: typeof MyDriveIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/clips/$id/': {
+      id: '/clips/$id/'
+      path: '/'
+      fullPath: '/clips/$id/'
+      preLoaderRoute: typeof ClipsIdIndexRouteImport
+      parentRoute: typeof ClipsIdRouteRoute
     }
     '/notes/$id/history': {
       id: '/notes/$id/history'
@@ -697,6 +726,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/my/follow-requests/received'
       preLoaderRoute: typeof MyFollowRequestsReceivedRouteImport
       parentRoute: typeof MyFollowRequestsRouteRoute
+    }
+    '/clips/$id/edit': {
+      id: '/clips/$id/edit'
+      path: '/edit'
+      fullPath: '/clips/$id/edit'
+      preLoaderRoute: typeof ClipsIdEditRouteImport
+      parentRoute: typeof ClipsIdRouteRoute
     }
     '/my/drive/folder/$folder': {
       id: '/my/drive/folder/$folder'
@@ -749,6 +785,20 @@ const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
   SettingsRouteRouteChildren,
 )
 
+interface ClipsIdRouteRouteChildren {
+  ClipsIdEditRoute: typeof ClipsIdEditRoute
+  ClipsIdIndexRoute: typeof ClipsIdIndexRoute
+}
+
+const ClipsIdRouteRouteChildren: ClipsIdRouteRouteChildren = {
+  ClipsIdEditRoute: ClipsIdEditRoute,
+  ClipsIdIndexRoute: ClipsIdIndexRoute,
+}
+
+const ClipsIdRouteRouteWithChildren = ClipsIdRouteRoute._addFileChildren(
+  ClipsIdRouteRouteChildren,
+)
+
 interface MyFollowRequestsRouteRouteChildren {
   MyFollowRequestsReceivedRoute: typeof MyFollowRequestsReceivedRoute
   MyFollowRequestsSentRoute: typeof MyFollowRequestsSentRoute
@@ -791,9 +841,9 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRedirectRoute: LoginRedirectRoute,
   PostingRoute: PostingRoute,
   SearchRoute: SearchRoute,
+  ClipsIdRouteRoute: ClipsIdRouteRouteWithChildren,
   MyFollowRequestsRouteRoute: MyFollowRequestsRouteRouteWithChildren,
   MyNotificationsRouteRoute: MyNotificationsRouteRouteWithChildren,
-  ClipsIdRoute: ClipsIdRoute,
   DebugWsRoute: DebugWsRoute,
   MyClipsRoute: MyClipsRoute,
   MyFavoritesRoute: MyFavoritesRoute,
