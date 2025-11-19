@@ -5,7 +5,7 @@
 
 import { MkImage } from '@/components/mk-image';
 import { fileQueryOptions } from '@/hooks/use-file';
-import { DefaultLayout } from '@/layouts/default-layout';
+import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryClient } from '@/plugins/persister';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
@@ -23,7 +23,8 @@ function RouteComponent() {
   const isImageOrVideo = file.type.startsWith('image/') || file.type.startsWith('video/');
 
   return (
-    <DefaultLayout title={t('file')}>
+    <div>
+      <PageTitle title={t('file')} />
       <div className="preview">
         {isImageOrVideo && <MkImage className="aspect-square" containerAspectRatio={1} image={file} />}
       </div>
@@ -44,6 +45,6 @@ function RouteComponent() {
         </p>
         {/* Add more file details as needed */}
       </div>
-    </DefaultLayout>
+    </div>
   );
 }

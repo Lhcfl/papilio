@@ -8,7 +8,8 @@ import { MkNoteBody } from '@/components/note/mk-note-body';
 import { MkNoteHeader } from '@/components/note/mk-note-header';
 import { useNoteValue } from '@/hooks/use-note';
 import { noteQueryOptions } from '@/hooks/use-note-query';
-import { DefaultLayout } from '@/layouts/default-layout';
+
+import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryClient } from '@/plugins/persister';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import type { NoteWithExtension } from '@/types/note';
@@ -61,14 +62,13 @@ function RouteComponent() {
   }
 
   return (
-    <DefaultLayout title={t('_chat.history')}>
-      <div>
-        <NoteVersion note={note} isLatest />
-        {versions.map((version) => (
-          <NoteVersion key={version.updatedAt} note={versionNote(note, version)} />
-        ))}
-      </div>
-    </DefaultLayout>
+    <div>
+      <PageTitle title={t('_chat.history')} />
+      <NoteVersion note={note} isLatest />
+      {versions.map((version) => (
+        <NoteVersion key={version.updatedAt} note={versionNote(note, version)} />
+      ))}
+    </div>
   );
 }
 

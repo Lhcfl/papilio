@@ -11,7 +11,6 @@ import { MkUserCardSkeleton } from '@/components/mk-user-card-skeleton';
 import { MkUserName } from '@/components/mk-user-name';
 import { MkUserNotes } from '@/components/mk-user-notes';
 import { registerNote } from '@/hooks/use-note';
-import { DefaultLayout } from '@/layouts/default-layout';
 import { injectMisskeyApi } from '@/services/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
@@ -19,6 +18,8 @@ import { BanIcon, ExternalLinkIcon, VolumeOffIcon } from 'lucide-react';
 import { acct } from 'misskey-js';
 import type { UserDetailed } from '@/types/user';
 import { useTranslation } from 'react-i18next';
+import { PageTitle } from '@/layouts/sidebar-layout';
+import { HeaderLeftPortal } from '@/components/header-portal';
 
 export const Route = createFileRoute('/@{$acct}')({
   component: RouteComponent,
@@ -49,20 +50,18 @@ function RouteComponent() {
   const pageTitle = user?.name ?? user?.username ?? title;
 
   return (
-    <DefaultLayout
-      title={t('user')}
-      pageTitle={pageTitle}
-      headerLeft={
-        user && (
+    <>
+      <PageTitle title="" pageTitle={pageTitle} />
+      <HeaderLeftPortal>
+        {user && (
           <div className="flex items-center gap-1">
             <MkAvatar user={user} avatarProps={{ className: 'size-6' }} />
             <MkUserName user={user} className="line-clamp-1 max-w-40 text-sm" />
           </div>
-        )
-      }
-    >
+        )}
+      </HeaderLeftPortal>
       <UserMain user={user} error={error} isPending={isPending} />
-    </DefaultLayout>
+    </>
   );
 }
 

@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { AppPageTabs } from '@/components/app-page-tab';
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkNote } from '@/components/mk-note';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Separator } from '@/components/ui/separator';
 import { registerNote } from '@/hooks/use-note';
-import { DefaultLayout } from '@/layouts/default-layout';
+import { PageTitle } from '@/layouts/sidebar-layout';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';
 import { SearchIcon, TextInitialIcon, UserRoundIcon } from 'lucide-react';
@@ -23,13 +24,15 @@ function RouteComponent() {
   const { t } = useTranslation();
 
   return (
-    <DefaultLayout
-      title={t('search')}
-      tabs={[
-        { value: 'notes', label: t('notes'), icon: <TextInitialIcon />, comp: <NoteSearch /> },
-        { value: 'users', label: t('users'), icon: <UserRoundIcon />, comp: <UserSearch /> },
-      ]}
-    />
+    <>
+      <PageTitle title={t('search')} />
+      <AppPageTabs
+        tabs={[
+          { value: 'notes', label: t('notes'), icon: <TextInitialIcon />, comp: <NoteSearch /> },
+          { value: 'users', label: t('users'), icon: <UserRoundIcon />, comp: <UserSearch /> },
+        ]}
+      />
+    </>
   );
 }
 

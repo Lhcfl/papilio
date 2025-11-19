@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { DefaultLayout } from '@/layouts/default-layout';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/chat')({
@@ -11,5 +10,5 @@ export const Route = createFileRoute('/chat')({
 });
 
 function RouteComponent() {
-  return <DefaultLayout>Chat Page</DefaultLayout>;
+  return <div>Chat Page</div>;
 }

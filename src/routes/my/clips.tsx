@@ -5,7 +5,7 @@
 
 import { ClipsList } from '@/components/infinite-loaders/clips-list';
 import { Item } from '@/components/ui/item';
-import { DefaultLayout } from '@/layouts/default-layout';
+import { PageTitle } from '@/layouts/sidebar-layout';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +16,8 @@ export const Route = createFileRoute('/my/clips')({
 function RouteComponent() {
   const { t } = useTranslation();
   return (
-    <DefaultLayout title={t('clips')}>
+    <>
+      <PageTitle title={t('clips')} />
       <ClipsList>
         {(clip, children) => (
           <Item asChild>
@@ -26,6 +27,6 @@ function RouteComponent() {
           </Item>
         )}
       </ClipsList>
-    </DefaultLayout>
+    </>
   );
 }

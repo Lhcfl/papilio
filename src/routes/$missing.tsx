@@ -15,7 +15,7 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center">
+    <div className="flex h-full w-full flex-col items-center justify-center">
       <div className="p-4 text-8xl">🚧</div>
       <div className="p-2">Not implemented. Papilio is under active development.</div>
       <Button onClick={() => navigate({ to: '/' })}>

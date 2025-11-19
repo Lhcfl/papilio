@@ -13,7 +13,6 @@ import { MkNoteSkeleton } from '@/components/mk-note-skeleton';
 import { Button } from '@/components/ui/button';
 import { Empty, EmptyContent, EmptyHeader, EmptyMedia } from '@/components/ui/empty';
 import { Spinner } from '@/components/ui/spinner';
-import { DefaultLayout } from '@/layouts/default-layout';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import {
   EyeClosedIcon,
@@ -37,6 +36,8 @@ import { NoteDefaultStateContext } from '@/providers/expand-all-cw';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { PageTitle } from '@/layouts/sidebar-layout';
+import { HeaderRightPortal } from '@/components/header-portal';
 
 export const Route = createFileRoute('/notes/$id/')({
   component: RouteComponent,
@@ -50,37 +51,34 @@ function RouteComponent() {
   const [expandAllCw, setExpandAllCw] = useState(false);
 
   return (
-    <DefaultLayout
-      title={t('note')}
-      headerRight={
-        <>
-          {isLoading && <Spinner />}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                size="icon-sm"
-                variant="ghost"
-                className={cn({
-                  'text-tertiary bg-tertiary/10 hover:text-tertiary hover:bg-tertiary/20': expandAllCw,
-                })}
-                onClick={() => {
-                  setExpandAllCw(!expandAllCw);
-                }}
-              >
-                {expandAllCw ? <EyeIcon /> : <EyeClosedIcon />}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>{t('expandAllCws')}</TooltipContent>
-          </Tooltip>
-        </>
-      }
-    >
+    <>
+      <PageTitle title={t('note')} />
+      <HeaderRightPortal>
+        {isLoading && <Spinner />}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              size="icon-sm"
+              variant="ghost"
+              className={cn({
+                'text-tertiary bg-tertiary/10 hover:text-tertiary hover:bg-tertiary/20': expandAllCw,
+              })}
+              onClick={() => {
+                setExpandAllCw(!expandAllCw);
+              }}
+            >
+              {expandAllCw ? <EyeIcon /> : <EyeClosedIcon />}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>{t('expandAllCws')}</TooltipContent>
+        </Tooltip>
+      </HeaderRightPortal>
       <NoteDefaultStateContext value={{ expandAllCw }}>
         {data && <LoadedMain noteId={id} />}
         {isPending && <MkNoteSkeleton />}
         {!data && error && <MkError error={error} retry={() => refetch()} />}
       </NoteDefaultStateContext>
-    </DefaultLayout>
+    </>
   );
 }
 

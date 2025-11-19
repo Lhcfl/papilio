@@ -7,7 +7,7 @@ import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scro
 import { MkNote } from '@/components/mk-note';
 import { MkTime } from '@/components/mk-time';
 import { registerNote } from '@/hooks/use-note';
-import { DefaultLayout } from '@/layouts/default-layout';
+import { PageTitle } from '@/layouts/sidebar-layout';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';
 import { StarIcon } from 'lucide-react';
@@ -21,7 +21,8 @@ function RouteComponent() {
   const { t } = useTranslation();
 
   return (
-    <DefaultLayout title={t('favorites')}>
+    <>
+      <PageTitle title={t('favorites')} />
       <MkInfiniteScroll
         queryKey={['favorites']}
         queryFn={({ pageParam }) =>
@@ -41,6 +42,6 @@ function RouteComponent() {
           </div>
         )}
       </MkInfiniteScroll>
-    </DefaultLayout>
+    </>
   );
 }

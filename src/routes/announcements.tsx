@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { AppPageTabs } from '@/components/app-page-tab';
 import { LoadingTrigger } from '@/components/loading-trigger';
 import { MkAnnouncement } from '@/components/mk-announcement';
 import { MkError } from '@/components/mk-error';
 import { Spinner } from '@/components/ui/spinner';
-import { DefaultLayout } from '@/layouts/default-layout';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
@@ -22,7 +22,7 @@ function RouteComponent() {
   const { t } = useTranslation();
 
   return (
-    <DefaultLayout
+    <AppPageTabs
       tabs={[
         {
           value: 'current' as const,

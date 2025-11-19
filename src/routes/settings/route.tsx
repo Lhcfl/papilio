@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { HeaderRightPortal } from '@/components/header-portal';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
-import { DefaultLayout } from '@/layouts/default-layout';
+import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryAtom } from '@/routes/settings/-atoms';
 import { DetailedSettings } from '@/settings';
 import { createFileRoute, Outlet, useChildMatches } from '@tanstack/react-router';
@@ -27,9 +28,9 @@ function RouteComponent() {
   const [query, setQuery] = useAtom(queryAtom);
 
   return (
-    <DefaultLayout
-      title={title}
-      headerRight={
+    <>
+      <PageTitle title={title} />
+      <HeaderRightPortal>
         <InputGroup>
           <InputGroupAddon>
             <SearchIcon />
@@ -42,9 +43,8 @@ function RouteComponent() {
             }}
           />
         </InputGroup>
-      }
-    >
+      </HeaderRightPortal>
       <Outlet />
-    </DefaultLayout>
+    </>
   );
 }
