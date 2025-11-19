@@ -3,23 +3,33 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { MkError } from '@/components/mk-error';
 import { MkTime } from '@/components/mk-time';
 import { MkNoteBody } from '@/components/note/mk-note-body';
 import { MkNoteHeader } from '@/components/note/mk-note-header';
-import { Spinner } from '@/components/ui/spinner';
 import { useNoteValue } from '@/hooks/use-note';
-import { useNoteQuery } from '@/hooks/use-note-query';
+import { noteQueryOptions } from '@/hooks/use-note-query';
 import { DefaultLayout } from '@/layouts/default-layout';
+import { queryClient } from '@/plugins/persister';
 import { misskeyApi } from '@/services/inject-misskey-api';
 import type { NoteWithExtension } from '@/types/note';
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { EditIcon, SendIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
+const historyQueryOptions = (id: string) =>
+  queryOptions({
+    queryKey: ['note-history', id],
+    queryFn: () => misskeyApi('notes/versions', { noteId: id }),
+  });
+
 export const Route = createFileRoute('/notes/$id/history')({
   component: RouteComponent,
+  loader: ({ params }) =>
+    Promise.all([
+      queryClient.ensureQueryData(historyQueryOptions(params.id)),
+      queryClient.ensureQueryData(noteQueryOptions(params.id)),
+    ]),
 });
 
 interface Version {
@@ -39,40 +49,26 @@ function versionNote(note: NoteWithExtension, { oldDate, text }: Version): NoteW
 function RouteComponent() {
   const { id } = Route.useParams();
   const { t } = useTranslation();
-  const { data: noteLoadedId } = useNoteQuery(id);
-  const { data, isPending, error } = useQuery({
+  const { data: noteLoadedId } = useSuspenseQuery(noteQueryOptions(id));
+  const { data: versions } = useSuspenseQuery({
     queryKey: ['note-history', id],
     queryFn: () => misskeyApi('notes/versions', { noteId: id }),
-    staleTime: 60 * 60 * 1000,
   });
-
-  return (
-    <DefaultLayout title={t('_chat.history')}>
-      {isPending && (
-        <div className="flex w-full justify-center">
-          <Spinner />
-        </div>
-      )}
-      {error && <MkError error={error} />}
-      {data && noteLoadedId && <RouteComponentLoaded versions={data} noteId={noteLoadedId} />}
-    </DefaultLayout>
-  );
-}
-
-function RouteComponentLoaded({ versions, noteId }: { versions: Version[]; noteId: string }) {
-  const note = useNoteValue(noteId);
+  const note = useNoteValue(noteLoadedId);
 
   if (!note) {
-    return null;
+    return <DefaultLayout />;
   }
 
   return (
-    <div>
-      <NoteVersion note={note} isLatest />
-      {versions.map((version) => (
-        <NoteVersion key={version.updatedAt} note={versionNote(note, version)} />
-      ))}
-    </div>
+    <DefaultLayout title={t('_chat.history')}>
+      <div>
+        <NoteVersion note={note} isLatest />
+        {versions.map((version) => (
+          <NoteVersion key={version.updatedAt} note={versionNote(note, version)} />
+        ))}
+      </div>
+    </DefaultLayout>
   );
 }
 

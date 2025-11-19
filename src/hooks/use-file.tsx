@@ -4,7 +4,7 @@
  */
 
 import { misskeyApi } from '@/services/inject-misskey-api';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQuery } from '@tanstack/react-query';
 
 export const usePermanentlyDeleteFileAction = (id: string) =>
   useMutation({
@@ -19,8 +19,10 @@ export const useUpdateFileAction = (id: string) =>
       misskeyApi('drive/files/update', { fileId: id, ...data }),
   });
 
-export const useFileQuery = (id: string) =>
-  useQuery({
+export const fileQueryOptions = (id: string) =>
+  queryOptions({
     queryKey: ['file', id],
     queryFn: () => misskeyApi('drive/files/show', { fileId: id }),
   });
+
+export const useFileQuery = (id: string) => useQuery(fileQueryOptions(id));

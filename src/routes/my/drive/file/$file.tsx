@@ -4,30 +4,26 @@
  */
 
 import { MkImage } from '@/components/mk-image';
-import { useFileQuery } from '@/hooks/use-file';
+import { fileQueryOptions } from '@/hooks/use-file';
 import { DefaultLayout } from '@/layouts/default-layout';
+import { queryClient } from '@/plugins/persister';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import type { DriveFile } from 'misskey-js/entities.js';
 import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/my/drive/file/$file')({
   component: RouteComponent,
+  loader: ({ params }) => queryClient.ensureQueryData(fileQueryOptions(params.file)),
 });
 
 function RouteComponent() {
   const { t } = useTranslation();
-  const fileId = Route.useParams().file;
-  const { data: file } = useFileQuery(fileId);
-
-  return <DefaultLayout title={t('file')}>{file && <FileRouteLoaded fileId={fileId} file={file} />}</DefaultLayout>;
-}
-
-function FileRouteLoaded(props: { fileId: string; file: DriveFile }) {
-  const { file } = props;
+  const { file: id } = Route.useParams();
+  const { data: file } = useSuspenseQuery(fileQueryOptions(id));
   const isImageOrVideo = file.type.startsWith('image/') || file.type.startsWith('video/');
 
   return (
-    <div>
+    <DefaultLayout title={t('file')}>
       <div className="preview">
         {isImageOrVideo && <MkImage className="aspect-square" containerAspectRatio={1} image={file} />}
       </div>
@@ -48,6 +44,6 @@ function FileRouteLoaded(props: { fileId: string; file: DriveFile }) {
         </p>
         {/* Add more file details as needed */}
       </div>
-    </div>
+    </DefaultLayout>
   );
 }
