@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { MkError } from '@/components/mk-error';
 import { Toaster } from '@/components/ui/sonner';
 import { useMainChannelListener } from '@/hooks/use-main-channel';
 import { useNoteUpdateListener } from '@/hooks/use-note';
 import { useUploadingHint } from '@/hooks/use-uploading-hint';
+import { DefaultLayout } from '@/layouts/default-layout';
 import { WithLoginLoader } from '@/loaders/with-login';
 import { ConfirmDialogProvider } from '@/providers/confirm-dialog-provider';
 import { ErrorDialogProvider } from '@/providers/error-dialog-provider';
@@ -26,6 +28,11 @@ export const Route = createRootRoute({
     }
   },
   component: RootRouteComponent,
+  errorComponent: (err) => (
+    <DefaultLayout>
+      <MkError error={err.error} />
+    </DefaultLayout>
+  ),
 });
 
 function RootRouteComponent() {
