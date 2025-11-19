@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSiteMeta } from '@/stores/site';
 import { DesktopRightbar } from '@/providers/rightbar-or-popup';
 import { cn } from '@/lib/utils';
-import { useLocation, useNavigate } from '@tanstack/react-router';
+import { useLocation, useNavigate, useRouterState } from '@tanstack/react-router';
 import type { Tab } from '@/types/page-header';
 import { AppNavBar } from '@/components/app-nav-bar';
 import { getHeaderLeftId, getHeaderRightId } from '@/providers/window-provider';
@@ -119,10 +119,15 @@ function LayoutMiddle(props: {
   children: React.ReactNode;
 }) {
   const { title, className, children, headerCenter, headerRight, headerLeft } = props;
+
+  const isLoading = useRouterState({
+    select: (s) => s.isLoading,
+  });
+
   return (
     <ScrollArea className={className} id="main-scroll-area">
-      <header className="bg-background @container sticky top-0 z-30 h-13 gap-1 border-b p-2">
-        <div className="relative flex h-full w-full items-center justify-between">
+      <header className="bg-background @container sticky top-0 z-30 h-13 gap-1 border-b">
+        <div className="relative flex h-full w-full items-center justify-between p-2">
           <div className="flex items-center gap-1">
             <SidebarTrigger className="-mr-2 size-8 max-sm:hidden" />
             <div id={getHeaderLeftId('ptrb-header')} />
@@ -136,13 +141,23 @@ function LayoutMiddle(props: {
               </span>
             )}
           </div>
-          <div className="@sm:absolute @sm:top-1/2 @sm:left-1/2 @sm:-translate-x-1/2 @sm:-translate-y-1/2">
+          <div
+            className={cn('@sm:absolute @sm:top-1/2 @sm:left-1/2 @sm:-translate-x-1/2 @sm:-translate-y-1/2', {
+              'opacity-0 transition-opacity': isLoading,
+            })}
+          >
             {headerCenter}
           </div>
           <div className="flex items-center">
             <div id={getHeaderRightId('ptrb-header')} />
             {headerRight}
           </div>
+          <div
+            className={cn('bg-tertiary absolute bottom-0 left-0 h-0.5 w-[95%] rounded-md transition-transform', {
+              'duration-3000 ease-out': isLoading,
+              '-translate-x-full duration-100': !isLoading,
+            })}
+          />
         </div>
       </header>
       <div className="flex justify-center p-2">
