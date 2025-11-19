@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { clipQueryOptions } from '@/hooks/use-clip';
 import { DefaultLayout } from '@/layouts/default-layout';
 import { queryClient } from '@/plugins/persister';
