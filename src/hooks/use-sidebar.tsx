@@ -15,6 +15,7 @@ import {
   HomeIcon,
   MegaphoneIcon,
   MessageSquareIcon,
+  PaperclipIcon,
   SearchIcon,
   StarIcon,
   UserPlusIcon,
@@ -28,7 +29,7 @@ export function useSidebarItems() {
     { title: t('home'), icon: HomeIcon, to: '/' },
     { title: t('notifications'), icon: BellIcon, to: '/my/notifications', count: unreadNotificationsCount },
     { title: t('favorites'), icon: StarIcon, to: '/my/favorites' },
-    { title: t('clips'), icon: StarIcon, to: '/my/clips' },
+    { title: t('clips'), icon: PaperclipIcon, to: '/my/clips' },
     {
       title: t('followRequests'),
       icon: UserPlusIcon,
