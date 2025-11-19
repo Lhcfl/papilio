@@ -12,12 +12,19 @@ import { StrictMode } from 'react';
 import { dehydrateOptions, localStoragePersister, queryClient } from '@/plugins/persister';
 // Import the generated route tree
 import { routeTree } from '@/routeTree.gen';
+import { SidebarLayout } from '@/layouts/sidebar-layout';
+import { MkError } from '@/components/mk-error';
 
 // Create a new router instance
 const router = createRouter({
   routeTree,
   scrollToTopSelectors: [`#main-scroll-area > [data-slot="scroll-area-viewport"]`],
   scrollRestoration: true,
+  defaultErrorComponent: (err) => (
+    <SidebarLayout>
+      <MkError error={err.error} />
+    </SidebarLayout>
+  ),
 });
 
 // Register the router instance for type safety

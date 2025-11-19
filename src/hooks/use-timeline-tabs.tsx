@@ -23,7 +23,7 @@ const getTimelineTranslationKey = (type: TimelineTypes) => {
 
 const timelines: TimelineTypes[] = ['home', 'local', 'hybrid', 'global'];
 
-export const useTimelineTabs = (): Tab<TimelineTypes>[] => {
+export const useTimelineTabs = (): Exclude<Tab<TimelineTypes>, false | null>[] => {
   const { t } = useTranslation();
   return timelines.map((tl) => ({
     value: tl,

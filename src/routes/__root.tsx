@@ -28,11 +28,6 @@ export const Route = createRootRoute({
     }
   },
   component: RootRouteComponent,
-  errorComponent: (err) => (
-    <DefaultLayout>
-      <MkError error={err.error} />
-    </DefaultLayout>
-  ),
 });
 
 function RootRouteComponent() {

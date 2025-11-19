@@ -15,3 +15,11 @@ export function useSiteMeta<T>(selector: (arg: MetaLite) => T): T {
     return selector(meta);
   }, [selector]);
 }
+
+export function useNullableSiteMeta<T>(selector: (arg: MetaLite) => T): T | null {
+  return useMemo(() => {
+    const meta = use(SiteMetaContext);
+    if (meta == null) return null;
+    return selector(meta);
+  }, [selector]);
+}

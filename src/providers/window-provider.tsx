@@ -18,3 +18,7 @@ export function getHeaderLeftId(id: string) {
 export function getHeaderRightId(id: string) {
   return `${id}__right`;
 }
+
+export function getHeaderCenterId(id: string) {
+  return `${id}__center`;
+}
