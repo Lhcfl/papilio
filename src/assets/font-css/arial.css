@@ -1,0 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+html[default-font="arial"] {
+    --font-sans: Arial, sans-serif;
+}

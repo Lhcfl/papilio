@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { AppLanguageSelect } from '@/components/settings/app-language-select';
 import { CogIcon, PaletteIcon } from 'lucide-react';
+import { lazy } from 'react';
 
 const t = (x: string) => x;
 
@@ -28,6 +28,12 @@ export const AppearanceSettings = {
           name: t('theme'),
           description: t('myTheme'),
         },
+        {
+          kind: 'custom',
+          name: t('_stpvPlus.defaultFont.label'),
+          direction: 'right' as 'right' | 'bottom',
+          component: lazy(() => import('@/components/settings/app-font-select')),
+        },
       ],
     },
     {
@@ -39,7 +45,7 @@ export const AppearanceSettings = {
           kind: 'custom',
           name: t('language'),
           direction: 'right' as 'right' | 'bottom',
-          component: <AppLanguageSelect />,
+          component: lazy(() => import('@/components/settings/app-language-select')),
         },
         {
           kind: 'switch',

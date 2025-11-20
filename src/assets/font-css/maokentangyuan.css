@@ -1,0 +1,29 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+@font-face {
+    font-display: swap;
+    font-family: 'MaoKenTangYuan';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/ofl/MaoKenTangYuan0.12.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'jf-openhuninn';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/ofl/jf-openhuninn-2.1.woff2') format("woff2");
+}
+
+
+html[default-font="maokentangyuan"] {
+    --font-sans: 'MaoKenTangYuan', 'jf-openhuninn', Roboto, Arial, sans-serif;
+    &[lang="zh-WY"],
+    &[lang="zh-TW"] {
+        --font-sans: 'jf-openhuninn', 'MaoKenTangYuan', Roboto, Arial, sans-serif;
+    }
+}

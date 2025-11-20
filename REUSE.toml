@@ -53,3 +53,7 @@ precedence = "aggregate"
 SPDX-FileCopyrightText = "syuilo and Misskey Project"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
 
+[[annotations]]
+path = ["public/fonts/ofl/**"]
+precedence = "aggregate"
+SPDX-License-Identifier = "OFL-1.1"

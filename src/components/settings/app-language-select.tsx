@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import langs from '@/assets/langs.json';
 import { useTranslation } from 'react-i18next';
 
-export const AppLanguageSelect = () => {
+export default function AppLanguageSelect() {
   const { i18n } = useTranslation();
 
   function changeLanguage(lng: string) {
@@ -31,4 +31,4 @@ export const AppLanguageSelect = () => {
       </SelectContent>
     </Select>
   );
-};
+}

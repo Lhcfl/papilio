@@ -1,0 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+@font-face {
+    font-display: swap;
+    font-family: 'Fusion Pixel 10px';
+    font-style: normal;
+    src: 
+      url('/fonts/ofl/fusion-pixel/fusion-pixel-10px-proportional-latin.woff2') format("woff2"),
+      url('/fonts/ofl/fusion-pixel/fusion-pixel-10px-proportional-zh_hans.woff2') format("woff2"),
+      url('/fonts/ofl/fusion-pixel/fusion-pixel-10px-proportional-zh_hant.woff2') format("woff2"),
+      url('/fonts/ofl/fusion-pixel/fusion-pixel-10px-proportional-ja.woff2') format("woff2"),
+      url('/fonts/ofl/fusion-pixel/fusion-pixel-10px-proportional-ko.woff2') format("woff2");
+}
+
+html[default-font="fusion-pixel-10px"] {
+    --font-sans: 'Fusion Pixel 10px', monospace;
+}

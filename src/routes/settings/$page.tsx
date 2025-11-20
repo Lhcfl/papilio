@@ -120,7 +120,8 @@ function SettingItemPolymorph({ item, highlighted }: { item: SettingsItems; high
       return <SwitchSettingItem item={item} highlighted={highlighted} />;
     case 'enum':
       return <EnumSettingItem item={item} highlighted={highlighted} />;
-    case 'custom':
+    case 'custom': {
+      const CustomComp = item.component;
       return (
         <div
           className={cn('flex w-full items-center', {
@@ -131,9 +132,12 @@ function SettingItemPolymorph({ item, highlighted }: { item: SettingsItems; high
           <div className="w-0 flex-[1_1]">
             <div className="text-base font-medium">{t(item.name)}</div>
           </div>
-          <div>{item.component}</div>
+          <div>
+            <CustomComp />
+          </div>
         </div>
       );
+    }
     case 'text':
       return <TextSettingItem item={item} highlighted={highlighted} />;
     default:

@@ -1,0 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+@import url("https://chinese-fonts-cdn.deno.dev/packages/ysbzt/dist/%E5%B3%84%E5%B1%B1%E7%A2%91%E7%AF%86%E4%BD%93/result.css"); 
+
+@font-face {
+    font-display: swap;
+    font-family: 'chongxi-seal';
+    font-style: normal;
+    src: 
+      url('/fonts/ofl/chongxi_seal.woff2') format("woff2"),
+}
+
+
+html[default-font="ysbzt"] {
+  --font-sans: '峄山碑篆体', 'chongxi-seal', sans-serif;
+}

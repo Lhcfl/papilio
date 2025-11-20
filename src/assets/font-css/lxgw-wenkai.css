@@ -1,0 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+@import url("https://testingcf.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css");
+@import url('https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;700&display=swap');
+
+html[default-font="lxgw-wenkai"] {    
+    --default-font-family: var(--font-serif);
+    --font-serif: "LXGW WenKai", "Times New Roman", serif;
+    
+    &[lang="zh-WY"],
+    &[lang="zh-TW"] {
+        --font-serif: 'sharkey-theme-font-face', "LXGW WenKai TC", "LXGW WenKai", 'Times New Roman', Times, serif;
+    }
+}

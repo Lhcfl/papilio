@@ -14,6 +14,7 @@ import { dehydrateOptions, localStoragePersister, queryClient } from '@/plugins/
 import { routeTree } from '@/routeTree.gen';
 import { Spinner } from '@/components/ui/spinner';
 import { AppDefaultErrorComponent } from '@/components/app-default-error-component';
+import { loadFontCssByLocalStorage } from '@/lib/font';
 
 // Create a new router instance
 const router = createRouter({
@@ -48,3 +49,5 @@ createRoot(document.getElementById('root')!).render(
     </PersistQueryClientProvider>
   </StrictMode>,
 );
+
+loadFontCssByLocalStorage();

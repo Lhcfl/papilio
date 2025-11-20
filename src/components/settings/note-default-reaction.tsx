@@ -12,7 +12,7 @@ import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
 import { Spinner } from '@/components/ui/spinner';
 import { useUserPreference } from '@/stores/perference';
 
-export const NoteDefaultReaction = () => {
+export default function NoteDefaultReaction() {
   const { t } = useTranslation();
   const defaultLike = useUserPreference((p) => p.defaultLike);
   const setDefaultLike = useUserPreference((p) => p.setDefaultLike);
@@ -52,4 +52,4 @@ export const NoteDefaultReaction = () => {
       </ButtonGroup>
     </div>
   );
-};
+}

@@ -1,0 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+@font-face {
+    font-display: swap;
+    font-family: 'Clear Han Serif';
+    font-style: normal;
+    src: url('/fonts/ofl/clearhanserif.original.v1.07.woff2') format("woff2");
+}
+
+html[default-font="clear-han-serif"] {
+  --default-font-family: var(--font-serif);
+  --font-serif: 'Clear Han Serif', "Times New Roman", serif;
+}
