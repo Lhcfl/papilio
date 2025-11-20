@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { emojisopt } from '@/loaders/emoji-loader';
 import { meopt } from '@/loaders/me-loader';
 import { misskeyApi } from '@/services/inject-misskey-api';
