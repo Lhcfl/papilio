@@ -22,7 +22,7 @@ const router = createRouter({
   scrollToTopSelectors: [`#main-scroll-area > [data-slot="scroll-area-viewport"]`],
   scrollRestoration: true,
   defaultPendingComponent: () => (
-    <div className="flex w-full items-center p-4">
+    <div className="flex w-full items-center justify-center p-4">
       <Spinner />
     </div>
   ),
