@@ -38,7 +38,7 @@ function HasNoSearchComponent() {
       {DetailedSettings.map((page) => (
         <div key={page.value} className="relative flex items-center gap-3 border-b p-3">
           <Link to="/settings/$page" params={{ page: page.value }} className="absolute inset-0 h-full w-full" />
-          {page.icon}
+          <div className="shrink-0 grow-0">{page.icon}</div>
           <div>
             <h2>{t(page.name)}</h2>
             <span className="text-muted-foreground text-sm">{t(page.description)}</span>
