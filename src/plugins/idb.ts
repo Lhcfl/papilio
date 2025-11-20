@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: Linca and papilio-project
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { site, token } from '@/services/inject-misskey-api';
+import { site, token } from '@/lib/inject-misskey-api';
 import { createStore, type UseStore } from 'idb-keyval';
 
 let store = null as UseStore | null;

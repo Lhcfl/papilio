@@ -5,7 +5,7 @@
 
 import type { MfmNode } from 'mfm-js';
 import type { NoteWithExtension } from '@/types/note';
-import { getRelativeUrl } from '@/services/inject-misskey-api';
+import { getRelativeUrl } from '@/lib/inject-misskey-api';
 
 export function isPureRenote(n: NoteWithExtension): n is NoteWithExtension & { renoteId: string } {
   return Boolean(n.renoteId && !n.text && !n.cw && !n.poll && !n.fileIds?.length);

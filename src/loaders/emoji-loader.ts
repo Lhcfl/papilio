@@ -4,7 +4,7 @@
  */
 
 import { PERSIST_GC_TIME } from '@/plugins/persister';
-import { injectMisskeyStream, site } from '@/services/inject-misskey-api';
+import { injectMisskeyStream, site } from '@/lib/inject-misskey-api';
 import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { EmojisResponse } from 'misskey-js/entities.js';
 import { useEffect, useEffectEvent } from 'react';

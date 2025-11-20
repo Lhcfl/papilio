@@ -11,7 +11,7 @@ import { MkUserCardSkeleton } from '@/components/mk-user-card-skeleton';
 import { MkUserName } from '@/components/mk-user-name';
 import { MkUserNotes } from '@/components/mk-user-notes';
 import { registerNote } from '@/hooks/use-note';
-import { injectMisskeyApi } from '@/services/inject-misskey-api';
+import { injectMisskeyApi } from '@/lib/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { BanIcon, ExternalLinkIcon, VolumeOffIcon } from 'lucide-react';

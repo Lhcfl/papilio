@@ -5,7 +5,7 @@
 
 import { useNoteValue } from '@/hooks/use-note';
 import { MkMfm } from '@/components/mk-mfm';
-import { getNoteExcerpt } from '@/services/note-excerpt';
+import { getNoteExcerpt } from '@/lib/note-excerpt';
 import { MkAvatar } from '@/components/mk-avatar';
 import { withNoSelection, withStopPrevent } from '@/lib/utils';
 import { LockIcon } from 'lucide-react';

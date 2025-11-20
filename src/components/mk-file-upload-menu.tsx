@@ -11,7 +11,7 @@ import type { DriveFile } from 'misskey-js/entities.js';
 import { MkDriveFileSelect } from '@/components/mk-drive-file-select';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { createStreamChannel, misskeyApi } from '@/services/inject-misskey-api';
+import { createStreamChannel, misskeyApi } from '@/lib/inject-misskey-api';
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle } from '@/components/ui/dialog';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Button } from '@/components/ui/button';

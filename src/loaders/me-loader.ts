@@ -4,7 +4,7 @@
  */
 
 import { PERSIST_GC_TIME } from '@/plugins/persister';
-import { createStreamChannel, misskeyApi } from '@/services/inject-misskey-api';
+import { createStreamChannel, misskeyApi } from '@/lib/inject-misskey-api';
 import { unreadNotificationsAtom } from '@/stores/unread-notifications';
 import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';

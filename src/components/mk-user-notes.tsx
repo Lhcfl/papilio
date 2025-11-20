@@ -4,7 +4,7 @@
  */
 
 import { registerNote } from '@/hooks/use-note';
-import { injectMisskeyApi } from '@/services/inject-misskey-api';
+import { injectMisskeyApi } from '@/lib/inject-misskey-api';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { MkError } from '@/components/mk-error';
 import { MkNote } from '@/components/mk-note';

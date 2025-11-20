@@ -6,7 +6,7 @@
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkNote } from '@/components/mk-note';
 import { registerNote } from '@/hooks/use-note';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router';
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 import { MkTime } from '@/components/mk-time';

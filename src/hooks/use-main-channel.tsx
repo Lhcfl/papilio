@@ -6,7 +6,7 @@
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { MkNotificationToast } from '@/components/mk-notification-toast';
-import { createStreamChannel } from '@/services/inject-misskey-api';
+import { createStreamChannel } from '@/lib/inject-misskey-api';
 import { useSetAtom } from 'jotai';
 import { unreadNotificationsAtom } from '@/stores/unread-notifications';
 

@@ -5,7 +5,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { MkUserName } from '@/components/mk-user-name';
-import { getNoteExcerpt } from '@/services/note-excerpt';
+import { getNoteExcerpt } from '@/lib/note-excerpt';
 import { Link } from '@tanstack/react-router';
 import { MkMfm } from '@/components/mk-mfm';
 import type { FrontendGroupedNotification } from '@/lib/notification-grouper';

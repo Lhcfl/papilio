@@ -5,7 +5,7 @@
 
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkDriveFile } from '@/components/file/mk-drive-file';
-import { sharkeyApi } from '@/services/inject-misskey-api';
+import { sharkeyApi } from '@/lib/inject-misskey-api';
 import { Link } from '@tanstack/react-router';
 import type { DriveFile } from 'misskey-js/entities.js';
 import { cn } from '@/lib/utils';

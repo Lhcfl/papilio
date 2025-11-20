@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { Spinner } from '@/components/ui/spinner';
 import { PERSIST_GC_TIME } from '@/plugins/persister';
-import { misskeyApi, site } from '@/services/inject-misskey-api';
+import { misskeyApi, site } from '@/lib/inject-misskey-api';
 import { MeContext } from '@/stores/me';
 import { SiteMetaContext } from '@/stores/site';
 import { NodeInfoContext, type NodeInfo } from '@/stores/node-info';

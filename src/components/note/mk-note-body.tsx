@@ -20,7 +20,7 @@ import { MkNoteTranslation } from '@/components/note/mk-note-translation';
 import { Link } from '@tanstack/react-router';
 import { collectAst, countAst } from '@/lib/note';
 import { cn, onlyWhenNonInteractableContentClicked } from '@/lib/utils';
-import { site } from '@/services/inject-misskey-api';
+import { site } from '@/lib/inject-misskey-api';
 import { cond } from '@/lib/match';
 import { MkMention } from '@/components/mk-mention';
 import { acct } from 'misskey-js';

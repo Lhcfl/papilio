@@ -26,7 +26,7 @@ import {
 import { noteQueryOptions } from '@/hooks/use-note-query';
 import { registerNote, useNoteValue } from '@/hooks/use-note';
 import { getNoteRemoteUrl } from '@/lib/note';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
 import { NoteReactionsList } from '@/components/infinite-loaders/note-reactions-list';

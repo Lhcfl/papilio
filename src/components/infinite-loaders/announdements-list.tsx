@@ -5,7 +5,7 @@
 
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkAnnouncement } from '@/components/mk-announcement';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 
 export function AnnouncementsList(props: { value: 'current' | 'previous' }) {
   return (

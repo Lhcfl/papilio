@@ -8,7 +8,7 @@ import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinit
 import { useEffect } from 'react';
 import { infiniteQueryOptions, useQueryClient } from '@tanstack/react-query';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { createStreamChannel, misskeyApi } from '@/services/inject-misskey-api';
+import { createStreamChannel, misskeyApi } from '@/lib/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
 import type { TimelineTypes } from '@/types/timeline';
 import { HeaderRightPortal } from '@/components/header-portal';

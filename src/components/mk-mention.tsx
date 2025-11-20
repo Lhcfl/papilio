@@ -7,7 +7,7 @@ import { Link } from '@tanstack/react-router';
 import { acct } from 'misskey-js';
 import type { HTMLAttributes } from 'react';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { getRelativeUrl } from '@/services/inject-misskey-api';
+import { getRelativeUrl } from '@/lib/inject-misskey-api';
 import { cn } from '@/lib/utils';
 
 const MkMentionInner = (props: { username: string; host: string | null; children?: React.ReactNode }) => {

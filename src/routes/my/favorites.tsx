@@ -8,7 +8,7 @@ import { MkNote } from '@/components/mk-note';
 import { MkTime } from '@/components/mk-time';
 import { registerNote } from '@/hooks/use-note';
 import { PageTitle } from '@/layouts/sidebar-layout';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';
 import { StarIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

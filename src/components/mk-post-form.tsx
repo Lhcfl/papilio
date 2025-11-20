@@ -35,7 +35,7 @@ import type { DriveFile, EmojiSimple } from 'misskey-js/entities.js';
 import type { User } from '@/types/user';
 import { useEffect, useRef, useState, type HTMLProps } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { misskeyApi, site } from '@/services/inject-misskey-api';
+import { misskeyApi, site } from '@/lib/inject-misskey-api';
 import { Spinner } from '@/components/ui/spinner';
 import type { NoteWithExtension } from '@/types/note';
 import { cond } from '@/lib/match';

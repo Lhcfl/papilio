@@ -11,7 +11,7 @@ import { Item, ItemContent, ItemMedia, ItemTitle } from '@/components/ui/item';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { LoginLayout } from '@/layouts/login-layout';
-import { getAccountList, saveToAccountList } from '@/services/inject-misskey-api';
+import { getAccountList, saveToAccountList } from '@/lib/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { PlusCircleIcon } from 'lucide-react';

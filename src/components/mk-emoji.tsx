@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import Twemoji from 'twemoji';
-import { site } from '@/services/inject-misskey-api';
+import { site } from '@/lib/inject-misskey-api';
 import { useEmojis } from '@/stores/emojis';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { HeartMinusIcon, InfoIcon, SmilePlusIcon } from 'lucide-react';

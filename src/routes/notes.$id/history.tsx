@@ -10,7 +10,7 @@ import { useNoteValue } from '@/hooks/use-note';
 import { noteQueryOptions } from '@/hooks/use-note-query';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryClient } from '@/plugins/persister';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import type { NoteWithExtension } from '@/types/note';
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';

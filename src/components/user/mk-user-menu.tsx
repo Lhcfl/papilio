@@ -9,7 +9,7 @@ import { useMe } from '@/stores/me';
 import { useTranslation } from 'react-i18next';
 import { copyToClipboard } from '@/lib/utils';
 import { acct } from 'misskey-js';
-import { getRelativeUrl } from '@/services/inject-misskey-api';
+import { getRelativeUrl } from '@/lib/inject-misskey-api';
 import {
   AtSignIcon,
   BanIcon,

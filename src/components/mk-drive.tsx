@@ -10,7 +10,7 @@ import { MkDriveFiles } from '@/components/infinite-loaders/mk-drive-files';
 import { Breadcrumb, BreadcrumbList } from '@/components/ui/breadcrumb';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Skeleton } from '@/components/ui/skeleton';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { SearchIcon } from 'lucide-react';

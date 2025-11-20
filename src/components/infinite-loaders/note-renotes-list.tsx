@@ -8,7 +8,7 @@ import { MkAvatar } from '@/components/mk-avatar';
 import { MkTime } from '@/components/mk-time';
 import { MkUserName } from '@/components/mk-user-name';
 import { Item, ItemContent, ItemDescription, ItemGroup, ItemHeader, ItemMedia } from '@/components/ui/item';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { RepeatIcon } from 'lucide-react';
 
 export function NoteRenotesList({ noteId }: { noteId: string }) {

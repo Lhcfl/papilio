@@ -4,7 +4,7 @@
  */
 
 import { getCompressionConfig, mimeTypeToFileExtension } from '@/lib/upload';
-import { getRelativeUrl, token } from '@/services/inject-misskey-api';
+import { getRelativeUrl, token } from '@/lib/inject-misskey-api';
 import { useMe } from '@/stores/me';
 import { useSiteMeta } from '@/stores/site';
 import { useUploadProgress } from '@/stores/upload-progress';

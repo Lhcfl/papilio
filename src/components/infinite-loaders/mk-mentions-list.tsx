@@ -4,7 +4,7 @@
  */
 
 import { MkNote } from '@/components/mk-note';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 

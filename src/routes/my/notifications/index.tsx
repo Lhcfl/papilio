@@ -4,7 +4,7 @@
  */
 
 import { MkNotifications } from '@/components/infinite-loaders/mk-notifications';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect } from 'react';

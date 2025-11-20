@@ -10,7 +10,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MkCode } from '@/components/mk-code';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { site, token } from '@/services/inject-misskey-api';
+import { site, token } from '@/lib/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';
 import { Stream } from 'misskey-js';
 import { Label } from '@/components/ui/label';

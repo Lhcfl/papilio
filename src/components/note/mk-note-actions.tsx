@@ -33,7 +33,7 @@ import { VISIBILITIES } from '@/lib/note';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
 import { useMutation, useMutationState } from '@tanstack/react-query';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { patchNote } from '@/hooks/use-note';
 import { cn } from '@/lib/utils';
 import { usePreference, useUserPreference } from '@/stores/perference';

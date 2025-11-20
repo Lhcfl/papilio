@@ -8,7 +8,7 @@ import { MkNote } from '@/components/mk-note';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Separator } from '@/components/ui/separator';
 import { registerNote } from '@/hooks/use-note';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';
 import { SearchIcon } from 'lucide-react';
 import { useState } from 'react';

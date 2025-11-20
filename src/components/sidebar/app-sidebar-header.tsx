@@ -6,7 +6,7 @@
 import { SiteLogo } from '@/components/site-logo';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { useSiteMeta } from '@/stores/site';
-import { site } from '@/services/inject-misskey-api';
+import { site } from '@/lib/inject-misskey-api';
 import { AppThemeToggle } from '@/components/app-theme-toggle';
 export const AppSidebarHeader = () => {
   const metaName = useSiteMeta((m) => m.name);

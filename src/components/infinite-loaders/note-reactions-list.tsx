@@ -9,7 +9,7 @@ import { MkCustomEmoji, MkEmoji } from '@/components/mk-emoji';
 import { MkTime } from '@/components/mk-time';
 import { MkUserName } from '@/components/mk-user-name';
 import { Item, ItemContent, ItemDescription, ItemGroup, ItemHeader, ItemMedia } from '@/components/ui/item';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 
 export function NoteReactionsList({ noteId }: { noteId: string }) {
   return (

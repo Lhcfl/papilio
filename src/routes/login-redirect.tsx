@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/dialog';
 import { Spinner } from '@/components/ui/spinner';
 import { LoginLayout } from '@/layouts/login-layout';
-import { saveToAccountList, site, storeUserToken } from '@/services/inject-misskey-api';
+import { saveToAccountList, site, storeUserToken } from '@/lib/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/login-redirect')({

@@ -5,7 +5,7 @@
 
 import { emojisopt } from '@/loaders/emoji-loader';
 import { meopt } from '@/loaders/me-loader';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import type { QueryClient } from '@tanstack/react-query';
 
 export function clearCache(queryClient: QueryClient) {

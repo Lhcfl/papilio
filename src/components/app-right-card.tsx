@@ -8,7 +8,7 @@ import { MkClock } from '@/components/mk-clock';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { getHeaderRightId, WindowContext } from '@/providers/window-provider';
-import { site, token } from '@/services/inject-misskey-api';
+import { site, token } from '@/lib/inject-misskey-api';
 import { BellIcon } from 'lucide-react';
 import { type HTMLProps } from 'react';
 import { useTranslation } from 'react-i18next';

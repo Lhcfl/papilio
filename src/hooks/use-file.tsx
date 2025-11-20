@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { queryOptions, useMutation, useQuery } from '@tanstack/react-query';
 
 export const usePermanentlyDeleteFileAction = (id: string) =>

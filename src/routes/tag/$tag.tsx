@@ -7,7 +7,7 @@ import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scro
 import { MkNote } from '@/components/mk-note';
 import { registerNote } from '@/hooks/use-note';
 import { PageTitle } from '@/layouts/sidebar-layout';
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/tag/$tag')({

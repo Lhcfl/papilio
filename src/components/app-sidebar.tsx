@@ -7,7 +7,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/compone
 import { AppSidebarFooter } from '@/components/sidebar/app-sidebar-footer';
 import { AppSidebarHeader } from '@/components/sidebar/app-sidebar-header';
 import { AppSidebarMain } from '@/components/sidebar/app-sidebar-main';
-import { site, token } from '@/services/inject-misskey-api';
+import { site, token } from '@/lib/inject-misskey-api';
 import { LogoutSidebarFooter } from '@/components/sidebar/logout-sidebar-footer';
 import { LogoutSidebarMain } from '@/components/sidebar/logout-sidebar-main';
 

@@ -5,7 +5,7 @@
 
 import { useSiteMeta } from '@/stores/site';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { getRelativeUrl } from '@/services/inject-misskey-api';
+import { getRelativeUrl } from '@/lib/inject-misskey-api';
 
 export const SiteLogo = () => {
   const logoImageUrl = useSiteMeta((m) => m.logoImageUrl);

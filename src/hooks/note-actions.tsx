@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { misskeyApi, type EndpointParamType } from '@/services/inject-misskey-api';
+import { misskeyApi, type EndpointParamType } from '@/lib/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { markAsChanged, patchNote } from '@/hooks/use-note';

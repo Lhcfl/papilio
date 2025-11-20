@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { misskeyApi } from '@/services/inject-misskey-api';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { useMutation, type MutationFunctionContext } from '@tanstack/react-query';
 import type { UserDetailed } from '@/types/user';
 

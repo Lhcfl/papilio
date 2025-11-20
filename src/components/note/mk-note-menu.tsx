@@ -23,7 +23,7 @@ import type { NoteWithExtension } from '@/types/note';
 import { useMe } from '@/stores/me';
 import { getNoteRemoteUrl } from '@/lib/note';
 import { copyToClipboard } from '@/lib/utils';
-import { getNoteExcerpt } from '@/services/note-excerpt';
+import { getNoteExcerpt } from '@/lib/note-excerpt';
 import {
   useDeleteNoteAction,
   useFavoriteNoteAction,

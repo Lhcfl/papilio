@@ -8,7 +8,7 @@ import { atom, getDefaultStore, useAtomValue } from 'jotai';
 import type { EmojiSimple, Note } from 'misskey-js/entities.js';
 import type { NoteUpdatedEvent } from 'misskey-js/streaming.types.js';
 import type { NoteWithExtension } from '@/types/note';
-import { injectMisskeyStream, misskeyApi } from '@/services/inject-misskey-api';
+import { injectMisskeyStream, misskeyApi } from '@/lib/inject-misskey-api';
 import { useMe } from '@/stores/me';
 import { isPureRenote } from 'misskey-js/note.js';
 

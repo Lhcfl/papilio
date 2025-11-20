@@ -13,7 +13,7 @@ import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Spinner } from '@/components/ui/spinner';
 import { LoginLayout } from '@/layouts/login-layout';
-import { getAccountList, saveToAccountList, site, storeUserSite, token } from '@/services/inject-misskey-api';
+import { getAccountList, saveToAccountList, site, storeUserSite, token } from '@/lib/inject-misskey-api';
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,

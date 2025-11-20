@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { MkPostFormDialog } from '@/components/mk-post-form-dialog';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { linkOptions } from '@tanstack/react-router';
-import { logout } from '@/services/inject-misskey-api';
+import { logout } from '@/lib/inject-misskey-api';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 
 export const AppSidebarFooter = () => {
