@@ -29,7 +29,7 @@ export const MkNoteReplyLine = (props: { noteId: string; onExpand: () => void })
             <LockIcon className="size-4" />({t('private')})
           </span>
         ) : (
-          <MkMfm text={getNoteExcerpt(note)} author={note.user} inline />
+          <MkMfm text={getNoteExcerpt(note)} author={note.user} emojiUrls={note.emojis} inline />
         )}
       </div>
 
