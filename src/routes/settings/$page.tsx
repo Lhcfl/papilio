@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { HeaderLeftPortal } from '@/components/header-portal';
 import { MkEmpty } from '@/components/mk-empty';
 import { EnumSettingItem } from '@/components/settings/enum';
 import { SwitchSettingItem } from '@/components/settings/switch';
@@ -15,6 +16,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { PageTitle } from '@/layouts/sidebar-layout';
 import { cn } from '@/lib/utils';
 import { queryAtom } from '@/routes/settings/-atoms';
 import { DetailedSettings, type SettingsItems } from '@/settings';
@@ -60,18 +62,21 @@ function RouteComponent() {
 
   return (
     <div>
-      <Breadcrumb className="mb-3 ml-2">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link to="/settings">{t('settings')}</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>{t(thisPageSettings.name)}</BreadcrumbItem>
-          <BreadcrumbSeparator />
-        </BreadcrumbList>
-      </Breadcrumb>
+      <PageTitle title={t(thisPageSettings.name)} noPortal />
+      <HeaderLeftPortal>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/settings">{t('settings')}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>{t(thisPageSettings.name)}</BreadcrumbItem>
+            <BreadcrumbSeparator />
+          </BreadcrumbList>
+        </Breadcrumb>
+      </HeaderLeftPortal>
       {thisPageFiltered.categories.length === 0 && <MkEmpty />}
       <Accordion type="multiple" defaultValue={defaultOpenCategory}>
         {thisPageFiltered.categories.map((category) => (

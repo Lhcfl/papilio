@@ -76,11 +76,12 @@ export function MkDrive(props: {
       </HeaderLeftPortal>
       <HeaderRightPortal>
         {features.searchFiles && (
-          <InputGroup>
+          <InputGroup className="w-50 max-w-50">
             <InputGroupAddon>
               <SearchIcon />
             </InputGroupAddon>
             <InputGroupInput
+              className="text-sm"
               placeholder={t('search')}
               value={searchValue}
               onChange={(ev) => {

@@ -64,9 +64,13 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function PageTitle({ title, pageTitle }: { title: string; pageTitle?: string }) {
+export function PageTitle({ title, pageTitle, noPortal }: { title: string; pageTitle?: string; noPortal?: boolean }) {
   const siteName = useNullableSiteMeta((s) => s.name);
   useTitle(pageTitle ?? (title ? `${title} · ${siteName}` : (siteName ?? 'Papilio')));
+
+  if (noPortal) {
+    return null;
+  }
 
   return (
     <HeaderLeftPortal>

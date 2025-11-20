@@ -5,10 +5,8 @@
 
 import { HeaderRightPortal } from '@/components/header-portal';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
-import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryAtom } from '@/routes/settings/-atoms';
-import { DetailedSettings } from '@/settings';
-import { createFileRoute, Outlet, useChildMatches } from '@tanstack/react-router';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { useAtom } from 'jotai';
 import { SearchIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -19,23 +17,17 @@ export const Route = createFileRoute('/settings')({
 
 function RouteComponent() {
   const { t } = useTranslation();
-  const page = useChildMatches({
-    select: (ms) => ms.find((m) => m.routeId == '/settings/$page')?.params.page,
-  });
-
-  const pageContent = page ? DetailedSettings.find((p) => p.value === page) : undefined;
-  const title = pageContent?.name ? t(pageContent.name) : t('settings');
   const [query, setQuery] = useAtom(queryAtom);
 
   return (
     <>
-      <PageTitle title={title} />
       <HeaderRightPortal>
-        <InputGroup>
+        <InputGroup className="w-50 max-w-50">
           <InputGroupAddon>
             <SearchIcon />
           </InputGroupAddon>
           <InputGroupInput
+            className="text-sm"
             placeholder={t('search')}
             value={query}
             onChange={(e) => {
