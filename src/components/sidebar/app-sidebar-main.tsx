@@ -4,7 +4,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { MoreHorizontalIcon } from 'lucide-react';
+import { MoreHorizontalIcon, RecycleIcon } from 'lucide-react';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -14,10 +14,37 @@ import {
 } from '@/components/ui/sidebar';
 import { Link } from '@tanstack/react-router';
 import { useSidebarItems } from '@/hooks/use-sidebar';
+import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
+import { useQueryClient } from '@tanstack/react-query';
+import { clearCache } from '@/loaders/clear-cache';
+import { toast } from 'sonner';
 
 export const AppSidebarMain = () => {
   const { t } = useTranslation();
   const data = useSidebarItems();
+  const queryClient = useQueryClient();
+
+  const otherMenu: Menu = [
+    {
+      type: 'group',
+      id: 'other',
+      items: [
+        { type: 'label', id: 'lbl_other', label: t('other') },
+        {
+          type: 'item',
+          id: 'clearcache',
+          label: t('clearCache'),
+          icon: <RecycleIcon />,
+          onClick: () => {
+            toast.promise(clearCache(queryClient), {
+              loading: t('clearCache'),
+              success: t('clearCache'),
+            });
+          },
+        },
+      ],
+    },
+  ];
 
   return (
     <SidebarGroup>
@@ -40,10 +67,12 @@ export const AppSidebarMain = () => {
             </SidebarMenuItem>
           ))}
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg">
-              <MoreHorizontalIcon />
-              {t('other')}
-            </SidebarMenuButton>
+            <MenuOrDrawer menu={otherMenu}>
+              <SidebarMenuButton size="lg">
+                <MoreHorizontalIcon />
+                {t('other')}
+              </SidebarMenuButton>
+            </MenuOrDrawer>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroupContent>

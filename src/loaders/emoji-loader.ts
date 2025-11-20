@@ -9,16 +9,16 @@ import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { EmojisResponse } from 'misskey-js/entities.js';
 import { useEffect, useEffectEvent } from 'react';
 
-export function useEmojiLoader() {
-  const emojisopt = queryOptions({
-    queryKey: ['custom-emojis'],
-    refetchInterval: 1000 * 60 * 60, // 1 hours
-    queryFn: () => fetch(new URL('/api/emojis', site!)).then((r) => r.json() as Promise<EmojisResponse>),
-    select: (data) => data.emojis,
-    gcTime: PERSIST_GC_TIME,
-    staleTime: 1000 * 60 * 60, // 1 hour
-  });
+export const emojisopt = queryOptions({
+  queryKey: ['custom-emojis'],
+  refetchInterval: 1000 * 60 * 60, // 1 hours
+  queryFn: () => fetch(new URL('/api/emojis', site!)).then((r) => r.json() as Promise<EmojisResponse>),
+  select: (data) => data.emojis,
+  gcTime: PERSIST_GC_TIME,
+  staleTime: 1000 * 60 * 60, // 1 hour
+});
 
+export function useEmojiLoader() {
   const query = useQuery(emojisopt);
   const queryClient = useQueryClient();
 
@@ -36,7 +36,7 @@ export function useEmojiLoader() {
       stream.removeListener('emojiAdded', refetch);
       stream.removeListener('emojiDeleted', refetch);
     };
-  }, [queryClient, emojisopt.queryKey]);
+  }, [queryClient]);
 
   return query;
 }

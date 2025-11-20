@@ -10,16 +10,15 @@ import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 
+export const meopt = queryOptions({
+  queryKey: ['me'],
+  queryFn: () => misskeyApi('i', {}),
+  gcTime: PERSIST_GC_TIME,
+  staleTime: 1000 * 60 * 60, // 1 hour
+});
+
 export function useMeLoader() {
   const setUnreadNotificationsCount = useSetAtom(unreadNotificationsAtom);
-
-  const meopt = queryOptions({
-    queryKey: ['me'],
-    queryFn: () => misskeyApi('i', {}),
-    gcTime: PERSIST_GC_TIME,
-    staleTime: 1000 * 60 * 60, // 1 hour
-  });
-
   const me = useQuery(meopt);
   const queryClient = useQueryClient();
 
@@ -43,7 +42,7 @@ export function useMeLoader() {
     return () => {
       channel.dispose();
     };
-  }, [meopt.queryKey, queryClient, refetch]);
+  }, [queryClient, refetch]);
 
   return me;
 }
