@@ -5,9 +5,9 @@
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryAtom } from '@/routes/settings/-atoms';
 import { DetailedSettings } from '@/settings';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, type LinkComponentProps } from '@tanstack/react-router';
 import { useAtom, useAtomValue } from 'jotai';
-import { ChevronRightIcon } from 'lucide-react';
+import { ChevronRightIcon, UserCircle2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/settings/')({
@@ -35,16 +35,44 @@ function HasNoSearchComponent() {
 
   return (
     <div>
+      <SettingLinkItem
+        icon={<UserCircle2Icon />}
+        title={t('profile')}
+        description={t('editProfile')}
+        linkopts={{ to: '/settings/profile' }}
+      />
       {DetailedSettings.map((page) => (
-        <div key={page.value} className="relative flex items-center gap-3 border-b p-3">
-          <Link to="/settings/$page" params={{ page: page.value }} className="absolute inset-0 h-full w-full" />
-          <div className="shrink-0 grow-0">{page.icon}</div>
-          <div>
-            <h2>{t(page.name)}</h2>
-            <span className="text-muted-foreground text-sm">{t(page.description)}</span>
-          </div>
-        </div>
+        <SettingLinkItem
+          key={page.value}
+          icon={page.icon}
+          title={t(page.name)}
+          description={t(page.description)}
+          linkopts={{ to: '/settings/$page', params: { page: page.value } }}
+        />
       ))}
+    </div>
+  );
+}
+
+function SettingLinkItem({
+  icon,
+  title,
+  description,
+  linkopts,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  linkopts: LinkComponentProps;
+}) {
+  return (
+    <div className="relative flex items-center gap-3 border-b p-3">
+      <Link className="absolute inset-0 h-full w-full" {...linkopts} />
+      <div className="shrink-0 grow-0">{icon}</div>
+      <div>
+        <h2>{title}</h2>
+        <span className="text-muted-foreground text-sm">{description}</span>
+      </div>
     </div>
   );
 }

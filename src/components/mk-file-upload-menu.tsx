@@ -18,11 +18,12 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 
 export const MkFileUploadMenu = (props: {
+  label?: string;
   children: React.ReactNode;
   limit?: number;
   onUpload: (promises: Promise<DriveFile>[]) => void;
 }) => {
-  const { children, limit = Number.POSITIVE_INFINITY, onUpload } = props;
+  const { label, children, limit = Number.POSITIVE_INFINITY, onUpload } = props;
   const { t } = useTranslation();
   const [openDriveSelect, setOpenDriveSelect] = useState(false);
   const [openUrlUpload, setOpenUrlUpload] = useState(false);
@@ -68,7 +69,7 @@ export const MkFileUploadMenu = (props: {
   });
 
   const menu: Menu = [
-    { type: 'label', id: 'upload-label', label: t('attachFile') },
+    { type: 'label', id: 'upload-label', label: label ?? t('attachFile') },
     {
       type: 'item',
       id: 'upload',

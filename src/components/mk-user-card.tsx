@@ -300,7 +300,7 @@ const MkUserFollowButton = (props: { user: UserDetailed }) => {
   );
 };
 
-const MkUserCardBanner = (props: { url: string | null; blurhash: string | null } & HTMLProps<HTMLDivElement>) => {
+export function MkUserCardBanner(props: { url: string | null; blurhash: string | null } & HTMLProps<HTMLDivElement>) {
   const { url, blurhash, className, ...rest } = props;
   const [loading, setLoading] = useState(true);
 
@@ -322,4 +322,4 @@ const MkUserCardBanner = (props: { url: string | null; blurhash: string | null }
       )}
     </div>
   );
-};
+}
