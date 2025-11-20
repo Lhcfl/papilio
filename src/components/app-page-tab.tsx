@@ -68,7 +68,7 @@ export function AppPageTab({
     >
       {icon}
       <span
-        className={cn({
+        className={cn('text-nowrap', {
           '@max-xl:hidden': !isActive,
         })}
       >
