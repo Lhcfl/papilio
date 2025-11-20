@@ -4155,6 +4155,7 @@
     },
     "mergeNoteReactions": "Merge Note Reactions",
     "mergeNoteReactionsDesc": "Merge reactions with the same name from different instances",
+    "notesSettingsDesc": "Manage settings related to the display and behavior of notes.",
     "cssTextAutospace": "CSS Text Auto-spacing",
     "cssTextAutospaceDesc": "Specifies the spacing behavior between CJK characters and other characters.",
     "cssTextAutospaceOptions": {
