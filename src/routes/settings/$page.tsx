@@ -129,7 +129,7 @@ function SettingItemPolymorph({ item, highlighted }: { item: SettingsItems; high
           })}
         >
           <div className="w-0 flex-[1_1]">
-            <div className="text-base">{t(item.name)}</div>
+            <div className="text-base font-medium">{t(item.name)}</div>
           </div>
           <div>{item.component}</div>
         </div>

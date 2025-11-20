@@ -20,7 +20,7 @@ export function SettingHeader({
 
   return (
     <div {...props}>
-      <div className="inline-flex items-center gap-1 text-base">
+      <div className="inline-flex items-center gap-1 text-base font-medium">
         {t(item.name)}
         {'experimental' in item && item.experimental && (
           <Tooltip>
