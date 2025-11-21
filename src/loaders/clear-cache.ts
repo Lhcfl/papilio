@@ -7,6 +7,7 @@ import { emojisopt } from '@/loaders/emoji-loader';
 import { meopt } from '@/loaders/me-loader';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import type { QueryClient } from '@tanstack/react-query';
+import { metaQueryOpts } from '@/loaders/meta-loader';
 
 export function clearCache(queryClient: QueryClient) {
   return Promise.all([
@@ -15,9 +16,7 @@ export function clearCache(queryClient: QueryClient) {
       queryClient.setQueryData(emojisopt.queryKey, emojis);
     }),
     queryClient.refetchQueries(meopt),
-    queryClient.refetchQueries({
-      queryKey: ['site-info'],
-    }),
+    queryClient.refetchQueries(metaQueryOpts),
     queryClient.refetchQueries({
       queryKey: ['node-info'],
     }),

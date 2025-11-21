@@ -8,25 +8,19 @@ import { Button } from '@/components/ui/button';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { Spinner } from '@/components/ui/spinner';
 import { PERSIST_GC_TIME } from '@/plugins/persister';
-import { misskeyApi, site } from '@/lib/inject-misskey-api';
+import { site } from '@/lib/inject-misskey-api';
 import { MeContext } from '@/stores/me';
 import { SiteMetaContext } from '@/stores/site';
 import { NodeInfoContext, type NodeInfo } from '@/stores/node-info';
 import { EmojisContext } from '@/stores/emojis';
 import { useEmojiLoader } from '@/loaders/emoji-loader';
 import { useMeLoader } from '@/loaders/me-loader';
+import { metaQueryOpts } from '@/loaders/meta-loader';
 
 export const WithLoginLoader = (props: { children: React.ReactNode }) => {
   const me = useMeLoader();
   const emojis = useEmojiLoader();
-
-  const meta = useQuery({
-    queryKey: ['site-info'],
-    queryFn: () => misskeyApi('meta', { detail: true }),
-    gcTime: PERSIST_GC_TIME,
-    staleTime: 1000 * 60 * 60, // 1 hour
-  });
-
+  const meta = useQuery(metaQueryOpts);
   const nodeInfo = useQuery({
     queryKey: ['node-info'],
     queryFn: () => fetch(new URL('/nodeinfo/2.1', site!)).then((r) => r.json() as Promise<NodeInfo>),
@@ -87,7 +81,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
           <li>Booting Papilio...</li>
           {queries.map(([k, query]) => (
             <li key={k}>
-              {query.isLoading ? (
+              {query.data == null ? (
                 <span className="text-yellow-500">[LOADING]</span>
               ) : (
                 <span className="text-green-500">[OK]</span>

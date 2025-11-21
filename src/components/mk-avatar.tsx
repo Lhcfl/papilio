@@ -18,6 +18,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { acct } from 'misskey-js';
 import type { UserDetailed as SkUserDetailed } from '@@/sharkey-js/entities';
 import { usePreference } from '@/stores/perference';
+import { useMisskeyForkFeatures } from '@/stores/node-info';
 
 export const MkAvatar = (
   props: {
@@ -75,7 +76,9 @@ const MkAvatarMain = (
 ) => {
   const { user, disableRouteLink, ...avatarProps } = props;
   const { className: avatarClassNameProps, ...avatarPropsRest } = avatarProps;
-  const showAvatarDecorations = usePreference((s) => s.showAvatarDecorations);
+  const hasAvatarDecorations = useMisskeyForkFeatures().avatarDecorations;
+  const showAvatarDecorations = usePreference((s) => s.showAvatarDecorations) && hasAvatarDecorations;
+
   return (
     <div className="relative">
       <Avatar className={cn('rounded-md', avatarClassNameProps)} {...avatarPropsRest} asChild>

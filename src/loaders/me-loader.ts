@@ -12,7 +12,13 @@ import { useEffect } from 'react';
 
 export const meopt = queryOptions({
   queryKey: ['me'],
-  queryFn: () => misskeyApi('i', {}),
+  queryFn: () =>
+    misskeyApi('i', {}).then((me) => {
+      // @ts-expect-error: workaround for misskey 12 / iceshrimp missing policies field
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      me.policies ??= {};
+      return me;
+    }),
   gcTime: PERSIST_GC_TIME,
   staleTime: 1000 * 60 * 60, // 1 hour
 });

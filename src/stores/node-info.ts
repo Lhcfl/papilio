@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { SharkeyFeatures, type ForkFeature } from '@/lib/features';
+import { IceShrimpFeatures, SharkeyFeatures, type ForkFeature } from '@/lib/features';
 import { createContext, use, useMemo } from 'react';
 export interface NodeInfo {
   version: string;
@@ -42,18 +42,19 @@ export const NodeInfoContext = createContext<NodeInfo | null>(null);
 export const useNodeInfo = <T>(selector: (arg: NodeInfo) => T) =>
   useMemo(() => {
     const meta = use(NodeInfoContext);
-    if (!meta) throw new Error('site meta is not set yet!');
+    if (!meta) throw new Error('node info is not set yet!');
     return selector(meta);
   }, [selector]);
 
 export const useMisskeyForkFeatures = (): ForkFeature => {
-  const name = useNodeInfo((meta) => meta.software.name);
+  const name = use(NodeInfoContext)?.software.name ?? 'misskey';
 
   switch (name.toLowerCase()) {
     case 'misskey':
       return {};
+    case 'iceshrimp':
     case 'firefish':
-      return SharkeyFeatures;
+      return IceShrimpFeatures;
     case 'sharkey':
       return SharkeyFeatures;
     default:
