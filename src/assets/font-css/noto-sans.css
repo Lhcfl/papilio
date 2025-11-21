@@ -6,15 +6,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+SC:wght@100..900&family=Noto+Sans+TC:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 html[default-font="noto-sans"] {
-    --font-sans: 'Noto Sans', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', Roboto, Arial, sans-serif;
+    --font-sans: 'Noto Sans', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', Roboto, Arial, sans-serif;    
     &[lang="ja"],
-    &[lang="ja-JP"] {
+    [lang="ja"] {
         --font-sans: 'Noto Sans', 'Noto Sans JP', 'Noto Sans SC', 'Noto Sans TC', Roboto, Arial, sans-serif;
     }
-    &[lang="zh-CN"] {
+    &[lang="ja-JP"],
+    [lang="ja-JP"] {
+        --font-sans: 'Noto Sans', 'Noto Sans JP', 'Noto Sans SC', 'Noto Sans TC', Roboto, Arial, sans-serif;
+    }
+    &[lang="zh-CN"],
+    [lang="zh-CN"] {
         --font-sans: 'Noto Sans', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', Roboto, Arial, sans-serif;
     }
-    &[lang="zh-TW"] {
+    &[lang="zh-TW"],
+    [lang="zh-TW"] {
         --font-sans: 'Noto Sans', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans SC', Roboto, Arial, sans-serif;
     }
 }

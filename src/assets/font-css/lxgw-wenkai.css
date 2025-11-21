@@ -11,7 +11,9 @@ html[default-font="lxgw-wenkai"] {
     --font-serif: "LXGW WenKai", "Times New Roman", serif;
     
     &[lang="zh-WY"],
-    &[lang="zh-TW"] {
+    [lang="zh-WY"],
+    &[lang="zh-TW"],
+    [lang="zh-TW"] {
         --font-serif: 'sharkey-theme-font-face', "LXGW WenKai TC", "LXGW WenKai", 'Times New Roman', Times, serif;
     }
 }

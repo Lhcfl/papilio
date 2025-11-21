@@ -36,4 +36,6 @@ void i18n
     },
   });
 
+document.documentElement.lang = getLanguage();
+
 export default i18n;

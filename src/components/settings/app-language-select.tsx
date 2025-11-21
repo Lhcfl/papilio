@@ -13,6 +13,7 @@ export default function AppLanguageSelect() {
   function changeLanguage(lng: string) {
     void i18n.changeLanguage(lng);
     localStorage.setItem('lang', lng);
+    document.documentElement.lang = lng;
   }
 
   return (
