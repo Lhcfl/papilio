@@ -1,5 +1,6 @@
 import { MisskeyIcon } from '@/components/icons/misskey-icon';
 import { MkMention } from '@/components/mk-mention';
+import { MkMfm } from '@/components/mk-mfm';
 import { MkUrl } from '@/components/mk-url';
 import { MkUserCardBanner } from '@/components/mk-user-card';
 import { SiteLogo } from '@/components/site-logo';
@@ -21,7 +22,7 @@ const statsQueryOpts = queryOptions({
   queryFn: () => misskeyApi('stats', {}),
 });
 
-export const Route = createFileRoute('/site/about')({
+export const Route = createFileRoute('/about/instance')({
   component: RouteComponent,
   loader: () => queryClient.ensureQueryData(statsQueryOpts),
 });
@@ -48,7 +49,7 @@ function RouteComponent() {
         </div>
       </div>
       <div className="about mt-2">
-        <h3 className="mb-1 flex items-center gap-2 text-lg">
+        <h3 className="mb-1 flex items-center gap-2 text-lg font-semibold">
           <InfoIcon className="size-6" /> {t('about')}
         </h3>
         <div
@@ -59,7 +60,7 @@ function RouteComponent() {
       </div>
       <Separator className="my-3" />
       <div>
-        <h3 className="mb-1 flex items-center gap-2 text-lg">
+        <h3 className="mb-1 flex items-center gap-2 text-lg font-semibold">
           <ListCheckIcon className="size-6" /> {t('serverRules')}
         </h3>
         <div>
@@ -76,7 +77,7 @@ function RouteComponent() {
       </div>
       <Separator className="my-3" />
       <div>
-        <h3 className="mb-1 flex items-center gap-2 text-lg">
+        <h3 className="mb-1 flex items-center gap-2 text-lg font-semibold">
           <InfoIcon className="size-6" /> {t('instanceInfo')}
         </h3>
         <div>
@@ -89,17 +90,17 @@ function RouteComponent() {
               value={<MkUrl url={`mailto:${meta.maintainerEmail}`}>{meta.maintainerEmail}</MkUrl>}
             />
           )}
-          {meta.tosUrl && <AboutInfoItem name={t('termsOfService')} value={<MkUrl url={meta.tosUrl} />} />}
+          {meta.tosUrl && <AboutInfoItem name={t('termsOfService')} value={<MkMfm text={meta.tosUrl} />} />}
           <AboutInfoItem name={t('user')} value={stats.originalUsersCount} />
           <AboutInfoItem name={t('notes')} value={stats.originalNotesCount} />
-          <AboutInfoItem name={`${t('users')} (${t('remote')} + ${t('local')})`} value={stats.usersCount} />
-          <AboutInfoItem name={`${t('notes')} (${t('remote')} + ${t('local')})`} value={stats.notesCount} />
+          <AboutInfoItem name={`${t(`users`)} (${t(`remote`)} + ${t(`local`)})`} value={stats.usersCount} />
+          <AboutInfoItem name={`${t(`notes`)} (${t(`remote`)} + ${t(`local`)})`} value={stats.notesCount} />
           <AboutInfoItem name={t('federation')} value={stats.instances} />
         </div>
       </div>
       <Separator className="my-3" />
       <div>
-        <h3 className="mb-1 flex items-center gap-2 text-lg">
+        <h3 className="mb-1 flex items-center gap-2 text-lg font-semibold">
           <MisskeyIcon className="bg-foreground text-background size-6 rounded-md p-1" /> Misskey
         </h3>
         <div>
@@ -115,8 +116,8 @@ function RouteComponent() {
 function AboutInfoItem({ name, value }: { name: React.ReactNode; value: React.ReactNode }) {
   return (
     <div className="flex justify-between gap-3 py-1">
-      <span className="text-muted-foreground">{name}</span>
-      <span className="text-muted-foreground">{value}</span>
+      <span className="text-muted-foreground flex-[0_0_auto]">{name}</span>
+      <span className="text-muted-foreground text-right">{value}</span>
     </div>
   );
 }

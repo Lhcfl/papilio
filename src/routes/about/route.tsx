@@ -3,7 +3,7 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { BadgeQuestionMarkIcon, GlobeIcon, WrenchIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export const Route = createFileRoute('/site')({
+export const Route = createFileRoute('/about')({
   component: RouteComponent,
 });
 
@@ -13,9 +13,10 @@ function RouteComponent() {
   return (
     <>
       <AppPageTabList>
-        <AppPageTab value="/site/about" icon={<BadgeQuestionMarkIcon />} label={t('instance')} />
-        <AppPageTab value="/site/federation" icon={<GlobeIcon />} label={t('federation')} />
-        <AppPageTab value="/site/tools" icon={<WrenchIcon />} label={t('tools')} />
+        <AppPageTab value="/about/instance" icon={<BadgeQuestionMarkIcon />} label={t('instance')} />
+        <AppPageTab value="/about/federation" icon={<GlobeIcon />} label={t('federation')} />
+        <AppPageTab value="/about/tools" icon={<WrenchIcon />} label={t('tools')} />
+        <AppPageTab value="/about/papilio" icon={<BadgeQuestionMarkIcon />} label="Papilio" />
       </AppPageTabList>
       <Outlet />
     </>

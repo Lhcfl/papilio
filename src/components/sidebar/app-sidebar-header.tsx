@@ -19,7 +19,7 @@ export const AppSidebarHeader = () => {
     <SidebarMenu>
       <SidebarMenuItem className="flex items-center gap-2">
         <SidebarMenuButton size="lg" asChild>
-          <Link to="/site/about">
+          <Link to="/about/instance">
             <SiteLogo />
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-medium">{metaName}</span>

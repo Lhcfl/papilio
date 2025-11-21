@@ -16,18 +16,15 @@ import { Route as ChatRouteImport } from './routes/chat'
 import { Route as AccountSwitchRouteImport } from './routes/account-switch'
 import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as MissingRouteImport } from './routes/$missing'
-import { Route as SiteRouteRouteImport } from './routes/site/route'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
 import { Route as SearchRouteRouteImport } from './routes/search/route'
 import { Route as AnnouncementsRouteRouteImport } from './routes/announcements/route'
+import { Route as AboutRouteRouteImport } from './routes/about/route'
 import { Route as TimelineRouteRouteImport } from './routes/_timeline/route'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as AnnouncementsIndexRouteImport } from './routes/announcements/index'
 import { Route as TimelineIndexRouteImport } from './routes/_timeline/index'
 import { Route as TagTagRouteImport } from './routes/tag/$tag'
-import { Route as SiteToolsRouteImport } from './routes/site/tools'
-import { Route as SiteFederationRouteImport } from './routes/site/federation'
-import { Route as SiteAboutRouteImport } from './routes/site/about'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as SettingsPageRouteImport } from './routes/settings/$page'
 import { Route as SearchUserRouteImport } from './routes/search/user'
@@ -36,6 +33,10 @@ import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
 import { Route as MyClipsRouteImport } from './routes/my/clips'
 import { Route as DebugWsRouteImport } from './routes/debug/ws'
 import { Route as AnnouncementsPreviousRouteImport } from './routes/announcements/previous'
+import { Route as AboutToolsRouteImport } from './routes/about/tools'
+import { Route as AboutPapilioRouteImport } from './routes/about/papilio'
+import { Route as AboutInstanceRouteImport } from './routes/about/instance'
+import { Route as AboutFederationRouteImport } from './routes/about/federation'
 import { Route as TimelineLocalTimelineRouteImport } from './routes/_timeline/local-timeline'
 import { Route as TimelineHybridTimelineRouteImport } from './routes/_timeline/hybrid-timeline'
 import { Route as TimelineGlobalTimelineRouteImport } from './routes/_timeline/global-timeline'
@@ -90,11 +91,6 @@ const MissingRoute = MissingRouteImport.update({
   path: '/$missing',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SiteRouteRoute = SiteRouteRouteImport.update({
-  id: '/site',
-  path: '/site',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SettingsRouteRoute = SettingsRouteRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -108,6 +104,11 @@ const SearchRouteRoute = SearchRouteRouteImport.update({
 const AnnouncementsRouteRoute = AnnouncementsRouteRouteImport.update({
   id: '/announcements',
   path: '/announcements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRouteRoute = AboutRouteRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TimelineRouteRoute = TimelineRouteRouteImport.update({
@@ -133,21 +134,6 @@ const TagTagRoute = TagTagRouteImport.update({
   id: '/tag/$tag',
   path: '/tag/$tag',
   getParentRoute: () => rootRouteImport,
-} as any)
-const SiteToolsRoute = SiteToolsRouteImport.update({
-  id: '/tools',
-  path: '/tools',
-  getParentRoute: () => SiteRouteRoute,
-} as any)
-const SiteFederationRoute = SiteFederationRouteImport.update({
-  id: '/federation',
-  path: '/federation',
-  getParentRoute: () => SiteRouteRoute,
-} as any)
-const SiteAboutRoute = SiteAboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => SiteRouteRoute,
 } as any)
 const SettingsProfileRoute = SettingsProfileRouteImport.update({
   id: '/profile',
@@ -188,6 +174,26 @@ const AnnouncementsPreviousRoute = AnnouncementsPreviousRouteImport.update({
   id: '/previous',
   path: '/previous',
   getParentRoute: () => AnnouncementsRouteRoute,
+} as any)
+const AboutToolsRoute = AboutToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => AboutRouteRoute,
+} as any)
+const AboutPapilioRoute = AboutPapilioRouteImport.update({
+  id: '/papilio',
+  path: '/papilio',
+  getParentRoute: () => AboutRouteRoute,
+} as any)
+const AboutInstanceRoute = AboutInstanceRouteImport.update({
+  id: '/instance',
+  path: '/instance',
+  getParentRoute: () => AboutRouteRoute,
+} as any)
+const AboutFederationRoute = AboutFederationRouteImport.update({
+  id: '/federation',
+  path: '/federation',
+  getParentRoute: () => AboutRouteRoute,
 } as any)
 const TimelineLocalTimelineRoute = TimelineLocalTimelineRouteImport.update({
   id: '/local-timeline',
@@ -282,10 +288,10 @@ const MyDriveFileFileRoute = MyDriveFileFileRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/about': typeof AboutRouteRouteWithChildren
   '/announcements': typeof AnnouncementsRouteRouteWithChildren
   '/search': typeof SearchRouteRouteWithChildren
   '/settings': typeof SettingsRouteRouteWithChildren
-  '/site': typeof SiteRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
@@ -299,6 +305,10 @@ export interface FileRoutesByFullPath {
   '/global-timeline': typeof TimelineGlobalTimelineRoute
   '/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/local-timeline': typeof TimelineLocalTimelineRoute
+  '/about/federation': typeof AboutFederationRoute
+  '/about/instance': typeof AboutInstanceRoute
+  '/about/papilio': typeof AboutPapilioRoute
+  '/about/tools': typeof AboutToolsRoute
   '/announcements/previous': typeof AnnouncementsPreviousRoute
   '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
@@ -307,9 +317,6 @@ export interface FileRoutesByFullPath {
   '/search/user': typeof SearchUserRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
-  '/site/about': typeof SiteAboutRoute
-  '/site/federation': typeof SiteFederationRoute
-  '/site/tools': typeof SiteToolsRoute
   '/tag/$tag': typeof TagTagRoute
   '/': typeof TimelineIndexRoute
   '/announcements/': typeof AnnouncementsIndexRoute
@@ -328,8 +335,8 @@ export interface FileRoutesByFullPath {
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
 }
 export interface FileRoutesByTo {
+  '/about': typeof AboutRouteRouteWithChildren
   '/search': typeof SearchRouteRouteWithChildren
-  '/site': typeof SiteRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
@@ -341,6 +348,10 @@ export interface FileRoutesByTo {
   '/global-timeline': typeof TimelineGlobalTimelineRoute
   '/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/local-timeline': typeof TimelineLocalTimelineRoute
+  '/about/federation': typeof AboutFederationRoute
+  '/about/instance': typeof AboutInstanceRoute
+  '/about/papilio': typeof AboutPapilioRoute
+  '/about/tools': typeof AboutToolsRoute
   '/announcements/previous': typeof AnnouncementsPreviousRoute
   '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
@@ -349,9 +360,6 @@ export interface FileRoutesByTo {
   '/search/user': typeof SearchUserRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
-  '/site/about': typeof SiteAboutRoute
-  '/site/federation': typeof SiteFederationRoute
-  '/site/tools': typeof SiteToolsRoute
   '/tag/$tag': typeof TagTagRoute
   '/': typeof TimelineIndexRoute
   '/announcements': typeof AnnouncementsIndexRoute
@@ -372,10 +380,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_timeline': typeof TimelineRouteRouteWithChildren
+  '/about': typeof AboutRouteRouteWithChildren
   '/announcements': typeof AnnouncementsRouteRouteWithChildren
   '/search': typeof SearchRouteRouteWithChildren
   '/settings': typeof SettingsRouteRouteWithChildren
-  '/site': typeof SiteRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
@@ -389,6 +397,10 @@ export interface FileRoutesById {
   '/_timeline/global-timeline': typeof TimelineGlobalTimelineRoute
   '/_timeline/hybrid-timeline': typeof TimelineHybridTimelineRoute
   '/_timeline/local-timeline': typeof TimelineLocalTimelineRoute
+  '/about/federation': typeof AboutFederationRoute
+  '/about/instance': typeof AboutInstanceRoute
+  '/about/papilio': typeof AboutPapilioRoute
+  '/about/tools': typeof AboutToolsRoute
   '/announcements/previous': typeof AnnouncementsPreviousRoute
   '/debug/ws': typeof DebugWsRoute
   '/my/clips': typeof MyClipsRoute
@@ -397,9 +409,6 @@ export interface FileRoutesById {
   '/search/user': typeof SearchUserRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
-  '/site/about': typeof SiteAboutRoute
-  '/site/federation': typeof SiteFederationRoute
-  '/site/tools': typeof SiteToolsRoute
   '/tag/$tag': typeof TagTagRoute
   '/_timeline/': typeof TimelineIndexRoute
   '/announcements/': typeof AnnouncementsIndexRoute
@@ -420,10 +429,10 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/about'
     | '/announcements'
     | '/search'
     | '/settings'
-    | '/site'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
@@ -437,6 +446,10 @@ export interface FileRouteTypes {
     | '/global-timeline'
     | '/hybrid-timeline'
     | '/local-timeline'
+    | '/about/federation'
+    | '/about/instance'
+    | '/about/papilio'
+    | '/about/tools'
     | '/announcements/previous'
     | '/debug/ws'
     | '/my/clips'
@@ -445,9 +458,6 @@ export interface FileRouteTypes {
     | '/search/user'
     | '/settings/$page'
     | '/settings/profile'
-    | '/site/about'
-    | '/site/federation'
-    | '/site/tools'
     | '/tag/$tag'
     | '/'
     | '/announcements/'
@@ -466,8 +476,8 @@ export interface FileRouteTypes {
     | '/my/drive/folder/$folder'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/about'
     | '/search'
-    | '/site'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
@@ -479,6 +489,10 @@ export interface FileRouteTypes {
     | '/global-timeline'
     | '/hybrid-timeline'
     | '/local-timeline'
+    | '/about/federation'
+    | '/about/instance'
+    | '/about/papilio'
+    | '/about/tools'
     | '/announcements/previous'
     | '/debug/ws'
     | '/my/clips'
@@ -487,9 +501,6 @@ export interface FileRouteTypes {
     | '/search/user'
     | '/settings/$page'
     | '/settings/profile'
-    | '/site/about'
-    | '/site/federation'
-    | '/site/tools'
     | '/tag/$tag'
     | '/'
     | '/announcements'
@@ -509,10 +520,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_timeline'
+    | '/about'
     | '/announcements'
     | '/search'
     | '/settings'
-    | '/site'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
@@ -526,6 +537,10 @@ export interface FileRouteTypes {
     | '/_timeline/global-timeline'
     | '/_timeline/hybrid-timeline'
     | '/_timeline/local-timeline'
+    | '/about/federation'
+    | '/about/instance'
+    | '/about/papilio'
+    | '/about/tools'
     | '/announcements/previous'
     | '/debug/ws'
     | '/my/clips'
@@ -534,9 +549,6 @@ export interface FileRouteTypes {
     | '/search/user'
     | '/settings/$page'
     | '/settings/profile'
-    | '/site/about'
-    | '/site/federation'
-    | '/site/tools'
     | '/tag/$tag'
     | '/_timeline/'
     | '/announcements/'
@@ -557,10 +569,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   TimelineRouteRoute: typeof TimelineRouteRouteWithChildren
+  AboutRouteRoute: typeof AboutRouteRouteWithChildren
   AnnouncementsRouteRoute: typeof AnnouncementsRouteRouteWithChildren
   SearchRouteRoute: typeof SearchRouteRouteWithChildren
   SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
-  SiteRouteRoute: typeof SiteRouteRouteWithChildren
   MissingRoute: typeof MissingRoute
   AtChar123acctChar125Route: typeof AtChar123acctChar125Route
   AccountSwitchRoute: typeof AccountSwitchRoute
@@ -633,13 +645,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MissingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/site': {
-      id: '/site'
-      path: '/site'
-      fullPath: '/site'
-      preLoaderRoute: typeof SiteRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -659,6 +664,13 @@ declare module '@tanstack/react-router' {
       path: '/announcements'
       fullPath: '/announcements'
       preLoaderRoute: typeof AnnouncementsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_timeline': {
@@ -695,27 +707,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/tag/$tag'
       preLoaderRoute: typeof TagTagRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/site/tools': {
-      id: '/site/tools'
-      path: '/tools'
-      fullPath: '/site/tools'
-      preLoaderRoute: typeof SiteToolsRouteImport
-      parentRoute: typeof SiteRouteRoute
-    }
-    '/site/federation': {
-      id: '/site/federation'
-      path: '/federation'
-      fullPath: '/site/federation'
-      preLoaderRoute: typeof SiteFederationRouteImport
-      parentRoute: typeof SiteRouteRoute
-    }
-    '/site/about': {
-      id: '/site/about'
-      path: '/about'
-      fullPath: '/site/about'
-      preLoaderRoute: typeof SiteAboutRouteImport
-      parentRoute: typeof SiteRouteRoute
     }
     '/settings/profile': {
       id: '/settings/profile'
@@ -772,6 +763,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/announcements/previous'
       preLoaderRoute: typeof AnnouncementsPreviousRouteImport
       parentRoute: typeof AnnouncementsRouteRoute
+    }
+    '/about/tools': {
+      id: '/about/tools'
+      path: '/tools'
+      fullPath: '/about/tools'
+      preLoaderRoute: typeof AboutToolsRouteImport
+      parentRoute: typeof AboutRouteRoute
+    }
+    '/about/papilio': {
+      id: '/about/papilio'
+      path: '/papilio'
+      fullPath: '/about/papilio'
+      preLoaderRoute: typeof AboutPapilioRouteImport
+      parentRoute: typeof AboutRouteRoute
+    }
+    '/about/instance': {
+      id: '/about/instance'
+      path: '/instance'
+      fullPath: '/about/instance'
+      preLoaderRoute: typeof AboutInstanceRouteImport
+      parentRoute: typeof AboutRouteRoute
+    }
+    '/about/federation': {
+      id: '/about/federation'
+      path: '/federation'
+      fullPath: '/about/federation'
+      preLoaderRoute: typeof AboutFederationRouteImport
+      parentRoute: typeof AboutRouteRoute
     }
     '/_timeline/local-timeline': {
       id: '/_timeline/local-timeline'
@@ -920,6 +939,24 @@ const TimelineRouteRouteWithChildren = TimelineRouteRoute._addFileChildren(
   TimelineRouteRouteChildren,
 )
 
+interface AboutRouteRouteChildren {
+  AboutFederationRoute: typeof AboutFederationRoute
+  AboutInstanceRoute: typeof AboutInstanceRoute
+  AboutPapilioRoute: typeof AboutPapilioRoute
+  AboutToolsRoute: typeof AboutToolsRoute
+}
+
+const AboutRouteRouteChildren: AboutRouteRouteChildren = {
+  AboutFederationRoute: AboutFederationRoute,
+  AboutInstanceRoute: AboutInstanceRoute,
+  AboutPapilioRoute: AboutPapilioRoute,
+  AboutToolsRoute: AboutToolsRoute,
+}
+
+const AboutRouteRouteWithChildren = AboutRouteRoute._addFileChildren(
+  AboutRouteRouteChildren,
+)
+
 interface AnnouncementsRouteRouteChildren {
   AnnouncementsPreviousRoute: typeof AnnouncementsPreviousRoute
   AnnouncementsIndexRoute: typeof AnnouncementsIndexRoute
@@ -961,22 +998,6 @@ const SettingsRouteRouteChildren: SettingsRouteRouteChildren = {
 
 const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
   SettingsRouteRouteChildren,
-)
-
-interface SiteRouteRouteChildren {
-  SiteAboutRoute: typeof SiteAboutRoute
-  SiteFederationRoute: typeof SiteFederationRoute
-  SiteToolsRoute: typeof SiteToolsRoute
-}
-
-const SiteRouteRouteChildren: SiteRouteRouteChildren = {
-  SiteAboutRoute: SiteAboutRoute,
-  SiteFederationRoute: SiteFederationRoute,
-  SiteToolsRoute: SiteToolsRoute,
-}
-
-const SiteRouteRouteWithChildren = SiteRouteRoute._addFileChildren(
-  SiteRouteRouteChildren,
 )
 
 interface ClipsIdRouteRouteChildren {
@@ -1025,10 +1046,10 @@ const MyNotificationsRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   TimelineRouteRoute: TimelineRouteRouteWithChildren,
+  AboutRouteRoute: AboutRouteRouteWithChildren,
   AnnouncementsRouteRoute: AnnouncementsRouteRouteWithChildren,
   SearchRouteRoute: SearchRouteRouteWithChildren,
   SettingsRouteRoute: SettingsRouteRouteWithChildren,
-  SiteRouteRoute: SiteRouteRouteWithChildren,
   MissingRoute: MissingRoute,
   AtChar123acctChar125Route: AtChar123acctChar125Route,
   AccountSwitchRoute: AccountSwitchRoute,

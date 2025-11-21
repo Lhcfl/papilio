@@ -2,13 +2,14 @@ import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scro
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { PageTitle } from '@/layouts/sidebar-layout';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';
 import { BanIcon, Link2Icon } from 'lucide-react';
 import type { FederationInstance } from 'misskey-js/entities.js';
 import { useTranslation } from 'react-i18next';
 
-export const Route = createFileRoute('/site/federation')({
+export const Route = createFileRoute('/about/federation')({
   component: RouteComponent,
 });
 
@@ -17,6 +18,7 @@ function RouteComponent() {
 
   return (
     <div>
+      <PageTitle title={t('federation')} />
       <Tabs defaultValue="federating">
         <TabsList>
           <TabsTrigger value="federating">
