@@ -16,6 +16,7 @@ import { Route as ChatRouteImport } from './routes/chat'
 import { Route as AccountSwitchRouteImport } from './routes/account-switch'
 import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as MissingRouteImport } from './routes/$missing'
+import { Route as SiteRouteRouteImport } from './routes/site/route'
 import { Route as SettingsRouteRouteImport } from './routes/settings/route'
 import { Route as SearchRouteRouteImport } from './routes/search/route'
 import { Route as AnnouncementsRouteRouteImport } from './routes/announcements/route'
@@ -24,6 +25,9 @@ import { Route as SettingsIndexRouteImport } from './routes/settings/index'
 import { Route as AnnouncementsIndexRouteImport } from './routes/announcements/index'
 import { Route as TimelineIndexRouteImport } from './routes/_timeline/index'
 import { Route as TagTagRouteImport } from './routes/tag/$tag'
+import { Route as SiteToolsRouteImport } from './routes/site/tools'
+import { Route as SiteFederationRouteImport } from './routes/site/federation'
+import { Route as SiteAboutRouteImport } from './routes/site/about'
 import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
 import { Route as SettingsPageRouteImport } from './routes/settings/$page'
 import { Route as SearchUserRouteImport } from './routes/search/user'
@@ -86,6 +90,11 @@ const MissingRoute = MissingRouteImport.update({
   path: '/$missing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SiteRouteRoute = SiteRouteRouteImport.update({
+  id: '/site',
+  path: '/site',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRouteRoute = SettingsRouteRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -124,6 +133,21 @@ const TagTagRoute = TagTagRouteImport.update({
   id: '/tag/$tag',
   path: '/tag/$tag',
   getParentRoute: () => rootRouteImport,
+} as any)
+const SiteToolsRoute = SiteToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => SiteRouteRoute,
+} as any)
+const SiteFederationRoute = SiteFederationRouteImport.update({
+  id: '/federation',
+  path: '/federation',
+  getParentRoute: () => SiteRouteRoute,
+} as any)
+const SiteAboutRoute = SiteAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => SiteRouteRoute,
 } as any)
 const SettingsProfileRoute = SettingsProfileRouteImport.update({
   id: '/profile',
@@ -261,6 +285,7 @@ export interface FileRoutesByFullPath {
   '/announcements': typeof AnnouncementsRouteRouteWithChildren
   '/search': typeof SearchRouteRouteWithChildren
   '/settings': typeof SettingsRouteRouteWithChildren
+  '/site': typeof SiteRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
@@ -282,6 +307,9 @@ export interface FileRoutesByFullPath {
   '/search/user': typeof SearchUserRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
+  '/site/about': typeof SiteAboutRoute
+  '/site/federation': typeof SiteFederationRoute
+  '/site/tools': typeof SiteToolsRoute
   '/tag/$tag': typeof TagTagRoute
   '/': typeof TimelineIndexRoute
   '/announcements/': typeof AnnouncementsIndexRoute
@@ -301,6 +329,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/search': typeof SearchRouteRouteWithChildren
+  '/site': typeof SiteRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
@@ -320,6 +349,9 @@ export interface FileRoutesByTo {
   '/search/user': typeof SearchUserRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
+  '/site/about': typeof SiteAboutRoute
+  '/site/federation': typeof SiteFederationRoute
+  '/site/tools': typeof SiteToolsRoute
   '/tag/$tag': typeof TagTagRoute
   '/': typeof TimelineIndexRoute
   '/announcements': typeof AnnouncementsIndexRoute
@@ -343,6 +375,7 @@ export interface FileRoutesById {
   '/announcements': typeof AnnouncementsRouteRouteWithChildren
   '/search': typeof SearchRouteRouteWithChildren
   '/settings': typeof SettingsRouteRouteWithChildren
+  '/site': typeof SiteRouteRouteWithChildren
   '/$missing': typeof MissingRoute
   '/@{$acct}': typeof AtChar123acctChar125Route
   '/account-switch': typeof AccountSwitchRoute
@@ -364,6 +397,9 @@ export interface FileRoutesById {
   '/search/user': typeof SearchUserRoute
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
+  '/site/about': typeof SiteAboutRoute
+  '/site/federation': typeof SiteFederationRoute
+  '/site/tools': typeof SiteToolsRoute
   '/tag/$tag': typeof TagTagRoute
   '/_timeline/': typeof TimelineIndexRoute
   '/announcements/': typeof AnnouncementsIndexRoute
@@ -387,6 +423,7 @@ export interface FileRouteTypes {
     | '/announcements'
     | '/search'
     | '/settings'
+    | '/site'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
@@ -408,6 +445,9 @@ export interface FileRouteTypes {
     | '/search/user'
     | '/settings/$page'
     | '/settings/profile'
+    | '/site/about'
+    | '/site/federation'
+    | '/site/tools'
     | '/tag/$tag'
     | '/'
     | '/announcements/'
@@ -427,6 +467,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/search'
+    | '/site'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
@@ -446,6 +487,9 @@ export interface FileRouteTypes {
     | '/search/user'
     | '/settings/$page'
     | '/settings/profile'
+    | '/site/about'
+    | '/site/federation'
+    | '/site/tools'
     | '/tag/$tag'
     | '/'
     | '/announcements'
@@ -468,6 +512,7 @@ export interface FileRouteTypes {
     | '/announcements'
     | '/search'
     | '/settings'
+    | '/site'
     | '/$missing'
     | '/@{$acct}'
     | '/account-switch'
@@ -489,6 +534,9 @@ export interface FileRouteTypes {
     | '/search/user'
     | '/settings/$page'
     | '/settings/profile'
+    | '/site/about'
+    | '/site/federation'
+    | '/site/tools'
     | '/tag/$tag'
     | '/_timeline/'
     | '/announcements/'
@@ -512,6 +560,7 @@ export interface RootRouteChildren {
   AnnouncementsRouteRoute: typeof AnnouncementsRouteRouteWithChildren
   SearchRouteRoute: typeof SearchRouteRouteWithChildren
   SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
+  SiteRouteRoute: typeof SiteRouteRouteWithChildren
   MissingRoute: typeof MissingRoute
   AtChar123acctChar125Route: typeof AtChar123acctChar125Route
   AccountSwitchRoute: typeof AccountSwitchRoute
@@ -584,6 +633,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MissingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/site': {
+      id: '/site'
+      path: '/site'
+      fullPath: '/site'
+      preLoaderRoute: typeof SiteRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -639,6 +695,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/tag/$tag'
       preLoaderRoute: typeof TagTagRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/site/tools': {
+      id: '/site/tools'
+      path: '/tools'
+      fullPath: '/site/tools'
+      preLoaderRoute: typeof SiteToolsRouteImport
+      parentRoute: typeof SiteRouteRoute
+    }
+    '/site/federation': {
+      id: '/site/federation'
+      path: '/federation'
+      fullPath: '/site/federation'
+      preLoaderRoute: typeof SiteFederationRouteImport
+      parentRoute: typeof SiteRouteRoute
+    }
+    '/site/about': {
+      id: '/site/about'
+      path: '/about'
+      fullPath: '/site/about'
+      preLoaderRoute: typeof SiteAboutRouteImport
+      parentRoute: typeof SiteRouteRoute
     }
     '/settings/profile': {
       id: '/settings/profile'
@@ -886,6 +963,22 @@ const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
   SettingsRouteRouteChildren,
 )
 
+interface SiteRouteRouteChildren {
+  SiteAboutRoute: typeof SiteAboutRoute
+  SiteFederationRoute: typeof SiteFederationRoute
+  SiteToolsRoute: typeof SiteToolsRoute
+}
+
+const SiteRouteRouteChildren: SiteRouteRouteChildren = {
+  SiteAboutRoute: SiteAboutRoute,
+  SiteFederationRoute: SiteFederationRoute,
+  SiteToolsRoute: SiteToolsRoute,
+}
+
+const SiteRouteRouteWithChildren = SiteRouteRoute._addFileChildren(
+  SiteRouteRouteChildren,
+)
+
 interface ClipsIdRouteRouteChildren {
   ClipsIdEditRoute: typeof ClipsIdEditRoute
   ClipsIdIndexRoute: typeof ClipsIdIndexRoute
@@ -935,6 +1028,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnnouncementsRouteRoute: AnnouncementsRouteRouteWithChildren,
   SearchRouteRoute: SearchRouteRouteWithChildren,
   SettingsRouteRoute: SettingsRouteRouteWithChildren,
+  SiteRouteRoute: SiteRouteRouteWithChildren,
   MissingRoute: MissingRoute,
   AtChar123acctChar125Route: AtChar123acctChar125Route,
   AccountSwitchRoute: AccountSwitchRoute,
