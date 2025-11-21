@@ -27,7 +27,8 @@ export const MkAvatar = (
     disableRouteLink?: boolean;
   } & HTMLProps<HTMLDivElement>,
 ) => {
-  const { user, avatarProps, disableHoverCard, disableRouteLink, ...rest } = props;
+  const isTouch = navigator.maxTouchPoints > 0;
+  const { user, avatarProps, disableHoverCard = isTouch, disableRouteLink, ...rest } = props;
 
   return (
     <div className="mk-avatar" {...rest}>
