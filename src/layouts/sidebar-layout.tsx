@@ -74,14 +74,7 @@ export function PageTitle({ title, pageTitle, noPortal }: { title: string; pageT
 
   return (
     <HeaderLeftPortal>
-      <h1
-        className={cn('text-muted-foreground text-sm', {
-          // TODO: this should be controlled by center
-          '@max-xl:hidden': true,
-        })}
-      >
-        {title}
-      </h1>
+      <h1 className="text-muted-foreground text-sm @max-xl:[[data-center-count]>&]:hidden">{title}</h1>
     </HeaderLeftPortal>
   );
 }
