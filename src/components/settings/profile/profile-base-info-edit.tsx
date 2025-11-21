@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { MkMfm } from '@/components/mk-mfm';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';

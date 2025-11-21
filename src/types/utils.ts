@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 // type test = OptionalKeys<{ a: number; b?: string; c: string | undefined }>;
 // then type test = 'b' | 'c'
 type OptionalKeys<T> = {

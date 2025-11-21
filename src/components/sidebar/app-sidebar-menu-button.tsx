@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { SidebarMenuButton } from '@/components/ui/sidebar';
 import { Link } from '@tanstack/react-router';
 import type { ComponentProps } from 'react';

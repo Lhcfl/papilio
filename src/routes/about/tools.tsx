@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { Button } from '@/components/ui/button';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemTitle } from '@/components/ui/item';
 import { Spinner } from '@/components/ui/spinner';

@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { sharkeyApi } from '@/lib/inject-misskey-api';
 import type { SkEndpoints } from '@/types/sharkey-api';
 import { useMutation } from '@tanstack/react-query';

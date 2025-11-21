@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkFileUploadMenu } from '@/components/mk-file-upload-menu';
 import { MkUserCardBanner } from '@/components/mk-user-card';
