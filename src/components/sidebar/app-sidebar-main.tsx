@@ -5,19 +5,13 @@
 
 import { useTranslation } from 'react-i18next';
 import { MoreHorizontalIcon, RecycleIcon } from 'lucide-react';
-import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import { Link } from '@tanstack/react-router';
+import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar';
 import { useSidebarItems } from '@/hooks/use-sidebar';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { useQueryClient } from '@tanstack/react-query';
 import { clearCache } from '@/loaders/clear-cache';
 import { toast } from 'sonner';
+import { AppSidebarMenuButton, AppSidebarMenuButtonLink } from '@/components/sidebar/app-sidebar-menu-button';
 
 export const AppSidebarMain = () => {
   const { t } = useTranslation();
@@ -52,26 +46,18 @@ export const AppSidebarMain = () => {
         <SidebarMenu>
           {data.map((item) => (
             <SidebarMenuItem key={item.to}>
-              <SidebarMenuButton size="lg" asChild>
-                <Link to={item.to}>
-                  <item.icon />
-                  {item.title}
-                  {'count' in item && item.count > 0 && (
-                    <span className="count bg-tertiary text-secondary rounded-sm px-1.5 py-0.5 text-xs">
-                      {item.count}
-                    </span>
-                  )}
-                  {'ding' in item && item.ding && <span className="ding bg-tertiary h-2 w-2 rounded-full" />}
-                </Link>
-              </SidebarMenuButton>
+              <AppSidebarMenuButtonLink
+                linkOptions={{ to: item.to }}
+                icon={<item.icon />}
+                title={item.title}
+                count={item.count}
+                ding={item.ding}
+              />
             </SidebarMenuItem>
           ))}
           <SidebarMenuItem>
             <MenuOrDrawer menu={otherMenu}>
-              <SidebarMenuButton size="lg">
-                <MoreHorizontalIcon />
-                {t('other')}
-              </SidebarMenuButton>
+              <AppSidebarMenuButton icon={<MoreHorizontalIcon />} title={t('other')} />
             </MenuOrDrawer>
           </SidebarMenuItem>
         </SidebarMenu>

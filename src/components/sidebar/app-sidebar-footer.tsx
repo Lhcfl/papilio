@@ -14,6 +14,8 @@ import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { linkOptions } from '@tanstack/react-router';
 import { logout } from '@/lib/inject-misskey-api';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
+import { AppSidebarMenuButton } from '@/components/sidebar/app-sidebar-menu-button';
+import { AppThemeToggle } from '@/components/app-theme-toggle';
 
 export const AppSidebarFooter = () => {
   const me = useMe();
@@ -67,25 +69,27 @@ export const AppSidebarFooter = () => {
 
   return (
     <SidebarMenu>
+      <SidebarMenuItem className='group-data-[state="expanded"]:hidden'>
+        <SidebarMenuButton asChild>
+          <AppThemeToggle />
+        </SidebarMenuButton>
+      </SidebarMenuItem>
       <SidebarMenuItem>
         <MkPostFormDialog>
-          <SidebarMenuButton size="lg" variant="outline">
-            <PencilIcon />
-            {t('note')}
-          </SidebarMenuButton>
+          <AppSidebarMenuButton variant="outline" icon={<PencilIcon />} title={t('note')} />
         </MkPostFormDialog>
       </SidebarMenuItem>
       <SidebarMenuItem>
         <MenuOrDrawer menu={menu}>
           <SidebarMenuButton size="lg">
             <MkAvatar user={me} />
-            <div className="grid flex-1 text-left text-sm leading-tight">
+            <div className='grid flex-1 text-left text-sm leading-tight group-data-[state="collapsed"]:hidden'>
               <span className="line-clamp-1 font-medium">
                 <MkUserName user={me} />
               </span>
               <span className="text-muted-foreground truncate text-xs">@{me.username}</span>
             </div>
-            <ChevronsUpDownIcon className="ml-auto" />
+            <ChevronsUpDownIcon className='ml-auto group-data-[state="collapsed"]:hidden' />
           </SidebarMenuButton>
         </MenuOrDrawer>
       </SidebarMenuItem>

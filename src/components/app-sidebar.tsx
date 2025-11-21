@@ -14,7 +14,7 @@ import { LogoutSidebarMain } from '@/components/sidebar/logout-sidebar-main';
 export const AppSidebar = () => {
   if (token != null && site != null) {
     return (
-      <Sidebar>
+      <Sidebar collapsible="icon">
         <SidebarHeader>
           <AppSidebarHeader />
         </SidebarHeader>

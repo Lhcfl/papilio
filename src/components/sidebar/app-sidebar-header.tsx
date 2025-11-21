@@ -8,6 +8,8 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui
 import { useSiteMeta } from '@/stores/site';
 import { site } from '@/lib/inject-misskey-api';
 import { AppThemeToggle } from '@/components/app-theme-toggle';
+import { Button } from '@/components/ui/button';
+
 export const AppSidebarHeader = () => {
   const metaName = useSiteMeta((m) => m.name);
   const domain = new URL(site!).origin;
@@ -22,7 +24,9 @@ export const AppSidebarHeader = () => {
             <span className="text-muted-foreground truncate text-xs">{domain}</span>
           </div>
         </SidebarMenuButton>
-        <AppThemeToggle />
+        <Button variant="outline" size="icon" asChild className='group-data-[state="collapsed"]:hidden'>
+          <AppThemeToggle />
+        </Button>
       </SidebarMenuItem>
     </SidebarMenu>
   );
