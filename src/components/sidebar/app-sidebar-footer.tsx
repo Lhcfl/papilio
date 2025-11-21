@@ -69,7 +69,7 @@ export const AppSidebarFooter = () => {
 
   return (
     <SidebarMenu>
-      <SidebarMenuItem className='group-data-[state="expanded"]:hidden'>
+      <SidebarMenuItem className='hidden group-data-[state="collapsed"]:block'>
         <SidebarMenuButton asChild>
           <AppThemeToggle />
         </SidebarMenuButton>
