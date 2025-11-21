@@ -4,34 +4,20 @@
  */
 
 import { registerNote } from '@/hooks/use-note';
-import { injectMisskeyApi } from '@/lib/inject-misskey-api';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { MkError } from '@/components/mk-error';
+import { misskeyApi } from '@/lib/inject-misskey-api';
 import { MkNote } from '@/components/mk-note';
-import { LoadingTrigger } from '@/components/loading-trigger';
-import { Spinner } from '@/components/ui/spinner';
 import { useTranslation } from 'react-i18next';
 import { PinIcon } from 'lucide-react';
+import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
+import type { Endpoints } from '@/types/sharkey-api';
 
-export const MkUserNotes = (props: { userId: string; pinnedNotes?: string[] }) => {
-  const api = injectMisskeyApi();
-  const { userId, pinnedNotes = [] } = props;
+export const MkUserNotes = (props: {
+  userId: string;
+  pinnedNotes?: string[];
+  opts?: Partial<Endpoints['users/notes']['req']>;
+}) => {
+  const { userId, pinnedNotes = [], opts } = props;
   const { t } = useTranslation();
-
-  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery({
-    queryKey: ['user-notes', userId],
-    queryFn: ({ pageParam }) =>
-      api
-        .request('users/notes', {
-          userId,
-          untilId: pageParam,
-          limit: 30,
-        })
-        .then((ns) => registerNote(ns)),
-    getNextPageParam: (lastPage) => lastPage.at(-1),
-    staleTime: 1000 * 60 * 10, // 10 minutes
-    initialPageParam: 'zzzzzzzzzzzzzzzzz',
-  });
 
   return (
     <div className="mk-user-notes w-full">
@@ -45,15 +31,19 @@ export const MkUserNotes = (props: { userId: string; pinnedNotes?: string[] }) =
         </div>
       ))}
       {pinnedNotes.length > 0 && <div className="mt-4" />}
-      {data?.pages.flatMap((page) => page.map((id) => <MkNote key={id} noteId={id} showReply />))}
-      {error && <MkError error={error} />}
-      {(hasNextPage || isFetchingNextPage || isFetching) && (
-        <div className="my-4 flex w-full justify-center">
-          <LoadingTrigger onShow={fetchNextPage}>
-            <Spinner />
-          </LoadingTrigger>
-        </div>
-      )}
+      <MkInfiniteScroll
+        queryKey={['users/notes', userId, opts]}
+        queryFn={({ pageParam }) =>
+          misskeyApi('users/notes', {
+            userId,
+            untilId: pageParam,
+            limit: 30,
+            ...opts,
+          }).then((ns) => registerNote(ns))
+        }
+      >
+        {(id) => <MkNote noteId={id} showReply />}
+      </MkInfiniteScroll>
     </div>
   );
 };

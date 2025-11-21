@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { registerNote } from '@/hooks/use-note';
 import { injectMisskeyApi } from '@/lib/inject-misskey-api';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { Acct } from 'misskey-js';
@@ -25,6 +26,12 @@ export const useUsersQuery = (userIds: string[] = []) =>
 export const getAcctUserQueryOptions = (acct: Acct) =>
   queryOptions({
     queryKey: ['user', acct.username, acct.host],
-    queryFn: () => injectMisskeyApi().request('users/show', { username: acct.username, host: acct.host }),
+    queryFn: () =>
+      injectMisskeyApi()
+        .request('users/show', { username: acct.username, host: acct.host })
+        .then((user) => {
+          registerNote(user.pinnedNotes);
+          return user;
+        }),
     staleTime: 1000 * 60 * 15, // 15 minutes
   });
