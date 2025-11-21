@@ -70,7 +70,7 @@ function SettingLinkItem({
       <Link className="absolute inset-0 h-full w-full" {...linkopts} />
       <div className="shrink-0 grow-0">{icon}</div>
       <div>
-        <h2>{title}</h2>
+        <h2 className="text-base font-[550]">{title}</h2>
         <span className="text-muted-foreground text-sm">{description}</span>
       </div>
     </div>
