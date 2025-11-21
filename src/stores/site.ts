@@ -3,12 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { MetaLite } from 'misskey-js/entities.js';
+import type { Merge } from '@/types/utils';
+import type { MetaDetailed as SkMetaDetailed } from '@@/sharkey-js/entities';
+import type { MetaDetailed as MkMetaDetailed } from 'misskey-js/entities.js';
 import { createContext, use, useMemo } from 'react';
 
-export const SiteMetaContext = createContext<MetaLite | null>(null);
+type MetaDetailed = Merge<MkMetaDetailed, SkMetaDetailed>;
 
-export function useSiteMeta<T>(selector: (arg: MetaLite) => T): T {
+export const SiteMetaContext = createContext<MetaDetailed | null>(null);
+
+export function useSiteMeta<T>(selector: (arg: MetaDetailed) => T): T {
   return useMemo(() => {
     const meta = use(SiteMetaContext);
     if (meta == null) throw new Error('SiteMetaContext is not provided!');
@@ -16,7 +20,7 @@ export function useSiteMeta<T>(selector: (arg: MetaLite) => T): T {
   }, [selector]);
 }
 
-export function useNullableSiteMeta<T>(selector: (arg: MetaLite) => T): T | null {
+export function useNullableSiteMeta<T>(selector: (arg: MetaDetailed) => T): T | null {
   return useMemo(() => {
     const meta = use(SiteMetaContext);
     if (meta == null) return null;

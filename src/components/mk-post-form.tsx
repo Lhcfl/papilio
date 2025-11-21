@@ -31,7 +31,7 @@ import {
 } from 'lucide-react';
 import { cn, copyToClipboard } from '@/lib/utils';
 import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
-import type { DriveFile, EmojiSimple } from 'misskey-js/entities.js';
+import type { EmojiSimple } from 'misskey-js/entities.js';
 import type { User } from '@/types/user';
 import { useEffect, useRef, useState, type HTMLProps } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -62,6 +62,7 @@ import { MkPostFormPoll } from '@/components/post-form/mk-post-form-poll';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { usePreference, useUserPreference } from '@/stores/perference';
+import type { DriveFile } from '@/types/drive-file';
 
 type MkPostFormProps = DraftKeyProps & {
   onSuccess?: () => void;

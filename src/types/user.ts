@@ -13,7 +13,8 @@ import type {
   User as SharkeyUser,
   UserLite as SharkeyUserLite,
 } from '@@/sharkey-js/entities.js';
+import type { Merge } from '@/types/utils';
 
-export type UserDetailed = MisskeyUserDetailed | SharkeyUserDetailed;
-export type User = MisskeyUser | SharkeyUser;
-export type UserLite = MisskeyUserLite | SharkeyUserLite;
+export type UserDetailed = Merge<MisskeyUserDetailed, SharkeyUserDetailed>;
+export type User = Merge<MisskeyUser, SharkeyUser>;
+export type UserLite = Merge<MisskeyUserLite, SharkeyUserLite>;

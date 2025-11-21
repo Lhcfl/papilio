@@ -4,7 +4,6 @@
  */
 
 import clsx from 'clsx';
-import type { DriveFile } from 'misskey-js/entities.js';
 import type { HTMLProps } from 'react';
 import { MkImage } from '@/components/mk-image';
 import { MkVideo } from '@/components/mk-video';
@@ -12,6 +11,9 @@ import { cond } from '@/lib/match';
 import { onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 import { LightboxGallery, LightboxItem } from '@/components/lightbox';
 import { usePreference } from '@/stores/perference';
+import type { NoteWithExtension } from '@/types/note';
+
+type DriveFile = NonNullable<NoteWithExtension['files']>[number];
 
 export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivElement>) => {
   const { images, className: classNameProp, ...rest } = props;

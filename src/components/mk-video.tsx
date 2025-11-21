@@ -4,7 +4,7 @@
  */
 
 import clsx from 'clsx';
-import type { DriveFile } from 'misskey-js/entities.js';
+import type { DriveFile } from '@/types/drive-file';
 import type { HTMLProps } from 'react';
 
 export const MkVideo = (props: { video: DriveFile } & HTMLProps<HTMLDivElement>) => {

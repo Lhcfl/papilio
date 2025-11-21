@@ -4,12 +4,14 @@
  */
 
 import clsx from 'clsx';
-import type { DriveFile } from 'misskey-js/entities.js';
 import type { HTMLProps } from 'react';
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 import { GuessFileIcon } from '@/components/file/guess-file-icon';
+import type { NoteWithExtension } from '@/types/note';
 
-export const MkNoteFile = (props: { file: DriveFile } & HTMLProps<HTMLDivElement>) => {
+export const MkNoteFile = (
+  props: { file: NonNullable<NoteWithExtension['files']>[number] } & HTMLProps<HTMLDivElement>,
+) => {
   const { file, className: classNameProps, ...rest } = props;
 
   const className = clsx('p-2', classNameProps);

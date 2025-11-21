@@ -22,7 +22,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
 
   const meta = useQuery({
     queryKey: ['site-info'],
-    queryFn: () => misskeyApi('meta', {}),
+    queryFn: () => misskeyApi('meta', { detail: true }),
     gcTime: PERSIST_GC_TIME,
     staleTime: 1000 * 60 * 60, // 1 hour
   });
@@ -110,7 +110,7 @@ export const WithLoginLoader = (props: { children: React.ReactNode }) => {
           emojisMap: new Map(emojis.data!.map((e) => [e.name, e])),
         }}
       >
-        <SiteMetaContext value={meta.data!}>
+        <SiteMetaContext value={meta.data as never}>
           <NodeInfoContext value={nodeInfo.data!}>{props.children}</NodeInfoContext>
         </SiteMetaContext>
       </EmojisContext>

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { DriveFile } from 'misskey-js/entities.js';
+import type { DriveFile } from '@/types/drive-file';
 import { useEffect, useState } from 'react';
 import { create } from 'zustand';
 

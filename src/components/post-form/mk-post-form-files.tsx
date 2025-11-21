@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { DriveFile } from 'misskey-js/entities.js';
+import type { DriveFile } from '@/types/drive-file';
 import { type HTMLProps } from 'react';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 import { GuessFileIcon } from '@/components/file/guess-file-icon';

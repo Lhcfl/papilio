@@ -9,7 +9,7 @@ import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { getHeaderLeftId, getHeaderRightId, WindowContext } from '@/providers/window-provider';
 import { CheckIcon, XIcon } from 'lucide-react';
-import type { DriveFile } from 'misskey-js/entities.js';
+import type { DriveFile } from '@/types/drive-file';
 import { useId, useState } from 'react';
 
 export function MkDriveFileSelect(

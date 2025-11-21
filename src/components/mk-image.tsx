@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import type { DriveFile } from 'misskey-js/entities.js';
+import type { DriveFile } from '@/types/drive-file';
 import type { HTMLProps } from 'react';
 import { MkBlurHash } from '@/components/mk-blurhash';
 import { cn } from '@/lib/utils';

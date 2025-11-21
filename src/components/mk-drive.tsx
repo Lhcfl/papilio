@@ -12,9 +12,10 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/in
 import { Skeleton } from '@/components/ui/skeleton';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
+import type { DriveFile } from '@/types/drive-file';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { SearchIcon } from 'lucide-react';
-import type { DriveFile, DriveFolder } from 'misskey-js/entities.js';
+import type { DriveFolder } from 'misskey-js/entities.js';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'react-use';

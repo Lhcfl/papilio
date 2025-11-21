@@ -7,7 +7,7 @@ import { GuessFileIcon } from '@/components/file/guess-file-icon';
 import { MkImage } from '@/components/mk-image';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import type { DriveFile } from 'misskey-js/entities.js';
+import type { DriveFile } from '@/types/drive-file';
 import type { HTMLProps } from 'react';
 import { useTranslation } from 'react-i18next';
 

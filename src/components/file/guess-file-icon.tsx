@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { NoteWithExtension } from '@/types/note';
 import {
   CodeXmlIcon,
   FileArchiveIcon,
@@ -12,7 +13,8 @@ import {
   FileTextIcon,
   FileVideo2Icon,
 } from 'lucide-react';
-import type { DriveFile } from 'misskey-js/entities.js';
+
+type DriveFile = NonNullable<NoteWithExtension['files']>[number];
 
 export const GuessFileIcon = (props: { file: DriveFile }) => {
   const { file } = props;
