@@ -13,11 +13,13 @@ import { MkAvatar } from '@/components/mk-avatar';
 import { Button } from '@/components/ui/button';
 import {
   BanIcon,
+  CalendarDaysIcon,
   CheckIcon,
   CircleSlashIcon,
   CircleXIcon,
   EditIcon,
   HourglassIcon,
+  MapPinIcon,
   MessageSquareHeartIcon,
   MinusIcon,
   MoreVerticalIcon,
@@ -51,6 +53,7 @@ import { useMe } from '@/stores/me';
 import { Link } from '@tanstack/react-router';
 import { MkUserMenu } from '@/components/user/mk-user-menu';
 import { Card, CardAction, CardContent, CardTitle } from '@/components/ui/card';
+import { MkTime } from '@/components/mk-time';
 
 export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElement>) => {
   const { user, className: classNameProps, ...divProps } = props;
@@ -119,7 +122,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
         </Card>
       )}
       <MkUserCardBanner url={user.bannerUrl} blurhash={user.bannerBlurhash} className="h-48 @md:h-64" />
-      <div className="relative mt-2 flex justify-between px-2 @md:px-4 @lg:px-6">
+      <div className="relative mt-2 flex justify-between px-4 @lg:px-6">
         <MkAvatar
           user={user}
           disableRouteLink
@@ -145,7 +148,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
           </MkUserMenu>
         </ButtonGroup>
       </div>
-      <div className="p-2 @md:p-4 @lg:px-6">
+      <div className="p-4 @lg:px-6">
         <div>
           <MkUserName user={user} className="text-lg font-bold @md:text-xl" />
           <div className="text-muted-foreground text-sm">@{acct.toString(user)}</div>
@@ -177,6 +180,22 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
             ))}
           </div>
         )}
+        <Separator className="mt-2" />
+        <div className="mt-2 grid grid-cols-[auto_1fr] gap-2 text-sm">
+          <UserCardInfoLine icon={<CalendarDaysIcon className="size-4" />} label={t('registeredDate')}>
+            <MkTime time={user.createdAt} mode="detail" colored={false} />
+          </UserCardInfoLine>
+          {user.birthday && (
+            <UserCardInfoLine icon={<EditIcon className="size-4" />} label={t('birthday')}>
+              {user.birthday}
+            </UserCardInfoLine>
+          )}
+          {user.location && (
+            <UserCardInfoLine icon={<MapPinIcon className="size-4" />} label={t('location')}>
+              {user.location}
+            </UserCardInfoLine>
+          )}
+        </div>
         <div className="info mt-2">
           <span className="mr-4">
             <span className="mr-2 font-bold">{user.notesCount}</span>
@@ -195,6 +214,26 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
     </div>
   );
 };
+
+function UserCardInfoLine({
+  icon,
+  label,
+  children,
+}: {
+  icon?: React.ReactNode;
+  label: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <span className="text-muted-foreground flex items-center gap-1">
+        {icon}
+        {label}
+      </span>
+      <span>{children}</span>
+    </>
+  );
+}
 
 const MkUserFollowButton = (props: { user: UserDetailed }) => {
   const { user } = props;
