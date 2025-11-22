@@ -43,3 +43,13 @@ export const dehydrateOptions: DehydrateOptions = {
     return query.gcTime >= PERSIST_GC_TIME; // only persist queries with gcTime >= 24 hours
   },
 };
+
+// This code is only for TypeScript
+declare global {
+  interface Window {
+    __TANSTACK_QUERY_CLIENT__: typeof queryClient;
+  }
+}
+
+// This code is for all users
+window.__TANSTACK_QUERY_CLIENT__ = queryClient;
