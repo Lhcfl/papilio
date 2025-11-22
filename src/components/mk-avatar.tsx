@@ -86,7 +86,12 @@ const MkAvatarMain = (
           <AvatarPrimitive.Fallback className="relative overflow-hidden">
             <MkBlurHash id={'user:' + user.id} blurhash={user.avatarBlurhash} className="h-full w-full" />
           </AvatarPrimitive.Fallback>
-          <AvatarImage src={user.avatarUrl ?? undefined} loading="lazy" decoding="async" />
+          <AvatarImage
+            src={user.avatarUrl ?? undefined}
+            loading="lazy"
+            decoding="async"
+            alt={`avatar of @${user.username}`}
+          />
         </Link>
       </Avatar>
       {showAvatarDecorations &&
