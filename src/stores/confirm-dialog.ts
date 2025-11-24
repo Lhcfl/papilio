@@ -39,7 +39,7 @@ export const useConfirmDialog = create<ConfirmDialogState>((set) => ({
 
 export const useAfterConfirm = (
   dialog: Omit<DialogConfig, 'onConfirm' | 'onCancel'>,
-  onConfirm: () => void | Promise<void>,
+  onConfirm: () => unknown,
   onCancel?: () => unknown,
 ) => {
   const pushDialog = useConfirmDialog((s) => s.pushDialog);

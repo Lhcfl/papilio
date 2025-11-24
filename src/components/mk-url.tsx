@@ -12,9 +12,10 @@ export const MkUrl = (
     url: string;
     navigationBehavior?: unknown;
     children?: React.ReactNode;
+    noIcon?: boolean;
   } & HTMLAttributes<HTMLAnchorElement>,
 ) => {
-  const { url, navigationBehavior, children, ...rest } = props;
+  const { url, navigationBehavior, children, noIcon, ...rest } = props;
 
   // TODO
   void navigationBehavior;
@@ -30,7 +31,7 @@ export const MkUrl = (
       })}
       {...rest}
     >
-      <LinkIcon className="mr-1 inline size-4 align-[-0.13em]" />
+      {noIcon ? null : <LinkIcon className="mr-1 inline size-4 align-[-0.13em]" />}
       {children ?? url}
     </a>
   );

@@ -11,6 +11,7 @@ import type { NoteWithExtension } from '@/types/note';
 import { injectMisskeyStream, misskeyApi } from '@/lib/inject-misskey-api';
 import { useMe } from '@/stores/me';
 import { isPureRenote } from 'misskey-js/note.js';
+import { setFileQueryData } from '@/hooks/use-file';
 
 const flatten = (notes: NoteWithExtension[]): NoteWithExtension[] =>
   notes.length == 0
@@ -30,6 +31,9 @@ class NoteSingletonManager {
     const store = getDefaultStore();
 
     for (const n of ns) {
+      n.files?.forEach((f) => {
+        setFileQueryData(f);
+      });
       const old = this.notes.get(n.id);
       if (old) {
         store.set(old, n);

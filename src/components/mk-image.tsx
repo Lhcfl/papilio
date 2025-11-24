@@ -15,17 +15,18 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { Button } from '@/components/ui/button';
 import { useMe } from '@/stores/me';
-import { useUpdateFileAction } from '@/hooks/use-file';
-import { useAfterConfirm } from '@/stores/confirm-dialog';
+import { fileQueryOptions, useMarkAsNotSensitive, useMarkAsSensitive } from '@/hooks/use-file';
+import { useQuery } from '@tanstack/react-query';
 
 export const MkImage = ({
-  image,
+  image: initialImage,
   containerAspectRatio = 1,
   disableMenu,
   disableSensitiveOverlay,
   loadRawImages,
   imgProps,
   className,
+  overrideMenu,
   ...rest
 }: {
   image: DriveFile;
@@ -33,47 +34,30 @@ export const MkImage = ({
   disableMenu?: boolean;
   disableSensitiveOverlay?: boolean;
   loadRawImages?: boolean;
+  overrideMenu?: Menu;
   imgProps?: HTMLProps<HTMLImageElement>;
 } & HTMLProps<HTMLDivElement>) => {
+  const { data: image } = useQuery({
+    ...fileQueryOptions(initialImage.id),
+    initialData: initialImage,
+  });
+
+  const [hidden, setHidden] = useState<null | boolean>(null);
+  const [loading, setLoading] = useState(true);
+
   const { t } = useTranslation();
   const { className: imgClassName, ...restImgProps } = imgProps ?? {};
-  const [loading, setLoading] = useState(true);
-  const [hiddenBecauseSensitive, setHiddenBecauseSensitive] = useState(image.isSensitive);
-  const [manuallyMarkedSensitive, setManuallyMarkedSensitive] = useState<boolean | null>(null);
+  const meId = useMe((me) => me.id);
+  const iAmAdmin = useMe((me) => me.isAdmin);
   const url = loadRawImages ? image.url : (image.thumbnailUrl ?? image.url);
   const aspect =
     image.properties.width && image.properties.height ? image.properties.width / image.properties.height : 1;
-  const meId = useMe((me) => me.id);
-  const iAmAdmin = useMe((me) => me.isAdmin);
   const isMyImage = image.userId === meId;
-  const isSensitive = disableSensitiveOverlay ? false : (manuallyMarkedSensitive ?? image.isSensitive);
+  const isSensitive = disableSensitiveOverlay ? false : image.isSensitive;
 
-  const { mutateAsync: update } = useUpdateFileAction(image.id);
-  const markAsSensitive = useAfterConfirm(
-    {
-      title: t('markAsSensitive'),
-      description: t('markAsSensitiveConfirm'),
-      confirmIcon: <EyeOffIcon />,
-      variant: 'destructive',
-    },
-    () =>
-      update({ isSensitive: true }).then(() => {
-        setHiddenBecauseSensitive(true);
-        setManuallyMarkedSensitive(true);
-      }),
-  );
-  const markAsNotSensitive = useAfterConfirm(
-    {
-      title: t('unmarkAsSensitive'),
-      description: t('unmarkAsSensitiveConfirm'),
-      confirmIcon: <EyeIcon />,
-    },
-    () =>
-      update({ isSensitive: false }).then(() => {
-        setHiddenBecauseSensitive(false);
-        setManuallyMarkedSensitive(false);
-      }),
-  );
+  const imageHidden = hidden ?? isSensitive;
+  const markAsSensitive = useMarkAsSensitive(image.id);
+  const markAsNotSensitive = useMarkAsNotSensitive(image.id);
 
   useEffect(() => {
     const img = new window.Image(image.properties.width, image.properties.height);
@@ -88,7 +72,7 @@ export const MkImage = ({
     };
   }, [image.properties.height, image.properties.width, url]);
 
-  const showBlurHash = loading || (hiddenBecauseSensitive && !disableSensitiveOverlay);
+  const showBlurHash = loading || (imageHidden && !disableSensitiveOverlay);
 
   const menu: Menu = [
     {
@@ -100,10 +84,10 @@ export const MkImage = ({
         {
           type: 'item',
           id: 'toggle-hidden',
-          label: hiddenBecauseSensitive ? t('show') : t('hide'),
-          icon: hiddenBecauseSensitive ? <EyeIcon /> : <EyeClosedIcon />,
+          label: imageHidden ? t('show') : t('hide'),
+          icon: imageHidden ? <EyeIcon /> : <EyeClosedIcon />,
           onClick: () => {
-            setHiddenBecauseSensitive(!hiddenBecauseSensitive);
+            setHidden(!imageHidden);
           },
         },
       ],
@@ -183,12 +167,12 @@ export const MkImage = ({
         <button
           className={cn(
             'transform-opacity absolute inset-0 z-10 flex h-full w-full cursor-pointer items-center justify-center bg-black/30 duration-200',
-            hiddenBecauseSensitive ? 'opacity-100' : 'pointer-events-none opacity-0',
+            imageHidden ? 'opacity-100' : 'pointer-events-none opacity-0',
           )}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            setHiddenBecauseSensitive(false);
+            setHidden(false);
           }}
           aria-label="Show sensitive content"
         >
@@ -214,7 +198,7 @@ export const MkImage = ({
         </Tooltip>
       )}
       {!disableMenu && (
-        <MenuOrDrawer menu={menu}>
+        <MenuOrDrawer menu={overrideMenu ?? menu}>
           <Button size="icon-sm" className="bg-foreground/50 absolute right-2 bottom-2 z-10 backdrop-blur">
             <MoreHorizontalIcon />
           </Button>

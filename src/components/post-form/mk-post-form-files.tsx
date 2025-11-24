@@ -9,8 +9,7 @@ import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle }
 import { GuessFileIcon } from '@/components/file/guess-file-icon';
 import { Button } from '@/components/ui/button';
 import { EyeClosedIcon, EyeIcon, MoreHorizontalIcon, TextInitialIcon, Trash2Icon, XIcon } from 'lucide-react';
-import { useAfterConfirm } from '@/stores/confirm-dialog';
-import { usePermanentlyDeleteFileAction, useUpdateFileAction } from '@/hooks/use-file';
+import { usePermanentlyDeleteFileWithConfirmAction, useUpdateFileAction } from '@/hooks/use-file';
 import { useTranslation } from 'react-i18next';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { cn, onlyWhenNonInteractableContentClicked } from '@/lib/utils';
@@ -65,22 +64,11 @@ function usePostFormFileMenu(props: {
 }) {
   const { file, updateFiles } = props;
   const { t } = useTranslation();
-  const { mutateAsync: permanentlyDeleteFile } = usePermanentlyDeleteFileAction(file.id);
   const { mutateAsync: updateFile } = useUpdateFileAction(file.id);
 
-  const deleteWithConfirm = useAfterConfirm(
-    {
-      title: t('areYouSure'),
-      description: t('driveFileDeleteConfirm', { name: file.name }),
-      confirmIcon: <Trash2Icon />,
-      confirmText: t('deleteFile'),
-      variant: 'destructive',
-    },
-    async () => {
-      updateFiles((fs) => fs.filter((f) => f.id !== file.id));
-      await permanentlyDeleteFile();
-    },
-  );
+  const deleteWithConfirm = usePermanentlyDeleteFileWithConfirmAction(file.id, file.name, () => {
+    updateFiles((fs) => fs.filter((f) => f.id !== file.id));
+  });
 
   const menu: Menu = [
     {
