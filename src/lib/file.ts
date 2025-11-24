@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 export function toHumanReadableFileSize(bytes: number): string {
   const units = ['B', 'KB', 'MB', 'GB', 'TB'];
   let size = bytes;
