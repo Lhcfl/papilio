@@ -12,6 +12,7 @@ path = [
   "**/*.txt",
   ".gitignore",
   "index.html",
+  ".gitattributes",
 ]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Linca"
@@ -56,4 +57,5 @@ SPDX-License-Identifier = "CC-BY-SA-4.0"
 [[annotations]]
 path = ["public/fonts/ofl/**/*"]
 precedence = "aggregate"
+SPDX-FileCopyrightText = "Open Font License"
 SPDX-License-Identifier = "OFL-1.1"
