@@ -3,12 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Menu } from '@/components/menu-or-drawer';
+import { GuessFileIcon } from '@/components/file/guess-file-icon';
+import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { MkImage } from '@/components/mk-image';
 import { MkTime } from '@/components/mk-time';
 import { MkUrl } from '@/components/mk-url';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Item, ItemActions, ItemContent, ItemMedia, ItemTitle } from '@/components/ui/item';
 import {
   fileQueryOptions,
   useMarkAsNotSensitive,
@@ -29,6 +32,7 @@ import {
   FileWarningIcon,
   FolderIcon,
   LinkIcon,
+  MoreHorizontalIcon,
   ScalingIcon,
   TextCursorInputIcon,
   Trash2Icon,
@@ -100,8 +104,24 @@ function RouteComponent() {
             <FileWarningIcon /> {t('sensitive')}
           </Badge>
         )}
-        {isImageOrVideo && (
+        {isImageOrVideo ? (
           <MkImage className="aspect-square" containerAspectRatio={1} image={file} overrideMenu={menu} />
+        ) : (
+          <Item variant="outline" className="w-full">
+            <ItemMedia variant="icon">
+              <GuessFileIcon file={file} />
+            </ItemMedia>
+            <ItemContent>
+              <ItemTitle>{file.name}</ItemTitle>
+            </ItemContent>
+            <ItemActions>
+              <MenuOrDrawer menu={menu}>
+                <Button size="icon">
+                  <MoreHorizontalIcon />
+                </Button>
+              </MenuOrDrawer>
+            </ItemActions>
+          </Item>
         )}
       </div>
 
