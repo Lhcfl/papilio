@@ -29,7 +29,7 @@ import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
 import type { NoteWithExtension } from '@/types/note';
 import { useReactNoteAction, useRenoteAction, useUndoReactNoteAction, useUnrenoteAction } from '@/hooks/note-actions';
 import { MkPostForm } from '@/components/mk-post-form';
-import { VISIBILITIES } from '@/lib/note';
+import { downgradeVisibility, VISIBILITIES } from '@/lib/note';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
 import { useMutation, useMutationState } from '@tanstack/react-query';
@@ -79,9 +79,8 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const { t } = useTranslation();
   const defaultLike = useUserPreference((p) => p.defaultLike);
   const [showAddClipModal, setShowAddClipModal] = useState(false);
-
   const isRenoted = note.isRenoted;
-
+  const renoteVisibility = usePreference((x) => x.renoteVisibility);
   const disableReactions = usePreference((x) => x.disableNoteReactions);
   const postFormStyle = usePreference((x) => x.notePostFormStyle);
   const showTranslateInActions = usePreference((x) => x.showTranslateInActions);
@@ -220,7 +219,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
               });
             }}
           />
-        ) : (
+        ) : renoteVisibility == 'choose' ? (
           <MenuOrDrawer menu={renoteMenu}>
             <MkNoteActionButton
               icon={<RepeatIcon />}
@@ -230,6 +229,20 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
               tooltip={t('renote')}
             />
           </MenuOrDrawer>
+        ) : (
+          <MkNoteActionButton
+            icon={<RepeatIcon />}
+            onClick={() => {
+              renote({
+                visibility: downgradeVisibility(note.visibility, renoteVisibility),
+                localOnly: note.localOnly,
+              });
+            }}
+            count={note.renoteCount}
+            disabled={note.visibility !== 'public' && note.visibility !== 'home'}
+            loading={isRenoting}
+            tooltip={t('renote')}
+          />
         )}
         <MkNoteActionButton
           activated={postFormProps?.quoteId != null}

@@ -40,3 +40,12 @@ export function getNoteRemoteUrl(note: NoteWithExtension) {
 }
 
 export const VISIBILITIES = ['public', 'home', 'followers', 'specified'] as const;
+
+export function downgradeVisibility(
+  limit: (typeof VISIBILITIES)[number],
+  x: (typeof VISIBILITIES)[number],
+): (typeof VISIBILITIES)[number] {
+  const order = VISIBILITIES.indexOf(limit);
+  const targetOrder = VISIBILITIES.indexOf(x);
+  return VISIBILITIES[Math.max(order, targetOrder)];
+}
