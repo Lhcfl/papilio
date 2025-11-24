@@ -8,7 +8,6 @@ import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { MkImage } from '@/components/mk-image';
 import { MkTime } from '@/components/mk-time';
 import { MkUrl } from '@/components/mk-url';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Item, ItemActions, ItemContent, ItemMedia, ItemTitle } from '@/components/ui/item';
@@ -17,15 +16,18 @@ import {
   useMarkAsNotSensitive,
   useMarkAsSensitive,
   usePermanentlyDeleteFileWithConfirmAction,
+  useUpdateFileAction,
 } from '@/hooks/use-file';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { toHumanReadableFileSize } from '@/lib/file';
+import { InputModal } from '@/modals/input-modal';
 import { queryClient } from '@/plugins/persister';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import {
   CalendarArrowUpIcon,
   DownloadIcon,
+  Edit2Icon,
   EyeClosedIcon,
   EyeIcon,
   FileType2Icon,
@@ -37,18 +39,23 @@ import {
   TextCursorInputIcon,
   Trash2Icon,
 } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/my/drive/file/$file')({
   component: RouteComponent,
-  loader: ({ params }) => queryClient.ensureQueryData(fileQueryOptions(params.file)),
+  loader: ({ params }) => queryClient.refetchQueries(fileQueryOptions(params.file)),
 });
 
 function RouteComponent() {
   const { t } = useTranslation();
   const { file: id } = Route.useParams();
   const { data: file } = useSuspenseQuery(fileQueryOptions(id));
+
+  const [fileName, setFileName] = useState(file.name);
+
   const navigate = useNavigate();
+  const { mutateAsync } = useUpdateFileAction(id);
   const markAsSensitive = useMarkAsSensitive(id);
   const markAsNotSensitive = useMarkAsNotSensitive(id);
   const deleteWithConfirm = usePermanentlyDeleteFileWithConfirmAction(id, file.name, () =>
@@ -126,46 +133,60 @@ function RouteComponent() {
       </div>
 
       <div className="details *:mt-2">
-        <Alert>
-          <TextCursorInputIcon />
-          <AlertDescription>{t('fileName')}</AlertDescription>
-          <AlertTitle>{file.name}</AlertTitle>
-        </Alert>
-        <Alert>
-          <TextCursorInputIcon />
-          <AlertDescription>{t('caption')}</AlertDescription>
-          <AlertTitle>{file.comment ?? '(' + t('nothing') + ')'}</AlertTitle>
-        </Alert>
-        <Alert>
-          <CalendarArrowUpIcon />
-          <AlertDescription>{t('_fileViewer.uploadedAt')}</AlertDescription>
-          <AlertTitle>
-            <MkTime time={file.createdAt} mode="detail" colored={false} />
-          </AlertTitle>
-        </Alert>
-        <Alert>
-          <FolderIcon />
-          <AlertDescription>{t('folder')}</AlertDescription>
-          <AlertTitle>{file.folder?.name ?? '(' + t('drive') + ')'}</AlertTitle>
-        </Alert>
-        <Alert>
-          <FileType2Icon />
-          <AlertDescription>{t('_fileViewer.type')}</AlertDescription>
-          <AlertTitle>{file.type}</AlertTitle>
-        </Alert>
-        <Alert>
-          <ScalingIcon />
-          <AlertDescription>{t('_fileViewer.size')}</AlertDescription>
-          <AlertTitle>{toHumanReadableFileSize(file.size)}</AlertTitle>
-        </Alert>
-        <Alert>
-          <LinkIcon />
-          <AlertDescription>{t('_fileViewer.url')}</AlertDescription>
-          <AlertTitle>
-            <MkUrl url={file.url} noIcon />
-          </AlertTitle>
-        </Alert>
+        <FileInfoRow icon={<TextCursorInputIcon />} title={t('fileName')} content={file.name}>
+          <InputModal
+            title={t('rename')}
+            value={fileName}
+            updateValue={setFileName}
+            onOk={() => mutateAsync({ name: fileName })}
+          >
+            <Button variant="ghost">
+              <Edit2Icon />
+            </Button>
+          </InputModal>
+        </FileInfoRow>
+        <FileInfoRow
+          icon={<TextCursorInputIcon />}
+          title={t('caption')}
+          content={file.comment ?? <span className="text-muted-foreground">({t('nothing')})</span>}
+        />
+        <FileInfoRow
+          icon={<CalendarArrowUpIcon />}
+          title={t('_fileViewer.uploadedAt')}
+          content={<MkTime time={file.createdAt} mode="detail" colored={false} />}
+        />
+        <FileInfoRow icon={<FolderIcon />} title={t('folder')} content={file.folder?.name ?? '(' + t('drive') + ')'} />
+        <FileInfoRow icon={<FileType2Icon />} title={t('_fileViewer.type')} content={file.type} />
+        <FileInfoRow
+          icon={<ScalingIcon />}
+          title={t('_fileViewer.size')}
+          content={toHumanReadableFileSize(file.size)}
+        />
+        <FileInfoRow icon={<LinkIcon />} title={t('_fileViewer.url')} content={<MkUrl url={file.url} noIcon />} />
       </div>
+    </div>
+  );
+}
+
+function FileInfoRow({
+  icon,
+  title,
+  content,
+  children,
+}: {
+  icon: React.ReactNode;
+  title: React.ReactNode;
+  content: React.ReactNode;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-start gap-x-3 rounded-lg border px-4 py-3 text-sm">
+      <div className="shrink-0 [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current">{icon}</div>
+      <div className="flex w-0 flex-[1_1] flex-col gap-y-0.5">
+        <div className="text-muted-foreground">{title}</div>
+        <div>{content}</div>
+      </div>
+      {children}
     </div>
   );
 }

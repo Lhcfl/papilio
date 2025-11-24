@@ -23,7 +23,7 @@ export const useUpdateFileAction = (id: string) =>
     mutationFn: (data: { comment?: string; folderId?: string | null; isSensitive?: boolean; name?: string }) =>
       misskeyApi('drive/files/update', { fileId: id, ...data }),
     onSuccess(data, _1, _2, context) {
-      context.client.setQueryData(fileQueryOptions(id).queryKey, data);
+      context.client.setQueryData(fileQueryOptions(id).queryKey, (old) => ({ ...old, ...data }));
     },
   });
 
