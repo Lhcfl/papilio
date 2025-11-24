@@ -82,7 +82,7 @@ function SettingLinkItem({
           <ItemMedia variant="icon">{icon}</ItemMedia>
           <ItemContent>
             <ItemTitle className="text-base">{title}</ItemTitle>
-            <ItemDescription>{description}</ItemDescription>
+            <ItemDescription className="line-clamp-none text-wrap">{description}</ItemDescription>
           </ItemContent>
         </Link>
       </Item>

@@ -16,6 +16,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { ItemMedia } from '@/components/ui/item';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { cn } from '@/lib/utils';
 import { queryAtom } from '@/routes/settings/-atoms';
@@ -83,11 +84,11 @@ function RouteComponent() {
           <AccordionItem
             key={category.name}
             value={category.name}
-            className="mb-2 overflow-hidden rounded-lg border last:border-b-1"
+            className="mb-2 overflow-hidden rounded-lg border last:border-b"
           >
             <AccordionTrigger className="rounded-none px-3 hover:no-underline">
               <div className="flex w-full items-center gap-3">
-                {category.icon}
+                <ItemMedia variant="icon">{category.icon}</ItemMedia>
                 <div>
                   <h2 className="text-base">{t(category.name)}</h2>
                   {'description' in category && category.description && (
