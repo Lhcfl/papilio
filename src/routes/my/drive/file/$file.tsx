@@ -76,6 +76,8 @@ function RouteComponent() {
         const link = document.createElement('a');
         link.href = file.url;
         link.download = file.name;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
         link.click();
       },
     },
@@ -113,7 +115,7 @@ function RouteComponent() {
           </Badge>
         )}
         {isImageOrVideo ? (
-          <MkImage className="aspect-square" containerAspectRatio={1} image={file} overrideMenu={menu} />
+          <MkImage className="aspect-square" containerAspectRatio={1} image={file} overrideMenu={menu} loadRawImages />
         ) : (
           <Item variant="outline" className="w-full">
             <ItemMedia variant="icon">
