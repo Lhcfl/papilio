@@ -10,6 +10,7 @@ import { MkTime } from '@/components/mk-time';
 import { MkUrl } from '@/components/mk-url';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { DialogTrigger } from '@/components/ui/dialog';
 import { Item, ItemActions, ItemContent, ItemMedia, ItemTitle } from '@/components/ui/item';
 import {
   fileQueryOptions,
@@ -20,6 +21,7 @@ import {
 } from '@/hooks/use-file';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { toHumanReadableFileSize } from '@/lib/file';
+import { EditFileCaptionModal } from '@/modals/edit-file-caption-modal';
 import { InputModal } from '@/modals/input-modal';
 import { queryClient } from '@/plugins/persister';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -149,7 +151,20 @@ function RouteComponent() {
           icon={<TextCursorInputIcon />}
           title={t('caption')}
           content={file.comment ?? <span className="text-muted-foreground">({t('nothing')})</span>}
-        />
+        >
+          <EditFileCaptionModal
+            file={file}
+            onOk={(s) => {
+              void mutateAsync({ comment: s });
+            }}
+          >
+            <DialogTrigger asChild>
+              <Button variant="ghost">
+                <Edit2Icon />
+              </Button>
+            </DialogTrigger>
+          </EditFileCaptionModal>
+        </FileInfoRow>
         <FileInfoRow
           icon={<CalendarArrowUpIcon />}
           title={t('_fileViewer.uploadedAt')}

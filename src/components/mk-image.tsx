@@ -23,6 +23,7 @@ export const MkImage = ({
   containerAspectRatio = 1,
   disableMenu,
   disableSensitiveOverlay,
+  disableNoAltTextHint,
   loadRawImages,
   imgProps,
   className,
@@ -33,6 +34,7 @@ export const MkImage = ({
   containerAspectRatio?: number;
   disableMenu?: boolean;
   disableSensitiveOverlay?: boolean;
+  disableNoAltTextHint?: boolean;
   loadRawImages?: boolean;
   overrideMenu?: Menu;
   imgProps?: HTMLProps<HTMLImageElement>;
@@ -187,7 +189,7 @@ export const MkImage = ({
           </div>
         </button>
       )}
-      {(isMyImage || image.comment != null) && (
+      {!disableNoAltTextHint && (isMyImage || image.comment != null) && (
         <Tooltip>
           <TooltipTrigger className="bg-foreground/50 text-background absolute top-2 right-2 z-10 rounded-md px-2 py-1 text-xs backdrop-blur">
             <div>{image.comment ? <span>ALT</span> : <HeartCrackIcon className="size-4" />}</div>
