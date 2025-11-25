@@ -37,7 +37,6 @@ for (const dir of include_dir) {
     const text = await readFile(item, 'utf-8');
     const matched = /SPDX-License-Identifier: (.*)/.exec(text);
     if (matched != null) {
-      console.log(chalk.yellow(`skipped ${item}: has SPDX-License-Identifier = ${matched[1]}`));
       skipped.push(item);
       continue;
     }
