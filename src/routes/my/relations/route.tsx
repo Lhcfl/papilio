@@ -5,7 +5,7 @@
 
 import { AppPageTab, AppPageTabList } from '@/components/app-page-tab';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
-import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
+import { ArrowLeftIcon, ArrowRightIcon, BanIcon, VolumeOffIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/my/relations')({
@@ -20,6 +20,8 @@ function RouteComponent() {
       <AppPageTabList>
         <AppPageTab value="/my/relations/followers" icon={<ArrowLeftIcon />} label={t('followers')} />
         <AppPageTab value="/my/relations/following" icon={<ArrowRightIcon />} label={t('following')} />
+        <AppPageTab value="/my/relations/mute" icon={<VolumeOffIcon />} label={t('mutedUsers')} />
+        <AppPageTab value="/my/relations/block" icon={<BanIcon />} label={t('blockedUsers')} />
       </AppPageTabList>
       <Outlet />
     </>

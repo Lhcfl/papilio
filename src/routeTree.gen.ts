@@ -49,8 +49,10 @@ import { Route as MyNotificationsIndexRouteImport } from './routes/my/notificati
 import { Route as MyDriveIndexRouteImport } from './routes/my/drive/index'
 import { Route as ClipsIdIndexRouteImport } from './routes/clips.$id/index'
 import { Route as NotesIdHistoryRouteImport } from './routes/notes.$id/history'
+import { Route as MyRelationsMuteRouteImport } from './routes/my/relations/mute'
 import { Route as MyRelationsFollowingRouteImport } from './routes/my/relations/following'
 import { Route as MyRelationsFollowersRouteImport } from './routes/my/relations/followers'
+import { Route as MyRelationsBlockRouteImport } from './routes/my/relations/block'
 import { Route as MyNotificationsPmRouteImport } from './routes/my/notifications/pm'
 import { Route as MyNotificationsMentionsRouteImport } from './routes/my/notifications/mentions'
 import { Route as MyFollowRequestsSentRouteImport } from './routes/my/follow-requests/sent'
@@ -260,6 +262,11 @@ const NotesIdHistoryRoute = NotesIdHistoryRouteImport.update({
   path: '/notes/$id/history',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MyRelationsMuteRoute = MyRelationsMuteRouteImport.update({
+  id: '/mute',
+  path: '/mute',
+  getParentRoute: () => MyRelationsRouteRoute,
+} as any)
 const MyRelationsFollowingRoute = MyRelationsFollowingRouteImport.update({
   id: '/following',
   path: '/following',
@@ -268,6 +275,11 @@ const MyRelationsFollowingRoute = MyRelationsFollowingRouteImport.update({
 const MyRelationsFollowersRoute = MyRelationsFollowersRouteImport.update({
   id: '/followers',
   path: '/followers',
+  getParentRoute: () => MyRelationsRouteRoute,
+} as any)
+const MyRelationsBlockRoute = MyRelationsBlockRouteImport.update({
+  id: '/block',
+  path: '/block',
   getParentRoute: () => MyRelationsRouteRoute,
 } as any)
 const MyNotificationsPmRoute = MyNotificationsPmRouteImport.update({
@@ -357,8 +369,10 @@ export interface FileRoutesByFullPath {
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/my/relations/block': typeof MyRelationsBlockRoute
   '/my/relations/followers': typeof MyRelationsFollowersRoute
   '/my/relations/following': typeof MyRelationsFollowingRoute
+  '/my/relations/mute': typeof MyRelationsMuteRoute
   '/notes/$id/history': typeof NotesIdHistoryRoute
   '/clips/$id/': typeof ClipsIdIndexRoute
   '/my/drive': typeof MyDriveIndexRoute
@@ -405,8 +419,10 @@ export interface FileRoutesByTo {
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/my/relations/block': typeof MyRelationsBlockRoute
   '/my/relations/followers': typeof MyRelationsFollowersRoute
   '/my/relations/following': typeof MyRelationsFollowingRoute
+  '/my/relations/mute': typeof MyRelationsMuteRoute
   '/notes/$id/history': typeof NotesIdHistoryRoute
   '/clips/$id': typeof ClipsIdIndexRoute
   '/my/drive': typeof MyDriveIndexRoute
@@ -458,8 +474,10 @@ export interface FileRoutesById {
   '/my/follow-requests/sent': typeof MyFollowRequestsSentRoute
   '/my/notifications/mentions': typeof MyNotificationsMentionsRoute
   '/my/notifications/pm': typeof MyNotificationsPmRoute
+  '/my/relations/block': typeof MyRelationsBlockRoute
   '/my/relations/followers': typeof MyRelationsFollowersRoute
   '/my/relations/following': typeof MyRelationsFollowingRoute
+  '/my/relations/mute': typeof MyRelationsMuteRoute
   '/notes/$id/history': typeof NotesIdHistoryRoute
   '/clips/$id/': typeof ClipsIdIndexRoute
   '/my/drive/': typeof MyDriveIndexRoute
@@ -512,8 +530,10 @@ export interface FileRouteTypes {
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
+    | '/my/relations/block'
     | '/my/relations/followers'
     | '/my/relations/following'
+    | '/my/relations/mute'
     | '/notes/$id/history'
     | '/clips/$id/'
     | '/my/drive'
@@ -560,8 +580,10 @@ export interface FileRouteTypes {
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
+    | '/my/relations/block'
     | '/my/relations/followers'
     | '/my/relations/following'
+    | '/my/relations/mute'
     | '/notes/$id/history'
     | '/clips/$id'
     | '/my/drive'
@@ -612,8 +634,10 @@ export interface FileRouteTypes {
     | '/my/follow-requests/sent'
     | '/my/notifications/mentions'
     | '/my/notifications/pm'
+    | '/my/relations/block'
     | '/my/relations/followers'
     | '/my/relations/following'
+    | '/my/relations/mute'
     | '/notes/$id/history'
     | '/clips/$id/'
     | '/my/drive/'
@@ -935,6 +959,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotesIdHistoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/my/relations/mute': {
+      id: '/my/relations/mute'
+      path: '/mute'
+      fullPath: '/my/relations/mute'
+      preLoaderRoute: typeof MyRelationsMuteRouteImport
+      parentRoute: typeof MyRelationsRouteRoute
+    }
     '/my/relations/following': {
       id: '/my/relations/following'
       path: '/following'
@@ -947,6 +978,13 @@ declare module '@tanstack/react-router' {
       path: '/followers'
       fullPath: '/my/relations/followers'
       preLoaderRoute: typeof MyRelationsFollowersRouteImport
+      parentRoute: typeof MyRelationsRouteRoute
+    }
+    '/my/relations/block': {
+      id: '/my/relations/block'
+      path: '/block'
+      fullPath: '/my/relations/block'
+      preLoaderRoute: typeof MyRelationsBlockRouteImport
       parentRoute: typeof MyRelationsRouteRoute
     }
     '/my/notifications/pm': {
@@ -1139,13 +1177,17 @@ const MyNotificationsRouteRouteWithChildren =
   MyNotificationsRouteRoute._addFileChildren(MyNotificationsRouteRouteChildren)
 
 interface MyRelationsRouteRouteChildren {
+  MyRelationsBlockRoute: typeof MyRelationsBlockRoute
   MyRelationsFollowersRoute: typeof MyRelationsFollowersRoute
   MyRelationsFollowingRoute: typeof MyRelationsFollowingRoute
+  MyRelationsMuteRoute: typeof MyRelationsMuteRoute
 }
 
 const MyRelationsRouteRouteChildren: MyRelationsRouteRouteChildren = {
+  MyRelationsBlockRoute: MyRelationsBlockRoute,
   MyRelationsFollowersRoute: MyRelationsFollowersRoute,
   MyRelationsFollowingRoute: MyRelationsFollowingRoute,
+  MyRelationsMuteRoute: MyRelationsMuteRoute,
 }
 
 const MyRelationsRouteRouteWithChildren =

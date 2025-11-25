@@ -76,14 +76,14 @@ export function MkInfiniteScrollByData<TData>(
 
   return (
     <WrapperContainer className={cn('mk-infinite-scroll', className)} {...rest}>
-      {isEmpty && <MkEmpty />}
-      {error && <MkError error={error} retry={() => refetch()} />}
       {/* it is intended to not use `cn`, because if we change containerClassName, we want to avoid unintended styles */}
       <DataContainer className={containerClassName ?? 'flex flex-col gap-2'}>
         {data?.pages.flat(1).map((a, idx) => (
           <Fragment key={getId(a, idx)}>{children(a)}</Fragment>
         ))}
       </DataContainer>
+      {isEmpty && <MkEmpty />}
+      {error && <MkError error={error} retry={() => refetch()} />}
       <LoadingTrigger onShow={() => hasNextPage && !isFetchingNextPage && fetchNextPage()} />
       {(isPending || hasNextPage) && (
         <div className="flex w-full justify-center p-3">

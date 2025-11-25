@@ -5,6 +5,7 @@
 
 import { registerNote } from '@/hooks/use-note';
 import { INITIAL_UNTIL_ID, injectMisskeyApi, misskeyApi } from '@/lib/inject-misskey-api';
+import type { UserLite } from '@/types/user';
 import { queryOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import type { Acct } from 'misskey-js';
 
@@ -36,6 +37,12 @@ export const getAcctUserQueryOptions = (acct: Acct) =>
     staleTime: 1000 * 60 * 15, // 15 minutes
   });
 
+export interface UserRelation {
+  id: string;
+  user: UserLite;
+  createdAt: string;
+}
+
 export const useUserFollowersInfiniteQuery = (userId: string) =>
   useInfiniteQuery({
     queryKey: ['users/followers', userId],
@@ -44,7 +51,15 @@ export const useUserFollowersInfiniteQuery = (userId: string) =>
         userId,
         limit: 90,
         untilId: pageParam,
-      }),
+      }).then((res) =>
+        res.map(
+          (item): UserRelation => ({
+            id: item.id,
+            user: item.follower!,
+            createdAt: item.createdAt,
+          }),
+        ),
+      ),
     initialPageParam: INITIAL_UNTIL_ID,
     getNextPageParam: (lastPage) => lastPage.at(-1)?.id,
   });
@@ -57,7 +72,15 @@ export const useUserFollowingsInfiniteQuery = (userId: string) =>
         userId,
         limit: 90,
         untilId: pageParam,
-      }),
+      }).then((res) =>
+        res.map(
+          (item): UserRelation => ({
+            id: item.id,
+            user: item.followee!,
+            createdAt: item.createdAt,
+          }),
+        ),
+      ),
     initialPageParam: INITIAL_UNTIL_ID,
     getNextPageParam: (lastPage) => lastPage.at(-1)?.id,
   });
