@@ -62,8 +62,8 @@ function RouteComponent() {
   return (
     <div>
       <HeaderRightPortal>
-        <Button variant="ghost" size="icon-sm">
-          <RefreshCw className={cn(isRefetching && 'animate-spin')} onClick={() => refetch()} />
+        <Button variant="ghost" size="icon-sm" onClick={() => refetch()}>
+          <RefreshCw className={cn(isRefetching && 'animate-spin')} />
         </Button>
       </HeaderRightPortal>
 
