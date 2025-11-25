@@ -10,7 +10,6 @@ import { MkTime } from '@/components/mk-time';
 import { MkUrl } from '@/components/mk-url';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { DialogTrigger } from '@/components/ui/dialog';
 import { Item, ItemActions, ItemContent, ItemMedia, ItemTitle } from '@/components/ui/item';
 import {
   fileQueryOptions,
@@ -158,11 +157,9 @@ function RouteComponent() {
               void mutateAsync({ comment: s });
             }}
           >
-            <DialogTrigger asChild>
-              <Button variant="ghost">
-                <Edit2Icon />
-              </Button>
-            </DialogTrigger>
+            <Button variant="ghost">
+              <Edit2Icon />
+            </Button>
           </EditFileCaptionModal>
         </FileInfoRow>
         <FileInfoRow

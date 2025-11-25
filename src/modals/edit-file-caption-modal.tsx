@@ -8,6 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import type { DriveFile } from '@/types/drive-file';
@@ -32,7 +33,7 @@ export function EditFileCaptionModal({
 
   return (
     <Dialog {...rest}>
-      {children}
+      {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('describeFile')}</DialogTitle>

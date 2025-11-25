@@ -4,7 +4,7 @@
  */
 
 import type { DriveFile } from '@/types/drive-file';
-import { type HTMLProps } from 'react';
+import { useState, type HTMLProps } from 'react';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 import { GuessFileIcon } from '@/components/file/guess-file-icon';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,9 @@ import { useTranslation } from 'react-i18next';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { cn, onlyWhenNonInteractableContentClicked } from '@/lib/utils';
 import { LightboxGallery, LightboxItem } from '@/components/lightbox';
+import { EditFileCaptionModal } from '@/modals/edit-file-caption-modal';
+import { useErrorDialogs } from '@/stores/error-dialog';
+import { errorMessageSafe } from '@/lib/error';
 
 export function MkPostFormFiles(
   props: {
@@ -64,7 +67,20 @@ function usePostFormFileMenu(props: {
 }) {
   const { file, updateFiles } = props;
   const { t } = useTranslation();
-  const { mutateAsync: updateFile } = useUpdateFileAction(file.id);
+  const { mutate } = useUpdateFileAction(file.id);
+  const [open, setOpen] = useState(false);
+  const pushErrorDialog = useErrorDialogs((s) => s.pushDialog);
+
+  function mutateAndUpdateFiles(updates: Partial<DriveFile>) {
+    mutate(updates, {
+      onError(e) {
+        pushErrorDialog({ title: t('error'), description: errorMessageSafe(e) });
+      },
+      onSuccess(data) {
+        updateFiles((fs) => fs.map((f) => (f.id === file.id ? { ...f, ...data } : f)));
+      },
+    });
+  }
 
   const deleteWithConfirm = usePermanentlyDeleteFileWithConfirmAction(file.id, file.name, () => {
     updateFiles((fs) => fs.filter((f) => f.id !== file.id));
@@ -82,9 +98,8 @@ function usePostFormFileMenu(props: {
               id: 'unmark-sensitive',
               icon: <EyeClosedIcon />,
               label: t('unmarkAsSensitive'),
-              onClick: async () => {
-                const updated = await updateFile({ isSensitive: false });
-                updateFiles((fs) => fs.map((f) => (f.id === file.id ? updated : f)));
+              onClick: () => {
+                mutateAndUpdateFiles({ isSensitive: false });
               },
             }
           : {
@@ -92,11 +107,19 @@ function usePostFormFileMenu(props: {
               id: 'mark-sensitive',
               icon: <EyeIcon />,
               label: t('markAsSensitive'),
-              onClick: async () => {
-                const updated = await updateFile({ isSensitive: true });
-                updateFiles((fs) => fs.map((f) => (f.id === file.id ? updated : f)));
+              onClick: () => {
+                mutateAndUpdateFiles({ isSensitive: true });
               },
             },
+        {
+          type: 'item',
+          id: 'edit-caption',
+          icon: <TextInitialIcon />,
+          label: t('describeFile'),
+          onClick: () => {
+            setOpen(true);
+          },
+        },
       ],
     },
     {
@@ -127,7 +150,19 @@ function usePostFormFileMenu(props: {
     },
   ];
 
-  return menu;
+  return {
+    menu,
+    FileMenuDialogs: () => (
+      <EditFileCaptionModal
+        file={file}
+        onOk={(comment) => {
+          mutateAndUpdateFiles({ comment });
+        }}
+        open={open}
+        onOpenChange={setOpen}
+      />
+    ),
+  };
 }
 
 const PostFormImage = ({
@@ -141,7 +176,7 @@ const PostFormImage = ({
   updateFiles: (f: (files: DriveFile[]) => DriveFile[]) => void;
   imgProps?: HTMLProps<HTMLImageElement>;
 } & HTMLProps<HTMLDivElement>) => {
-  const menu = usePostFormFileMenu({ file, updateFiles });
+  const { menu, FileMenuDialogs } = usePostFormFileMenu({ file, updateFiles });
   const { className: imgClassName, ...restImgProps } = imgProps ?? {};
 
   const badges = [
@@ -171,6 +206,7 @@ const PostFormImage = ({
           ) : null,
         )}
       </div>
+      <FileMenuDialogs />
     </div>
   );
 };
@@ -182,7 +218,7 @@ const PostFormFile = ({
   file: DriveFile;
   updateFiles: (f: (files: DriveFile[]) => DriveFile[]) => void;
 }) => {
-  const menu = usePostFormFileMenu({ file, updateFiles });
+  const { menu, FileMenuDialogs } = usePostFormFileMenu({ file, updateFiles });
 
   return (
     <Item key={file.id} className="w-full" size="sm" variant="muted">
@@ -209,6 +245,7 @@ const PostFormFile = ({
           <XIcon />
         </Button>
       </ItemActions>
+      <FileMenuDialogs />
     </Item>
   );
 };

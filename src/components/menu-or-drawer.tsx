@@ -38,6 +38,9 @@ export type MenuItem = {
       onClick: (e: React.MouseEvent<HTMLElement>) => void;
     }
   | {
+      wrapper: (props: { children: React.ReactNode }) => React.ReactNode;
+    }
+  | {
       to: LinkOptions;
     }
   | {
@@ -207,6 +210,21 @@ const GenerateDropDownMenu = (menu: Menu) => {
               </a>
             </DropdownMenuItem>
           );
+        } else if ('wrapper' in x) {
+          return (
+            <x.wrapper key={x.id}>
+              <DropdownMenuItem
+                variant={x.variant}
+                onSelect={(ev) => {
+                  if (x.preventCloseOnClick) ev.preventDefault();
+                }}
+                disabled={x.disabled}
+                className={cn({ 'bg-accent text-accent-foreground': x.active })}
+              >
+                {x.icon} {x.label}
+              </DropdownMenuItem>
+            </x.wrapper>
+          );
         }
       }
     }
@@ -288,6 +306,20 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
                 {x.icon} {x.label}
               </a>
             </DrawerButton>
+          );
+        } else if ('wrapper' in x) {
+          return (
+            <x.wrapper key={x.id}>
+              <DrawerButton
+                key={x.id}
+                onClick={setCloseMenu}
+                variant={x.variant ?? 'ghost'}
+                disabled={x.disabled}
+                className={cn({ 'bg-accent text-accent-foreground': x.active })}
+              >
+                {x.icon} {x.label}
+              </DrawerButton>
+            </x.wrapper>
           );
         }
       }
