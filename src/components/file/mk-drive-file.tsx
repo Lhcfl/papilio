@@ -8,6 +8,7 @@ import { MkImage } from '@/components/mk-image';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import type { DriveFile } from '@/types/drive-file';
+import { FileWarningIcon } from 'lucide-react';
 import type { HTMLProps } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +17,10 @@ export function MkDriveFile({ file, className, ...props }: { file: DriveFile } &
   const isImage = file.type.startsWith('image/');
 
   return (
-    <div className={cn('flex flex-col items-center justify-center gap-1 rounded-lg border p-2', className)} {...props}>
+    <div
+      className={cn('relative flex flex-col items-center justify-center gap-1 rounded-lg border p-2', className)}
+      {...props}
+    >
       {isImage ? (
         <MkImage
           image={file}
@@ -30,8 +34,14 @@ export function MkDriveFile({ file, className, ...props }: { file: DriveFile } &
           <GuessFileIcon file={file} />
         </div>
       )}
-      <div>{file.isSensitive && <Badge>{t('sensitive')}</Badge>}</div>
-      <div className="text-center text-sm wrap-break-word">{file.name}</div>
+      <div>
+        {file.isSensitive && (
+          <Badge className="absolute top-4 left-4">
+            <FileWarningIcon /> {t('sensitive')}
+          </Badge>
+        )}
+      </div>
+      <div className="text-center text-sm wrap-anywhere">{file.name}</div>
     </div>
   );
 }
