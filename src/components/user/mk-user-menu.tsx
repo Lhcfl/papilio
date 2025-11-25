@@ -31,6 +31,7 @@ import { linkOptions } from '@tanstack/react-router';
 import { toast } from 'sonner';
 import {
   useBlockAction,
+  useBreakFollowAction,
   useCancelFollowRequestAction,
   useFollowAction,
   useMuteAction,
@@ -95,7 +96,7 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
       cancelText: t('cancel'),
       variant: 'destructive',
     },
-    mutateAsync(useUnfollowAction(user)),
+    mutateAsync(useBreakFollowAction(user)),
   );
 
   const block = useAfterConfirm(

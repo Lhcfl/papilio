@@ -64,6 +64,14 @@ export const useUnfollowAction = (props: CommonProps) => {
   });
 };
 
+export const useBreakFollowAction = (props: CommonProps) => {
+  return useMutation({
+    mutationKey: ['breakFollow', props.id],
+    mutationFn: () => misskeyApi('following/invalidate', { userId: props.id }),
+    onSuccess: cs(props, { isFollowed: false }),
+  });
+};
+
 export const useBlockAction = (props: CommonProps) => {
   return useMutation({
     mutationKey: ['block', props.id],
