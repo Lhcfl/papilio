@@ -59,7 +59,7 @@ export function CommonRouteComponent<T extends UserRelation>({
   const [hasStarted, setHasStarted] = useState(false);
   const { data, refetch, isRefetching } = query;
 
-  async function unfollowSelected() {
+  async function runBulkAction() {
     setHasStarted(true);
     for (const userId of selected) {
       try {
@@ -75,14 +75,14 @@ export function CommonRouteComponent<T extends UserRelation>({
     setRemoved(new Set());
   }
 
-  const unfollowSelectedWithConfirm = useAfterConfirm(
+  const bulkActionWithConfirm = useAfterConfirm(
     {
-      title: 'Break Follow for Selected Users',
-      description: `Are you sure you want to break follow ${selected.size} users?`,
-      confirmText: t('unfollow'),
+      title: t('areYouSure'),
+      description: `Are you sure you want to [${actionName}] ${selected.size} users?`,
+      confirmText: actionName,
       variant: 'destructive',
     },
-    () => void unfollowSelected(),
+    () => void runBulkAction(),
   );
 
   return (
@@ -103,12 +103,13 @@ export function CommonRouteComponent<T extends UserRelation>({
             onClick={() => {
               setSelected(new Set(data?.pages.flat(2).map((item) => item.user.id)));
             }}
+            disabled={hasStarted}
           >
             <CheckCheckIcon />
             {t('all')}
           </Button>
 
-          <Button variant="destructive" onClick={() => unfollowSelectedWithConfirm()}>
+          <Button variant="destructive" onClick={() => bulkActionWithConfirm()} disabled={hasStarted}>
             <MinusIcon />
             {actionName}
           </Button>
@@ -122,6 +123,7 @@ export function CommonRouteComponent<T extends UserRelation>({
               <TableCell>
                 <Checkbox
                   checked={selected.has(relation.user.id)}
+                  disabled={hasStarted}
                   onCheckedChange={(checked) => {
                     if (checked && selected.has(relation.user.id)) {
                       return;
