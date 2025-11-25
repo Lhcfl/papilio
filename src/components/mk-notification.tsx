@@ -13,10 +13,7 @@ import type { HTMLProps } from 'react';
 import { MkAvatar } from '@/components/mk-avatar';
 import { Button } from '@/components/ui/button';
 import { CheckIcon, ChevronLeftIcon, UserRoundPlusIcon, XIcon } from 'lucide-react';
-import { MkUserName } from '@/components/mk-user-name';
 import { Spinner } from '@/components/ui/spinner';
-import { Tooltip, TooltipContent } from '@/components/ui/tooltip';
-import { TooltipTrigger } from '@radix-ui/react-tooltip';
 import { NotificationItemMedia, ReactionEmoji } from '@/components/notification/item-media';
 import { NotificationDescription, NotificationTitle } from '@/components/notification/item-text';
 import { useUserQuery } from '@/hooks/use-user';
@@ -103,31 +100,26 @@ const FollowNotification = (props: { notification: PickNotification<'follow'> })
     <Item>
       <NotificationItemMedia notification={notification} />
       <ItemContent>
-        <ItemTitle className="line-clamp-1">
+        <ItemTitle className="line-clamp-1 flex w-full justify-between">
           <NotificationTitle notification={notification} />
+          <MkTime time={notification.createdAt} className="text-muted-foreground" />
         </ItemTitle>
         <div className="text-muted-foreground line-clamp-2 text-sm wrap-break-word">
           <NotificationDescription notification={notification} />
         </div>
+        {didNotFollowBack && (
+          <ItemActions>
+            <Button
+              variant="outline"
+              onClick={() => {
+                follow(void null, { onSuccess: () => refetch() });
+              }}
+            >
+              {isFollowing ? <Spinner /> : <UserRoundPlusIcon />} {t('follow')}
+            </Button>
+          </ItemActions>
+        )}
       </ItemContent>
-      {didNotFollowBack && (
-        <ItemActions>
-          <Tooltip>
-            <TooltipContent>{t('follow')}</TooltipContent>
-            <TooltipTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => {
-                  follow(void null, { onSuccess: () => refetch() });
-                }}
-              >
-                {isFollowing ? <Spinner /> : <UserRoundPlusIcon />}
-              </Button>
-            </TooltipTrigger>
-          </Tooltip>
-        </ItemActions>
-      )}
     </Item>
   );
 };
@@ -144,52 +136,40 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
     <Item>
       <NotificationItemMedia notification={notification} />
       <ItemContent>
-        <ItemTitle className="line-clamp-1">
-          <MkUserName user={notification.user} />
+        <ItemTitle className="line-clamp-1 flex w-full justify-between">
+          <NotificationTitle notification={notification} />
+          <MkTime time={notification.createdAt} className="text-muted-foreground" />
         </ItemTitle>
-        <ItemDescription className="line-clamp-2 text-xs">
-          {t('_notification.youReceivedFollowRequest')}
-        </ItemDescription>
+        <ItemDescription className="line-clamp-2">{t('_notification.youReceivedFollowRequest')}</ItemDescription>
+        {/* here we need a === false, because user may be null (loading), which we don't want to hide the action */}
+        <ItemActions hidden={hidden || user?.hasPendingFollowRequestToYou === false} className="mt-1">
+          <Button
+            variant="outline"
+            onClick={() => {
+              accept(void null, {
+                onSuccess: () => {
+                  setHidden(true);
+                },
+              });
+            }}
+          >
+            {isAccepting ? <Spinner /> : <CheckIcon />} {t('accept')}
+          </Button>
+          <Button
+            variant="outline"
+            className="text-destructive!"
+            onClick={() => {
+              reject(void null, {
+                onSuccess: () => {
+                  setHidden(true);
+                },
+              });
+            }}
+          >
+            {isRejecting ? <Spinner /> : <XIcon />} {t('reject')}
+          </Button>
+        </ItemActions>
       </ItemContent>
-      {/* here we need a === false, because user may be null (loading), which we don't want to hide the action */}
-      <ItemActions hidden={hidden || user?.hasPendingFollowRequestToYou === false}>
-        <Tooltip>
-          <TooltipContent>{t('accept')}</TooltipContent>
-          <TooltipTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => {
-                accept(void null, {
-                  onSuccess: () => {
-                    setHidden(true);
-                  },
-                });
-              }}
-            >
-              {isAccepting ? <Spinner /> : <CheckIcon />}
-            </Button>
-          </TooltipTrigger>
-        </Tooltip>
-        <Tooltip>
-          <TooltipContent>{t('reject')}</TooltipContent>
-          <TooltipTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => {
-                reject(void null, {
-                  onSuccess: () => {
-                    setHidden(true);
-                  },
-                });
-              }}
-            >
-              {isRejecting ? <Spinner /> : <XIcon className="text-destructive!" />}
-            </Button>
-          </TooltipTrigger>
-        </Tooltip>
-      </ItemActions>
     </Item>
   );
 };
