@@ -14,6 +14,7 @@ import {
 } from '@misskey-dev/browser-image-resizer';
 import type { DriveFile, DriveFolder } from 'misskey-js/entities.js';
 import { useTranslation } from 'react-i18next';
+import { usePreference } from '@/stores/perference';
 
 export interface UploadFileOptions {
   keepOriginal?: boolean;
@@ -21,14 +22,8 @@ export interface UploadFileOptions {
   folder?: string | DriveFolder | null;
 }
 
-async function compress(
-  id: string,
-  file: File,
-  fileName: string,
-  config?: Partial<BrowserImageResizerConfigWithConvertedOutput>,
-) {
-  const extension = fileName.split('.').length > 1 ? `.${fileName.split('.').pop()}` : '';
-  let uploadName = id + extension;
+async function compress(file: File, fileName: string, config?: Partial<BrowserImageResizerConfigWithConvertedOutput>) {
+  let uploadName = fileName;
   if (config) {
     try {
       const resized = await readAndCompressImage(file, config);
@@ -59,6 +54,7 @@ export function useUploader() {
   const add = useUploadProgress((s) => s.add);
   const setProgress = useUploadProgress((s) => s.setProgress);
   const remove = useUploadProgress((s) => s.remove);
+  const keepOriginalFilename = usePreference((p) => p.keepOriginalFilename);
 
   async function uploadFile(file: File, options?: UploadFileOptions): Promise<DriveFile> {
     const id = crypto.randomUUID();
@@ -71,9 +67,14 @@ export function useUploader() {
     await file.arrayBuffer();
 
     const fileName = options?.name ?? (file.name || 'untitled');
+    const extension = fileName.split('.').pop();
     const compressConfig = options?.keepOriginal ? undefined : await getCompressionConfig(file);
 
-    const [fileToUpload, name] = await compress(id, file, fileName, compressConfig);
+    const [fileToUpload, name] = await compress(
+      file,
+      keepOriginalFilename ? fileName : extension ? `${id}.${extension}` : id,
+      compressConfig,
+    );
 
     const formData = new FormData();
 

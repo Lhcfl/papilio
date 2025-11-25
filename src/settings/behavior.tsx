@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { CogIcon, WifiIcon } from 'lucide-react';
+import { CogIcon, FileUpIcon, WifiIcon } from 'lucide-react';
 
 const t = (x: string) => x;
 
@@ -23,6 +23,19 @@ export const BehaviorSettings = {
           name: t('_dataSaver._code.title'),
           description: t('_dataSaver._code.description'),
           key: 'dataSaverCode',
+        },
+      ],
+    },
+    {
+      icon: <FileUpIcon />,
+      name: t('file'),
+      items: [
+        {
+          kind: 'switch',
+          defaultValue: true,
+          key: 'keepOriginalFilename',
+          name: t('keepOriginalFilename'),
+          description: t('keepOriginalFilenameDescription'),
         },
       ],
     },
