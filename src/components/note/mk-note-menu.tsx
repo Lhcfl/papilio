@@ -37,6 +37,11 @@ import { errorMessageSafe } from '@/lib/error';
 import { linkOptions } from '@tanstack/react-router';
 import { Spinner } from '@/components/ui/spinner';
 import { useSiteMeta } from '@/stores/site';
+import { FlagModal } from '@/modals/flag-modal';
+import { useState } from 'react';
+import { AddClipModal } from '@/modals/add-clip-modal';
+import { getRelativeUrl, site } from '@/lib/inject-misskey-api';
+import { acct } from 'misskey-js';
 
 const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }, successMessage: string) => () =>
   props
@@ -44,20 +49,30 @@ const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> 
     .then(() => toast.success(successMessage))
     .catch((e: unknown) => toast.error(errorMessageSafe(e)));
 
-export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void; onClip: () => void }) => {
+export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void }) => {
   const { t } = useTranslation();
-  const { note, onTranslate, onClip } = props;
+  const { note, onTranslate } = props;
   const meId = useMe((me) => me.id);
   const isAdmin = useMe((me) => me.isAdmin);
   const isMine = meId === note.userId;
   const remoteUrl = getNoteRemoteUrl(note);
   const translatorAvailable = useSiteMeta((s) => s.translatorAvailable);
-
+  const [showFlageModal, setShowFlagModal] = useState(false);
+  const [showAddClipModal, setShowAddClipModal] = useState(false);
   const deleteNoteAction = useDeleteNoteAction(note.id);
   const favorite = withToast(useFavoriteNoteAction(note.id), t('favorited'));
   const unfavorite = withToast(useUnfavoriteNoteAction(note.id), t('unfavorite'));
   const muteThread = withToast(useThreadMuteAction(note.id), t('muteThread'));
   const unmuteThread = withToast(useThreadUnmuteAction(note.id), t('unmuteThread'));
+  const domain = new URL(site!).hostname;
+
+  const defaultNoteReportReason = [
+    `User: @${acct.toString({ username: note.user.username, host: note.userHost ?? domain })}`,
+    `Note URL: ${getRelativeUrl('/notes/' + note.id)}`,
+    `Note Remote URL: ${remoteUrl}`,
+    '-------------------',
+    '',
+  ].join('\n');
 
   const onDelete = useAfterConfirm(
     {
@@ -172,7 +187,9 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
           type: 'item',
           icon: <PaperclipIcon />,
           label: t('clip'),
-          onClick: onClip,
+          onClick: () => {
+            setShowAddClipModal(true);
+          },
         },
         note['papi:isSyncing:notes/state']
           ? {
@@ -209,7 +226,9 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
           type: 'item',
           icon: <FlagIcon />,
           label: t('reportAbuse'),
-          onClick: () => toast.info('not implemented'),
+          onClick: () => {
+            setShowFlagModal(true);
+          },
         },
       ],
     },
@@ -230,5 +249,19 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
     },
   ];
 
-  return menu;
+  return {
+    menu,
+    MenuDialogs: () => (
+      <>
+        <AddClipModal open={showAddClipModal} onOpenChange={setShowAddClipModal} noteId={note.id} />
+        <FlagModal
+          open={showFlageModal}
+          onOpenChange={setShowFlagModal}
+          moreMutationKey={[note.id]}
+          defaultReason={defaultNoteReportReason}
+          userId={note.userId}
+        />
+      </>
+    ),
+  };
 };

@@ -39,7 +39,6 @@ import { cn } from '@/lib/utils';
 import { usePreference, useUserPreference } from '@/stores/perference';
 import { useSiteMeta } from '@/stores/site';
 import { RightbarOrPopup } from '@/providers/rightbar-or-popup';
-import { AddClipModal } from '@/modals/add-clip-modal';
 
 const MkNoteActionButton = (
   props: {
@@ -78,7 +77,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const { note, onTranslate } = props;
   const { t } = useTranslation();
   const defaultLike = useUserPreference((p) => p.defaultLike);
-  const [showAddClipModal, setShowAddClipModal] = useState(false);
+
   const isRenoted = note.isRenoted;
   const renoteVisibility = usePreference((x) => x.renoteVisibility);
   const disableReactions = usePreference((x) => x.disableNoteReactions);
@@ -88,12 +87,9 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
   const { mutate: unrenote, isPending: isUnrenoting } = useUnrenoteAction(note.id);
   const { mutate: unreact, isPending: isUnReacting } = useUndoReactNoteAction(note.id);
   const { mutate: react, isPending: isReacting } = useReactNoteAction(note.id);
-  const noteMenu = useNoteMenu({
+  const { menu: moreMenu, MenuDialogs } = useNoteMenu({
     onTranslate,
     note,
-    onClip: () => {
-      setShowAddClipModal(true);
-    },
   });
   const features = useMisskeyForkFeatures();
   const translatorAvailable = useSiteMeta((s) => s.translatorAvailable);
@@ -305,7 +301,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           />
         )}
         <MenuOrDrawer
-          menu={noteMenu}
+          menu={moreMenu}
           onOpen={() => {
             if (!features.noNeedGetNoteState) {
               syncNote();
@@ -368,7 +364,8 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
           />
         </RightbarOrPopup>
       )}
-      <AddClipModal open={showAddClipModal} onOpenChange={setShowAddClipModal} noteId={note.id} />
+
+      <MenuDialogs />
     </div>
   );
 };
