@@ -16,6 +16,7 @@ import { Fragment } from 'react/jsx-runtime';
 import { MkEmpty } from '@/components/mk-empty';
 import type { ComponentProps, HTMLProps } from 'react';
 import { cn } from '@/lib/utils';
+import { INITIAL_UNTIL_ID } from '@/lib/inject-misskey-api';
 
 function getId<T>(item: unknown, fallback?: T) {
   if (typeof item === 'string') return item;
@@ -35,7 +36,7 @@ export function MkInfiniteScroll<P>(
   } & Omit<ComponentProps<typeof MkInfiniteScrollByData>, 'children' | 'infiniteQueryResult'>,
 ) {
   const defaults = {
-    initialPageParam: 'zzzzzzzzzzzzzzzzzz',
+    initialPageParam: INITIAL_UNTIL_ID,
     getNextPageParam: (lastPage?: P) => {
       if (Array.isArray(lastPage)) {
         return getId(lastPage.at(-1), undefined);

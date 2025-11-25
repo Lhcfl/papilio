@@ -9,7 +9,7 @@ import { MkNotification } from '@/components/mk-notification';
 import { CheckCheckIcon, FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon, RefreshCwIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NOTIFICATION_TYPES, type NotificationIncludeableType } from '@/lib/notifications';
-import { createStreamChannel, misskeyApi } from '@/lib/inject-misskey-api';
+import { createStreamChannel, INITIAL_UNTIL_ID, misskeyApi } from '@/lib/inject-misskey-api';
 import { registerNote } from '@/hooks/use-note';
 import { MenuOrDrawer, type Menu, type MenuSwitch } from '@/components/menu-or-drawer';
 import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
@@ -48,7 +48,7 @@ export const MkNotifications = () => {
         }),
         grouped: groupNotifications(ns),
       })),
-    initialPageParam: 'zzzzzzzzzzzzzzzzzz',
+    initialPageParam: INITIAL_UNTIL_ID,
     getNextPageParam: (lastPage) => lastPage.raw.at(-1)?.id,
     staleTime: Infinity,
     refetchOnWindowFocus: 'always',
@@ -85,7 +85,7 @@ export const MkNotifications = () => {
           });
           if (newPages[0].raw.length > 100) {
             newPages.unshift({
-              id: 'zzzzzzzzzzzzzzzzzz',
+              id: INITIAL_UNTIL_ID,
               raw: [],
               grouped: [],
             });
