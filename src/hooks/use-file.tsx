@@ -60,8 +60,17 @@ export const fileQueryOptions = (id: string) =>
     staleTime: Infinity,
   });
 
+function mergeFileData(old: DriveFile | undefined, file: Partial<DriveFile>): DriveFile {
+  return {
+    ...old,
+    ...file,
+    folder: file.folder ?? old?.folder,
+    user: file.user ?? old?.user,
+  } as DriveFile;
+}
+
 export const setFileQueryData = (file: DriveFile) => {
-  queryClient.setQueryData(fileQueryOptions(file.id).queryKey, file);
+  queryClient.setQueryData(fileQueryOptions(file.id).queryKey, (old) => mergeFileData(old, file));
 };
 
 export function usePermanentlyDeleteFileWithConfirmAction(id: string, name: string, after?: () => unknown) {

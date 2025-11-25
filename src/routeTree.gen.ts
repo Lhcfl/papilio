@@ -54,7 +54,9 @@ import { Route as MyFollowRequestsSentRouteImport } from './routes/my/follow-req
 import { Route as MyFollowRequestsReceivedRouteImport } from './routes/my/follow-requests/received'
 import { Route as ClipsIdEditRouteImport } from './routes/clips.$id/edit'
 import { Route as MyDriveFolderFolderRouteImport } from './routes/my/drive/folder/$folder'
-import { Route as MyDriveFileFileRouteImport } from './routes/my/drive/file/$file'
+import { Route as MyDriveFileFileRouteRouteImport } from './routes/my/drive/file.$file/route'
+import { Route as MyDriveFileFileIndexRouteImport } from './routes/my/drive/file.$file/index'
+import { Route as MyDriveFileFileNotesRouteImport } from './routes/my/drive/file.$file/notes'
 
 const PostingRoute = PostingRouteImport.update({
   id: '/posting',
@@ -281,10 +283,20 @@ const MyDriveFolderFolderRoute = MyDriveFolderFolderRouteImport.update({
   path: '/my/drive/folder/$folder',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MyDriveFileFileRoute = MyDriveFileFileRouteImport.update({
+const MyDriveFileFileRouteRoute = MyDriveFileFileRouteRouteImport.update({
   id: '/my/drive/file/$file',
   path: '/my/drive/file/$file',
   getParentRoute: () => rootRouteImport,
+} as any)
+const MyDriveFileFileIndexRoute = MyDriveFileFileIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MyDriveFileFileRouteRoute,
+} as any)
+const MyDriveFileFileNotesRoute = MyDriveFileFileNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => MyDriveFileFileRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -331,8 +343,10 @@ export interface FileRoutesByFullPath {
   '/my/drive': typeof MyDriveIndexRoute
   '/my/notifications/': typeof MyNotificationsIndexRoute
   '/notes/$id': typeof NotesIdIndexRoute
-  '/my/drive/file/$file': typeof MyDriveFileFileRoute
+  '/my/drive/file/$file': typeof MyDriveFileFileRouteRouteWithChildren
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
+  '/my/drive/file/$file/notes': typeof MyDriveFileFileNotesRoute
+  '/my/drive/file/$file/': typeof MyDriveFileFileIndexRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof AboutRouteRouteWithChildren
@@ -374,8 +388,9 @@ export interface FileRoutesByTo {
   '/my/drive': typeof MyDriveIndexRoute
   '/my/notifications': typeof MyNotificationsIndexRoute
   '/notes/$id': typeof NotesIdIndexRoute
-  '/my/drive/file/$file': typeof MyDriveFileFileRoute
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
+  '/my/drive/file/$file/notes': typeof MyDriveFileFileNotesRoute
+  '/my/drive/file/$file': typeof MyDriveFileFileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -423,8 +438,10 @@ export interface FileRoutesById {
   '/my/drive/': typeof MyDriveIndexRoute
   '/my/notifications/': typeof MyNotificationsIndexRoute
   '/notes/$id/': typeof NotesIdIndexRoute
-  '/my/drive/file/$file': typeof MyDriveFileFileRoute
+  '/my/drive/file/$file': typeof MyDriveFileFileRouteRouteWithChildren
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
+  '/my/drive/file/$file/notes': typeof MyDriveFileFileNotesRoute
+  '/my/drive/file/$file/': typeof MyDriveFileFileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -474,6 +491,8 @@ export interface FileRouteTypes {
     | '/notes/$id'
     | '/my/drive/file/$file'
     | '/my/drive/folder/$folder'
+    | '/my/drive/file/$file/notes'
+    | '/my/drive/file/$file/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
@@ -515,8 +534,9 @@ export interface FileRouteTypes {
     | '/my/drive'
     | '/my/notifications'
     | '/notes/$id'
-    | '/my/drive/file/$file'
     | '/my/drive/folder/$folder'
+    | '/my/drive/file/$file/notes'
+    | '/my/drive/file/$file'
   id:
     | '__root__'
     | '/_timeline'
@@ -565,6 +585,8 @@ export interface FileRouteTypes {
     | '/notes/$id/'
     | '/my/drive/file/$file'
     | '/my/drive/folder/$folder'
+    | '/my/drive/file/$file/notes'
+    | '/my/drive/file/$file/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -590,7 +612,7 @@ export interface RootRouteChildren {
   NotesIdHistoryRoute: typeof NotesIdHistoryRoute
   MyDriveIndexRoute: typeof MyDriveIndexRoute
   NotesIdIndexRoute: typeof NotesIdIndexRoute
-  MyDriveFileFileRoute: typeof MyDriveFileFileRoute
+  MyDriveFileFileRouteRoute: typeof MyDriveFileFileRouteRouteWithChildren
   MyDriveFolderFolderRoute: typeof MyDriveFolderFolderRoute
 }
 
@@ -915,8 +937,22 @@ declare module '@tanstack/react-router' {
       id: '/my/drive/file/$file'
       path: '/my/drive/file/$file'
       fullPath: '/my/drive/file/$file'
-      preLoaderRoute: typeof MyDriveFileFileRouteImport
+      preLoaderRoute: typeof MyDriveFileFileRouteRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/my/drive/file/$file/': {
+      id: '/my/drive/file/$file/'
+      path: '/'
+      fullPath: '/my/drive/file/$file/'
+      preLoaderRoute: typeof MyDriveFileFileIndexRouteImport
+      parentRoute: typeof MyDriveFileFileRouteRoute
+    }
+    '/my/drive/file/$file/notes': {
+      id: '/my/drive/file/$file/notes'
+      path: '/notes'
+      fullPath: '/my/drive/file/$file/notes'
+      preLoaderRoute: typeof MyDriveFileFileNotesRouteImport
+      parentRoute: typeof MyDriveFileFileRouteRoute
     }
   }
 }
@@ -1044,6 +1080,19 @@ const MyNotificationsRouteRouteChildren: MyNotificationsRouteRouteChildren = {
 const MyNotificationsRouteRouteWithChildren =
   MyNotificationsRouteRoute._addFileChildren(MyNotificationsRouteRouteChildren)
 
+interface MyDriveFileFileRouteRouteChildren {
+  MyDriveFileFileNotesRoute: typeof MyDriveFileFileNotesRoute
+  MyDriveFileFileIndexRoute: typeof MyDriveFileFileIndexRoute
+}
+
+const MyDriveFileFileRouteRouteChildren: MyDriveFileFileRouteRouteChildren = {
+  MyDriveFileFileNotesRoute: MyDriveFileFileNotesRoute,
+  MyDriveFileFileIndexRoute: MyDriveFileFileIndexRoute,
+}
+
+const MyDriveFileFileRouteRouteWithChildren =
+  MyDriveFileFileRouteRoute._addFileChildren(MyDriveFileFileRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   TimelineRouteRoute: TimelineRouteRouteWithChildren,
   AboutRouteRoute: AboutRouteRouteWithChildren,
@@ -1067,7 +1116,7 @@ const rootRouteChildren: RootRouteChildren = {
   NotesIdHistoryRoute: NotesIdHistoryRoute,
   MyDriveIndexRoute: MyDriveIndexRoute,
   NotesIdIndexRoute: NotesIdIndexRoute,
-  MyDriveFileFileRoute: MyDriveFileFileRoute,
+  MyDriveFileFileRouteRoute: MyDriveFileFileRouteRouteWithChildren,
   MyDriveFolderFolderRoute: MyDriveFolderFolderRoute,
 }
 export const routeTree = rootRouteImport

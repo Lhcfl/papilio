@@ -43,7 +43,7 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export const Route = createFileRoute('/my/drive/file/$file')({
+export const Route = createFileRoute('/my/drive/file/$file/')({
   component: RouteComponent,
   loader: ({ params }) => queryClient.refetchQueries(fileQueryOptions(params.file)),
 });
