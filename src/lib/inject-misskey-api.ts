@@ -11,6 +11,7 @@ import type { Connection } from 'misskey-js/streaming.js';
 
 export const site = localStorage.getItem('site') ?? null;
 export const token = localStorage.getItem('token') ?? null;
+export const INITIAL_UNTIL_ID = 'zzzzzzzzzzzzzzzzzz';
 
 let apiClient: api.APIClient | null = null;
 

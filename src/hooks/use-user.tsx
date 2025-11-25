@@ -4,8 +4,8 @@
  */
 
 import { registerNote } from '@/hooks/use-note';
-import { injectMisskeyApi } from '@/lib/inject-misskey-api';
-import { queryOptions, useQuery } from '@tanstack/react-query';
+import { INITIAL_UNTIL_ID, injectMisskeyApi, misskeyApi } from '@/lib/inject-misskey-api';
+import { queryOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import type { Acct } from 'misskey-js';
 
 export const useUserQuery = (userId: string) =>
@@ -34,4 +34,30 @@ export const getAcctUserQueryOptions = (acct: Acct) =>
           return user;
         }),
     staleTime: 1000 * 60 * 15, // 15 minutes
+  });
+
+export const useUserFollowersInfiniteQuery = (userId: string) =>
+  useInfiniteQuery({
+    queryKey: ['users/followers', userId],
+    queryFn: ({ pageParam }) =>
+      misskeyApi('users/followers', {
+        userId,
+        limit: 90,
+        untilId: pageParam,
+      }),
+    initialPageParam: INITIAL_UNTIL_ID,
+    getNextPageParam: (lastPage) => lastPage.at(-1)?.id,
+  });
+
+export const useUserFollowingsInfiniteQuery = (userId: string) =>
+  useInfiniteQuery({
+    queryKey: ['users/following', userId],
+    queryFn: ({ pageParam }) =>
+      misskeyApi('users/following', {
+        userId,
+        limit: 90,
+        untilId: pageParam,
+      }),
+    initialPageParam: INITIAL_UNTIL_ID,
+    getNextPageParam: (lastPage) => lastPage.at(-1)?.id,
   });

@@ -48,6 +48,13 @@ export const AppSidebarFooter = () => {
             params: { acct: me.username },
           }),
         },
+        {
+          type: 'item',
+          id: 'relation',
+          label: t('manage'),
+          icon: <Users2Icon />,
+          to: linkOptions({ to: '/my/relations/followers' }),
+        },
       ],
     },
     {

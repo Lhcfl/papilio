@@ -60,29 +60,35 @@ export function MkInfiniteScrollByData<TData>(
   props: {
     infiniteQueryResult: UseInfiniteQueryResult<InfiniteData<TData>>;
     containerClassName?: string;
+    dataContainer?: (props: { children: React.ReactNode; className: string }) => React.ReactNode;
+    wrapperContainer?: (props: { children: React.ReactNode; className: string }) => React.ReactNode;
     children: (data: FlatArray<TData[], 1>) => React.ReactNode;
   } & Omit<HTMLProps<HTMLDivElement>, 'children'>,
 ) {
-  const { infiniteQueryResult, children, containerClassName, className, ...rest } = props;
+  const { infiniteQueryResult, children, containerClassName, dataContainer, wrapperContainer, className, ...rest } =
+    props;
   const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage, error, refetch } = infiniteQueryResult;
   const isEmpty = !isPending && data?.pages.flat(1).length === 0;
 
+  const DataContainer = dataContainer ?? 'div';
+  const WrapperContainer = wrapperContainer ?? 'div';
+
   return (
-    <div className={cn('mk-infinite-scroll', className)} {...rest}>
+    <WrapperContainer className={cn('mk-infinite-scroll', className)} {...rest}>
       {isEmpty && <MkEmpty />}
       {error && <MkError error={error} retry={() => refetch()} />}
       {/* it is intended to not use `cn`, because if we change containerClassName, we want to avoid unintended styles */}
-      <div className={containerClassName ?? 'flex flex-col gap-2'}>
+      <DataContainer className={containerClassName ?? 'flex flex-col gap-2'}>
         {data?.pages.flat(1).map((a, idx) => (
           <Fragment key={getId(a, idx)}>{children(a)}</Fragment>
         ))}
-      </div>
+      </DataContainer>
       <LoadingTrigger onShow={() => hasNextPage && !isFetchingNextPage && fetchNextPage()} />
       {(isPending || hasNextPage) && (
         <div className="flex w-full justify-center p-3">
           <Spinner />
         </div>
       )}
-    </div>
+    </WrapperContainer>
   );
 }
