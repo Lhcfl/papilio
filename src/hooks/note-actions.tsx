@@ -7,6 +7,9 @@ import { misskeyApi, type EndpointParamType } from '@/lib/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { markAsChanged, patchNote } from '@/hooks/use-note';
+import { meopt } from '@/loaders/me-loader';
+import { getAcctUserQueryOptions } from '@/hooks/use-user';
+import { useMe } from '@/stores/me';
 
 export const useRenoteAction = (noteId: string) =>
   useMutation({
@@ -129,3 +132,27 @@ export const useNotePollRefreshAction = (noteId: string) =>
       markAsChanged(noteId);
     },
   });
+
+export const useNotePinAction = (noteId: string) => {
+  const me = useMe();
+  return useMutation({
+    mutationKey: ['notePin', noteId],
+    mutationFn: () => misskeyApi('i/pin', { noteId }),
+    onSuccess: (_0, _1, _2, ctx) => {
+      void ctx.client.refetchQueries(meopt);
+      void ctx.client.invalidateQueries(getAcctUserQueryOptions(me));
+    },
+  });
+};
+
+export const useNoteUnpinAction = (noteId: string) => {
+  const me = useMe();
+  return useMutation({
+    mutationKey: ['noteUnpin', noteId],
+    mutationFn: () => misskeyApi('i/unpin', { noteId }),
+    onSuccess: (_0, _1, _2, ctx) => {
+      void ctx.client.refetchQueries(meopt);
+      void ctx.client.invalidateQueries(getAcctUserQueryOptions(me));
+    },
+  });
+};

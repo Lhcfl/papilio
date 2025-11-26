@@ -14,6 +14,8 @@ import {
   LanguagesIcon,
   LinkIcon,
   PaperclipIcon,
+  PinIcon,
+  PinOffIcon,
   ShareIcon,
   StarIcon,
   Trash2Icon,
@@ -27,6 +29,8 @@ import { getNoteExcerpt } from '@/lib/note-excerpt';
 import {
   useDeleteNoteAction,
   useFavoriteNoteAction,
+  useNotePinAction,
+  useNoteUnpinAction,
   useThreadMuteAction,
   useThreadUnmuteAction,
   useUnfavoriteNoteAction,
@@ -53,6 +57,9 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
   const { t } = useTranslation();
   const { note, onTranslate } = props;
   const meId = useMe((me) => me.id);
+  const myPinnedNoteIds = useMe((me) => me.pinnedNoteIds);
+  const pinLimit = useMe((me) => me.policies.pinLimit);
+  const pinLimitExceeded = pinLimit != null && myPinnedNoteIds != null && myPinnedNoteIds.length >= pinLimit;
   const isAdmin = useMe((me) => me.isAdmin);
   const isMine = meId === note.userId;
   const remoteUrl = getNoteRemoteUrl(note);
@@ -64,6 +71,9 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
   const unfavorite = withToast(useUnfavoriteNoteAction(note.id), t('unfavorite'));
   const muteThread = withToast(useThreadMuteAction(note.id), t('muteThread'));
   const unmuteThread = withToast(useThreadUnmuteAction(note.id), t('unmuteThread'));
+  const pin = withToast(useNotePinAction(note.id), t('pinned'));
+  const unpin = withToast(useNoteUnpinAction(note.id), t('unpin'));
+
   const domain = new URL(site!).hostname;
 
   const defaultNoteReportReason = [
@@ -214,6 +224,23 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
                 icon: <BellOffIcon />,
                 label: t('muteThread'),
               },
+        isMine &&
+          (myPinnedNoteIds?.includes(note.id)
+            ? {
+                id: 'unpin',
+                type: 'item',
+                onClick: unpin,
+                icon: <PinOffIcon />,
+                label: t('unpin'),
+              }
+            : {
+                id: 'pin',
+                type: 'item',
+                onClick: pin,
+                icon: <PinIcon />,
+                label: pinLimitExceeded ? t('pinLimitExceeded') : t('pin'),
+                disabled: pinLimitExceeded,
+              }),
       ],
     },
     !isMine && {
