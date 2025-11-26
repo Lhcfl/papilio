@@ -165,7 +165,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
         <div className="py-4 text-sm @md:py-2 @md:text-base">
           <MkMfm text={user.description ?? t('noDescription')} author={user} emojiUrls={user.emojis} />
         </div>
-        <Separator />
+        {user.fields.length > 0 && <Separator />}
         {user.fields.length > 0 && (
           <div className="user-field mt-2 grid grid-cols-[auto_1fr] gap-2 text-sm">
             {user.fields.map((f) => (
