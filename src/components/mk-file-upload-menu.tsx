@@ -22,8 +22,9 @@ export const MkFileUploadMenu = (props: {
   children: React.ReactNode;
   limit?: number;
   onUpload: (promises: Promise<DriveFile>[]) => void;
+  disableCompress?: boolean;
 }) => {
-  const { label, children, limit = Number.POSITIVE_INFINITY, onUpload } = props;
+  const { label, children, limit = Number.POSITIVE_INFINITY, onUpload, disableCompress = false } = props;
   const { t } = useTranslation();
   const [openDriveSelect, setOpenDriveSelect] = useState(false);
   const [openUrlUpload, setOpenUrlUpload] = useState(false);
@@ -70,7 +71,7 @@ export const MkFileUploadMenu = (props: {
 
   const menu: Menu = [
     { type: 'label', id: 'upload-label', label: label ?? t('attachFile') },
-    {
+    !disableCompress && {
       type: 'item',
       id: 'upload',
       icon: <UploadIcon />,

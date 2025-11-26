@@ -4,12 +4,14 @@
  */
 
 import { MkTime } from '@/components/mk-time';
+import { errorMessageSafe } from '@/lib/error';
 import { INITIAL_UNTIL_ID, misskeyApi } from '@/lib/inject-misskey-api';
 import { CommonRouteComponent } from '@/routes/my/relations/-common';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { VolumeOffIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 
 export const Route = createFileRoute('/my/relations/mute')({
   component: RouteComponent,
@@ -36,6 +38,11 @@ function RouteComponent() {
     getNextPageParam: (lastPage) => lastPage.at(-1)?.id,
   });
 
+  const { mutateAsync: importMuting } = useMutation({
+    mutationKey: ['i/import-muting'],
+    mutationFn: (fileId: string) => misskeyApi('i/import-muting', { fileId }),
+  });
+
   return (
     <CommonRouteComponent
       query={query}
@@ -49,6 +56,20 @@ function RouteComponent() {
         await misskeyApi('mute/delete', { userId });
       }}
       actionName={t('unmute')}
+      onUpload={async ([fp]) => {
+        const file = await fp;
+        try {
+          await importMuting(file.id);
+          toast.success(t('importRequested'));
+          [1000, 5000, 10000, 20000, 30000, 60000].forEach((delay) => {
+            setTimeout(() => {
+              void query.refetch();
+            }, delay);
+          });
+        } catch (e) {
+          toast.error(errorMessageSafe(e));
+        }
+      }}
     />
   );
 }

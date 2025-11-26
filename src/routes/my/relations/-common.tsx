@@ -11,7 +11,7 @@ import { type UserRelation } from '@/hooks/use-user';
 import { errorMessageSafe } from '@/lib/error';
 import { cn } from '@/lib/utils';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
-import { CheckCheckIcon, MinusIcon, RefreshCw } from 'lucide-react';
+import { CheckCheckIcon, MinusIcon, RefreshCw, UploadCloudIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
@@ -22,6 +22,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableHead, TableHeader, TableCell, TableRow } from '@/components/ui/table';
 import { type InfiniteData, type UseInfiniteQueryResult } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { MkFileUploadMenu } from '@/components/mk-file-upload-menu';
+import type { DriveFile } from '@/types/drive-file';
 
 function RelationInfinityLoaderTable(props: { children: React.ReactNode; className?: string }) {
   const { t } = useTranslation();
@@ -46,11 +48,13 @@ export function CommonRouteComponent<T extends UserRelation>({
   icon: Icon,
   query,
   bulkableAction,
+  onUpload,
   actionName,
 }: {
   icon: (props: { item: T }) => React.ReactNode;
   query: UseInfiniteQueryResult<InfiniteData<T[]>>;
   bulkableAction: (userId: string) => Promise<void>;
+  onUpload?: (x: Promise<DriveFile>[]) => Promise<void>;
   actionName: string;
 }) {
   const { t } = useTranslation();
@@ -100,6 +104,7 @@ export function CommonRouteComponent<T extends UserRelation>({
         </div>
         <ButtonGroup>
           <Button
+            variant="outline"
             onClick={() => {
               setSelected(new Set(data?.pages.flat(2).map((item) => item.user.id)));
             }}
@@ -109,10 +114,23 @@ export function CommonRouteComponent<T extends UserRelation>({
             {t('all')}
           </Button>
 
-          <Button variant="destructive" onClick={() => bulkActionWithConfirm()} disabled={hasStarted}>
+          <Button
+            variant="destructive"
+            onClick={() => bulkActionWithConfirm()}
+            disabled={hasStarted || selected.size === 0}
+          >
             <MinusIcon />
             {actionName}
           </Button>
+
+          {onUpload && (
+            <MkFileUploadMenu onUpload={onUpload} limit={1} disableCompress>
+              <Button variant="outline">
+                <UploadCloudIcon />
+                {t('import')}
+              </Button>
+            </MkFileUploadMenu>
+          )}
         </ButtonGroup>
       </div>
 
