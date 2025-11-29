@@ -13,17 +13,17 @@ export const MkUrl = (
     navigationBehavior?: unknown;
     children?: React.ReactNode;
     noIcon?: boolean;
-    noRoute?: boolean;
+    noNavigate?: boolean;
   } & HTMLAttributes<HTMLAnchorElement>,
 ) => {
-  const { url, navigationBehavior, children, noIcon, noRoute, ...rest } = props;
+  const { url, navigationBehavior, children, noIcon, noNavigate, ...rest } = props;
 
   // TODO
   void navigationBehavior;
 
   const text = children ?? decodeURIComponent(url);
 
-  const Comp = noRoute ? 'span' : UrlA;
+  const Comp = noNavigate ? 'span' : UrlA;
 
   return (
     <Comp
@@ -33,7 +33,7 @@ export const MkUrl = (
       className={cn('text-tertiary', {
         'wrap-break-word': children,
         'break-all': !children,
-        'hover:underline': !noRoute,
+        'hover:underline': !noNavigate,
       })}
       {...rest}
     >

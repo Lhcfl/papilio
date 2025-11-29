@@ -10,14 +10,14 @@ import type { HTMLAttributes } from 'react';
 export const MkHashTag = ({
   name,
   className,
-  disableRoute,
+  noNavigate,
   ...props
 }: {
   name: string;
   className?: string;
-  disableRoute?: boolean;
+  noNavigate?: boolean;
 } & HTMLAttributes<HTMLAnchorElement>) => {
-  if (disableRoute) {
+  if (noNavigate) {
     return <span className={cn('text-tertiary wrap-break-word', className)}>#{name}</span>;
   }
 

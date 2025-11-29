@@ -562,7 +562,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 url={token.props.url}
                 rel="nofollow noopener"
                 navigationBehavior={linkNavigationBehavior}
-                noRoute={inlineMode}
+                noNavigate={inlineMode}
               />
             </bdi>
           );
@@ -576,7 +576,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 url={token.props.url}
                 rel="nofollow noopener"
                 navigationBehavior={linkNavigationBehavior}
-                noRoute={inlineMode}
+                noNavigate={inlineMode}
               >
                 {genEl(token.children, scale, true)}
               </MkUrl>
@@ -602,7 +602,7 @@ export const MkMfm = (in_props: MfmProps) => {
         case 'hashtag': {
           return (
             <bdi key={Math.random()}>
-              <MkHashTag name={token.props.hashtag} disableRoute={inlineMode} />
+              <MkHashTag name={token.props.hashtag} noNavigate={inlineMode} />
             </bdi>
           );
         }
