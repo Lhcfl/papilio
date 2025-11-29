@@ -6,10 +6,10 @@
 import { SettingHeader } from '@/components/settings/header';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import type { ITextSettings } from '@/settings';
+import type { TextSetting } from '@/settings/types';
 import { setterName, usePreference, useUserPreference } from '@/stores/perference';
 
-export function TextSettingItem({ item, highlighted }: { item: ITextSettings; highlighted?: boolean }) {
+export function TextSettingItem({ item, highlighted }: { item: TextSetting<string, boolean>; highlighted?: boolean }) {
   const isUser = item.user == true;
 
   const value = [
