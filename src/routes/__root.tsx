@@ -17,6 +17,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Outlet, createRootRoute, redirect, useChildMatches } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { useEffect } from 'react';
+import { useNotificationsCleaner } from '@/hooks/use-notifications-cleaner';
 
 export const Route = createRootRoute({
   beforeLoad: (ctx) => {
@@ -79,6 +80,7 @@ function GlobalLoggedInEffects() {
   useNoteUpdateListener();
   useMainChannelListener();
   useUploadingHint();
+  useNotificationsCleaner();
 
   return null;
 }

@@ -13,22 +13,20 @@ import { createStreamChannel, INITIAL_UNTIL_ID, misskeyApi } from '@/lib/inject-
 import { registerNote } from '@/hooks/use-note';
 import { MenuOrDrawer, type Menu, type MenuSwitch } from '@/components/menu-or-drawer';
 import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
-import { infiniteQueryOptions, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { groupNotifications } from '@/lib/notification-grouper';
 import { usePreference } from '@/stores/perference';
 import { HeaderRightPortal } from '@/components/header-portal';
 import { Spinner } from '@/components/ui/spinner';
+import { useMarkAllAsReadAction } from '@/hooks/notifications';
 
 export const MkNotifications = () => {
   const [excluded, setExcluded] = useState<NotificationIncludeableType[]>([]);
   const grouping = usePreference((p) => p.groupNotifications);
   const { t } = useTranslation();
 
-  const { mutate: markAllAsRead, isPending: isMarkingAllAsRead } = useMutation({
-    mutationKey: ['notifications/mark-all-as-read'],
-    mutationFn: () => misskeyApi('notifications/mark-all-as-read', {}),
-  });
+  const { mutate: markAllAsRead, isPending: isMarkingAllAsRead } = useMarkAllAsReadAction();
 
   const opts = infiniteQueryOptions({
     queryKey: ['notifications', excluded],
@@ -129,7 +127,7 @@ export const MkNotifications = () => {
         </Button>
         <MkNotificationsFilter excluded={excluded} setExcluded={setExcluded} />
       </HeaderRightPortal>
-      <MkInfiniteScrollByData infiniteQueryResult={query}>
+      <MkInfiniteScrollByData className="mk-notifications" infiniteQueryResult={query}>
         {(page) =>
           (grouping ? page.grouped : page.raw).map((n) => (
             <Fragment key={n.id}>

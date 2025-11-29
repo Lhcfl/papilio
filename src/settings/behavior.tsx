@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { CogIcon, FileUpIcon, WifiIcon } from 'lucide-react';
+import { BellIcon, CogIcon, FileUpIcon, WifiIcon } from 'lucide-react';
 
 const t = (x: string) => x;
 
@@ -36,6 +36,19 @@ export const BehaviorSettings = {
           key: 'keepOriginalFilename',
           name: t('keepOriginalFilename'),
           description: t('keepOriginalFilenameDescription'),
+        },
+      ],
+    },
+    {
+      icon: <BellIcon />,
+      name: t('notifications'),
+      items: [
+        {
+          kind: 'switch',
+          defaultValue: true,
+          key: 'clearNotificationsOnFocus',
+          name: t('_preference.clearNotificationsOnFocus'),
+          description: t('_preference.clearNotificationsOnFocusDesc'),
         },
       ],
     },
