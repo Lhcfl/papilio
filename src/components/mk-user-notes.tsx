@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { registerNote } from '@/hooks/use-note';
+import { registerNote } from '@/hooks/note';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { MkNote } from '@/components/mk-note';
 import { useTranslation } from 'react-i18next';

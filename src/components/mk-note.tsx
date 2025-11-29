@@ -10,7 +10,7 @@ import { MkNoteHeader } from '@/components/note/mk-note-header';
 import { MkNoteReactions } from '@/components/note/mk-note-reactions';
 import { MkNoteRenoteTip } from '@/components/note/mk-note-renote-tip';
 import { useState, type HTMLProps } from 'react';
-import { useAppearNote, useNoteValue } from '@/hooks/use-note';
+import { useAppearNote, useNoteValue } from '@/hooks/note';
 import { useTranslateAction } from '@/hooks/note-actions';
 import { Button } from '@/components/ui/button';
 import { FoldVerticalIcon } from 'lucide-react';

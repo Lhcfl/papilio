@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 import { Link } from '@tanstack/react-router';
 import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card';
 import { MkUserCard } from '@/components/mk-user-card';
-import { useUserQuery } from '@/hooks/use-user';
+import { useUserQuery } from '@/hooks/user';
 import { MkUserCardSkeleton } from '@/components/mk-user-card-skeleton';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { acct } from 'misskey-js';

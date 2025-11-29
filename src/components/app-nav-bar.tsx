@@ -6,7 +6,7 @@
 import { MkPostFormDialog } from '@/components/mk-post-form-dialog';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { useSidebarItems } from '@/hooks/use-sidebar';
+import { useSidebarItems } from '@/hooks/sidebar';
 import { cn } from '@/lib/utils';
 import { unreadNotificationsAtom } from '@/stores/unread-notifications';
 import { Link } from '@tanstack/react-router';

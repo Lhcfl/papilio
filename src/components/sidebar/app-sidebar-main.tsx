@@ -6,7 +6,7 @@
 import { useTranslation } from 'react-i18next';
 import { MoreHorizontalIcon, RecycleIcon } from 'lucide-react';
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar';
-import { useSidebarItems } from '@/hooks/use-sidebar';
+import { useSidebarItems } from '@/hooks/sidebar';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { useQueryClient } from '@tanstack/react-query';
 import { clearCache } from '@/loaders/clear-cache';

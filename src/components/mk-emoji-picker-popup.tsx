@@ -8,7 +8,7 @@ import { useState } from 'react';
 import type { EmojiSimple } from 'misskey-js/entities.js';
 import { MkEmojiPicker } from '@/components/mk-emoji-picker';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/mobile';
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 
 export const MkEmojiPickerPopup = (props: {

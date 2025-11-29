@@ -5,7 +5,7 @@
 
 import { MkNote } from '@/components/mk-note';
 import { misskeyApi } from '@/lib/inject-misskey-api';
-import { registerNote } from '@/hooks/use-note';
+import { registerNote } from '@/hooks/note';
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 
 export const MkMentionsList = (props: { visibility?: 'specified' }) => {

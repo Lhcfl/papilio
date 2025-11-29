@@ -6,7 +6,7 @@
 import { HardDriveUploadIcon, LinkIcon, UploadCloudIcon, UploadIcon, XIcon } from 'lucide-react';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { useTranslation } from 'react-i18next';
-import { useUploader, type UploadFileOptions } from '@/hooks/use-uploader';
+import { useUploader, type UploadFileOptions } from '@/hooks/uploader';
 import type { DriveFile } from '@/types/drive-file';
 import { MkDriveFileSelect } from '@/components/mk-drive-file-select';
 import { useState } from 'react';

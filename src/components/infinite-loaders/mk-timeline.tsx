@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { infiniteQueryOptions, useQueryClient } from '@tanstack/react-query';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { createStreamChannel, INITIAL_UNTIL_ID, misskeyApi } from '@/lib/inject-misskey-api';
-import { registerNote } from '@/hooks/use-note';
+import { registerNote } from '@/hooks/note';
 import type { TimelineTypes } from '@/types/timeline';
 import { HeaderRightPortal } from '@/components/header-portal';
 import { Button } from '@/components/ui/button';

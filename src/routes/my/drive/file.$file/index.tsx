@@ -17,7 +17,7 @@ import {
   useMarkAsSensitive,
   usePermanentlyDeleteFileWithConfirmAction,
   useUpdateFileAction,
-} from '@/hooks/use-file';
+} from '@/hooks/file';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { toHumanReadableFileSize } from '@/lib/file';
 import { EditFileCaptionModal } from '@/modals/edit-file-caption-modal';

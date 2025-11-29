@@ -5,7 +5,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
-import { useTimelineTabs } from '@/hooks/use-timeline-tabs';
+import { useTimelineTabs } from '@/hooks/timeline-tabs';
 import { MkPostForm } from '@/components/mk-post-form';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { AppPageTab, AppPageTabList } from '@/components/app-page-tab';

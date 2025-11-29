@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { justGiveMeTheNoteByIdWithoutReactivity } from '@/hooks/use-note';
+import { justGiveMeTheNoteByIdWithoutReactivity } from '@/hooks/note';
 import type { NoteWithExtension } from '@/types/note';
 import type { NoteDraft } from 'misskey-js/entities.js';
 

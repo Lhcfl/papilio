@@ -10,7 +10,7 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
 import { Spinner } from '@/components/ui/spinner';
 import { misskeyApi } from '@/lib/inject-misskey-api';
-import { registerNote } from '@/hooks/use-note';
+import { registerNote } from '@/hooks/note';
 import { MkNoteSimple } from '@/components/mk-note-simple';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';

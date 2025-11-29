@@ -23,8 +23,8 @@ import {
   SmilePlusIcon,
   Trash2Icon,
 } from 'lucide-react';
-import { noteQueryOptions } from '@/hooks/use-note-query';
-import { registerNote, useNoteValue } from '@/hooks/use-note';
+import { noteQueryOptions } from '@/hooks/note-query';
+import { registerNote, useNoteValue } from '@/hooks/note';
 import { getNoteRemoteUrl } from '@/lib/note';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

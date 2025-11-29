@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useUserFollowingsInfiniteQuery } from '@/hooks/use-user';
+import { useUserFollowingsInfiniteQuery } from '@/hooks/user';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { CommonRouteComponent } from '@/routes/my/relations/-common';
 import { useMe } from '@/stores/me';

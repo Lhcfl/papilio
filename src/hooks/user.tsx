@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { registerNote } from '@/hooks/use-note';
+import { registerNote } from '@/hooks/note';
 import { INITIAL_UNTIL_ID, injectMisskeyApi, misskeyApi } from '@/lib/inject-misskey-api';
 import type { UserLite } from '@/types/user';
 import { queryOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';

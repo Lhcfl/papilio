@@ -5,7 +5,7 @@
 
 import { injectMisskeyApi } from '@/lib/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
-import { registerNote } from '@/hooks/use-note';
+import { registerNote } from '@/hooks/note';
 
 export const noteQueryOptions = (noteId: string) => ({
   queryKey: ['note', noteId],

@@ -6,8 +6,8 @@
 import { MkTime } from '@/components/mk-time';
 import { MkNoteBody } from '@/components/note/mk-note-body';
 import { MkNoteHeader } from '@/components/note/mk-note-header';
-import { useNoteValue } from '@/hooks/use-note';
-import { noteQueryOptions } from '@/hooks/use-note-query';
+import { useNoteValue } from '@/hooks/note';
+import { noteQueryOptions } from '@/hooks/note-query';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryClient } from '@/plugins/persister';
 import { misskeyApi } from '@/lib/inject-misskey-api';

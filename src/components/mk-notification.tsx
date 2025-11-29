@@ -16,7 +16,7 @@ import { CheckIcon, ChevronLeftIcon, UserRoundPlusIcon, XIcon } from 'lucide-rea
 import { Spinner } from '@/components/ui/spinner';
 import { NotificationItemMedia, ReactionEmoji } from '@/components/notification/item-media';
 import { NotificationDescription, NotificationTitle } from '@/components/notification/item-text';
-import { useUserQuery } from '@/hooks/use-user';
+import { useUserQuery } from '@/hooks/user';
 import { useAcceptFollowRequestAction, useFollowAction, useRejectFollowRequestAction } from '@/hooks/user-action';
 import type { FrontendGroupedNotification } from '@/lib/notification-grouper';
 import { MkTime } from '@/components/mk-time';

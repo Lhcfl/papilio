@@ -25,7 +25,7 @@ import { cond } from '@/lib/match';
 import { MkMention } from '@/components/mk-mention';
 import { acct } from 'misskey-js';
 import { MkTime } from '@/components/mk-time';
-import { useUsersQuery } from '@/hooks/use-user';
+import { useUsersQuery } from '@/hooks/user';
 import { usePreference } from '@/stores/perference';
 import { MkNotePoll } from '@/components/note/mk-note-poll';
 import { NoteDefaultStateContext } from '@/providers/expand-all-cw';

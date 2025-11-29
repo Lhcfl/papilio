@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useNoteValue } from '@/hooks/use-note';
+import { useNoteValue } from '@/hooks/note';
 import { MkMfm } from '@/components/mk-mfm';
 import { getNoteExcerpt } from '@/lib/note-excerpt';
 import { MkAvatar } from '@/components/mk-avatar';

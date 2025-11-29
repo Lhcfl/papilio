@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/mobile';
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import {
   DropdownMenu,

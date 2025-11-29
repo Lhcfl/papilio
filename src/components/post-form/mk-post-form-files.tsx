@@ -9,7 +9,7 @@ import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle }
 import { GuessFileIcon } from '@/components/file/guess-file-icon';
 import { Button } from '@/components/ui/button';
 import { EyeClosedIcon, EyeIcon, MoreHorizontalIcon, TextInitialIcon, Trash2Icon, XIcon } from 'lucide-react';
-import { usePermanentlyDeleteFileWithConfirmAction, useUpdateFileAction } from '@/hooks/use-file';
+import { usePermanentlyDeleteFileWithConfirmAction, useUpdateFileAction } from '@/hooks/file';
 import { useTranslation } from 'react-i18next';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { cn, onlyWhenNonInteractableContentClicked } from '@/lib/utils';

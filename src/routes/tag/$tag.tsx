@@ -5,7 +5,7 @@
 
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkNote } from '@/components/mk-note';
-import { registerNote } from '@/hooks/use-note';
+import { registerNote } from '@/hooks/note';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';

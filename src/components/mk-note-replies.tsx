@@ -9,7 +9,7 @@ import { MkNote } from '@/components/mk-note';
 import clsx from 'clsx';
 import { LoadingTrigger } from '@/components/loading-trigger';
 import { injectMisskeyStream, misskeyApi, sharkeyApi } from '@/lib/inject-misskey-api';
-import { registerNote } from '@/hooks/use-note';
+import { registerNote } from '@/hooks/note';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { MoreHorizontalIcon } from 'lucide-react';

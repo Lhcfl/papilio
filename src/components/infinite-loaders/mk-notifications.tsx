@@ -10,7 +10,7 @@ import { CheckCheckIcon, FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon, Ref
 import { Button } from '@/components/ui/button';
 import { NOTIFICATION_TYPES, type NotificationIncludeableType } from '@/lib/notifications';
 import { createStreamChannel, INITIAL_UNTIL_ID, misskeyApi } from '@/lib/inject-misskey-api';
-import { registerNote } from '@/hooks/use-note';
+import { registerNote } from '@/hooks/note';
 import { MenuOrDrawer, type Menu, type MenuSwitch } from '@/components/menu-or-drawer';
 import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { infiniteQueryOptions, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';

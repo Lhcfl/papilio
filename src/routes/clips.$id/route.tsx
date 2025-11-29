@@ -4,7 +4,7 @@
  */
 
 import { AppPageTab, AppPageTabList } from '@/components/app-page-tab';
-import { clipQueryOptions } from '@/hooks/use-clip';
+import { clipQueryOptions } from '@/hooks/clip';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryClient } from '@/plugins/persister';
 import { useMe } from '@/stores/me';

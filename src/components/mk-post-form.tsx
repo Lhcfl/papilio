@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getDraftKey, useDraft, type DraftData, type DraftKeyProps } from '@/hooks/use-draft';
+import { getDraftKey, useDraft, type DraftData, type DraftKeyProps } from '@/hooks/draft';
 import { InputGroup, InputGroupAddon, InputGroupTextarea } from '@/components/ui/input-group';
 import { useTranslation } from 'react-i18next';
 import { MkAvatar } from '@/components/mk-avatar';
@@ -42,14 +42,14 @@ import { cond } from '@/lib/match';
 import * as mfm from 'mfm-js';
 import { collectAst } from '@/lib/note';
 import { MkMention } from '@/components/mk-mention';
-import { getAcctUserQueryOptions } from '@/hooks/use-user';
+import { getAcctUserQueryOptions } from '@/hooks/user';
 import { MkVisibilityPicker } from '@/components/post-form/mk-visibility-picker';
 import { useMount } from 'react-use';
 import { MkPostFormPreview } from '@/components/post-form/mk-post-form-preview';
 import { MkFileUploadMenu } from '@/components/mk-file-upload-menu';
 import { toast } from 'sonner';
 import { errorMessageSafe } from '@/lib/error';
-import { useUploader } from '@/hooks/use-uploader';
+import { useUploader } from '@/hooks/uploader';
 import { MkPostFormFiles } from '@/components/post-form/mk-post-form-files';
 import { extractMention } from '@/lib/mention';
 import { MkNoteSimple } from '@/components/mk-note-simple';

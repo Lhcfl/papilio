@@ -34,7 +34,7 @@ import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
 import { useMutation, useMutationState } from '@tanstack/react-query';
 import { misskeyApi } from '@/lib/inject-misskey-api';
-import { patchNote } from '@/hooks/use-note';
+import { patchNote } from '@/hooks/note';
 import { cn } from '@/lib/utils';
 import { usePreference, useUserPreference } from '@/stores/perference';
 import { useSiteMeta } from '@/stores/site';

@@ -13,7 +13,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Spinner } from '@/components/ui/spinner';
 import { Switch } from '@/components/ui/switch';
 import { useClipNoteAction } from '@/hooks/note-actions';
-import { useCreateNewClipAction } from '@/hooks/use-clip';
+import { useCreateNewClipAction } from '@/hooks/clip';
 import { PlusIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

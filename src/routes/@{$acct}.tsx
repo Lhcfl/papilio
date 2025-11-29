@@ -25,7 +25,7 @@ import { useTranslation } from 'react-i18next';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { HeaderLeftPortal, HeaderRightPortal } from '@/components/header-portal';
 import { queryClient } from '@/plugins/persister';
-import { getAcctUserQueryOptions } from '@/hooks/use-user';
+import { getAcctUserQueryOptions } from '@/hooks/user';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

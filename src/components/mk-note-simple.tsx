@@ -6,7 +6,7 @@
 import type { NoteWithExtension } from '@/types/note';
 import { MkNoteBody } from '@/components/note/mk-note-body';
 import { MkNoteHeader } from '@/components/note/mk-note-header';
-import { useNoteValue } from '@/hooks/use-note';
+import { useNoteValue } from '@/hooks/note';
 import type { ComponentProps, HTMLProps } from 'react';
 import { cn } from '@/lib/utils';
 

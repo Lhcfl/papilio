@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useUsersQuery } from '@/hooks/use-user';
+import { useUsersQuery } from '@/hooks/user';
 import { cn } from '@/lib/utils';
 import { useMe } from '@/stores/me';
 import type { NoteWithExtension } from '@/types/note';

@@ -7,7 +7,7 @@ import { HeaderRightPortal } from '@/components/header-portal';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import { Progress } from '@/components/ui/progress';
-import { type UserRelation } from '@/hooks/use-user';
+import { type UserRelation } from '@/hooks/user';
 import { errorMessageSafe } from '@/lib/error';
 import { cn } from '@/lib/utils';
 import { useAfterConfirm } from '@/stores/confirm-dialog';

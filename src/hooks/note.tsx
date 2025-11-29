@@ -11,7 +11,7 @@ import type { NoteWithExtension } from '@/types/note';
 import { injectMisskeyStream, misskeyApi } from '@/lib/inject-misskey-api';
 import { useMe } from '@/stores/me';
 import { isPureRenote } from 'misskey-js/note.js';
-import { setFileQueryData } from '@/hooks/use-file';
+import { setFileQueryData } from '@/hooks/file';
 
 const flatten = (notes: NoteWithExtension[]): NoteWithExtension[] =>
   notes.length == 0

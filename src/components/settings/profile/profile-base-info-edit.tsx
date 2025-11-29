@@ -11,7 +11,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from
 import { Separator } from '@/components/ui/separator';
 import { Spinner } from '@/components/ui/spinner';
 import { Switch } from '@/components/ui/switch';
-import { useProfileEditAction } from '@/hooks/use-profile-edit-actions';
+import { useProfileEditAction } from '@/hooks/profile-edit-actions';
 import { useMe } from '@/stores/me';
 import { CakeIcon, IdCardIcon, MapPinIcon, MessageCircleHeartIcon, SaveIcon } from 'lucide-react';
 import { useId, useState } from 'react';

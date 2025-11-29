@@ -6,9 +6,9 @@
 import { misskeyApi, type EndpointParamType } from '@/lib/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { markAsChanged, patchNote } from '@/hooks/use-note';
+import { markAsChanged, patchNote } from '@/hooks/note';
 import { meopt } from '@/loaders/me-loader';
-import { getAcctUserQueryOptions } from '@/hooks/use-user';
+import { getAcctUserQueryOptions } from '@/hooks/user';
 import { useMe } from '@/stores/me';
 
 export const useRenoteAction = (noteId: string) =>

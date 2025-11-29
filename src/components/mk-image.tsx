@@ -15,7 +15,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { Button } from '@/components/ui/button';
 import { useMe } from '@/stores/me';
-import { fileQueryOptions, useMarkAsNotSensitive, useMarkAsSensitive } from '@/hooks/use-file';
+import { fileQueryOptions, useMarkAsNotSensitive, useMarkAsSensitive } from '@/hooks/file';
 import { useQuery } from '@tanstack/react-query';
 
 export const MkImage = ({

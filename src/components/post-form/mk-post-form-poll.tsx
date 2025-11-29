@@ -8,7 +8,7 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import type { DraftData } from '@/hooks/use-draft';
+import type { DraftData } from '@/hooks/draft';
 import { toDatetimeLocalValue } from '@/lib/utils';
 import { ArrowDownIcon, ArrowUpIcon, Trash2Icon } from 'lucide-react';
 import { useState, type HTMLProps } from 'react';

@@ -4,9 +4,9 @@
  */
 
 import { Toaster } from '@/components/ui/sonner';
-import { useMainChannelListener } from '@/hooks/use-main-channel';
-import { useNoteUpdateListener } from '@/hooks/use-note';
-import { useUploadingHint } from '@/hooks/use-uploading-hint';
+import { useMainChannelListener } from '@/hooks/main-channel';
+import { useNoteUpdateListener } from '@/hooks/note';
+import { useUploadingHint } from '@/hooks/uploading-hint';
 import { SidebarLayout } from '@/layouts/sidebar-layout';
 import { WithLoginLoader } from '@/loaders/with-login';
 import { ConfirmDialogProvider } from '@/providers/confirm-dialog-provider';
@@ -17,7 +17,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Outlet, createRootRoute, redirect, useChildMatches } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { useEffect } from 'react';
-import { useNotificationsCleaner } from '@/hooks/use-notifications-cleaner';
+import { useNotificationsCleaner } from '@/hooks/notifications-cleaner';
 
 export const Route = createRootRoute({
   beforeLoad: (ctx) => {
