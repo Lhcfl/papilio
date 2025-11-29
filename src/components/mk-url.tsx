@@ -5,7 +5,7 @@
 
 import { cn } from '@/lib/utils';
 import { LinkIcon } from 'lucide-react';
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, HTMLProps } from 'react';
 
 export const MkUrl = (
   props: {
@@ -13,26 +13,34 @@ export const MkUrl = (
     navigationBehavior?: unknown;
     children?: React.ReactNode;
     noIcon?: boolean;
+    noRoute?: boolean;
   } & HTMLAttributes<HTMLAnchorElement>,
 ) => {
-  const { url, navigationBehavior, children, noIcon, ...rest } = props;
+  const { url, navigationBehavior, children, noIcon, noRoute, ...rest } = props;
 
   // TODO
   void navigationBehavior;
 
+  const text = children ?? decodeURIComponent(url);
+
+  const Comp = noRoute ? 'span' : UrlA;
+
   return (
-    <a
+    <Comp
       href={url}
       rel="noopener noreferrer"
       target="_blank"
-      className={cn('text-tertiary hover:underline', {
+      className={cn('text-tertiary', {
         'wrap-break-word': children,
         'break-all': !children,
+        'hover:underline': !noRoute,
       })}
       {...rest}
     >
       {noIcon ? null : <LinkIcon className="mr-1 inline size-4 align-[-0.13em]" />}
-      {children ?? url}
-    </a>
+      {text}
+    </Comp>
   );
 };
+
+const UrlA = (props: HTMLProps<HTMLAnchorElement>) => <a rel="noopener noreferrer" target="_blank" {...props} />;

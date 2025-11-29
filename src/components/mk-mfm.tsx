@@ -555,13 +555,6 @@ export const MkMfm = (in_props: MfmProps) => {
         }
 
         case 'url': {
-          if (inlineMode) {
-            return (
-              <span key={Math.random()} className="break-all text-blue-500">
-                {token.props.url}
-              </span>
-            );
-          }
           return (
             <bdi key={Math.random()}>
               <MkUrl
@@ -569,19 +562,13 @@ export const MkMfm = (in_props: MfmProps) => {
                 url={token.props.url}
                 rel="nofollow noopener"
                 navigationBehavior={linkNavigationBehavior}
+                noRoute={inlineMode}
               />
             </bdi>
           );
         }
 
         case 'link': {
-          if (inlineMode) {
-            return (
-              <span key={Math.random()} className="text-blue-500">
-                {genEl(token.children, scale)}
-              </span>
-            );
-          }
           return (
             <bdi key={Math.random()}>
               <MkUrl
@@ -589,6 +576,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 url={token.props.url}
                 rel="nofollow noopener"
                 navigationBehavior={linkNavigationBehavior}
+                noRoute={inlineMode}
               >
                 {genEl(token.children, scale, true)}
               </MkUrl>
