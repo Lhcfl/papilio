@@ -22,6 +22,8 @@ _preference:
     no-autospace: "no-autospace (不插入间距)"
   postFormSettingsDesc: "管理与发帖框显示和行为相关的设置。"
   postFormDefaultsDesc: "设置打开发帖框时的默认值"
+  clearNotificationsOnFocus: "聚焦窗口时清除通知"
+  clearNotificationsOnFocusDesc: "窗口获得焦点后一小段时间，自动将所有通知标记为已读。"
 
 browserExperimental: "这是一项浏览器实验性功能，只有最新的浏览器版本才支持。"
 

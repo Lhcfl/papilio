@@ -17,7 +17,7 @@
 		"reuse": "pipx run reuse lint",
 		"licence:annotate": "bun dev-scripts/add-licence-header.ts",
 		"update-locales": "bun dev-scripts/update-locale.ts",
-		"build-locales": "bun dev-scripts/build-locale.ts",
+		"build-locales": "bun dev-scripts/gen-i18n.ts",
 		"preview": "vite preview"
 	},
 	"dependencies": {
