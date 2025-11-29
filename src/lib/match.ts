@@ -32,3 +32,12 @@ export function firstNonNull<T>(...args: (T | null | undefined)[]): T | null {
   }
   return null;
 }
+
+export function firstTruthy<T>(...args: (T | false | '' | null | undefined)[]): T | null {
+  for (const arg of args) {
+    if (arg) {
+      return arg;
+    }
+  }
+  return null;
+}

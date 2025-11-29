@@ -53,7 +53,8 @@ export const MkNote = ({
 
   return (
     <MkMuteableNote
-      note={note}
+      note={note.id == appearNote.id ? null : note}
+      appearNote={appearNote}
       className={clsx('mk-note relative flex flex-col p-2', classNameProps)}
       bypassMuteCheck={detailed}
       {...divProps}
