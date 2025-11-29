@@ -27,7 +27,9 @@ export const NotificationDescription = (props: { notification: FrontendGroupedNo
           <MkMfm text={getNoteExcerpt(notification.note)} inline />
         </Link>
       );
+    case 'grouped:renote':
     case 'renote':
+    case 'renote:grouped':
       return (
         <Link to="/notes/$id" params={{ id: notification.note.renoteId! }}>
           <MkMfm text={getNoteExcerpt(notification.note.renote!)} inline />
@@ -59,9 +61,6 @@ export const NotificationDescription = (props: { notification: FrontendGroupedNo
       return t('_notification.createToken');
     case 'app':
       return notification.body;
-    case 'grouped:renote':
-    case 'renote:grouped':
-      return getNoteExcerpt(notification.note);
     case 'test':
       return t('_notification.testNotification');
     case 'edited':
