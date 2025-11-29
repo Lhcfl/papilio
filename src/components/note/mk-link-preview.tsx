@@ -14,7 +14,7 @@ import { registerNote } from '@/hooks/note';
 import { MkNoteSimple } from '@/components/mk-note-simple';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { ExpandIcon, XIcon } from 'lucide-react';
+import { ExpandIcon, LinkIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 
 type SummalyResult = Awaited<ReturnType<typeof summaly>>;
@@ -37,7 +37,7 @@ export const MkLinkPreview = (props: { url: string; renoteId?: string | null } &
     staleTime: 1000 * 60 * 60, // 1 hour
   });
 
-  const title = data?.title ?? url;
+  const title = data?.title ?? decodeURIComponent(url);
   const thumbnail = data?.thumbnail ?? data?.icon;
   const apuri = data?.activityPub;
 
@@ -82,11 +82,7 @@ export const MkLinkPreview = (props: { url: string; renoteId?: string | null } &
       <a href={url} target="_blank">
         {data ? (
           <>
-            {thumbnail && (
-              <ItemMedia variant="image">
-                <img src={thumbnail} />
-              </ItemMedia>
-            )}
+            <ItemMedia variant="image">{thumbnail ? <img src={thumbnail} /> : <LinkIcon />}</ItemMedia>
             <ItemContent>
               <ItemTitle>{title}</ItemTitle>
               <ItemDescription className="text-wrap">{data.description}</ItemDescription>
