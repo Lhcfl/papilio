@@ -16,29 +16,28 @@ import { Button } from '@/components/ui/button';
 import { FoldVerticalIcon } from 'lucide-react';
 import { MkNoteReplyLine } from '@/components/note/mk-note-reply-line';
 import { usePreference } from '@/stores/perference';
+import { MkMuteableNote } from '@/components/note/mk-muteable-note';
 
-export const MkNote = (
-  props: {
-    noteId: string;
-    /** SubNote 左边会空出来一块位置用来连线 */
-    isSubNote?: boolean;
-    decorationBottomRight?: React.ReactNode;
-    showReply?: boolean;
-    hideReplyIcon?: boolean;
-    detailed?: boolean;
-    onClose?: () => void;
-  } & HTMLProps<HTMLDivElement>,
-) => {
-  const {
-    noteId,
-    isSubNote,
-    showReply = true,
-    onClose,
-    detailed,
-    hideReplyIcon,
-    className: classNameProps,
-    ...divProps
-  } = props;
+export const MkNote = ({
+  noteId,
+  isSubNote,
+  showReply = true,
+  onClose,
+  detailed,
+  hideReplyIcon,
+  className: classNameProps,
+  decorationBottomRight,
+  ...divProps
+}: {
+  noteId: string;
+  /** SubNote 左边会空出来一块位置用来连线 */
+  isSubNote?: boolean;
+  decorationBottomRight?: React.ReactNode;
+  showReply?: boolean;
+  hideReplyIcon?: boolean;
+  detailed?: boolean;
+  onClose?: () => void;
+} & HTMLProps<HTMLDivElement>) => {
   const note = useNoteValue(noteId);
   const appearNote = useAppearNote(note);
   const { mutate: translate } = useTranslateAction(appearNote?.id ?? '');
@@ -53,7 +52,12 @@ export const MkNote = (
   const hasReply = note.repliesCount > 0;
 
   return (
-    <div className={clsx('mk-note relative flex flex-col p-2', classNameProps)} {...divProps}>
+    <MkMuteableNote
+      note={note}
+      className={clsx('mk-note relative flex flex-col p-2', classNameProps)}
+      bypassMuteCheck={detailed}
+      {...divProps}
+    >
       {appearNote.id != note.id && <MkNoteRenoteTip note={note} />}
       {showReply && showReplyState === 'subNote' && appearNote.replyId != null && (
         <MkNote
@@ -96,12 +100,12 @@ export const MkNote = (
           </Button>
         )}
       </div>
-      {props.decorationBottomRight && <div className="absolute right-2 bottom-2">{props.decorationBottomRight}</div>}
+      {decorationBottomRight && <div className="absolute right-2 bottom-2">{decorationBottomRight}</div>}
       {/**
        * 回复树构造。
        * 对于每个 subnote, 并且有回复的话，显示左侧的连线。
        */}
       {isSubNote && hasReply && <div className="note-sub-line absolute top-6 -bottom-2 left-9 border-l-2" />}
-    </div>
+    </MkMuteableNote>
   );
 };
