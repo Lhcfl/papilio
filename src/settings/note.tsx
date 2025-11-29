@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { createEnum, createKeyedCustomSetting, createSwitch } from '@/settings/types';
 import { NotebookIcon, PaletteIcon, RulerIcon } from 'lucide-react';
 import { lazy } from 'react';
 
@@ -19,64 +20,46 @@ export const NoteSettings = {
       name: t('appearance'),
       description: 'TODO',
       items: [
-        {
-          kind: 'switch',
+        createSwitch('showNoteActionCounts', {
           defaultValue: true,
-          key: 'showNoteActionCounts',
           name: t('_preference.showNoteActionsCount'),
           description: t('_preference.showNoteActionsCountDesc'),
-        },
-        {
-          kind: 'switch',
+        }),
+        createSwitch('disableNoteReactions', {
           defaultValue: false,
-          key: 'disableNoteReactions',
           name: t('_stpvPlus.disableAllReactions.label'),
           description: t('_stpvPlus.disableAllReactions.caption'),
-        },
-        {
-          kind: 'switch',
+        }),
+        createSwitch('mergeNoteReactions', {
           defaultValue: true,
-          key: 'mergeNoteReactions',
           name: t('_preference.mergeNoteReactions'),
           description: t('_preference.mergeNoteReactionsDesc'),
-        },
-        {
-          kind: 'switch',
+        }),
+        createSwitch('collapseNotesRepliedTo', {
           defaultValue: true,
-          key: 'collapseNotesRepliedTo',
           name: t('collapseNotesRepliedTo'),
-        },
-        {
-          kind: 'switch',
+        }),
+        createSwitch('showTranslateInActions', {
           defaultValue: false,
-          key: 'showTranslateInActions',
           name: t('showTranslationButtonInNoteFooter'),
-        },
-        {
-          kind: 'switch',
+        }),
+        createSwitch('expandLongNote', {
           defaultValue: false,
-          key: 'expandLongNote',
           name: t('expandLongNote'),
-        },
-        {
-          kind: 'switch',
+        }),
+        createSwitch('loadRawImages', {
           defaultValue: false,
-          key: 'loadRawImages',
           name: t('loadRawImages'),
-        },
-        {
-          kind: 'enum',
-          key: 'notePostFormStyle',
+        }),
+        createEnum('notePostFormStyle', {
           defaultValue: 'separate',
-          values: ['separate', 'bottom'],
+          values: ['separate', 'bottom'] as const,
           name: t('_preference.notePostFormStyle'),
           description: t('_preference.notePostFormStyleDesc'),
-        },
-        {
-          kind: 'enum',
-          key: 'noteOneImageMaxAspectRatio',
+        }),
+        createEnum('noteOneImageMaxAspectRatio', {
           defaultValue: '16:9',
-          values: ['16:9', '4:3', '1:1', '3:4', '2:3'],
+          values: ['16:9', '4:3', '1:1', '3:4', '2:3'] as const,
           valuesI18n: [
             [t('limitTo'), { x: '16:9' }],
             [t('limitTo'), { x: '4:3' }],
@@ -85,7 +68,7 @@ export const NoteSettings = {
             [t('limitTo'), { x: '2:3' }],
           ],
           name: t('mediaListWithOneImageAppearance'),
-        },
+        }),
       ],
     },
     {
@@ -93,29 +76,26 @@ export const NoteSettings = {
       name: t('behavior'),
       description: 'TODO',
       items: [
-        {
-          kind: 'switch',
-          key: 'clickToOpenNote',
+        createSwitch('clickToOpenNote', {
           defaultValue: true,
           name: t('clickToOpen'),
-        },
-        {
-          kind: 'custom',
-          key: 'defaultLike',
-          defaultValue: '❤' as string,
-          name: t('defaultLike'),
-          direction: 'right' as 'right' | 'bottom',
-          user: true,
-          component: lazy(() => import('@/components/settings/note-default-reaction')),
-        },
-        {
-          kind: 'enum',
-          key: 'renoteVisibility',
+        }),
+        createKeyedCustomSetting(
+          lazy(() => import('@/components/settings/note-default-reaction')),
+          {
+            key: 'defaultLike',
+            defaultValue: '❤' as string,
+            name: t('defaultLike'),
+            direction: 'right' as 'right' | 'bottom',
+            user: true,
+          },
+        ),
+        createEnum('renoteVisibility', {
           defaultValue: 'choose',
           name: t('visibilityOnBoost'),
-          values: ['public', 'home', 'followers', 'choose'],
+          values: ['public', 'home', 'followers', 'choose'] as const,
           valuesI18n: [t('public'), t('home'), t('followers'), t('_role.manual')],
-        },
+        }),
       ],
     },
   ],

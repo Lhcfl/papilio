@@ -22,7 +22,7 @@ export function EnumSettingItem({ item, highlighted }: { item: EnumSettings; hig
   }
 
   function getValueDisplayName(val: string, index: number) {
-    if ('valuesI18n' in item) {
+    if (item.valuesI18n) {
       if (Array.isArray(item.valuesI18n[index])) {
         return t(...(item.valuesI18n[index] as never));
       }

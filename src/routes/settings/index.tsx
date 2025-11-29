@@ -138,7 +138,7 @@ function HasSearchComponent() {
           results.push({
             page,
             category,
-            item: { name: item.name, description, id: 'key' in item ? item.key : item.name },
+            item: { name: item.name, description, id: 'key' in item ? item.key : (item as { name: string }).name },
           });
         }
       }

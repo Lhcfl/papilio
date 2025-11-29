@@ -99,13 +99,14 @@ function RouteComponent() {
             </AccordionTrigger>
             <AccordionContent className="border-t">
               {category.items.map((item) => {
-                const highlighted = itemId == ('key' in item ? item.key : item.name);
+                const fuckitem = item as { key?: string; name: string };
+                const highlighted = itemId == (fuckitem.key ?? fuckitem.name);
                 return (
                   <div key={item.kind == 'custom' ? item.name : item.key} className="relative my-4 px-3">
                     {highlighted && (
                       <div className="bg-tertiary absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 animate-ping rounded-full" />
                     )}
-                    <a id={category.name + '::' + ('key' in item ? item.key : item.name)} />
+                    <a id={category.name + '::' + (fuckitem.key ?? fuckitem.name)} />
                     <SettingItemPolymorph item={item} highlighted={highlighted} />
                   </div>
                 );

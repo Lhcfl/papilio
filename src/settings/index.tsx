@@ -3,6 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+// This file is fucking magical.
+// It automatically generates the DefaultSettings and DefaultUserSettings based on their typescript definitions.
+// Change the file ONLY when you have a good skill of typescript. :P
+
 import { AppearanceSettings } from '@/settings/appearance';
 import { BehaviorSettings } from '@/settings/behavior';
 import { NoteSettings } from '@/settings/note';
@@ -16,7 +20,7 @@ function getAllSettings() {
   for (const settingPage of DetailedSettings) {
     for (const category of settingPage.categories) {
       for (const item of category.items) {
-        if ('key' in item && 'defaultValue' in item && !('user' in item)) {
+        if ('key' in item && 'defaultValue' in item && !item.user) {
           (DefaultSettings as Record<string, unknown>)[item.key] = item.defaultValue;
         }
       }
@@ -34,7 +38,7 @@ export const DefaultUserSettings = (() => {
   for (const settingPage of DetailedSettings) {
     for (const category of settingPage.categories) {
       for (const item of category.items) {
-        if ('key' in item && 'defaultValue' in item && 'user' in item) {
+        if ('key' in item && 'defaultValue' in item && item.user) {
           (DefaultSettings as Record<string, unknown>)[item.key] = item.defaultValue;
         }
       }
@@ -55,8 +59,8 @@ export type AllSettings = Record<SwitchSettings['key'], boolean> & {
   [K in CustomSettings['key']]: Extract<CustomSettings, { key: K }>['defaultValue'];
 };
 
-type CustomUserSettings = Extract<SettingsItems, { kind: 'custom'; defaultValue: string; user: true }>;
-type TextUserSettings = Extract<SettingsItems, { kind: 'text'; user: true }>;
+type CustomUserSettings = Extract<SettingsItems, { kind: 'custom'; defaultValue: string; user?: true }>;
+type TextUserSettings = Extract<SettingsItems, { kind: 'text'; user?: true }>;
 
 export interface ITextSettings {
   readonly kind: 'text';
@@ -69,7 +73,7 @@ export interface ITextSettings {
 }
 
 export type AllUserSettings = {
-  [K in CustomUserSettings['key']]?: Extract<CustomUserSettings, { key: K }>['defaultValue'];
+  [K in NonNullable<CustomUserSettings['key']>]?: Extract<CustomUserSettings, { key?: K }>['defaultValue'];
 } & {
   [K in TextUserSettings['key']]?: Extract<TextUserSettings, { key: K }>['defaultValue'];
 };
