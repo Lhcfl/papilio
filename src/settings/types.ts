@@ -12,7 +12,7 @@ interface Setting<U extends boolean> {
   user?: U;
 }
 
-export function createSettingsPage<
+export function defineSettingsPage<
   T extends {
     name: string;
     value: string;
@@ -24,7 +24,7 @@ export function createSettingsPage<
   return x;
 }
 
-export function createCategory<
+export function defineCategory<
   T extends {
     icon: React.ReactNode;
     name: string;
@@ -63,7 +63,7 @@ export interface TextSetting<K extends string, U extends boolean> extends Settin
   defaultValue: string;
 }
 
-export function createEnum<K extends string, Values extends string[], U extends boolean>(
+export function defineEnum<K extends string, Values extends string[], U extends boolean>(
   key: K,
   opts: {
     defaultValue: Values[number];
@@ -74,7 +74,7 @@ export function createEnum<K extends string, Values extends string[], U extends 
   return { key, kind: 'enum' as const, ...opts };
 }
 
-export function createSwitch<K extends string, U extends boolean>(
+export function defineSwitch<K extends string, U extends boolean>(
   key: K,
   opts: {
     defaultValue: boolean;
@@ -83,7 +83,7 @@ export function createSwitch<K extends string, U extends boolean>(
   return { key, kind: 'switch' as const, ...opts };
 }
 
-export function createCustomSetting(
+export function defineCustom(
   component: LazyExoticComponent<() => JSX.Element>,
   opts: Setting<false> & { direction: 'right' | 'bottom' },
 ) {
@@ -94,7 +94,7 @@ export function createCustomSetting(
   } as never;
 }
 
-export function createKeyedCustomSetting<K extends string, V, U extends boolean>(
+export function defineKeyCustom<K extends string, V, U extends boolean>(
   component: LazyExoticComponent<() => JSX.Element>,
   opts: Setting<U> & { direction: 'right' | 'bottom'; key: K; defaultValue: V },
 ): CustomSetting<K, V, U> {
@@ -105,7 +105,7 @@ export function createKeyedCustomSetting<K extends string, V, U extends boolean>
   } as never;
 }
 
-export function createTextSetting<K extends string, U extends boolean>(
+export function defineText<K extends string, U extends boolean>(
   key: K,
   opts: {
     defaultValue: string;

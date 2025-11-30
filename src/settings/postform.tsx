@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { createEnum, createSwitch, createTextSetting } from '@/settings/types';
+import { defineEnum, defineSwitch, defineText } from '@/settings/types';
 import { RulerIcon, SendIcon, TextCursorInputIcon } from 'lucide-react';
 
 const t = (x: string) => x;
@@ -19,11 +19,11 @@ export const PostFormSettings = {
       name: t('_theme.defaultValue'),
       description: t('_preference.postFormDefaultsDesc'),
       items: [
-        createSwitch('rememberVisibility', {
+        defineSwitch('rememberVisibility', {
           defaultValue: false,
           name: t('rememberNoteVisibility'),
         }),
-        createEnum('defaultNoteVisibility', {
+        defineEnum('defaultNoteVisibility', {
           defaultValue: 'public',
           values: ['public', 'home', 'followers', 'specified'] as const,
           valuesI18n: [
@@ -35,12 +35,12 @@ export const PostFormSettings = {
           name: t('defaultNoteVisibility'),
           hidden: (settings: { rememberVisibility: boolean }) => settings.rememberVisibility,
         }),
-        createSwitch('defaultLocalOnly', {
+        defineSwitch('defaultLocalOnly', {
           defaultValue: false,
           name: t('_visibility.disableFederation'),
           hidden: (settings: { rememberVisibility: boolean }) => settings.rememberVisibility,
         }),
-        createTextSetting('defaultCW', {
+        defineText('defaultCW', {
           defaultValue: '',
           name: t('defaultCW'),
           description: t('defaultCWDescription'),
@@ -53,7 +53,7 @@ export const PostFormSettings = {
       name: t('behavior'),
       description: 'TODO',
       items: [
-        createEnum('keepCw', {
+        defineEnum('keepCw', {
           defaultValue: 'prependRE',
           values: ['disabled', 'enabled', 'prependRE'] as const,
           valuesI18n: [t('keepCwDisabled'), t('keepCwEnabled'), t('keepCwPrependRe')],

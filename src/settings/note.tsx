@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { createEnum, createKeyedCustomSetting, createSwitch } from '@/settings/types';
+import { defineEnum, defineKeyCustom, defineSwitch } from '@/settings/types';
 import { NotebookIcon, PaletteIcon, RulerIcon } from 'lucide-react';
 import { lazy } from 'react';
 
@@ -20,44 +20,44 @@ export const NoteSettings = {
       name: t('appearance'),
       description: 'TODO',
       items: [
-        createSwitch('showNoteActionCounts', {
+        defineSwitch('showNoteActionCounts', {
           defaultValue: true,
           name: t('_preference.showNoteActionsCount'),
           description: t('_preference.showNoteActionsCountDesc'),
         }),
-        createSwitch('disableNoteReactions', {
+        defineSwitch('disableNoteReactions', {
           defaultValue: false,
           name: t('_stpvPlus.disableAllReactions.label'),
           description: t('_stpvPlus.disableAllReactions.caption'),
         }),
-        createSwitch('mergeNoteReactions', {
+        defineSwitch('mergeNoteReactions', {
           defaultValue: true,
           name: t('_preference.mergeNoteReactions'),
           description: t('_preference.mergeNoteReactionsDesc'),
         }),
-        createSwitch('collapseNotesRepliedTo', {
+        defineSwitch('collapseNotesRepliedTo', {
           defaultValue: true,
           name: t('collapseNotesRepliedTo'),
         }),
-        createSwitch('showTranslateInActions', {
+        defineSwitch('showTranslateInActions', {
           defaultValue: false,
           name: t('showTranslationButtonInNoteFooter'),
         }),
-        createSwitch('expandLongNote', {
+        defineSwitch('expandLongNote', {
           defaultValue: false,
           name: t('expandLongNote'),
         }),
-        createSwitch('loadRawImages', {
+        defineSwitch('loadRawImages', {
           defaultValue: false,
           name: t('loadRawImages'),
         }),
-        createEnum('notePostFormStyle', {
+        defineEnum('notePostFormStyle', {
           defaultValue: 'separate',
           values: ['separate', 'bottom'] as const,
           name: t('_preference.notePostFormStyle'),
           description: t('_preference.notePostFormStyleDesc'),
         }),
-        createEnum('noteOneImageMaxAspectRatio', {
+        defineEnum('noteOneImageMaxAspectRatio', {
           defaultValue: '16:9',
           values: ['16:9', '4:3', '1:1', '3:4', '2:3'] as const,
           valuesI18n: [
@@ -76,11 +76,11 @@ export const NoteSettings = {
       name: t('behavior'),
       description: 'TODO',
       items: [
-        createSwitch('clickToOpenNote', {
+        defineSwitch('clickToOpenNote', {
           defaultValue: true,
           name: t('clickToOpen'),
         }),
-        createKeyedCustomSetting(
+        defineKeyCustom(
           lazy(() => import('@/components/settings/note-default-reaction')),
           {
             key: 'defaultLike',
@@ -90,7 +90,7 @@ export const NoteSettings = {
             user: true,
           },
         ),
-        createEnum('renoteVisibility', {
+        defineEnum('renoteVisibility', {
           defaultValue: 'choose',
           name: t('visibilityOnBoost'),
           values: ['public', 'home', 'followers', 'choose'] as const,

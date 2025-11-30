@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { createSwitch } from '@/settings/types';
+import { defineSwitch } from '@/settings/types';
 import { BellIcon, CogIcon, FileUpIcon, WifiIcon } from 'lucide-react';
 
 const t = (x: string) => x;
@@ -18,7 +18,7 @@ export const BehaviorSettings = {
       icon: <WifiIcon />,
       name: t('dataSaver'),
       items: [
-        createSwitch('dataSaverCode', {
+        defineSwitch('dataSaverCode', {
           defaultValue: false,
           name: t('_dataSaver._code.title'),
           description: t('_dataSaver._code.description'),
@@ -29,7 +29,7 @@ export const BehaviorSettings = {
       icon: <FileUpIcon />,
       name: t('file'),
       items: [
-        createSwitch('keepOriginalFilename', {
+        defineSwitch('keepOriginalFilename', {
           defaultValue: true,
           name: t('keepOriginalFilename'),
           description: t('keepOriginalFilenameDescription'),
@@ -40,7 +40,7 @@ export const BehaviorSettings = {
       icon: <BellIcon />,
       name: t('notifications'),
       items: [
-        createSwitch('clearNotificationsOnFocus', {
+        defineSwitch('clearNotificationsOnFocus', {
           defaultValue: true,
           name: t('_preference.clearNotificationsOnFocus'),
           description: t('_preference.clearNotificationsOnFocusDesc'),
