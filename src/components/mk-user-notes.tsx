@@ -38,6 +38,7 @@ export const MkUserNotes = (props: {
             userId,
             untilId: pageParam,
             limit: 30,
+            allowPartial: true,
             ...opts,
           }).then((ns) => registerNote(ns))
         }

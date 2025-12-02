@@ -25,27 +25,21 @@ export const MkTimeline = (props: { type: TimelineTypes }) => {
     queryKey: ['timeline', type],
     queryFn: async ({ pageParam }) => {
       const notes = await (() => {
+        const params = {
+          limit: TIMELINE_PAGE_SIZE,
+          untilId: pageParam,
+          allowPartial: true,
+        };
+
         switch (type) {
           case 'home':
-            return misskeyApi('notes/timeline', {
-              limit: TIMELINE_PAGE_SIZE,
-              untilId: pageParam,
-            });
+            return misskeyApi('notes/timeline', params);
           case 'global':
-            return misskeyApi('notes/global-timeline', {
-              limit: TIMELINE_PAGE_SIZE,
-              untilId: pageParam,
-            });
+            return misskeyApi('notes/global-timeline', params);
           case 'local':
-            return misskeyApi('notes/local-timeline', {
-              limit: TIMELINE_PAGE_SIZE,
-              untilId: pageParam,
-            });
+            return misskeyApi('notes/local-timeline', params);
           case 'hybrid':
-            return misskeyApi('notes/hybrid-timeline', {
-              limit: TIMELINE_PAGE_SIZE,
-              untilId: pageParam,
-            });
+            return misskeyApi('notes/hybrid-timeline', params);
         }
       })();
       return registerNote(notes);
