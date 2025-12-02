@@ -28,11 +28,11 @@ export function useMeLoader() {
   const me = useQuery(meopt);
   const queryClient = useQueryClient();
 
-  const { refetch } = me;
+  const { refetch, data } = me;
 
   useEffect(() => {
-    setUnreadNotificationsCount(me.data?.unreadNotificationsCount ?? 0);
-  }, [me.data?.unreadNotificationsCount, setUnreadNotificationsCount]);
+    setUnreadNotificationsCount(data?.unreadNotificationsCount ?? 0);
+  }, [data?.unreadNotificationsCount, setUnreadNotificationsCount]);
 
   useEffect(() => {
     const channel = createStreamChannel('main');
@@ -40,7 +40,7 @@ export function useMeLoader() {
       if (import.meta.env.DEV) {
         console.log('🆙 meUpdated');
       }
-      queryClient.setQueryData(meopt.queryKey, me as never);
+      queryClient.setQueryData(meopt.queryKey, (data) => ({ ...data, ...(me as NonNullable<typeof data>) }));
     });
     channel.on('receiveFollowRequest', () => {
       void refetch();
