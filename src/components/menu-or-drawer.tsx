@@ -53,6 +53,7 @@ export interface MenuSwitch {
   id: string;
   label: React.ReactNode;
   value: boolean;
+  disabled?: boolean;
   onChange: (checked: boolean) => void;
 }
 
@@ -152,6 +153,7 @@ const GenerateDropDownMenu = (menu: Menu) => {
             key={x.id}
             checked={x.value}
             onCheckedChange={x.onChange}
+            disabled={x.disabled}
             onSelect={(e) => {
               e.preventDefault();
             }}
@@ -256,7 +258,14 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
       case 'switch': {
         return (
           <div key={x.id} className="flex items-center gap-2">
-            <Switch name={x.id} checked={x.value} onCheckedChange={x.onChange} id={x.id} className="mr-2" />
+            <Switch
+              name={x.id}
+              checked={x.value}
+              onCheckedChange={x.onChange}
+              id={x.id}
+              className="mr-2"
+              disabled={x.disabled}
+            />
             <Label htmlFor={x.id} className="w-full py-2">
               {x.label}
             </Label>

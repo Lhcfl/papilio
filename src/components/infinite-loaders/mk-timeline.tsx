@@ -5,7 +5,7 @@
 
 import { MkNote } from '@/components/mk-note';
 import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { infiniteQueryOptions, useQueryClient } from '@tanstack/react-query';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { createStreamChannel, INITIAL_UNTIL_ID, misskeyApi } from '@/lib/inject-misskey-api';
@@ -13,22 +13,83 @@ import { registerNote } from '@/hooks/note';
 import type { TimelineTypes } from '@/types/timeline';
 import { HeaderRightPortal } from '@/components/header-portal';
 import { Button } from '@/components/ui/button';
-import { RefreshCwIcon } from 'lucide-react';
+import { CogIcon, RefreshCwIcon } from 'lucide-react';
+import type { SkEndpoints } from '@/types/sharkey-api';
+import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
+import { useTranslation } from 'react-i18next';
 
 const TIMELINE_PAGE_SIZE = 30;
 
-export const MkTimeline = (props: { type: TimelineTypes }) => {
-  const { type } = props;
+type TimelineRequestParams<
+  E extends 'notes/timeline' | 'notes/global-timeline' | 'notes/local-timeline' | 'notes/hybrid-timeline',
+> = SkEndpoints[E]['req'];
+
+export const MkTimeline = ({ type }: { type: TimelineTypes }) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
+  const [withReplies, setWithReplies] = useState(true);
+  const [withRenotes, setWithRenotes] = useState(true);
+  const [withBots, setWithBots] = useState(true);
+  const [onlyMedia, setOnlyMedia] = useState(false);
+
+  const pparams = useMemo(
+    (): Partial<TimelineRequestParams<'notes/timeline'>> => ({
+      withBots: withBots,
+      withReplies: withReplies,
+      withRenotes: withRenotes,
+      // Misskey's strange name, `withFiles` means only notes with files
+      withFiles: onlyMedia,
+    }),
+    [withBots, withReplies, withRenotes, onlyMedia],
+  );
+
+  const menu: Menu = [
+    {
+      type: 'label',
+      label: t('settings'),
+      id: 'title',
+    },
+    {
+      type: 'switch',
+      label: t('flagShowTimelineReplies'),
+      value: withReplies,
+      id: 'withReplies',
+      onChange: setWithReplies,
+      disabled: onlyMedia,
+    },
+    {
+      type: 'switch',
+      label: t('showRenotes'),
+      value: withRenotes,
+      id: 'withRenotes',
+      onChange: setWithRenotes,
+    },
+    {
+      type: 'switch',
+      label: t('showBots'),
+      value: withBots,
+      id: 'withBots',
+      onChange: setWithBots,
+    },
+    {
+      type: 'switch',
+      label: t('fileAttachedOnly'),
+      value: onlyMedia,
+      id: 'onlyMedia',
+      onChange: setOnlyMedia,
+      disabled: withReplies,
+    },
+  ];
 
   const opts = infiniteQueryOptions({
-    queryKey: ['timeline', type],
+    queryKey: ['timeline', type, pparams],
     queryFn: async ({ pageParam }) => {
       const notes = await (() => {
-        const params = {
+        const params: TimelineRequestParams<'notes/timeline'> = {
           limit: TIMELINE_PAGE_SIZE,
           untilId: pageParam,
           allowPartial: true,
+          ...pparams,
         };
 
         switch (type) {
@@ -55,7 +116,7 @@ export const MkTimeline = (props: { type: TimelineTypes }) => {
     if (import.meta.env.DEV) {
       console.log(`[timeline] 🟢 subscribing to channel ${channelName}`);
     }
-    const channel = createStreamChannel(channelName);
+    const channel = createStreamChannel(channelName, { ...pparams });
     channel.on('note', (note) => {
       if (import.meta.env.DEV) {
         console.log('[timeline] 🆕', channelName, note);
@@ -80,7 +141,7 @@ export const MkTimeline = (props: { type: TimelineTypes }) => {
       }
       channel.dispose();
     };
-  }, [queryClient, opts.queryKey, type]);
+  }, [queryClient, opts.queryKey, type, pparams]);
 
   const query = useInfiniteQuery(opts);
 
@@ -89,6 +150,11 @@ export const MkTimeline = (props: { type: TimelineTypes }) => {
   return (
     <>
       <HeaderRightPortal>
+        <MenuOrDrawer menu={menu}>
+          <Button variant="ghost" size="icon-sm">
+            <CogIcon />
+          </Button>
+        </MenuOrDrawer>
         <Button
           variant="ghost"
           size="icon-sm"
