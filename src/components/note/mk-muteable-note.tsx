@@ -4,63 +4,10 @@
  */
 
 import { Button } from '@/components/ui/button';
-import { site } from '@/lib/inject-misskey-api';
+import { useCheckHardMute, useCheckSoftMute } from '@/hooks/mute';
 import { firstTruthy } from '@/lib/match';
-import { useMe } from '@/stores/me';
 import type { NoteWithExtension } from '@/types/note';
-import { acct } from 'misskey-js';
 import { useState, type HTMLAttributes } from 'react';
-import { useTranslation } from 'react-i18next';
-
-function useCheckSoftMute(note: NoteWithExtension | null) {
-  const { t } = useTranslation();
-  const mutedWordGroups = useMe((me) => me.mutedWords) ?? [];
-  const mutedInstances = useMe((me) => me.mutedInstances) ?? [];
-  const myInstance = new URL(site!).hostname;
-
-  if (note == null) {
-    return null;
-  }
-
-  const domain = note.userHost ?? myInstance;
-  const name = `@${acct.toString(note.user)}`;
-
-  if (note.user.mandatoryCW) {
-    return note.user.mandatoryCW;
-  }
-
-  if (note.isMutingNote) {
-    return t('userSaysSomething', { name });
-  }
-
-  const wordMutedBy = mutedWordGroups.find((words) =>
-    words.every((word) => Boolean(note.text?.includes(word)) || note.cw?.includes(word)),
-  );
-
-  if (wordMutedBy) {
-    return t('userSaysSomethingAbout', { name, word: wordMutedBy.join(', ') });
-  }
-
-  const instanceMuted = mutedInstances.includes(domain);
-
-  if (instanceMuted) {
-    return t('stpvDomainUserSaysSomething', { domain, name });
-  }
-
-  return null;
-}
-
-function useCheckHardMute(note: NoteWithExtension | null) {
-  const mutedWordGroups = useMe((me) => me.hardMutedWords) ?? [];
-
-  if (note == null) {
-    return false;
-  }
-
-  return mutedWordGroups.some((words) =>
-    words.every((word) => Boolean(note.text?.includes(word)) || note.cw?.includes(word)),
-  );
-}
 
 export function MkMuteableNote({
   note,
