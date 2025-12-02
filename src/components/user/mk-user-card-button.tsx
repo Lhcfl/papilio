@@ -93,7 +93,7 @@ export function MkUserCardButton({
     return {
       action: 'follow' as const,
       icon: PlusIcon,
-      label: t('follow'),
+      label: user.isLocked ? t('followRequest') : t('follow'),
       actionName: t('follow'),
       actionIcon: UserRoundPlusIcon,
       confirm: t('followConfirm'),

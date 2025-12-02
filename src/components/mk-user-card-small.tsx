@@ -20,8 +20,8 @@ export function MkUserCardSmall({ user, className, ...props }: { user: UserDetai
   const { t } = useTranslation();
   return (
     <div className={cn('mk-user-card-small relative flex flex-col overflow-hidden', className)} {...props}>
-      <div className="absolute top-1 left-1 z-10">
-        <MkUserBadges user={user} />
+      <div className="absolute top-1 left-1 z-10 flex flex-wrap gap-1">
+        <MkUserBadges user={user} showLockBadge />
       </div>
       <div className="absolute top-1 right-1 z-10">
         <MkUserCardButton user={user} hideLabel size="icon-sm" />

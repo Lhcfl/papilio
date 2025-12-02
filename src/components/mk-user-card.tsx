@@ -14,6 +14,7 @@ import {
   CalendarDaysIcon,
   CheckIcon,
   EditIcon,
+  LockIcon,
   MapPinIcon,
   MessageSquareHeartIcon,
   MoreVerticalIcon,
@@ -112,7 +113,10 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
       <div className="p-4 @lg:px-6">
         <div>
           <MkUserName user={user} className="text-lg font-bold @md:text-xl" />
-          <div className="text-muted-foreground text-sm">@{acct.toString(user)}</div>
+          <div className="text-muted-foreground text-sm">
+            @{acct.toString(user)}
+            {user.isLocked && <LockIcon className="ml-1 inline size-3" aria-label={t('isLocked')} />}
+          </div>
         </div>
         {user.followedMessage && (
           <Alert className="bg-muted mt-2">

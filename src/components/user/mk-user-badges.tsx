@@ -5,17 +5,22 @@
 
 import type { UserDetailed } from '@/types/user';
 import { useTranslation } from 'react-i18next';
-import { BanIcon, CircleXIcon, UserRoundPlusIcon, UsersRoundIcon, VolumeOffIcon } from 'lucide-react';
+import { BanIcon, CircleXIcon, LockIcon, UserRoundPlusIcon, UsersRoundIcon, VolumeOffIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import type { ComponentProps } from 'react';
 
-export function MkUserBadges({ user, ...props }: { user: UserDetailed } & ComponentProps<typeof Badge>) {
+export function MkUserBadges({
+  user,
+  showLockBadge,
+  ...props
+}: { showLockBadge?: boolean; user: UserDetailed } & ComponentProps<typeof Badge>) {
   const { t } = useTranslation();
 
   // isXXXed means you are XXXed by the user
   // isXXXing means you are XXXing the user
   // e.g. isBlocking means you are blocking the user
   const badges = [
+    { condition: showLockBadge && user.isLocked, label: '', icon: LockIcon },
     { condition: user.isFollowed && user.isFollowing, label: t('mutualFollow'), icon: UsersRoundIcon },
     { condition: user.isFollowed && !user.isFollowing, label: t('followsYou'), icon: UserRoundPlusIcon },
     { condition: user.isFollowing && !user.isFollowed, label: t('following'), icon: UserRoundPlusIcon },
