@@ -3,6 +3,42 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+/**
+ * ===================================
+ * NOTE ABOUT FIREFOX TEXT FLASHING
+ * ===================================
+ *
+ * For example, in the Noto Sans Font, This app previously used multiple Noto Sans web fonts:
+ * - Noto Sans
+ * - Noto Sans SC
+ * - Noto Sans TC
+ * - Noto Sans JP
+ *
+ * Even with `display=swap`, Firefox will still flash all text when new
+ * content is rendered (e.g. during infinite scrolling). This is NOT a
+ * performance issue — it happens because:
+ *
+ * 1. Firefox loads each CJK font (SC/TC/JP) as separate font files.
+ * 2. Characters switch fonts multiple times as each file becomes ready.
+ *   (fallback → Noto Sans → SC/TC/JP → final layout)
+ * 3. Each switch triggers reflow/repaint, causing visible flicker.
+ * 4. Chrome/Edge hide this better; Firefox is stricter with CJK fallback.
+ *
+ * Switching to system-ui avoids the problem because no web fonts are
+ * loaded and no fallback → webfont swapping occurs.
+ *
+ * Long-term fixes (not implemented yet):
+ * - Use a single unified CJK font (e.g. Noto Sans CJK).
+ * - Self-host fonts with unicode-range subsets.
+ * - Delay rendering until document.fonts.ready resolves.
+ *
+ * For now, we accept the Firefox behavior and keep the current setup.
+ *
+ * Temporary development solution:
+ * open `about:config` and set `gfx.downloadable_fonts.fallback_delay_ms` to `0`
+ * The flashing will be gone.
+ */
+
 import { atom, getDefaultStore } from 'jotai';
 
 export const fontAtom = atom('default');
