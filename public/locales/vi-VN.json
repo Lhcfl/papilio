@@ -4167,6 +4167,7 @@
   },
   "browserExperimental": "This is an experimental browser feature that is only supported in the latest browser versions.",
   "settingIsDisabled": "This option is disabled due to a setting overriding it.",
+  "aSeemsLikeB": "{{a}} seems like a {{b}}",
   "scheduleNoteFailed": "Đăng bài viết theo lịch trình không thành công",
   "scheduleNotePosted": "Bài viết theo lịch trình đã được đăng"
 }

@@ -4167,6 +4167,7 @@
   },
   "browserExperimental": "This is an experimental browser feature that is only supported in the latest browser versions.",
   "settingIsDisabled": "This option is disabled due to a setting overriding it.",
+  "aSeemsLikeB": "{{a}} seems like a {{b}}",
   "didYoulikeMisskey": "คุณชอบ Sharkey ไหม?",
   "scheduleNoteFailed": "การกำหนดเวลาเผยแพร่โพสต์ล้มเหลว",
   "scheduleNotePosted": "มีการโพสต์กำหนดการแล้ว",

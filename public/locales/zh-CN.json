@@ -4166,5 +4166,6 @@
     "clearNotificationsOnFocusDesc": "窗口获得焦点后一小段时间，自动将所有通知标记为已读。"
   },
   "browserExperimental": "这是一项浏览器实验性功能，只有最新的浏览器版本才支持。",
-  "settingIsDisabled": "由于某项设置覆盖了此选项，该选项被禁用。"
+  "settingIsDisabled": "由于某项设置覆盖了此选项，该选项被禁用。",
+  "aSeemsLikeB": "{{a}} 看起来像 {{b}}"
 }
