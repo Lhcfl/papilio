@@ -4,11 +4,11 @@
  */
 
 import { AppPageTab, AppPageTabList } from '@/components/app-page-tab';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryAtom } from '@/routes/search/-atoms';
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
-import { useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { SearchIcon, TextInitialIcon, UserRoundIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -26,8 +26,8 @@ function RouteComponent() {
   const { t } = useTranslation();
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   const { q } = Route.useSearch() as { q?: string };
-  const setQuery = useSetAtom(queryAtom);
-  const [searchText, setSearchText] = useState(q);
+  const [query, setQuery] = useAtom(queryAtom);
+  const [searchText, setSearchText] = useState(q ?? '');
 
   return (
     <div>
@@ -37,11 +37,8 @@ function RouteComponent() {
         <AppPageTab value="/search/user" label={t('users')} icon={<UserRoundIcon />} />
       </AppPageTabList>
       <InputGroup>
-        <InputGroupAddon>
-          <SearchIcon />
-        </InputGroupAddon>
         <InputGroupInput
-          value={searchText}
+          value={searchText || query}
           placeholder={t('search')}
           onInput={(e) => {
             setSearchText(e.currentTarget.value);
@@ -52,6 +49,16 @@ function RouteComponent() {
             }
           }}
         />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton
+            onClick={() => {
+              setQuery(searchText);
+            }}
+            title={t('search')}
+          >
+            <SearchIcon />
+          </InputGroupButton>
+        </InputGroupAddon>
       </InputGroup>
       <Outlet />
     </div>
