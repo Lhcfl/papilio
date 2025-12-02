@@ -95,9 +95,11 @@ const MkAvatarMain = (
         </Link>
       </Avatar>
       {showAvatarDecorations &&
-        user.avatarDecorations.map((decoration) => (
+        user.avatarDecorations.map((decoration, index) => (
           <img
-            key={decoration.id}
+            // avatar decorations may have same ids
+            // eslint-disable-next-line react-x/no-array-index-key
+            key={index}
             className="z-index-1 pointer-events-none absolute -top-1/2 -left-1/2 w-2/1 max-w-2/1"
             src={decoration.url}
             decoding="async"
