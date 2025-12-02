@@ -5,44 +5,25 @@
 
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkNote } from '@/components/mk-note';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Separator } from '@/components/ui/separator';
 import { registerNote } from '@/hooks/note';
 import { misskeyApi } from '@/lib/inject-misskey-api';
+import { queryAtom } from '@/routes/search/-atoms';
 import { createFileRoute } from '@tanstack/react-router';
-import { SearchIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/search/note')({
   component: RouteComponent,
+  context: (ctx) => (console.log(ctx), { query: '' }),
 });
 
 function RouteComponent() {
   const { t } = useTranslation();
-  const [query, setQuery] = useState('');
-  const [searchText, setSearchText] = useState('');
+  const query = useAtomValue(queryAtom);
 
   return (
     <div>
-      <InputGroup>
-        <InputGroupAddon>
-          <SearchIcon />
-        </InputGroupAddon>
-        <InputGroupInput
-          value={searchText}
-          placeholder={t('search')}
-          onInput={(e) => {
-            setSearchText(e.currentTarget.value);
-          }}
-          onKeyUp={(e) => {
-            if (e.key == 'Enter') {
-              setQuery(e.currentTarget.value);
-            }
-          }}
-        />
-      </InputGroup>
-
       {query.trim() != '' && (
         <div className="search-result mt-4">
           <Separator />

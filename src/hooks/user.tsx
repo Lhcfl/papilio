@@ -4,22 +4,24 @@
  */
 
 import { registerNote } from '@/hooks/note';
-import { INITIAL_UNTIL_ID, injectMisskeyApi, misskeyApi } from '@/lib/inject-misskey-api';
-import type { UserLite } from '@/types/user';
+import { INITIAL_UNTIL_ID, misskeyApi } from '@/lib/inject-misskey-api';
+import type { UserDetailed, UserLite } from '@/types/user';
 import { queryOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import type { Acct } from 'misskey-js';
 
-export const useUserQuery = (userId: string) =>
-  useQuery({
+export const getUserQueryOptions = (userId: string) =>
+  queryOptions({
     queryKey: ['user', userId],
-    queryFn: () => injectMisskeyApi().request('users/show', { userId }),
+    queryFn: () => misskeyApi('users/show', { userId }) as Promise<UserDetailed>,
     staleTime: 1000 * 60 * 15, // 15 minutes
   });
+
+export const useUserQuery = (userId: string) => useQuery(getUserQueryOptions(userId));
 
 export const useUsersQuery = (userIds: string[] = []) =>
   useQuery({
     queryKey: ['users', ...userIds.sort()],
-    queryFn: () => injectMisskeyApi().request('users/show', { userIds }),
+    queryFn: () => misskeyApi('users/show', { userIds }) as unknown as Promise<UserLite[]>,
     staleTime: 1000 * 60 * 15, // 15 minutes
     enabled: userIds.length > 0,
   });
@@ -28,12 +30,10 @@ export const getAcctUserQueryOptions = (acct: Acct) =>
   queryOptions({
     queryKey: ['user', acct.username, acct.host],
     queryFn: () =>
-      injectMisskeyApi()
-        .request('users/show', { username: acct.username, host: acct.host })
-        .then((user) => {
-          registerNote(user.pinnedNotes);
-          return user;
-        }),
+      (misskeyApi('users/show', { username: acct.username, host: acct.host }) as Promise<UserDetailed>).then((user) => {
+        registerNote(user.pinnedNotes);
+        return user;
+      }),
     staleTime: 1000 * 60 * 15, // 15 minutes
   });
 

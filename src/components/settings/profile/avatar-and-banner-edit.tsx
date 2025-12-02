@@ -5,8 +5,8 @@
 
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkFileUploadMenu } from '@/components/mk-file-upload-menu';
-import { MkUserCardBanner } from '@/components/mk-user-card';
 import { Button } from '@/components/ui/button';
+import { MkUserCardBanner } from '@/components/user/mk-user-card-banner';
 import { useProfileEditAction } from '@/hooks/profile-edit-actions';
 import { useMe } from '@/stores/me';
 import { AwardIcon, ImageIcon } from 'lucide-react';
