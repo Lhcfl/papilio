@@ -43,44 +43,6 @@ export const MkTimeline = ({ type }: { type: TimelineTypes }) => {
     [withBots, withReplies, withRenotes, onlyMedia],
   );
 
-  const menu: Menu = [
-    {
-      type: 'label',
-      label: t('settings'),
-      id: 'title',
-    },
-    {
-      type: 'switch',
-      label: t('flagShowTimelineReplies'),
-      value: withReplies,
-      id: 'withReplies',
-      onChange: setWithReplies,
-      disabled: onlyMedia,
-    },
-    {
-      type: 'switch',
-      label: t('showRenotes'),
-      value: withRenotes,
-      id: 'withRenotes',
-      onChange: setWithRenotes,
-    },
-    {
-      type: 'switch',
-      label: t('showBots'),
-      value: withBots,
-      id: 'withBots',
-      onChange: setWithBots,
-    },
-    {
-      type: 'switch',
-      label: t('fileAttachedOnly'),
-      value: onlyMedia,
-      id: 'onlyMedia',
-      onChange: setOnlyMedia,
-      disabled: withReplies,
-    },
-  ];
-
   const opts = infiniteQueryOptions({
     queryKey: ['timeline', type, pparams],
     queryFn: async ({ pageParam }) => {
@@ -146,6 +108,51 @@ export const MkTimeline = ({ type }: { type: TimelineTypes }) => {
   const query = useInfiniteQuery(opts);
 
   const { refetch, isRefetching } = query;
+
+  const menu: Menu = [
+    {
+      type: 'label',
+      label: t('settings'),
+      id: 'title',
+    },
+    {
+      type: 'switch',
+      label: t('flagShowTimelineReplies'),
+      value: withReplies,
+      id: 'withReplies',
+      onChange: setWithReplies,
+      disabled: onlyMedia,
+    },
+    {
+      type: 'switch',
+      label: t('showRenotes'),
+      value: withRenotes,
+      id: 'withRenotes',
+      onChange: setWithRenotes,
+    },
+    {
+      type: 'switch',
+      label: t('showBots'),
+      value: withBots,
+      id: 'withBots',
+      onChange: setWithBots,
+    },
+    {
+      type: 'switch',
+      label: t('fileAttachedOnly'),
+      value: onlyMedia,
+      id: 'onlyMedia',
+      onChange: setOnlyMedia,
+      disabled: withReplies,
+    },
+  ];
+
+  // on unmount, invalidate the timeline query after 1 second
+  useEffect(() => {
+    return () => {
+      setTimeout(() => void queryClient.invalidateQueries({ queryKey: opts.queryKey }), 1000);
+    };
+  }, [opts.queryKey, queryClient]);
 
   return (
     <>
