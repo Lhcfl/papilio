@@ -4,7 +4,7 @@
  */
 
 import type { Note, Notification } from 'misskey-js/entities.js';
-import type { Notification as SharkeyNotification } from 'sharkey-js/entities.js';
+import type { Notification as SharkeyNotification } from '@@/sharkey-js/entities.js';
 
 export type FrontendGroupedNotification =
   | Notification
