@@ -27,7 +27,6 @@
 		/* Path Aliases */
 		// "baseUrl": ".", // Option 'baseUrl' has been removed. Please remove it from your configuration. Use '"paths": {"*": ["./*"]}' instead.
 		"paths": {
-			"*": ["./*"],
 			"@/*": ["./src/*"],
 			"@@/*": ["./*"]
 		}

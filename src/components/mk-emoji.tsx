@@ -5,13 +5,14 @@
 
 import { useState } from 'react';
 import Twemoji from 'twemoji';
-import { site } from '@/lib/inject-misskey-api';
+import { getRelativeUrl, site } from '@/lib/inject-misskey-api';
 import { useEmojis } from '@/stores/emojis';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { HeartMinusIcon, InfoIcon, SmilePlusIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useReactNoteAction, useUndoReactNoteAction } from '@/hooks/note-actions';
 import { cn } from '@/lib/utils';
+import { usePreference } from '@/stores/perference';
 
 export const MkCustomEmoji = (props: {
   name: string;
@@ -128,16 +129,25 @@ export const MkEmoji = (props: {
   const { mutate: react } = useReactNoteAction(props.noteContext?.noteId ?? 'null');
   const { mutate: unreact } = useUndoReactNoteAction(props.noteContext?.noteId ?? 'null');
   const { t } = useTranslation();
+  const emojiStyle = usePreference((p) => p.emojiStyle);
+  const innerClassName = cn('h-[1.25em] align-[-0.25em] transition-all inline', props.innerClassName);
 
-  const parsed = Twemoji.parse(props.emoji, {
-    base: site!,
-    ext: '.svg',
-    folder: '/twemoji',
-    className: cn('h-[1.25em] align-[-0.25em] transition-all inline', props.innerClassName),
-  });
-
-  // eslint-disable-next-line react-dom/no-dangerously-set-innerhtml
-  const inner = <span className={cn('mk-emoji', props.className)} dangerouslySetInnerHTML={{ __html: parsed }} />;
+  const inner = (
+    <span className={cn('mk-emoji', props.className)}>
+      {emojiStyle != 'native' ? (
+        <img
+          className={innerClassName}
+          src={getRelativeUrl(`/${emojiStyle}/${Twemoji.convert.toCodePoint(props.emoji)}.svg`)}
+          draggable={false}
+          alt={props.emoji}
+          title={props.emoji}
+          decoding="async"
+        />
+      ) : (
+        <span className={innerClassName}>{props.emoji}</span>
+      )}
+    </span>
+  );
 
   if (props.menu && props.noteContext) {
     const menu: Menu = [

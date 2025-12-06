@@ -34,6 +34,12 @@ export const AppearanceSettings = defineSettingsPage({
             direction: 'right' as 'right' | 'bottom',
           },
         ),
+        defineEnum('emojiStyle', {
+          defaultValue: 'twemoji',
+          values: ['native', 'twemoji', 'fluent-emoji', 'tossface'] as const,
+          name: t('emojiStyle'),
+          valuesI18n: [t('native'), 'Twemoji', 'Fluent Emoji', 'Tossface'],
+        }),
       ],
     }),
     defineCategory({
