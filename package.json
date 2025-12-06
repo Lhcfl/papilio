@@ -10,7 +10,7 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
-		"typecheck": "tsc -b --noEmit",
+		"typecheck": "tsgo -b --noEmit",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"format": "biome format --write",
@@ -88,6 +88,7 @@
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
 		"@types/sanitize-html": "^2.16.0",
+		"@typescript/native-preview": "7.0.0-dev.20251206.1",
 		"@unocss/reset": "^66.5.10",
 		"@vitejs/plugin-react": "^5.1.1",
 		"babel-plugin-react-compiler": "^1.0.0",
