@@ -11,6 +11,12 @@
 	"files.eol": "\n",
 	"typescript.preferences.importModuleSpecifier": "non-relative",
 	"javascript.preferences.importModuleSpecifier": "non-relative",
+	"javascript.preferences.autoImportSpecifierExcludeRegexes": [
+		"@radix-ui"
+	],
+	"typescript.preferences.autoImportSpecifierExcludeRegexes": [
+		"@radix-ui"
+	],
 	"typescript.experimental.useTsgo": true,
 	"i18n-ally.keystyle": "nested"
 }
