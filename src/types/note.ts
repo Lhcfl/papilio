@@ -13,6 +13,8 @@ export type NoteWithExtension = Omit<
     isDeleted?: boolean;
     /** frontend extension. Mark a note as syncing */
     'papi:isSyncing:notes/state'?: boolean;
+    /** frontend extension. The replies count you can see */
+    'papi:visibleRepliesCount'?: number;
   },
   'reply' | 'renote'
 >;

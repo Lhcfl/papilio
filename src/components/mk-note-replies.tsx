@@ -9,7 +9,7 @@ import { MkNote } from '@/components/mk-note';
 import clsx from 'clsx';
 import { LoadingTrigger } from '@/components/loading-trigger';
 import { injectMisskeyStream, misskeyApi, sharkeyApi } from '@/lib/inject-misskey-api';
-import { registerNote } from '@/hooks/note';
+import { patchNote, registerNote } from '@/hooks/note';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { MoreHorizontalIcon } from 'lucide-react';
@@ -67,6 +67,14 @@ export const MkNoteReplies = (
     staleTime: 1000 * 60 * 10, // 10 minutes
     initialPageParam: '0',
   });
+
+  const repliesActualSize = data?.pages.reduce((a, x) => a + x.length, 0);
+
+  // Update repliesCount if it's zero
+  // This is useful when the parent note has no replies at first, and then gets some replies later.
+  useEffect(() => {
+    patchNote(noteId, { 'papi:visibleRepliesCount': repliesActualSize });
+  }, [noteId, repliesActualSize]);
 
   const replies = data?.pages.flat() ?? [];
   const justOneReply = replies.length === 1;

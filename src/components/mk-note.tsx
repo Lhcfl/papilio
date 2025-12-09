@@ -49,7 +49,7 @@ export const MkNote = ({
     return null;
   }
 
-  const hasReply = note.repliesCount > 0;
+  const hasReply = (note['papi:visibleRepliesCount'] ?? 0) > 0;
 
   return (
     <MkMuteableNote

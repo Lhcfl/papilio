@@ -36,7 +36,9 @@ class NoteSingletonManager {
       });
       const old = this.notes.get(n.id);
       if (old) {
-        store.set(old, n);
+        // there maybe some frontend-only fields that we need to preserve
+        // like papi:visibleRepliesCount
+        store.set(old, (oldNoteValue) => ({ ...oldNoteValue, ...n }));
       } else {
         const a = atom(n);
         stream.send('sr', { id: n.id });
