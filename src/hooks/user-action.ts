@@ -6,6 +6,8 @@
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { useMutation, type MutationFunctionContext } from '@tanstack/react-query';
 import type { UserDetailed } from '@/types/user';
+import { meopt } from '@/loaders/me-loader';
+import { getAcctUserQueryOptions, getUserQueryOptions } from '@/hooks/user';
 
 const patch = (v: Partial<UserDetailed>) => (old: UserDetailed | undefined) => (old ? { ...old, ...v } : old);
 
@@ -16,19 +18,24 @@ interface CommonProps {
 }
 
 const cs =
-  (props: CommonProps, v: Partial<UserDetailed>) =>
+  (props: CommonProps, v: Partial<UserDetailed>, opts?: { refetchMe?: boolean }) =>
   (_0: unknown, _1: unknown, _2: unknown, context: MutationFunctionContext) => {
-    context.client.setQueryData(['user', props.id], patch(v));
-    context.client.setQueryData(['user', props.username, props.host], patch(v));
-    void context.client.invalidateQueries({ queryKey: ['user', props.id] });
-    void context.client.invalidateQueries({ queryKey: ['user', props.username, props.host] });
+    context.client.setQueryData(getUserQueryOptions(props.id).queryKey, patch(v));
+    void context.client.invalidateQueries(getUserQueryOptions(props.id));
+
+    context.client.setQueryData(getAcctUserQueryOptions(props).queryKey, patch(v));
+    void context.client.invalidateQueries(getAcctUserQueryOptions(props));
+
+    if (opts?.refetchMe) {
+      void context.client.invalidateQueries(meopt);
+    }
   };
 
 export const useRejectFollowRequestAction = (props: CommonProps) => {
   return useMutation({
     mutationKey: ['rejectFollowRequest', props.id],
     mutationFn: () => misskeyApi('following/requests/reject', { userId: props.id }),
-    onSuccess: cs(props, { hasPendingFollowRequestToYou: false }),
+    onSuccess: cs(props, { hasPendingFollowRequestToYou: false }, { refetchMe: true }),
   });
 };
 
@@ -36,7 +43,7 @@ export const useAcceptFollowRequestAction = (props: CommonProps) => {
   return useMutation({
     mutationKey: ['acceptFollowRequest', props.id],
     mutationFn: () => misskeyApi('following/requests/accept', { userId: props.id }),
-    onSuccess: cs(props, { hasPendingFollowRequestToYou: false, isFollowed: true }),
+    onSuccess: cs(props, { hasPendingFollowRequestToYou: false, isFollowed: true }, { refetchMe: true }),
   });
 };
 
