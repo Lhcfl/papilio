@@ -18,12 +18,12 @@ export function MkNotes({
   query: UseInfiniteQueryResult<InfiniteData<string[]>>;
   className?: string;
 }) {
-  const groupedTimeline = usePreference((s) => s.groupedTimeline);
+  const smartTimeline = usePreference((s) => s.smartTimeline);
 
   return (
     <MkInfiniteScrollByData infiniteQueryResult={query} flatDepth={0} className={className}>
       {(xs) =>
-        groupedTimeline ? <ThreadedNotes notes={xs} /> : xs.map((noteId) => <MkNote key={noteId} noteId={noteId} />)
+        smartTimeline ? <ThreadedNotes notes={xs} /> : xs.map((noteId) => <MkNote key={noteId} noteId={noteId} />)
       }
     </MkInfiniteScrollByData>
   );

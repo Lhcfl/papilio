@@ -69,10 +69,10 @@ export const AppearanceSettings = defineSettingsPage({
           defaultValue: true,
           name: t('useGroupedNotifications'),
         }),
-        defineSwitch('groupedTimeline', {
+        defineSwitch('smartTimeline', {
           defaultValue: false,
-          name: t('_preference.groupedTimeline'),
-          description: t('_preference.groupedTimelineDesc'),
+          name: t('_preference.smartTimeline'),
+          description: t('_preference.smartTimelineDesc'),
         }),
       ],
     }),

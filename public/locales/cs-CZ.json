@@ -4163,7 +4163,9 @@
     "postFormSettingsDesc": "Manage settings related to the display and behavior of the post form.",
     "postFormDefaultsDesc": "Set default values for the post form when opened.",
     "clearNotificationsOnFocus": "Clear Notifications on Window Focus",
-    "clearNotificationsOnFocusDesc": "Automatically mark all notifications as read shortly after the window gains focus."
+    "clearNotificationsOnFocusDesc": "Automatically mark all notifications as read shortly after the window gains focus.",
+    "smartTimeline": "Smart Timeline",
+    "smartTimelineDesc": "Consecutive posts from the same user and reposts of the same post will be merged into a single entry to reduce timeline clutter. However, performance may be affected."
   },
   "browserExperimental": "This is an experimental browser feature that is only supported in the latest browser versions.",
   "settingIsDisabled": "This option is disabled due to a setting overriding it.",
