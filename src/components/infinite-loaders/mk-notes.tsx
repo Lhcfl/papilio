@@ -11,6 +11,10 @@ import type { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query
 import type { Note as MisskeyNote } from 'misskey-js/entities.js';
 import { isPureRenote } from 'misskey-js/note.js';
 
+/**
+ * Displays a list of Misskey notes with infinite scrolling.\
+ * Supports optional smart timeline feature to group replies into threads.
+ */
 export function MkNotes({
   query,
   className,

@@ -18,6 +18,11 @@ export function MkCodeUnhighlighted({ code, language = 'plaintext' }: { code: st
   );
 }
 
+/**
+ * Lazy-loaded, syntax-highlighted code block.\
+ * If data-saver mode is enabled, falls back to unhighlighted code block.\
+ * Otherwise dynamically imports the shiki highlighter and renders the highlighted code.
+ */
 export function MkCode({
   code,
   language = 'plaintext',

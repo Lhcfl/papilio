@@ -20,11 +20,17 @@ import type { UserDetailed as SkUserDetailed } from '@@/sharkey-js/entities';
 import { usePreference } from '@/stores/perference';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
 
+/**
+ * Avatar of a Misskey user, with optional hover card showing user details.\
+ * Hover card is disabled on touch devices by default.
+ */
 export const MkAvatar = (
   props: {
     user: User;
     avatarProps?: React.ComponentProps<typeof Avatar>;
+    /** Manually disable the hover card */
     disableHoverCard?: boolean;
+    /** Disable linking the avatar to the user's profile */
     disableRouteLink?: boolean;
   } & HTMLProps<HTMLDivElement>,
 ) => {

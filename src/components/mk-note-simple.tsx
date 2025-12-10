@@ -10,6 +10,11 @@ import { useNoteValue } from '@/hooks/note';
 import type { ComponentProps, HTMLProps } from 'react';
 import { cn } from '@/lib/utils';
 
+/**
+ * Simple and non-interactive Misskey note component.\
+ * Renders only the note header and body, without any additional features like reactions or actions.\
+ * Used primarily for displaying notes within other components
+ */
 export const MkNoteSimple = (
   props: {
     noteId: NoteWithExtension['id'];

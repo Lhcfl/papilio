@@ -11,6 +11,11 @@ import { withNoSelection, withStopPrevent } from '@/lib/utils';
 import { LockIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
+/**
+ * Collapsed reply line component for Misskey notes.\
+ * Displays a brief excerpt of the replied note along with the author's avatar.\
+ * Clicking the line triggers the provided `onExpand` callback to show the full reply.
+ */
 export const MkNoteReplyLine = (props: { noteId: string; onExpand: () => void }) => {
   const { noteId, onExpand } = props;
   const note = useNoteValue(noteId);

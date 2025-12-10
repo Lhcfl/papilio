@@ -19,6 +19,10 @@ import { usePreference } from '@/stores/perference';
 import { MkMuteableNote } from '@/components/note/mk-muteable-note';
 import { MkNoteMergedRenoteTip } from '@/components/note/mk-note-merged-renote-tip';
 
+/**
+ * MkNote component representing a Misskey note with various features.\
+ * Supports displaying replies, renotes, reactions, and actions.\
+ */
 export const MkNote = (
   props: {
     /** Note ID */
@@ -36,7 +40,7 @@ export const MkNote = (
      */
     initialReplyAppearance?: 'subNote' | 'inline' | null;
     /**
-     * Shows the merged renote IDs in the note's MkNoteRenoteTip component
+     * Shows the merged renote IDs in the note's {@link MkNoteMergedRenoteTip} component
      */
     mergedRenoteIds?: string[];
     /**

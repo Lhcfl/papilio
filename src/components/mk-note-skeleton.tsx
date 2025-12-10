@@ -10,7 +10,7 @@ export const MkNoteSkeleton = () => {
     <div className="mk-note-skeleton p-2">
       <div className="note-header-skeleton flex items-center gap-2 p-2">
         <Skeleton className="h-12 w-12 rounded-full" />
-        <div className="flex-grow-1">
+        <div className="grow">
           <Skeleton className="ml-2 h-4 w-32" />
           <Skeleton className="mt-2 ml-2 h-4 w-20" />
         </div>

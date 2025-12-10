@@ -17,11 +17,19 @@ import { Link } from '@tanstack/react-router';
 import type { NoteUpdatedEvent } from 'misskey-js/streaming.types.js';
 import { MkEmpty } from '@/components/mk-empty';
 
+/**
+ * Reply-tree component for Misskey notes.\
+ * Supports both replies and renotes (with quotes).\
+ * Automatically loads more replies as the user scrolls.\
+ * Limits the depth and indent of the reply tree to avoid excessive nesting.
+ */
 export const MkNoteReplies = (
   props: {
     kind?: 'renotes' | 'replies';
     noteId: string;
+    /** Don't use this prop directly, use this only in {@linkcode MkNoteReplies} itself */
     indent?: number;
+    /** Don't use this prop directly, use this only in {@linkcode MkNoteReplies} itself */
     depth?: number;
     showEmpty?: boolean;
   } & HTMLProps<HTMLDivElement>,
