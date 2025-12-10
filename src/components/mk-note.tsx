@@ -27,6 +27,7 @@ export const MkNote = ({
   hideReplyIcon,
   className: classNameProps,
   decorationBottomRight,
+  hasReply,
   ...divProps
 }: {
   noteId: string;
@@ -36,6 +37,7 @@ export const MkNote = ({
   showReply?: boolean;
   hideReplyIcon?: boolean;
   detailed?: boolean;
+  hasReply?: boolean;
   onClose?: () => void;
 } & HTMLProps<HTMLDivElement>) => {
   const note = useNoteValue(noteId);
@@ -49,7 +51,7 @@ export const MkNote = ({
     return null;
   }
 
-  const hasReply = (note['papi:visibleRepliesCount'] ?? 0) > 0;
+  const hasReplyMerged = (note['papi:visibleRepliesCount'] ?? 0) > 0 || hasReply;
 
   return (
     <MkMuteableNote
@@ -66,6 +68,7 @@ export const MkNote = ({
           isSubNote={true}
           className="reply-note -m-2"
           showReply={collapseNotesRepliedTo}
+          hasReply={true}
           onClose={() => {
             setShowReplyState('inline');
           }}
@@ -106,7 +109,7 @@ export const MkNote = ({
        * 回复树构造。
        * 对于每个 subnote, 并且有回复的话，显示左侧的连线。
        */}
-      {isSubNote && hasReply && <div className="note-sub-line absolute top-6 -bottom-2 left-9 border-l-2" />}
+      {isSubNote && hasReplyMerged && <div className="note-sub-line absolute top-6 -bottom-2 left-9 border-l-2" />}
     </MkMuteableNote>
   );
 };
