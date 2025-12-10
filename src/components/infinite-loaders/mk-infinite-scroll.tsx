@@ -18,21 +18,25 @@ import type { ComponentProps, HTMLProps } from 'react';
 import { cn } from '@/lib/utils';
 import { INITIAL_UNTIL_ID } from '@/lib/inject-misskey-api';
 
-function getId<T>(item: unknown, fallback?: T) {
+function getId<T>(item: unknown, fallback?: T): typeof fallback | string {
   if (typeof item === 'string') return item;
   if (typeof item === 'number') return String(item);
   if (item == null) return fallback;
   if (typeof item === 'object' && 'id' in item && typeof item.id === 'string') return item.id;
+  if (Array.isArray(item) && item.length > 0) {
+    return item.map((x) => getId(x, fallback)).join('::');
+  }
   return fallback;
 }
 
-export function MkInfiniteScroll<P>(
+export function MkInfiniteScroll<P, FlatDepth extends number = 1>(
   props: {
     queryFn: QueryFunction<P, unknown[], string>;
     queryKey: unknown[];
     initialPageParam?: string;
     getNextPageParam?: (lastPage?: P) => string | undefined;
-    children: (data: FlatArray<P[], 1>) => React.ReactNode;
+    children: (data: FlatArray<P[], FlatDepth>) => React.ReactNode;
+    flatDepth?: FlatDepth;
   } & Omit<ComponentProps<typeof MkInfiniteScrollByData>, 'children' | 'infiniteQueryResult'>,
 ) {
   const defaults = {
@@ -54,22 +58,32 @@ export function MkInfiniteScroll<P>(
     getNextPageParam,
   });
 
-  return MkInfiniteScrollByData({ ...rest, infiniteQueryResult: result, children });
+  return MkInfiniteScrollByData<P, FlatDepth>({ ...rest, infiniteQueryResult: result, children });
 }
 
-export function MkInfiniteScrollByData<TData>(
+export function MkInfiniteScrollByData<TData, FlatDepth extends number = 1>(
   props: {
     infiniteQueryResult: UseInfiniteQueryResult<InfiniteData<TData>>;
     containerClassName?: string;
     dataContainer?: (props: { children: React.ReactNode; className: string }) => React.ReactNode;
     wrapperContainer?: (props: { children: React.ReactNode; className: string }) => React.ReactNode;
-    children: (data: FlatArray<TData[], 1>) => React.ReactNode;
+    children: (data: FlatArray<TData[], FlatDepth>) => React.ReactNode;
+    flatDepth?: FlatDepth;
   } & Omit<HTMLProps<HTMLDivElement>, 'children'>,
 ) {
-  const { infiniteQueryResult, children, containerClassName, dataContainer, wrapperContainer, className, ...rest } =
-    props;
+  const {
+    infiniteQueryResult,
+    children,
+    containerClassName,
+    dataContainer,
+    wrapperContainer,
+    className,
+    flatDepth,
+    ...rest
+  } = props;
   const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage, error, refetch } = infiniteQueryResult;
-  const isEmpty = !isPending && data?.pages.flat(1).length === 0;
+  const items = data?.pages.flat(flatDepth) ?? [];
+  const isEmpty = !isPending && items.length === 0;
 
   const DataContainer = dataContainer ?? 'div';
   const WrapperContainer = wrapperContainer ?? 'div';
@@ -78,7 +92,7 @@ export function MkInfiniteScrollByData<TData>(
     <WrapperContainer className={cn('mk-infinite-scroll', className)} {...rest}>
       {/* it is intended to not use `cn`, because if we change containerClassName, we want to avoid unintended styles */}
       <DataContainer className={containerClassName ?? 'flex flex-col gap-2'}>
-        {data?.pages.flat(1).map((a, idx) => (
+        {items.map((a, idx) => (
           <Fragment key={getId(a, idx)}>{children(a)}</Fragment>
         ))}
       </DataContainer>

@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { MkNote } from '@/components/mk-note';
-import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { useEffect, useMemo, useState } from 'react';
 import { infiniteQueryOptions, useQueryClient } from '@tanstack/react-query';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -17,6 +15,7 @@ import { CogIcon, RefreshCwIcon } from 'lucide-react';
 import type { SkEndpoints } from '@/types/sharkey-api';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { useTranslation } from 'react-i18next';
+import { MkNotes } from '@/components/infinite-loaders/mk-notes';
 
 const TIMELINE_PAGE_SIZE = 30;
 
@@ -172,9 +171,7 @@ export const MkTimeline = ({ type }: { type: TimelineTypes }) => {
           <RefreshCwIcon className={isRefetching ? 'animate-spin' : ''} />
         </Button>
       </HeaderRightPortal>
-      <MkInfiniteScrollByData infiniteQueryResult={query} className="mk-timeline w-full">
-        {(id) => <MkNote key={id} noteId={id} showReply />}
-      </MkInfiniteScrollByData>
+      <MkNotes query={query} className="mk-timeline w-full" />
     </>
   );
 };
