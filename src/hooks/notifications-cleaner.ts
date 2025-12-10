@@ -20,23 +20,26 @@ export function useNotificationsCleaner() {
   useEffect(() => {
     if (!clearNotificationsOnFocus) return;
 
-    function handleFocus() {
-      setTimeout(() => {
-        if (document.hasFocus()) {
-          if (import.meta.env.DEV) {
-            console.log('⚡️ Window focused, clearing notifications...');
+    const controller = new AbortController();
+    window.addEventListener(
+      'focus',
+      () => {
+        setTimeout(() => {
+          if (document.hasFocus()) {
+            if (import.meta.env.DEV) {
+              console.log('⚡️ Window focused, clearing notifications...');
+            }
+            const notificationElements = document.querySelectorAll<HTMLElement>('.mk-notifications');
+            if (Array.from(notificationElements).some((el) => isInViewport(el))) {
+              mutate();
+            }
           }
-          const notificationElements = document.querySelectorAll<HTMLElement>('.mk-notifications');
-          if (Array.from(notificationElements).some((el) => isInViewport(el))) {
-            mutate();
-          }
-        }
-      }, 4000);
-    }
-
-    window.addEventListener('focus', handleFocus);
+        }, 4000);
+      },
+      { signal: controller.signal },
+    );
     return () => {
-      window.removeEventListener('focus', handleFocus);
+      controller.abort();
     };
   }, [clearNotificationsOnFocus, mutate]);
 }

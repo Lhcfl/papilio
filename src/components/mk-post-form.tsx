@@ -406,17 +406,22 @@ function MkPostFormLoaded(
   // #region Effects
 
   useMount(() => {
-    function onDraftLoaded() {
-      const textarea = textareaRef.current;
-      if (textarea && autoFocus) {
-        textarea.focus();
-      }
-      textarea?.setSelectionRange(draft.text.length, draft.text.length);
-    }
-    document.addEventListener(`papi:draftLoaded/${draftKey}`, onDraftLoaded);
+    const controller = new AbortController();
+
+    document.addEventListener(
+      `papi:draftLoaded/${draftKey}`,
+      () => {
+        const textarea = textareaRef.current;
+        if (textarea && autoFocus) {
+          textarea.focus();
+        }
+        textarea?.setSelectionRange(draft.text.length, draft.text.length);
+      },
+      { signal: controller.signal },
+    );
 
     return () => {
-      document.removeEventListener(`papi:draftLoaded/${draftKey}`, onDraftLoaded);
+      controller.abort();
     };
   });
 
