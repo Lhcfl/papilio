@@ -99,6 +99,9 @@ function ThreadedNotes({ notes }: { notes: string[] }) {
     if (hidden) {
       return null;
     }
+    if (repliedNoteIds.has(noteId)) {
+      return null;
+    }
     return (
       <MkNote
         key={noteId}
