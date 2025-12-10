@@ -13,11 +13,11 @@
 		"typecheck": "tsgo -b --noEmit",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
-		"format": "biome format --write",
-		"reuse": "pipx run reuse lint",
+		"lint:reuse": "pipx run reuse lint",
 		"licence:annotate": "bun dev-scripts/add-licence-header.ts",
 		"update-locales": "bun dev-scripts/update-locale.ts",
 		"build-locales": "bun dev-scripts/gen-i18n.ts",
+		"proj:line-count": "tokei src -e ui -e *.gen.ts",
 		"preview": "vite preview"
 	},
 	"dependencies": {
