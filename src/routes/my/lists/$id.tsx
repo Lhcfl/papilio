@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { AppPageTab, AppPageTabList } from '@/components/app-page-tab';
 import { listDataQueryOptions } from '@/hooks/list';
 import { PageTitle } from '@/layouts/sidebar-layout';

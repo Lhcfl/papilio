@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkNote } from '@/components/mk-note';
 import { registerNote } from '@/hooks/note';
