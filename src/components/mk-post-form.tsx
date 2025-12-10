@@ -35,7 +35,7 @@ import type { EmojiSimple } from 'misskey-js/entities.js';
 import type { User } from '@/types/user';
 import { useEffect, useRef, useState, type HTMLProps } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { misskeyApi, site } from '@/lib/inject-misskey-api';
+import { misskeyApi, site, siteDomain } from '@/lib/inject-misskey-api';
 import { Spinner } from '@/components/ui/spinner';
 import type { NoteWithExtension } from '@/types/note';
 import { cond } from '@/lib/match';
@@ -139,7 +139,7 @@ export function MkPostForm(props: MkPostFormProps) {
     text:
       cond([
         [editId != null, relatedNote?.text],
-        [replyId != null, extractMention(relatedNote, me)],
+        [replyId != null, extractMention(relatedNote, { username: me.username, host: siteDomain })],
         [true, null],
       ]) ?? undefined,
   });

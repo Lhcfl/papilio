@@ -10,6 +10,7 @@ import { Stream, api, type Channels } from 'misskey-js';
 import type { Connection } from 'misskey-js/streaming.js';
 
 export const site = localStorage.getItem('site') ?? null;
+export const siteDomain = site ? new URL(site).hostname : null;
 export const token = localStorage.getItem('token') ?? null;
 export const INITIAL_UNTIL_ID = 'zzzzzzzzzzzzzzzzzz';
 
