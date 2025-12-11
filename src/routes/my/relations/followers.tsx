@@ -8,7 +8,7 @@ import { misskeyApi } from '@/lib/inject-misskey-api';
 import { CommonRouteComponent } from '@/routes/my/relations/-common';
 import { useMe } from '@/stores/me';
 import { createFileRoute } from '@tanstack/react-router';
-import { ArrowLeftIcon } from 'lucide-react';
+import { ArrowLeftIcon, ArrowLeftRightIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/my/relations/followers')({
@@ -24,7 +24,13 @@ function RouteComponent() {
   return (
     <CommonRouteComponent
       query={query}
-      icon={() => <ArrowLeftIcon className="size-4" />}
+      icon={({ item }) =>
+        item.user.isFollowing ? (
+          <ArrowLeftRightIcon className="size-4 text-green-700 dark:text-green-300" />
+        ) : (
+          <ArrowLeftIcon className="size-4" />
+        )
+      }
       bulkableAction={async (userId: string) => {
         await misskeyApi('following/invalidate', { userId });
       }}

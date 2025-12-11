@@ -39,7 +39,7 @@ export const getAcctUserQueryOptions = (acct: Acct) =>
 
 export interface UserRelation {
   id: string;
-  user: UserLite;
+  user: UserDetailed;
   createdAt: string;
 }
 
