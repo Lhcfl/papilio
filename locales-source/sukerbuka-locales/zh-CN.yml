@@ -28,6 +28,8 @@ _preference:
   smartTimelineDesc: "来自同一用户的连续帖子、对同一帖子的转发，这些将会被合并为单个条目，以减少时间线的混乱。但是性能可能会受到影响。"
   disableAvatarHover: "禁用头像悬停预览"
   disableAvatarHoverDesc: "禁用鼠标悬停在头像上时显示用户信息卡片的功能。"
+  manageRelationsShip: "管理关系"
+  manageRelationsShipDesc: "管理您与其他用户的关系，例如关注、屏蔽和静音。"
 
 browserExperimental: "这是一项浏览器实验性功能，只有最新的浏览器版本才支持。"
 

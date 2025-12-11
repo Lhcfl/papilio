@@ -28,6 +28,8 @@ _preference:
   smartTimelineDesc: "Consecutive posts from the same user and reposts of the same post will be merged into a single entry to reduce timeline clutter. However, performance may be affected."
   disableAvatarHover: "Disable Avatar Hover Preview"
   disableAvatarHoverDesc: "Disable the feature that shows user info cards when hovering over avatars with the mouse."
+  manageRelationsShip: "Manage Relationships"
+  manageRelationsShipDesc: "Manage your relationships with other users, such as following, blocking, and muting."
 
 browserExperimental: "This is an experimental browser feature that is only supported in the latest browser versions."
 settingIsDisabled: "This option is disabled due to a setting overriding it."

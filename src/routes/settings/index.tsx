@@ -16,7 +16,7 @@ import { queryAtom } from '@/routes/settings/-atoms';
 import { DetailedSettings } from '@/settings';
 import { createFileRoute, Link, type LinkComponentProps } from '@tanstack/react-router';
 import { useAtom, useAtomValue } from 'jotai';
-import { ChevronRightIcon, UserCircle2Icon } from 'lucide-react';
+import { ChevronRightIcon, UserCircle2Icon, Users2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react/jsx-runtime';
 
@@ -60,6 +60,12 @@ function HasNoSearchComponent() {
           linkopts={{ to: '/settings/$page', params: { page: page.value } }}
         />
       ))}
+      <SettingLinkItem
+        icon={<Users2Icon />}
+        title={t('_preference.manageRelationsShip')}
+        description={t('_preference.manageRelationsShipDesc')}
+        linkopts={{ to: '/my/relations/followers' }}
+      />
     </ItemGroup>
   );
 }
