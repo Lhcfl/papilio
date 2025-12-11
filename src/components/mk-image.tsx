@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { useMe } from '@/stores/me';
 import { fileQueryOptions, useMarkAsNotSensitive, useMarkAsSensitive } from '@/hooks/file';
 import { useQuery } from '@tanstack/react-query';
+import { usePreference } from '@/stores/perference';
 
 export const MkImage = ({
   image: initialImage,
@@ -44,7 +45,11 @@ export const MkImage = ({
     initialData: initialImage,
   });
 
-  const [hidden, setHidden] = useState<null | boolean>(null);
+  const displayOfSensitiveMedia = usePreference((s) => s.displayOfSensitiveMedia);
+
+  const [hidden, setHidden] = useState<null | boolean>(
+    displayOfSensitiveMedia === 'respect' ? null : displayOfSensitiveMedia === 'force' ? true : false,
+  );
   const [loading, setLoading] = useState(true);
 
   const { t } = useTranslation();

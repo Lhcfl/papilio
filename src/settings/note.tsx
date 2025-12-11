@@ -69,6 +69,16 @@ export const NoteSettings = {
           ],
           name: t('mediaListWithOneImageAppearance'),
         }),
+        defineEnum('displayOfSensitiveMedia', {
+          defaultValue: 'respect',
+          values: ['respect', 'ignore', 'force'] as const,
+          valuesI18n: [
+            t('_displayOfSensitiveMedia.respect'),
+            t('_displayOfSensitiveMedia.ignore'),
+            t('_displayOfSensitiveMedia.force'),
+          ],
+          name: t('displayOfSensitiveMedia'),
+        }),
       ],
     },
     {
