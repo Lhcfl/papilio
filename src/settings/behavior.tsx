@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { defineCategory, defineSwitch } from '@/settings/types';
+import { defineCategory, defineCustom, defineSwitch } from '@/settings/types';
 import { BellIcon, CogIcon, FileUpIcon, WifiIcon } from 'lucide-react';
+import { lazy } from 'react';
 
 const t = (x: string) => x;
 
@@ -43,6 +44,13 @@ export const BehaviorSettings = {
       icon: <FileUpIcon />,
       name: t('file'),
       items: [
+        defineCustom(
+          lazy(() => import('@/components/settings/mk-drive-usage')),
+          {
+            name: t('driveUsage'),
+            direction: 'right',
+          },
+        ),
         defineSwitch('keepOriginalFilename', {
           defaultValue: true,
           name: t('keepOriginalFilename'),
