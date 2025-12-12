@@ -18,5 +18,13 @@
 		"@radix-ui"
 	],
 	"typescript.experimental.useTsgo": true,
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.patterns": {
+		"tsconfig.json": "tsconfig.*.json",
+		"package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb, bun.lock, components.json",
+		"vite.config.ts": "*.config.js, REUSE.toml, vercel.json",
+		".gitignore": ".git*",
+		"README.md": "CODE_OF_CONDUCT.md, CONTRIBUTING.md, LICENCE, COPYING"
+	},
 	"i18n-ally.keystyle": "nested"
 }
