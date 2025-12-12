@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Linca and papilio-project
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import type { Plugin } from 'vite';
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
