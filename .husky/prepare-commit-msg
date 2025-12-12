@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+node ./dev-scripts/commit-message-format.js

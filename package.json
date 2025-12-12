@@ -14,11 +14,14 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"lint:reuse": "pipx run reuse lint",
-		"licence:annotate": "bun dev-scripts/add-licence-header.ts",
+		"licence:annotate": "node dev-scripts/add-licence-header.js",
+		"licence:check": "node dev-scripts/add-licence-header.js --test",
 		"update-locales": "bun dev-scripts/update-locale.ts",
 		"build-locales": "bun dev-scripts/gen-i18n.ts",
 		"proj:line-count": "tokei src -e ui -e *.gen.ts",
-		"preview": "vite preview"
+		"test": "pnpm licence:check",
+		"preview": "vite preview",
+		"prepare": "node .husky/install.mjs"
 	},
 	"dependencies": {
 		"@misskey-dev/browser-image-resizer": "^2024.1.0",
@@ -101,6 +104,7 @@
 		"eslint-plugin-react-refresh": "^0.4.24",
 		"eslint-plugin-react-x": "^2.3.13",
 		"globals": "^16.5.0",
+		"husky": "^9.1.7",
 		"ink": "^6.5.1",
 		"js-yaml": "^4.1.1",
 		"prettier": "^3.7.4",

@@ -10,6 +10,7 @@ path = [
   "**/*.yaml",
   "**/*.md",
   "**/*.txt",
+  ".husky/**/*",
   ".gitignore",
   "index.html",
   ".gitattributes",
