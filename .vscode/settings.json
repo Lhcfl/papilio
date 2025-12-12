@@ -3,7 +3,7 @@
 // or you can create an profile in your vscode.
 {
 	"i18n-ally.localesPaths": [
-		"public/locales"
+		"locales-source/**"
 	],
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit",

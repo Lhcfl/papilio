@@ -8,6 +8,7 @@ import PackageJSON from './package.json';
 import { env } from 'node:process';
 import { exec } from 'node:child_process';
 import { promisify } from 'util';
+import { PapilioI18nGenerator } from './vite-plugins/locales-generator';
 
 const execAsync = promisify(exec);
 
@@ -24,6 +25,7 @@ export default defineConfig({
     ),
   },
   plugins: [
+    PapilioI18nGenerator(),
     TailWindCSS(),
     TanStackRouter({
       autoCodeSplitting: true,

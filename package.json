@@ -17,7 +17,6 @@
 		"licence:annotate": "node dev-scripts/add-licence-header.js",
 		"licence:check": "node dev-scripts/add-licence-header.js --test",
 		"update-locales": "bun dev-scripts/update-locale.ts",
-		"build-locales": "bun dev-scripts/gen-i18n.ts",
 		"proj:line-count": "tokei src -e ui -e *.gen.ts",
 		"test:pre-commit": "pnpm licence:check",
 		"test:pre-push": "run-p test:pre-commit typecheck lint",
