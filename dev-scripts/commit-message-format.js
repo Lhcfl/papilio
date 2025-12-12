@@ -38,14 +38,14 @@ const [message, ...description] = source.split("\n\n");
 const [categoryMatched, ...rest] = message.trim().split(" ");
 
 const [category, subcategory, messageRest] = (() => {
-  let category = categoryMatched.toLowerCase().replace(":", "");
+  let category = categoryMatched.toLowerCase().replaceAll(":", "");
   let subcategory = "";
 
   let idx = category.indexOf("(");
 
   if (idx !== -1) {
+    subcategory = category.slice(idx + 1);
     category = category.slice(0, idx);
-    subcategory = categoryMatched.slice(idx + 1);
     subcategory = subcategory.replaceAll(")", "");
   } else {
     const firstRest = rest.at(0);
@@ -108,6 +108,11 @@ const prefix = cond([
   ],
 ]);
 
+if (!prefix) {
+  console.error(`[commit-message-format] Unknown category: "${category}"`);
+  process.exit(1);
+}
+
 function guessSubCategory() {
   if (subcategory) {
     return `(${subcategory})`;
@@ -136,8 +141,15 @@ const output = [
 ].join("\n\n");
 
 if (FLAG_FROM_STDIO) {
-  console.log(output);
+  console.log({
+    prefix,
+    category,
+    subcategory,
+    messageRest,
+    output,
+  })
 } else {
+  console.log("[Formatted commit message]:", output);
   await fs.writeFile(".git/COMMIT_EDITMSG", output);
 }
 
