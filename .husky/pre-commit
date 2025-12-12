@@ -1,1 +1,2 @@
-pnpm test
+#!/usr/bin/env sh
+pnpm test:pre-commit
