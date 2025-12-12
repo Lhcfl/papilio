@@ -108,6 +108,14 @@ const prefix = cond([
           subcategory.startsWith("licen"),
         "📄",
       ],
+      [messageRest.includes("add"), "💬"],
+      [
+        messageRest.includes("remove") || messageRest.includes("delete"),
+        cond([
+          [messageRest.includes("log"), "🔇"],
+          [true, "🗑️"],
+        ]),
+      ],
       [true, "👩‍💻"],
     ]),
   ],
@@ -129,7 +137,11 @@ function guessSubCategory() {
     return "(ci)";
   }
 
-  if (restLower.includes("deps") || restLower.includes("dependency") || restLower.includes("dependencies")) {
+  if (
+    restLower.includes("deps") ||
+    restLower.includes("dependency") ||
+    restLower.includes("dependencies")
+  ) {
     return "(deps)";
   }
 
@@ -152,7 +164,7 @@ if (FLAG_FROM_STDIO) {
     subcategory,
     messageRest,
     output,
-  })
+  });
 } else {
   console.log("[Formatted commit message]:", output);
   await fs.writeFile(".git/COMMIT_EDITMSG", output);
