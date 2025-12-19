@@ -247,8 +247,26 @@ function MkPostFormLoaded(
   const unspecifiedMentions = mentionedUsers.filter((u) =>
     draft.visibleUsers.every((vu) => u.username != vu.username || (u.host != siteDomain && u.host != vu.host)),
   );
-  const PostBtnIcon = props.replyId ? ReplyIcon : props.quoteId ? QuoteIcon : props.editId ? PencilIcon : SendIcon;
-  const postBtnLabel = props.replyId ? t('reply') : props.quoteId ? t('quote') : props.editId ? t('edit') : t('note');
+
+  const PostBtnIcon = props.replyId
+    ? ReplyIcon
+    : props.quoteId
+      ? QuoteIcon
+      : props.editId
+        ? PencilIcon
+        : draft.visibility === 'specified'
+          ? MailIcon
+          : SendIcon;
+
+  const postBtnLabel = props.replyId
+    ? t('reply')
+    : props.quoteId
+      ? t('quote')
+      : props.editId
+        ? t('edit')
+        : draft.visibility === 'specified'
+          ? t('directMessage_short')
+          : t('note');
 
   // #endregion States And Hooks
 
