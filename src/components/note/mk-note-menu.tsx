@@ -270,7 +270,7 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
           variant: 'destructive',
           onClick: onDelete,
           icon: <Trash2Icon />,
-          label: t('delete'),
+          label: isMine ? t('delete') : `${t('delete')} (${t('administration')})`,
         },
       ],
     },
