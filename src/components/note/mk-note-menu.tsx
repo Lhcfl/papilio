@@ -8,6 +8,7 @@ import {
   BellOffIcon,
   ClockIcon,
   CopyIcon,
+  EditIcon,
   ExternalLinkIcon,
   FlagIcon,
   InfoIcon,
@@ -19,6 +20,7 @@ import {
   ShareIcon,
   StarIcon,
   Trash2Icon,
+  XIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import type { NoteWithExtension } from '@/types/note';
@@ -46,6 +48,10 @@ import { useState } from 'react';
 import { AddClipModal } from '@/modals/add-clip-modal';
 import { getRelativeUrl, site } from '@/lib/inject-misskey-api';
 import { acct } from 'misskey-js';
+import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { MkPostForm } from '@/components/mk-post-form';
+import { Button } from '@/components/ui/button';
+import { useMisskeyForkFeatures } from '@/stores/node-info';
 
 const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }, successMessage: string) => () =>
   props
@@ -66,6 +72,8 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
   const translatorAvailable = useSiteMeta((s) => s.translatorAvailable);
   const [showFlageModal, setShowFlagModal] = useState(false);
   const [showAddClipModal, setShowAddClipModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const supportEdit = useMisskeyForkFeatures().editNotes;
   const deleteNoteAction = useDeleteNoteAction(note.id);
   const favorite = withToast(useFavoriteNoteAction(note.id), t('favorited'));
   const unfavorite = withToast(useUnfavoriteNoteAction(note.id), t('unfavorite'));
@@ -264,6 +272,16 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
       type: 'group',
       items: [
         null, // separator
+        isMine &&
+          supportEdit && {
+            id: 'edit',
+            type: 'item',
+            onClick: () => {
+              setShowEditModal(true);
+            },
+            icon: <EditIcon />,
+            label: t('edit'),
+          },
         {
           id: 'delete',
           type: 'item',
@@ -288,6 +306,25 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
           defaultReason={defaultNoteReportReason}
           userId={note.userId}
         />
+        <Dialog open={showEditModal} onOpenChange={setShowEditModal}>
+          <DialogContent className="top-6 translate-y-0 p-0" showCloseButton={false}>
+            <DialogTitle className="sr-only">editing</DialogTitle>
+            <MkPostForm
+              appendHeader={
+                <DialogClose asChild>
+                  <Button variant="ghost" size="icon">
+                    <XIcon />
+                  </Button>
+                </DialogClose>
+              }
+              onSuccess={() => {
+                setShowEditModal(false);
+              }}
+              editId={note.id}
+              relatedNote={note}
+            />
+          </DialogContent>
+        </Dialog>
       </>
     ),
   };
