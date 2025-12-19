@@ -24,7 +24,7 @@ function getId<T>(item: unknown, fallback?: T): typeof fallback | string {
   if (item == null) return fallback;
   if (typeof item === 'object' && 'id' in item && typeof item.id === 'string') return item.id;
   if (Array.isArray(item) && item.length > 0) {
-    return item.map((x) => getId(x, fallback)).join('::');
+    return getId(item.at(0), fallback);
   }
   return fallback;
 }
