@@ -10,6 +10,7 @@ import { usePreference } from '@/stores/perference';
 import type { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
 import type { Note as MisskeyNote } from 'misskey-js/entities.js';
 import { isPureRenote } from 'misskey-js/note.js';
+import { useMemo } from 'react';
 
 /**
  * Displays a list of Misskey notes with infinite scrolling.\
@@ -63,56 +64,61 @@ export function MkNotes({
  * ```
  */
 function ThreadedNotes({ notes }: { notes: string[] }) {
-  const noteIdSet = new Set(notes);
-  const repliedNoteIds = new Set<string>();
-  const subNoteDisplayNoteIds = new Set<string>();
-  const sameRenoteSet = new Map<string, string[]>();
+  'use no memo';
 
-  const processedNotes = notes.map((noteId) => {
-    const note = justGiveMeTheNoteByIdWithoutReactivity(noteId);
-    if (note == null) {
-      return { noteId, hidden: true };
-    }
+  return useMemo(() => {
+    const noteIdSet = new Set(notes);
+    const repliedNoteIds = new Set<string>();
+    const subNoteDisplayNoteIds = new Set<string>();
+    const sameRenoteSet = new Map<string, string[]>();
 
-    const replyId = note.replyId;
-    if (replyId != null && noteIdSet.has(replyId)) {
-      // if the note replies to another note that is also replied by another note in the set, skips it
-      if (!repliedNoteIds.has(replyId)) {
-        repliedNoteIds.add(replyId);
-        subNoteDisplayNoteIds.add(noteId);
-      }
-    }
-
-    const renoteId = note.renoteId;
-    if (isPureRenote(note as MisskeyNote) && renoteId != null) {
-      const existing = sameRenoteSet.get(renoteId);
-      sameRenoteSet.set(renoteId, [...(existing ?? []), noteId]);
-      if (existing == null) {
-        // first time seeing this renote, keep it
-        return { noteId: renoteId, hidden: false };
-      } else {
-        // already seen, hide it
+    const processedNotes = notes.map((noteId) => {
+      const note = justGiveMeTheNoteByIdWithoutReactivity(noteId);
+      if (note == null) {
         return { noteId, hidden: true };
       }
-    }
 
-    return { noteId, hidden: false };
-  });
+      const replyId = note.replyId;
+      if (replyId != null && noteIdSet.has(replyId)) {
+        // if the note replies to another note that is also replied by another note in the set, skips it
+        if (!repliedNoteIds.has(replyId)) {
+          repliedNoteIds.add(replyId);
+          subNoteDisplayNoteIds.add(noteId);
+        }
+      }
 
-  return processedNotes.map(({ noteId, hidden }) => {
-    if (hidden) {
-      return null;
-    }
-    if (repliedNoteIds.has(noteId)) {
-      return null;
-    }
-    return (
-      <MkNote
-        key={noteId}
-        noteId={noteId}
-        mergedRenoteIds={sameRenoteSet.get(noteId)}
-        initialReplyAppearance={subNoteDisplayNoteIds.has(noteId) ? 'subNote' : null}
-      />
-    );
-  });
+      const renoteId = note.renoteId;
+      if (isPureRenote(note as MisskeyNote) && renoteId != null) {
+        const existing = sameRenoteSet.get(renoteId);
+        sameRenoteSet.set(renoteId, [...(existing ?? []), noteId]);
+        if (existing == null) {
+          // first time seeing this renote, keep it
+          return { noteId: renoteId, hidden: false };
+        } else {
+          // already seen, hide it
+          return { noteId, hidden: true };
+        }
+      }
+
+      return { noteId, hidden: false };
+    });
+
+    return processedNotes.map(({ noteId, hidden }) => {
+      if (hidden) {
+        return null;
+      }
+      if (repliedNoteIds.has(noteId)) {
+        return null;
+      }
+      return (
+        <MkNote
+          key={noteId}
+          noteId={noteId}
+          mergedRenoteIds={sameRenoteSet.get(noteId)}
+          initialReplyAppearance={subNoteDisplayNoteIds.has(noteId) ? 'subNote' : null}
+        />
+      );
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, notes);
 }

@@ -20,7 +20,7 @@ import { MkNoteTranslation } from '@/components/note/mk-note-translation';
 import { Link } from '@tanstack/react-router';
 import { collectAst, countAst } from '@/lib/note';
 import { cn, onlyWhenNonInteractableContentClicked } from '@/lib/utils';
-import { site } from '@/lib/inject-misskey-api';
+import { siteDomain } from '@/lib/inject-misskey-api';
 import { cond } from '@/lib/match';
 import { MkMention } from '@/components/mk-mention';
 import { acct } from 'misskey-js';
@@ -196,7 +196,6 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
   const { t } = useTranslation();
   const textAst = useMemo(() => parse(note.text ?? ''), [note.text]);
   const { data: visibleUsers } = useUsersQuery(note.visibleUserIds);
-  const siteDomain = new URL(site!).host;
 
   // Track renders for performance debugging
   const renderCountRef = useRef(0);

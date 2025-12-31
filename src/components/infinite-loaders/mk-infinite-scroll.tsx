@@ -82,7 +82,7 @@ export function MkInfiniteScrollByData<TData, FlatDepth extends number = 1>(
     ...rest
   } = props;
   const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage, error, refetch } = infiniteQueryResult;
-  const items = data?.pages.flat(flatDepth) ?? [];
+  const items = (flatDepth == 0 ? (data?.pages as FlatArray<TData[], FlatDepth>[]) : data?.pages.flat(flatDepth)) ?? [];
   const isEmpty = !isPending && items.length === 0;
 
   const DataContainer = dataContainer ?? 'div';

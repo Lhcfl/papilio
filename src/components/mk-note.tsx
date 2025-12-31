@@ -9,7 +9,7 @@ import { MkNoteBody } from '@/components/note/mk-note-body';
 import { MkNoteHeader } from '@/components/note/mk-note-header';
 import { MkNoteReactions } from '@/components/note/mk-note-reactions';
 import { MkNoteRenoteTip } from '@/components/note/mk-note-renote-tip';
-import { useState, type HTMLProps } from 'react';
+import { memo, useCallback, useState, type HTMLProps } from 'react';
 import { useAppearNote, useNoteValue } from '@/hooks/note';
 import { useTranslateAction } from '@/hooks/note-actions';
 import { Button } from '@/components/ui/button';
@@ -23,7 +23,7 @@ import { MkNoteMergedRenoteTip } from '@/components/note/mk-note-merged-renote-t
  * MkNote component representing a Misskey note with various features.\
  * Supports displaying replies, renotes, reactions, and actions.\
  */
-export const MkNote = (
+const MkNoteComponent = (
   props: {
     /** Note ID */
     noteId: string;
@@ -95,6 +95,14 @@ export const MkNote = (
   const [manualReplyAppearance, setReplyAppearance] = useState(initialReplyAppearance);
   const replyAppearance = manualReplyAppearance ?? (collapseNotesRepliedTo ? 'inline' : 'subNote');
 
+  const handleCollapseReply = useCallback(() => {
+    setReplyAppearance('inline');
+  }, []);
+
+  const handleExpandReply = useCallback(() => {
+    setReplyAppearance('subNote');
+  }, []);
+
   if (note == null || appearNote == null) {
     return null;
   }
@@ -119,18 +127,11 @@ export const MkNote = (
           showReply={collapseNotesRepliedTo}
           hasReply={true}
           initialReplyAppearance={initialReplyAppearance}
-          onClose={() => {
-            setReplyAppearance('inline');
-          }}
+          onClose={handleCollapseReply}
         />
       )}
       {showReply && replyAppearance === 'inline' && appearNote.replyId != null && (
-        <MkNoteReplyLine
-          noteId={appearNote.replyId}
-          onExpand={() => {
-            setReplyAppearance('subNote');
-          }}
-        />
+        <MkNoteReplyLine noteId={appearNote.replyId} onExpand={handleExpandReply} />
       )}
       <MkNoteHeader note={appearNote} />
       <div className={clsx('relative', { 'pl-12': isSubNote })}>
@@ -163,3 +164,5 @@ export const MkNote = (
     </MkMuteableNote>
   );
 };
+
+export const MkNote = memo(MkNoteComponent);
