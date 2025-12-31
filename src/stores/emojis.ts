@@ -4,7 +4,7 @@
  */
 
 import type { EmojiSimple } from 'misskey-js/entities.js';
-import { createContext, use, useMemo } from 'react';
+import { createContext, use } from 'react';
 
 interface EmojisState {
   emojis: EmojiSimple[];
@@ -14,8 +14,7 @@ interface EmojisState {
 export const EmojisContext = createContext<EmojisState>({ emojis: [], emojisMap: new Map() });
 
 export function useEmojis<T>(selector: (s: EmojisState) => T): T {
-  return useMemo(() => {
-    const emojisState = use(EmojisContext);
-    return selector(emojisState);
-  }, [selector]);
+  'use no memo';
+  const emojisState = use(EmojisContext);
+  return selector(emojisState);
 }

@@ -4,7 +4,7 @@
  */
 
 import { IceShrimpFeatures, SharkeyFeatures, type ForkFeature } from '@/lib/features';
-import { createContext, use, useMemo } from 'react';
+import { createContext, use } from 'react';
 export interface NodeInfo {
   version: string;
   software: {
@@ -39,12 +39,12 @@ export interface NodeInfo {
 
 export const NodeInfoContext = createContext<NodeInfo | null>(null);
 
-export const useNodeInfo = <T>(selector: (arg: NodeInfo) => T) =>
-  useMemo(() => {
-    const meta = use(NodeInfoContext);
-    if (!meta) throw new Error('node info is not set yet!');
-    return selector(meta);
-  }, [selector]);
+export const useNodeInfo = <T>(selector: (arg: NodeInfo) => T) => {
+  'use no memo';
+  const meta = use(NodeInfoContext);
+  if (!meta) throw new Error('node info is not set yet!');
+  return selector(meta);
+};
 
 export const useMisskeyForkFeatures = (): ForkFeature => {
   const name = use(NodeInfoContext)?.software.name ?? 'misskey';

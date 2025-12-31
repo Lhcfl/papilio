@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { infiniteQueryOptions, useQueryClient } from '@tanstack/react-query';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { createStreamChannel, INITIAL_UNTIL_ID, misskeyApi } from '@/lib/inject-misskey-api';
@@ -31,6 +31,21 @@ export const MkTimeline = ({ type }: { type: TimelineTypes }) => {
   const [withBots, setWithBots] = useState(true);
   const [onlyMedia, setOnlyMedia] = useState(false);
 
+  // DEBUG: Track render count
+  const renderCountRef = useRef(0);
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      renderCountRef.current += 1;
+      console.log(`[MkTimeline] 🔄 Render #${renderCountRef.current}`, {
+        type,
+        withReplies,
+        withRenotes,
+        withBots,
+        onlyMedia,
+      });
+    }
+  });
+
   const pparams = useMemo(
     (): Partial<TimelineRequestParams<'notes/timeline'>> => ({
       withBots: withBots,
@@ -42,8 +57,10 @@ export const MkTimeline = ({ type }: { type: TimelineTypes }) => {
     [withBots, withReplies, withRenotes, onlyMedia],
   );
 
+  const queryKey = useMemo(() => ['timeline', type, pparams] as const, [type, pparams]);
+
   const opts = infiniteQueryOptions({
-    queryKey: ['timeline', type, pparams],
+    queryKey,
     queryFn: async ({ pageParam }) => {
       const notes = await (() => {
         const params: TimelineRequestParams<'notes/timeline'> = {
@@ -75,7 +92,7 @@ export const MkTimeline = ({ type }: { type: TimelineTypes }) => {
   useEffect(() => {
     const channelName = `${type}Timeline` as const;
     if (import.meta.env.DEV) {
-      console.log(`[timeline] 🟢 subscribing to channel ${channelName}`);
+      console.log(`[timeline] 🟢 subscribing to channel ${channelName}`, { type, pparams });
     }
     const channel = createStreamChannel(channelName, { ...pparams });
     channel.on('note', (note) => {
@@ -84,7 +101,9 @@ export const MkTimeline = ({ type }: { type: TimelineTypes }) => {
       }
       const [id] = registerNote([note]);
 
-      queryClient.setQueryData(opts.queryKey, (data) => {
+      type QueryKeyType = (typeof opts)['queryKey'];
+
+      queryClient.setQueryData(queryKey as QueryKeyType, (data) => {
         const [page0, ...other] = data?.pages ?? [[]];
         const newPages = page0.length >= TIMELINE_PAGE_SIZE ? [[id], page0] : [[id, ...page0]];
 
@@ -96,13 +115,14 @@ export const MkTimeline = ({ type }: { type: TimelineTypes }) => {
           : data;
       });
     });
+
     return () => {
       if (import.meta.env.DEV) {
         console.log(`[timeline] 🔴 channel ${channelName} disposed`);
       }
       channel.dispose();
     };
-  }, [queryClient, opts.queryKey, type, pparams]);
+  }, [queryClient, queryKey, type, pparams]);
 
   const query = useInfiniteQuery(opts);
 

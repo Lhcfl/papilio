@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { use, useMemo, useState } from 'react';
+import { use, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { ChevronDownIcon, ChevronUpIcon, LockIcon, MailIcon, QuoteIcon, ReplyIcon } from 'lucide-react';
@@ -197,6 +197,20 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
   const textAst = useMemo(() => parse(note.text ?? ''), [note.text]);
   const { data: visibleUsers } = useUsersQuery(note.visibleUserIds);
   const siteDomain = new URL(site!).host;
+
+  // Track renders for performance debugging
+  const renderCountRef = useRef(0);
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      renderCountRef.current += 1;
+      if (renderCountRef.current > 3) {
+        console.warn(`[MkNoteBody] ⚠️ Note ${note.id.slice(0, 8)} rendered ${renderCountRef.current} times`, {
+          noteId: note.id,
+          text: note.text?.slice(0, 50),
+        });
+      }
+    }
+  });
 
   const isHidden = note.isHidden;
 

@@ -4,16 +4,15 @@
  */
 
 import type { MeDetailed } from 'misskey-js/entities.js';
-import { createContext, use, useMemo } from 'react';
+import { createContext, use } from 'react';
 
 export const MeContext = createContext<MeDetailed | null>(null);
 
 export function useMe(): MeDetailed;
 export function useMe<T>(selector: (m: MeDetailed) => T): T | undefined;
 export function useMe<T>(selector?: (m: MeDetailed) => T) {
-  return useMemo(() => {
-    const me = use(MeContext);
-    if (me == null) throw new Error('MeContext is not provided!');
-    return selector ? selector(me) : me;
-  }, [selector]);
+  'use no memo';
+  const me = use(MeContext);
+  if (me == null) throw new Error('MeContext is not provided!');
+  return selector ? selector(me) : me;
 }
