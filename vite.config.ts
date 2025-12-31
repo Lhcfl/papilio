@@ -32,16 +32,19 @@ export default defineConfig({
     }),
     React({
       babel: {
-        plugins: [
-          [
-            'babel-plugin-react-compiler',
-            env.DEBUG_REACT_COMPILER === 'true'
-              ? {
-                  panicThreshold: 'all_errors',
-                }
-              : {},
-          ],
-        ],
+        plugins:
+          env.DISABLE_REACT_COMPILER === 'true'
+            ? []
+            : [
+                [
+                  'babel-plugin-react-compiler',
+                  env.DEBUG_REACT_COMPILER === 'true'
+                    ? {
+                        panicThreshold: 'all_errors',
+                      }
+                    : {},
+                ],
+              ],
       },
     }),
     Visualizer({ filename: 'dist/visual.html' }),

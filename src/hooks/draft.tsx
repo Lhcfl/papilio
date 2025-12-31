@@ -53,7 +53,34 @@ const DefaultDraftData = {
 
 export type DraftData = typeof DefaultDraftData;
 
+// Helper to deeply flatten defaults into array for useMemo dependency comparison
+const flattenDefaults = (defaults?: Partial<DraftData>): unknown[] => {
+  if (!defaults) return [];
+
+  const result: unknown[] = [];
+  const keys = Object.keys(DefaultDraftData) as (keyof DraftData)[];
+
+  for (const k of keys) {
+    const value = defaults[k];
+    if (value === undefined || value === null) {
+      result.push(value);
+    } else if (Array.isArray(value)) {
+      result.push(value.length, ...value);
+    } else if (typeof value === 'object') {
+      result.push(...Object.values(value));
+    } else {
+      result.push(value);
+    }
+  }
+
+  return result;
+};
+
 export const useDraft = (draftKey: string, defaults?: Partial<DraftData>) => {
+  'use no memo';
+
+  const flattenedDefaults = flattenDefaults(defaults);
+
   const defaultsWithFallback = useMemo(() => {
     const ret = { ...DefaultDraftData };
 
@@ -64,7 +91,8 @@ export const useDraft = (draftKey: string, defaults?: Partial<DraftData>) => {
       }
     }
     return ret;
-  }, [defaults]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, flattenedDefaults);
 
   // const [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState(defaultsWithFallback);
