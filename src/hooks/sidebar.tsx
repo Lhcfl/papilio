@@ -45,8 +45,8 @@ export function useSidebarItems(): SidebarItem[] {
       ding: useMe((me) => me.hasPendingReceivedFollowRequest),
     },
     { title: t('announcements'), icon: MegaphoneIcon, to: '/announcements' },
-    { title: t('lists'), icon: ListIcon, to: '/my/lists' },
-    { title: t('drive'), icon: CloudIcon, to: '/my/drive' },
+    { title: t('lists'), icon: ListIcon, to: '/my/lists/' },
+    { title: t('drive'), icon: CloudIcon, to: '/my/drive/' },
     { title: t('search'), icon: SearchIcon, to: '/search' },
     { title: t('settings'), icon: CogIcon, to: '/settings' },
   ];

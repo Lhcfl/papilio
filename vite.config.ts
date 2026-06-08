@@ -1,14 +1,15 @@
 import path from 'node:path';
 import TailWindCSS from '@tailwindcss/vite';
 import TanStackRouter from '@tanstack/router-plugin/vite';
-import React from '@vitejs/plugin-react';
+import React, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { visualizer as Visualizer } from 'rollup-plugin-visualizer';
 import PackageJSON from './package.json';
 import { env } from 'node:process';
 import { exec } from 'node:child_process';
-import { promisify } from 'util';
+import { promisify } from 'node:util';
 import { PapilioI18nGenerator } from './vite-plugins/locales-generator';
+import Babel from '@rolldown/plugin-babel';
 
 const execAsync = promisify(exec);
 
@@ -25,28 +26,15 @@ export default defineConfig({
     ),
   },
   plugins: [
+    Babel({
+      presets: [reactCompilerPreset()],
+    }),
     PapilioI18nGenerator(),
     TailWindCSS(),
     TanStackRouter({
       autoCodeSplitting: true,
     }),
-    React({
-      babel: {
-        plugins:
-          env.DISABLE_REACT_COMPILER === 'true'
-            ? []
-            : [
-                [
-                  'babel-plugin-react-compiler',
-                  env.DEBUG_REACT_COMPILER === 'true'
-                    ? {
-                        panicThreshold: 'all_errors',
-                      }
-                    : {},
-                ],
-              ],
-      },
-    }),
+    React(),
     Visualizer({ filename: 'dist/visual.html' }),
   ],
   resolve: {

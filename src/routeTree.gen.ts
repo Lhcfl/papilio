@@ -354,6 +354,7 @@ const MyDriveFileFileNotesRoute = MyDriveFileFileNotesRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof TimelineIndexRoute
   '/about': typeof AboutRouteRouteWithChildren
   '/announcements': typeof AnnouncementsRouteRouteWithChildren
   '/search': typeof SearchRouteRouteWithChildren
@@ -385,7 +386,6 @@ export interface FileRoutesByFullPath {
   '/settings/$page': typeof SettingsPageRoute
   '/settings/profile': typeof SettingsProfileRoute
   '/tag/$tag': typeof TagTagRoute
-  '/': typeof TimelineIndexRoute
   '/announcements/': typeof AnnouncementsIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/clips/$id/edit': typeof ClipsIdEditRoute
@@ -400,10 +400,10 @@ export interface FileRoutesByFullPath {
   '/my/relations/mute': typeof MyRelationsMuteRoute
   '/notes/$id/history': typeof NotesIdHistoryRoute
   '/clips/$id/': typeof ClipsIdIndexRoute
-  '/my/drive': typeof MyDriveIndexRoute
-  '/my/lists': typeof MyListsIndexRoute
+  '/my/drive/': typeof MyDriveIndexRoute
+  '/my/lists/': typeof MyListsIndexRoute
   '/my/notifications/': typeof MyNotificationsIndexRoute
-  '/notes/$id': typeof NotesIdIndexRoute
+  '/notes/$id/': typeof NotesIdIndexRoute
   '/my/drive/file/$file': typeof MyDriveFileFileRouteRouteWithChildren
   '/my/drive/folder/$folder': typeof MyDriveFolderFolderRoute
   '/my/lists/$id/settings': typeof MyListsIdSettingsRoute
@@ -526,6 +526,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/about'
     | '/announcements'
     | '/search'
@@ -557,7 +558,6 @@ export interface FileRouteTypes {
     | '/settings/$page'
     | '/settings/profile'
     | '/tag/$tag'
-    | '/'
     | '/announcements/'
     | '/settings/'
     | '/clips/$id/edit'
@@ -572,10 +572,10 @@ export interface FileRouteTypes {
     | '/my/relations/mute'
     | '/notes/$id/history'
     | '/clips/$id/'
-    | '/my/drive'
-    | '/my/lists'
+    | '/my/drive/'
+    | '/my/lists/'
     | '/my/notifications/'
-    | '/notes/$id'
+    | '/notes/$id/'
     | '/my/drive/file/$file'
     | '/my/drive/folder/$folder'
     | '/my/lists/$id/settings'
@@ -807,7 +807,7 @@ declare module '@tanstack/react-router' {
     '/_timeline': {
       id: '/_timeline'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof TimelineRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -975,7 +975,7 @@ declare module '@tanstack/react-router' {
     '/notes/$id/': {
       id: '/notes/$id/'
       path: '/notes/$id'
-      fullPath: '/notes/$id'
+      fullPath: '/notes/$id/'
       preLoaderRoute: typeof NotesIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -989,14 +989,14 @@ declare module '@tanstack/react-router' {
     '/my/lists/': {
       id: '/my/lists/'
       path: '/my/lists'
-      fullPath: '/my/lists'
+      fullPath: '/my/lists/'
       preLoaderRoute: typeof MyListsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/my/drive/': {
       id: '/my/drive/'
       path: '/my/drive'
-      fullPath: '/my/drive'
+      fullPath: '/my/drive/'
       preLoaderRoute: typeof MyDriveIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
