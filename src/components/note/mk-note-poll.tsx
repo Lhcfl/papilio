@@ -144,7 +144,7 @@ export function MkNotePoll({
                   }}
                   className={cn(
                     'absolute bottom-0 left-0 h-full w-full transition-transform duration-500',
-                    choice.isVoted ? 'bg-tertiary/10' : 'bg-primary/10',
+                    choice.isVoted ? 'bg-primary/10' : 'bg-primary/10',
                   )}
                 />
               </button>
@@ -181,7 +181,7 @@ export function MkNotePoll({
         {!manualShowResult && !showResult && (
           <button
             type="button"
-            className="text-tertiary inline-flex items-center gap-1"
+            className="text-primary inline-flex items-center gap-1"
             onClick={() => {
               setManualShowResult(true);
             }}
@@ -194,7 +194,7 @@ export function MkNotePoll({
         {canRefresh && (
           <button
             type="button"
-            className="text-tertiary inline-flex items-center gap-1"
+            className="text-primary inline-flex items-center gap-1"
             onClick={() => {
               refresh();
             }}

@@ -76,7 +76,7 @@ function NoteVersion({ note, isLatest }: { note: NoteWithExtension; isLatest?: b
 
   return (
     <div className="border-b pb-2">
-      <p className="text-tertiary flex items-center gap-2 px-2 pt-2 text-sm">
+      <p className="text-primary flex items-center gap-2 px-2 pt-2 text-sm">
         {note.updatedAt === note.createdAt ? <SendIcon className="size-4" /> : <EditIcon className="size-4" />}
         {isLatest ? t('latestVersion') : t('version')}
         <MkTime mode="detail" time={note.updatedAt ?? note.createdAt} />

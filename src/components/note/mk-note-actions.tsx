@@ -59,7 +59,7 @@ const MkNoteActionButton = (
       className={cn(
         'border border-transparent',
         {
-          'text-tertiary hover:bg-tertiary/10 hover:text-tertiary': activated,
+          'text-primary hover:bg-primary/10 hover:text-primary': activated,
         },
         className,
       )}
@@ -191,7 +191,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
         <MkNoteActionButton
           activated={postFormProps?.replyId != null}
           className={cn({
-            'bg-tertiary/10': postFormProps?.replyId != null,
+            'bg-primary/10': postFormProps?.replyId != null,
           })}
           icon={<ReplyIcon />}
           count={note.repliesCount}
@@ -243,7 +243,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
         <MkNoteActionButton
           activated={postFormProps?.quoteId != null}
           className={cn({
-            'bg-tertiary/10': postFormProps?.quoteId != null,
+            'bg-primary/10': postFormProps?.quoteId != null,
           })}
           icon={<QuoteIcon />}
           onClick={() => {

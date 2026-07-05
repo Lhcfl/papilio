@@ -43,7 +43,7 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
                 <div className="flex items-center" id={getHeaderRightId(SIDEBAR_HEADER_ID)} />
                 {/* Loading indicator */}
                 <div
-                  className={cn('bg-tertiary absolute bottom-0 left-0 h-0.5 w-[95%] rounded-md transition-transform', {
+                  className={cn('bg-primary absolute bottom-0 left-0 h-0.5 w-[95%] rounded-md transition-transform', {
                     'duration-3000 ease-out': isLoading,
                     '-translate-x-full duration-100': !isLoading,
                   })}

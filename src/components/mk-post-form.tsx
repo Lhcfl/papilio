@@ -724,7 +724,7 @@ const PostFormButton = (
       size="icon"
       title={label}
       className={cn(className, {
-        'bg-tertiary/10 text-tertiary hover:bg-tertiary/20 hover:text-tertiary': active,
+        'bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary': active,
       })}
       {...rest}
     >

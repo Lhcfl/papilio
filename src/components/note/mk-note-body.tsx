@@ -70,12 +70,12 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
       {note.text && (
         <div className="note-body-text" onClick={onContentClick}>
           {showReplyAsIcon && note.replyId && (
-            <Link className="text-tertiary mr-1 hover:underline" to="/notes/$id" params={{ id: note.replyId }}>
+            <Link className="text-primary mr-1 hover:underline" to="/notes/$id" params={{ id: note.replyId }}>
               <ReplyIcon className="inline size-4" />
             </Link>
           )}
           {showQuoteAsIcon && note.renoteId && (
-            <Link className="text-tertiary mr-1 hover:underline" to="/notes/$id" params={{ id: note.renoteId }}>
+            <Link className="text-primary mr-1 hover:underline" to="/notes/$id" params={{ id: note.renoteId }}>
               <QuoteIcon className="inline size-4" />
             </Link>
           )}

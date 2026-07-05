@@ -30,7 +30,7 @@ export const MkUrl = (
       href={url}
       rel="noopener noreferrer"
       target="_blank"
-      className={cn('text-tertiary', {
+      className={cn('text-primary', {
         'wrap-break-word': children,
         'break-all': !children,
         'hover:underline': !noNavigate,

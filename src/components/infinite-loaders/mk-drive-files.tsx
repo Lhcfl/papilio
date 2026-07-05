@@ -34,14 +34,14 @@ export function MkDriveFiles(props: {
           limit: 50,
           // This is a Sharkey-only parameter
           searchQuery: search,
-        }) as Promise<DriveFile[]>
+        })
       }
       queryKey={search ? ['drive', folderId, search] : ['drive', folderId]}
       containerClassName="grid grid-cols-[repeat(auto-fill,minmax(calc(var(--spacing)*40),1fr))] gap-2"
     >
       {(file) => (
         <div className="relative">
-          <MkDriveFile className={cn('h-full w-full', { 'bg-tertiary/15': selected.has(file.id) })} file={file} />
+          <MkDriveFile className={cn('h-full w-full', { 'bg-primary/15': selected.has(file.id) })} file={file} />
           {selectLimit == 0 ? (
             <Link
               to="/my/drive/file/$file"

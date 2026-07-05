@@ -34,7 +34,7 @@ function RouteComponent() {
       >
         {(n) => (
           <div key={n.id}>
-            <div className="text-tertiary -mb-2 flex items-center gap-2 px-4 text-sm">
+            <div className="text-primary -mb-2 flex items-center gap-2 px-4 text-sm">
               <StarIcon className="size-4" />
               {t('favorited')} <MkTime time={n.createdAt} />
             </div>

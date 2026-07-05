@@ -109,7 +109,7 @@ function RouteComponent() {
               size="icon-sm"
               variant="ghost"
               className={cn({
-                'text-tertiary bg-tertiary/10 hover:text-tertiary hover:bg-tertiary/20': expandAllCw,
+                'text-primary bg-primary/10 hover:text-primary hover:bg-primary/20': expandAllCw,
               })}
               onClick={() => {
                 setExpandAllCw(!expandAllCw);
@@ -126,7 +126,7 @@ function RouteComponent() {
           {isRemoteNote && (
             <MkAlert>
               <span>{t('remoteUserCaution')}</span>
-              <a className="text-tertiary hover:underline" target="_blank" href={getNoteRemoteUrl(note)}>
+              <a className="text-primary hover:underline" target="_blank" href={getNoteRemoteUrl(note)}>
                 {t('showOnRemote')}
               </a>
             </MkAlert>

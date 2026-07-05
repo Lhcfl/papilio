@@ -18,14 +18,14 @@ export const MkHashTag = ({
   noNavigate?: boolean;
 } & HTMLAttributes<HTMLAnchorElement>) => {
   if (noNavigate) {
-    return <span className={cn('text-tertiary wrap-break-word', className)}>#{name}</span>;
+    return <span className={cn('text-primary wrap-break-word', className)}>#{name}</span>;
   }
 
   return (
     <Link
       to="/tag/$tag"
       params={{ tag: name }}
-      className={cn('text-tertiary wrap-break-word hover:underline', className)}
+      className={cn('text-primary wrap-break-word hover:underline', className)}
       {...props}
     >
       #{name}

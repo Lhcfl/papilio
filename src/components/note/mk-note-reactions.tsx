@@ -32,7 +32,7 @@ const NoteReaction = (props: {
       className={clsx('mk-note-reaction flex items-center rounded-md border px-2 py-1 text-sm', {
         'border-primary/30 bg-primary-foreground cursor-pointer': host == null,
         'border-primary/10': host != null,
-        'border-tertiary bg-tertiary/10': meReacted,
+        'border-primary bg-primary/10': meReacted,
         'animate-pulse': isReactPending || isUndoPending,
       })}
       onClick={

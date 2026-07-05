@@ -23,7 +23,7 @@ export const MkUserNotes = (props: {
     <div className="mk-user-notes w-full">
       {pinnedNotes.map((id) => (
         <div key={id}>
-          <div className="text-tertiary -mb-2 flex items-center gap-2 px-4 text-sm">
+          <div className="text-primary -mb-2 flex items-center gap-2 px-4 text-sm">
             <PinIcon className="size-4" />
             {t('pinnedNote')}
           </div>

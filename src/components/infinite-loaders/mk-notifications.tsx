@@ -225,8 +225,8 @@ export const MkNotificationsFilter = (props: {
           <FilterIcon />
         </Button>
       ) : (
-        <Button variant="ghost" size="icon-sm" className="bg-tertiary/10" title={t('filter')}>
-          <FilterXIcon className="text-tertiary" />
+        <Button variant="ghost" size="icon-sm" className="bg-primary/10" title={t('filter')}>
+          <FilterXIcon className="text-primary" />
         </Button>
       )}
     </MenuOrDrawer>
