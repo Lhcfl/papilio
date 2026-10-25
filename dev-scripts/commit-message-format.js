@@ -4,7 +4,9 @@
  */
 
 /** @ts-check */
+import { execFileSync } from "node:child_process";
 import fs from "node:fs/promises";
+import path from "node:path";
 import process from "node:process";
 import readline from "node:readline";
 
@@ -24,6 +26,15 @@ function cond(xs) {
 
 const FLAG_FROM_STDIO = process.argv.includes("--stdio");
 
+/**
+ * Resolve the git dir through git itself: in a linked worktree `.git` is a file,
+ * so a hard-coded `.git/COMMIT_EDITMSG` would not exist.
+ */
+const commitMsgPath = path.join(
+  execFileSync("git", ["rev-parse", "--git-dir"], { encoding: "utf8" }).trim(),
+  "COMMIT_EDITMSG",
+);
+
 /** @type {string} */
 const source = FLAG_FROM_STDIO
   ? await new Promise((res) => {
@@ -38,7 +49,7 @@ const source = FLAG_FROM_STDIO
         rl.close();
       });
     })
-  : await fs.readFile(".git/COMMIT_EDITMSG", "utf8");
+  : await fs.readFile(commitMsgPath, "utf8");
 const [message, ...description] = source.split("\n\n");
 const [categoryMatched, ...rest] = message.trim().split(" ");
 
@@ -167,7 +178,7 @@ if (FLAG_FROM_STDIO) {
   });
 } else {
   console.log("[Formatted commit message]:", output);
-  await fs.writeFile(".git/COMMIT_EDITMSG", output);
+  await fs.writeFile(commitMsgPath, output);
 }
 
 process.exit(0);
