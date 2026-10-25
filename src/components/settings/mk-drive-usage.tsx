@@ -25,8 +25,8 @@ export default function MkDriveUsage() {
   const { usage, capacity } = data;
 
   return (
-    <div>
+    <span className="text-muted-foreground text-[0.8125rem] tabular-nums">
       {toHumanReadableFileSize(usage)} / {toHumanReadableFileSize(capacity)} ({Math.round((usage / capacity) * 100)}%)
-    </div>
+    </span>
   );
 }

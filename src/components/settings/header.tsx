@@ -20,21 +20,23 @@ export function SettingHeader({
 
   return (
     <div {...props}>
-      <div className="inline-flex items-center gap-1 text-base font-medium">
+      <div className="inline-flex items-center gap-1 text-[0.875rem] leading-snug font-medium tracking-[-0.002em]">
         {t(item.name)}
         {'experimental' in item && item.experimental && (
           <Tooltip>
             <TooltipTrigger title={t(item.experimental)} type="button">
-              <FlaskConicalIcon className="size-4 text-blue-500" />
+              <FlaskConicalIcon className="size-3.5 text-blue-500" />
             </TooltipTrigger>
             <TooltipContent>{t(item.experimental)}</TooltipContent>
           </Tooltip>
         )}
       </div>
       {'description' in item && item.description && (
-        <div className="text-muted-foreground text-sm">{t(item.description)}</div>
+        <div className="text-muted-foreground mt-0.5 text-[0.8125rem] leading-relaxed">{t(item.description)}</div>
       )}
-      {hidden && <div className="text-muted-foreground text-sm">{t('settingIsDisabled')}</div>}
+      {hidden && (
+        <div className="text-muted-foreground mt-0.5 text-[0.8125rem] leading-relaxed">{t('settingIsDisabled')}</div>
+      )}
     </div>
   );
 }
