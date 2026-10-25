@@ -8,7 +8,6 @@ import {
   ItemDescription,
   ItemGroup,
   ItemMedia,
-  ItemSeparator,
   ItemTitle,
 } from '@/ui/item';
 import { PageTitle } from '@/layouts/sidebar-layout';
@@ -18,7 +17,6 @@ import { createFileRoute, Link, type LinkComponentProps } from '@tanstack/react-
 import { useAtom, useAtomValue } from 'jotai';
 import { ChevronRightIcon, UserCircle2Icon, Users2Icon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Fragment } from 'react/jsx-runtime';
 
 export const Route = createFileRoute('/settings/')({
   component: RouteComponent,
@@ -44,7 +42,7 @@ function HasNoSearchComponent() {
   }
 
   return (
-    <ItemGroup>
+    <ItemGroup className="gap-1 px-2">
       <SettingLinkItem
         icon={<UserCircle2Icon />}
         title={t('profile')}
@@ -82,17 +80,20 @@ function SettingLinkItem({
   linkopts: LinkComponentProps;
 }) {
   return (
-    <>
-      <Item render={<Link {...linkopts}/>}>
-          <ItemMedia variant="icon">{icon}</ItemMedia>
-          <ItemContent>
-            <ItemTitle className="text-base">{title}</ItemTitle>
-            <ItemDescription className="line-clamp-none text-wrap">{description}</ItemDescription>
-          </ItemContent>
-        
-      </Item>
-      <ItemSeparator />
-    </>
+    <Item
+      render={<Link {...linkopts} />}
+      className="hover:bg-muted items-start gap-4 rounded-xl px-3 py-3 transition-colors"
+    >
+      <ItemMedia variant="icon" className="mt-0.5 [&_svg]:size-6!">
+        {icon}
+      </ItemMedia>
+      <ItemContent className="gap-1">
+        <ItemTitle className="text-[1.0625rem] leading-snug font-medium">{title}</ItemTitle>
+        <ItemDescription className="line-clamp-none text-[0.8125rem] leading-relaxed text-wrap">
+          {description}
+        </ItemDescription>
+      </ItemContent>
+    </Item>
   );
 }
 
@@ -151,38 +152,43 @@ function HasSearchComponent() {
   }
 
   return (
-    <ItemGroup>
+    <ItemGroup className="gap-1 px-2">
       {results.map(({ page, category, item }) => (
-        <Fragment key={[page.value, category.name, item?.name].join(':')}>
-          <Item render={<Link
+        <Item
+          key={[page.value, category.name, item?.name].join(':')}
+          render={
+            <Link
               to="/settings/$page"
               params={{ page: page.value }}
               hash={[category.name, item?.id].join('::')}
               onClick={() => {
                 setQuery('');
-              }}/>}>
-              <ItemMedia variant="icon">{category.icon}</ItemMedia>
-              <ItemContent>
-                <ItemTitle className="text-base">
-                  <span>{t(page.name)}</span>
+              }}
+            />
+          }
+          className="hover:bg-muted items-start gap-4 rounded-xl px-3 py-3 transition-colors"
+        >
+          <ItemMedia variant="icon" className="mt-0.5 [&_svg]:size-6!">
+            {category.icon}
+          </ItemMedia>
+          <ItemContent className="gap-1">
+            <ItemTitle className="text-[1.0625rem] leading-snug font-medium">
+              <span>{t(page.name)}</span>
+              <ChevronRightIcon className="mx-1 inline size-3" />
+              <span>{t(category.name)}</span>
+              {item && (
+                <>
                   <ChevronRightIcon className="mx-1 inline size-3" />
-                  <span>{t(category.name)}</span>
-                  {item && (
-                    <>
-                      <ChevronRightIcon className="mx-1 inline size-3" />
-                      <span>{t(item.name)}</span>
-                    </>
-                  )}
-                </ItemTitle>
-                <ItemDescription>
-                  {!item && category.description && <span>{t(category.description)}</span>}
-                  {item?.description && <span>{t(item.description)}</span>}
-                </ItemDescription>
-              </ItemContent>
-            
-          </Item>
-          <ItemSeparator />
-        </Fragment>
+                  <span>{t(item.name)}</span>
+                </>
+              )}
+            </ItemTitle>
+            <ItemDescription className="text-[0.8125rem] leading-relaxed">
+              {!item && category.description && <span>{t(category.description)}</span>}
+              {item?.description && <span>{t(item.description)}</span>}
+            </ItemDescription>
+          </ItemContent>
+        </Item>
       ))}
     </ItemGroup>
   );
