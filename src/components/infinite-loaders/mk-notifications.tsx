@@ -132,7 +132,7 @@ export const MkNotifications = () => {
           (grouping ? page.grouped : page.raw).map((n) => (
             <Fragment key={n.id}>
               <MkNotification notification={n} />
-              <hr className="m-auto w-[80%]" />
+              <hr className="border-border/70" />
             </Fragment>
           ))
         }

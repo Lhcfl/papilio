@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@/ui/item';
+import { cn } from '@/lib/utils';
 import clsx from 'clsx';
 import type { Notification } from 'misskey-js/entities.js';
 import { MkNote } from '@/components/mk-note';
@@ -97,20 +98,24 @@ const FollowNotification = (props: { notification: PickNotification<'follow'> })
   const didNotFollowBack = user != null && !user.isFollowing && !user.hasPendingFollowRequestFromYou;
 
   return (
-    <Item>
+    <Item className="items-start gap-2 rounded-lg px-2 py-2">
       <NotificationItemMedia notification={notification} />
-      <ItemContent>
-        <ItemTitle className="line-clamp-1 flex w-full justify-between">
+      <ItemContent className="gap-0.5!">
+        <ItemTitle className="line-clamp-1 flex w-full justify-between text-[0.8125rem]! font-medium">
           <NotificationTitle notification={notification} />
-          <MkTime time={notification.createdAt} className="text-muted-foreground" />
+          <MkTime
+            time={notification.createdAt}
+            className="text-muted-foreground text-[0.6875rem]! font-normal"
+          />
         </ItemTitle>
-        <div className="text-muted-foreground line-clamp-2 text-sm wrap-break-word">
+        <div className="text-muted-foreground line-clamp-2 text-[0.72rem]! leading-relaxed wrap-break-word">
           <NotificationDescription notification={notification} />
         </div>
         {didNotFollowBack && (
           <ItemActions>
             <Button
               variant="outline"
+              size="sm"
               onClick={() => {
                 follow(void null, { onSuccess: () => refetch() });
               }}
@@ -133,18 +138,24 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
   const { mutate: reject, isPending: isRejecting } = useRejectFollowRequestAction(notification.user);
 
   return (
-    <Item>
+    <Item className="items-start gap-2 rounded-lg px-2 py-2">
       <NotificationItemMedia notification={notification} />
-      <ItemContent>
-        <ItemTitle className="line-clamp-1 flex w-full justify-between">
+      <ItemContent className="gap-0.5!">
+        <ItemTitle className="line-clamp-1 flex w-full justify-between text-[0.8125rem]! font-medium">
           <NotificationTitle notification={notification} />
-          <MkTime time={notification.createdAt} className="text-muted-foreground" />
+          <MkTime
+            time={notification.createdAt}
+            className="text-muted-foreground text-[0.6875rem]! font-normal"
+          />
         </ItemTitle>
-        <ItemDescription className="line-clamp-2">{t('_notification.youReceivedFollowRequest')}</ItemDescription>
+        <ItemDescription className="line-clamp-2 text-[0.72rem]!">
+          {t('_notification.youReceivedFollowRequest')}
+        </ItemDescription>
         {/* here we need a === false, because user may be null (loading), which we don't want to hide the action */}
         <ItemActions hidden={hidden || user?.hasPendingFollowRequestToYou === false} className="mt-1">
           <Button
             variant="outline"
+            size="sm"
             onClick={() => {
               accept(void null, {
                 onSuccess: () => {
@@ -157,6 +168,7 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
           </Button>
           <Button
             variant="outline"
+            size="sm"
             className="text-destructive!"
             onClick={() => {
               reject(void null, {
@@ -182,16 +194,16 @@ function ExpandableNotification(props: { notification: PickNotification<'grouped
   const hasMore = ns.length > 3;
 
   return (
-    <Item className="items-start">
-      <NotificationItemMedia notification={notification} className="items-start" />
-      <ItemContent>
-        <div className="mt-1 flex flex-wrap gap-2">
+    <Item className="mk-notification-row items-start gap-2 rounded-lg px-2 py-2">
+      <NotificationItemMedia notification={notification} />
+      <ItemContent className="gap-1!">
+        <div className="mt-0.5 flex flex-wrap gap-2">
           {(expand ? ns : nsLess).map((n) => {
             switch (n.type) {
               case 'reaction':
                 return (
                   <div className="reacter relative" key={n.id}>
-                    <MkAvatar user={n.user} avatarProps={{ className: 'mr-1 size-10' }} />
+                    <MkAvatar user={n.user} avatarProps={{ className: 'mr-1 size-5' }} />
                     <ReactionEmoji reaction={n.reaction} note={notification.note} />
                   </div>
                 );
@@ -202,7 +214,7 @@ function ExpandableNotification(props: { notification: PickNotification<'grouped
           {hasMore && !expand && (
             <Button
               variant="outline"
-              size="icon-lg"
+              size="icon-sm"
               className="text-muted-foreground! rounded-full text-xs"
               onClick={() => {
                 setExpand(true);
@@ -214,7 +226,7 @@ function ExpandableNotification(props: { notification: PickNotification<'grouped
           {hasMore && expand && (
             <Button
               variant="outline"
-              size="icon-lg"
+              size="icon-sm"
               className="rounded-full"
               onClick={() => {
                 setExpand(false);
@@ -224,13 +236,13 @@ function ExpandableNotification(props: { notification: PickNotification<'grouped
             </Button>
           )}
         </div>
-        <div className="text-muted-foreground mt-2 line-clamp-2 text-sm">
+        <div className="text-muted-foreground mt-1 line-clamp-2 text-[0.72rem]! leading-relaxed">
           <NotificationDescription notification={notification} />
         </div>
       </ItemContent>
-      <ItemContent>
-        <MkTime time={notification.createdAt} className="text-muted-foreground" />
-      </ItemContent>
+      <span className="text-muted-foreground text-[0.6875rem]!">
+        <MkTime time={notification.createdAt} />
+      </span>
     </Item>
   );
 }
@@ -238,18 +250,21 @@ function ExpandableNotification(props: { notification: PickNotification<'grouped
 export const SimpleNotification = (props: { notification: Notification } & React.ComponentProps<typeof Item>) => {
   const { notification, ...itemProps } = props;
   return (
-    <Item {...itemProps}>
+    <Item
+      {...itemProps}
+      className={cn('items-start gap-2 rounded-lg px-2 py-2', itemProps.className)}
+    >
       <NotificationItemMedia notification={notification} />
-      <ItemContent className="w-0 flex-[1_1]">
-        <ItemTitle className="w-full">
+      <ItemContent className="w-0 flex-[1_1] gap-0.5!">
+        <ItemTitle className="w-full text-[0.8125rem]! font-medium">
           <div className="line-clamp-1 w-0 flex-[1_1]">
             <NotificationTitle notification={notification} />
           </div>
-          <div className="text-muted-foreground">
+          <div className="text-muted-foreground text-[0.6875rem]! font-normal">
             <MkTime time={notification.createdAt} />
           </div>
         </ItemTitle>
-        <div className="text-muted-foreground line-clamp-2 text-sm wrap-break-word">
+        <div className="text-muted-foreground line-clamp-2 text-[0.72rem]! leading-relaxed wrap-break-word">
           <NotificationDescription notification={notification} />
         </div>
       </ItemContent>
