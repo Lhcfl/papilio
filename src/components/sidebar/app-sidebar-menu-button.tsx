@@ -5,7 +5,14 @@
 
 import { SidebarMenuButton } from '@/ui/sidebar';
 import { Link } from '@tanstack/react-router';
+import { cn } from '@/lib/utils';
 import type { ComponentProps } from 'react';
+
+/**
+ * Compact sidebar rows: 40px height, 14px labels, 18px icons, 10px radius.
+ * Importants are needed because `SidebarMenuButton` ships with its own defaults.
+ */
+const MENU_ITEM_CLASS = 'h-10 w-full gap-2.5! rounded-[10px]! pr-3 pl-[15px] text-sm! [&_svg]:size-[18px]!';
 
 export function AppSidebarMenuButtonLink({
   icon,
@@ -21,7 +28,7 @@ export function AppSidebarMenuButtonLink({
   linkOptions: ComponentProps<typeof Link>;
 }) {
   return (
-    <SidebarMenuButton className="h-12 w-full" tooltip={title} render={<Link {...linkOptions}/>}>
+    <SidebarMenuButton className={MENU_ITEM_CLASS} tooltip={title} render={<Link {...linkOptions}/>}>
         {icon}
         {title}
         {count != null && count > 0 && (
@@ -45,10 +52,11 @@ export function AppSidebarMenuButtonLink({
 export function AppSidebarMenuButton({
   icon,
   title,
+  className,
   ...props
 }: { icon: React.ReactNode; title: string } & ComponentProps<typeof SidebarMenuButton>) {
   return (
-    <SidebarMenuButton className="h-12" tooltip={title} {...props}>
+    <SidebarMenuButton className={cn(MENU_ITEM_CLASS, className)} tooltip={title} {...props}>
       {icon}
       {title}
     </SidebarMenuButton>

@@ -43,7 +43,7 @@ export const AppSidebarMain = () => {
   return (
     <SidebarGroup>
       <SidebarGroupContent>
-        <SidebarMenu>
+        <SidebarMenu className="gap-0.5!">
           {data.map((item) => (
             <SidebarMenuItem key={item.to}>
               <AppSidebarMenuButtonLink
