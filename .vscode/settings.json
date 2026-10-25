@@ -19,7 +19,6 @@
 	"typescript.preferences.autoImportSpecifierExcludeRegexes": [
 		"@radix-ui"
 	],
-	"typescript.experimental.useTsgo": true,
 	"explorer.fileNesting.enabled": true,
 	"explorer.fileNesting.patterns": {
 		"tsconfig.json": "tsconfig.*.json",

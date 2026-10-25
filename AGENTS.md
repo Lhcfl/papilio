@@ -2,7 +2,7 @@
 
 - Use `pnpm install` to install deps; or `bun` as an alternative.
 - Dev server: `pnpm dev` (runs `vite`). Build: `pnpm build`.
-- Typecheck: `pnpm typecheck` (runs `tsgo -b --noEmit`).
+- Typecheck: `pnpm typecheck` (runs `tsrs -b --noEmit`).
 - Lint: `pnpm lint` and auto-fix: `pnpm lint:fix`.
 - Pre-commit hooks run `pnpm test:pre-commit` and pre-push runs `pnpm test:pre-push`.
 - Single-test guidance: there are no unit-test frameworks configured; run targeted scripts or add `vitest` and use `pnpm vitest <file>`.
