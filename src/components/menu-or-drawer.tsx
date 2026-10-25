@@ -129,7 +129,7 @@ export const MenuOrDrawer = (props: {
   );
 };
 
-const GenerateDropDownMenu = (menu: Menu) => {
+const GenerateDropDownMenu = (menu: Menu, inGroup = false) => {
   return menu.map((x, i) => {
     if (x === null) {
       const key = `separator-${i}`;
@@ -140,13 +140,20 @@ const GenerateDropDownMenu = (menu: Menu) => {
     }
     switch (x.type) {
       case 'group':
-        return <DropdownMenuGroup key={x.id}>{GenerateDropDownMenu(x.items)}</DropdownMenuGroup>;
-      case 'label':
-        return (
-          <DropdownMenuLabel className="text-muted-foreground" key={x.id}>
+        return <DropdownMenuGroup key={x.id}>{GenerateDropDownMenu(x.items, true)}</DropdownMenuGroup>;
+      case 'label': {
+        /**
+         * Base UI's `Menu.GroupLabel` must live inside a `Menu.Group`, otherwise it throws
+         * `MenuGroupContext is missing`. Menus are allowed to declare a label at the top level,
+         * so wrap standalone labels in an implicit group.
+         */
+        const labelNode = (
+          <DropdownMenuLabel key={x.id} className="text-muted-foreground">
             {x.label}
           </DropdownMenuLabel>
         );
+        return inGroup ? labelNode : <DropdownMenuGroup key={x.id}>{labelNode}</DropdownMenuGroup>;
+      }
       case 'switch': {
         return (
           <DropdownMenuCheckboxItem
