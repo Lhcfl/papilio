@@ -87,11 +87,13 @@ function RouteComponent() {
           >
             <AccordionTrigger className="rounded-none px-3 hover:no-underline">
               <div className="flex w-full items-center gap-3">
-                <ItemMedia variant="icon">{category.icon}</ItemMedia>
+                <ItemMedia variant="icon" className="[&_svg]:size-6!">
+                  {category.icon}
+                </ItemMedia>
                 <div>
-                  <h2 className="text-base">{t(category.name)}</h2>
+                  <h2 className="text-[1.0625rem] font-medium">{t(category.name)}</h2>
                   {'description' in category && category.description && (
-                    <span className="text-muted-foreground text-sm">{t(category.description)}</span>
+                    <span className="text-muted-foreground text-[0.8125rem]">{t(category.description)}</span>
                   )}
                 </div>
               </div>
