@@ -256,7 +256,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
     }) >= 10;
 
   return (
-    <div className={cn('mk-note-body p-2 text-[0.95em] md:text-base', className)}>
+    <div className={cn('mk-note-body p-2 text-[0.95em] leading-[1.75] md:text-[0.9375rem] md:leading-[1.8]', className)}>
       {note.visibility == 'specified' && (extraVisibleUsers.length > 0 || invisibleMentions.length > 0) && (
         <div className="text-muted-foreground mb-2 flex flex-wrap items-center gap-1 border-b px-2 pb-2 text-sm">
           <MailIcon className="size-3" />

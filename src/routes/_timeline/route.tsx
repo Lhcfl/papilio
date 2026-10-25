@@ -32,7 +32,7 @@ function Index() {
           />
         ))}
       </AppPageTabList>
-      <MkPostForm className="mb-2 border" autoFocus={false} />
+      <MkPostForm className="border-b" autoFocus={false} />
       <Outlet />
     </>
   );

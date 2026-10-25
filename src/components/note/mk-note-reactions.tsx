@@ -29,7 +29,7 @@ const NoteReaction = (props: {
     <button
       key={reaction}
       type="button"
-      className={clsx('mk-note-reaction flex items-center rounded-md border px-2 py-1 text-sm', {
+      className={clsx('mk-note-reaction flex items-center rounded-lg border px-2.5 py-1.5 text-sm', {
         'border-primary/30 bg-primary-foreground cursor-pointer': host == null,
         'border-primary/10': host != null,
         'border-primary bg-primary/10': meReacted,

@@ -26,25 +26,25 @@ export const MkNoteHeader = (props: { note: NoteWithExtension; append?: React.Re
       <MkAvatar user={note.user} className="z-10" avatarProps={{ className: 'size-10' }} />
       <div className="flex w-0 flex-[1_1] flex-col">
         <div className="flex justify-between gap-1">
-          <div className="user-name line-clamp-1 w-0 flex-[1_1] font-bold">
+          <div className="user-name line-clamp-1 w-0 flex-[1_1] text-[0.9375rem] font-bold">
             <MkUserName user={note.user} />
           </div>
           <span className="note-time text-muted-foreground flex shrink-0 items-center gap-2">
             {note.updatedAt && note.updatedAt != note.createdAt && (
               <Link className="text-muted-foreground" to="/notes/$id/history" params={{ id: note.id }}>
-                <PencilIcon className="size-4" />
+                <PencilIcon className="size-3.5" />
               </Link>
             )}
             <Link className="" to="/notes/$id" params={{ id: note.id }}>
-              <MkTime time={note.createdAt} className="text-sm" />
+              <MkTime time={note.createdAt} className="text-xs" />
             </Link>
-            <MkVisibilityIcon iconProps={{ className: 'size-4' }} note={note} />
+            <MkVisibilityIcon iconProps={{ className: 'size-3.5' }} note={note} />
           </span>
         </div>
         <div className="flex justify-between gap-2">
-          <div className="user-username shrink-0 text-sm text-gray-500">@{acct.toString(note.user)}</div>
+          <div className="user-username text-muted-foreground shrink-0 text-xs">@{acct.toString(note.user)}</div>
           <div className="w-0 flex-[1_1]">
-            <div className="note-instance bg-muted ml-auto flex w-fit max-w-full items-center gap-1 rounded-xl px-1 py-0.5 text-xs">
+            <div className="note-instance bg-muted ml-auto flex w-fit max-w-full items-center gap-1 rounded-xl px-1 py-0.5 text-[0.6875rem]">
               <Avatar className="size-3">
                 <AvatarImage src={instanceIcon} />
               </Avatar>

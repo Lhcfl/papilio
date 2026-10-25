@@ -70,7 +70,7 @@ export const RightbarOrPopup = (props: {
 export const DesktopRightbar = () => {
   return (
     <div className="right-card-container bg-sidebar relative border-l max-lg:hidden">
-      <ScrollArea className="h-screen w-110 p-2 xl:w-120 2xl:w-130">
+      <ScrollArea className="h-screen w-80 p-2 2xl:w-[21rem]">
         <div id={RIGHTBAR_ID}>
           <AppRightCard className="hidden h-[calc(100vh-var(--spacing)*4)] [&:last-child]:flex" />
         </div>

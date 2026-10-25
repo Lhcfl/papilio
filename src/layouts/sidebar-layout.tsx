@@ -25,7 +25,7 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
   });
 
   return (
-    <SidebarProvider className="relative mx-auto w-full max-w-[1400px]">
+    <SidebarProvider className="relative mx-auto w-full max-w-[1200px]">
       <AppSidebar />
       <SidebarInset className="grid grid-cols-[minmax(0,1fr)_auto]">
         <Tabs className="main-container h-dvh gap-0">
@@ -74,7 +74,7 @@ export function PageTitle({ title, pageTitle, noPortal }: { title: string; pageT
 
   return (
     <HeaderLeftPortal>
-      <h1 className="text-muted-foreground text-sm @max-xl:[[data-center-count]>&]:hidden">{title}</h1>
+      <h1 className="text-foreground/85 text-[0.9375rem] font-semibold @max-xl:[[data-center-count]>&]:hidden">{title}</h1>
     </HeaderLeftPortal>
   );
 }

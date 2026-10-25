@@ -44,23 +44,23 @@ export const MkClock = () => {
   const dayProgress = (time.getTime() - startOfToday) / (endOfToday - startOfToday);
 
   const weekDayI18n = [
+    t('_weekday.sunday'),
     t('_weekday.monday'),
     t('_weekday.tuesday'),
     t('_weekday.wednesday'),
     t('_weekday.thursday'),
     t('_weekday.friday'),
     t('_weekday.saturday'),
-    t('_weekday.sunday'),
-  ][time.getDay() - 1];
+  ][time.getDay()];
 
   return (
-    <div className="flex py-2">
-      <div className="left flex flex-1/2 flex-col text-center">
-        <div className="text-sm">{dateFormat.format(time)}</div>
-        <div className="flex flex-grow-1 items-center justify-center text-3xl">{timeFormat.format(time)}</div>
-        <div className="text-sm">{weekDayI18n}</div>
+    <div className="flex flex-col gap-3 py-2">
+      <div className="flex flex-col">
+        <div className="text-muted-foreground text-[0.6875rem] tracking-wide uppercase">{dateFormat.format(time)}</div>
+        <div className="flex items-baseline gap-1 text-3xl font-light tabular-nums">{timeFormat.format(time)}</div>
+        <div className="text-muted-foreground text-xs">{weekDayI18n}</div>
       </div>
-      <div className="right flex flex-1/2 flex-col gap-2 text-xs">
+      <div className="flex flex-col gap-2 text-xs">
         <div>
           <div className="flex justify-between">
             <span>{t('thisYear')}</span>
