@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from '@/ui/breadcrumb';
 import { Link } from '@tanstack/react-router';
 import { CloudIcon } from 'lucide-react';
 import type { DriveFolder } from 'misskey-js/entities.js';
@@ -20,23 +20,26 @@ export function MkDriveBreadcrumb(props: {
     return (
       <>
         <BreadcrumbItem>
-          <BreadcrumbLink asChild className="inline-flex items-center gap-1">
-            {onSelect != null ? (
-              <button
-                onClick={() => {
-                  onSelect(null);
-                }}
-              >
-                <CloudIcon className="size-4" />
-                {t('drive')}
-              </button>
-            ) : (
-              <Link to="/my/drive">
-                <CloudIcon className="size-4" />
-                {t('drive')}
-              </Link>
-            )}
-          </BreadcrumbLink>
+          {onSelect != null ? (
+            <BreadcrumbLink
+              className="inline-flex items-center gap-1"
+              render={
+                <button
+                  onClick={() => {
+                    onSelect(null);
+                  }}
+                />
+              }
+            >
+              <CloudIcon className="size-4" />
+              {t('drive')}
+            </BreadcrumbLink>
+          ) : (
+            <BreadcrumbLink className="inline-flex items-center gap-1" render={<Link to="/my/drive" />}>
+              <CloudIcon className="size-4" />
+              {t('drive')}
+            </BreadcrumbLink>
+          )}
         </BreadcrumbItem>
         <BreadcrumbSeparator> / </BreadcrumbSeparator>
       </>
@@ -47,19 +50,21 @@ export function MkDriveBreadcrumb(props: {
         <MkDriveBreadcrumb folder={folder.parent} />
         <BreadcrumbItem>
           {' '}
-          <BreadcrumbLink asChild>
-            {onSelect != null ? (
-              <button
-                onClick={() => {
-                  onSelect(null);
-                }}
-              >
-                {folder.name}
-              </button>
-            ) : (
-              <Link to="/my/drive">{folder.name}</Link>
-            )}
-          </BreadcrumbLink>
+          {onSelect != null ? (
+            <BreadcrumbLink
+              render={
+                <button
+                  onClick={() => {
+                    onSelect(null);
+                  }}
+                />
+              }
+            >
+              {folder.name}
+            </BreadcrumbLink>
+          ) : (
+            <BreadcrumbLink render={<Link to="/my/drive" />}>{folder.name}</BreadcrumbLink>
+          )}
         </BreadcrumbItem>
         <BreadcrumbSeparator> / </BreadcrumbSeparator>
       </>

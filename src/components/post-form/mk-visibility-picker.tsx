@@ -5,7 +5,7 @@
 
 import type { DraftData } from '@/hooks/draft';
 import type { ComponentProps } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { useTranslation } from 'react-i18next';
 import { LabelAndDescription, MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { GlobeIcon, HomeIcon, LockIcon, MailIcon, WifiIcon, WifiOffIcon } from 'lucide-react';

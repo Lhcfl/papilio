@@ -7,15 +7,15 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { HTMLProps } from 'react';
 import { MkCustomEmoji, MkEmoji } from '@/components/mk-emoji';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/ui/accordion';
+import { ScrollArea } from '@/ui/scroll-area';
 import type { EmojiSimple } from 'misskey-js/entities.js';
 import { FolderIcon, SearchIcon } from 'lucide-react';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/ui/input-group';
 import { useDebounce } from 'react-use';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import { emojiCharByCategory, emojilist as UnicodeEmojiList } from '@/assets/emojilist';
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/ui/separator';
 import { useEmojis } from '@/stores/emojis';
 import { useRecentEmojis } from '@/stores/recent-emoji';
 import { cn } from '@/lib/utils';
@@ -150,7 +150,7 @@ export const MkEmojiPicker = (
             {searchedEmojis.categoryHit.length > 0 && (
               <div className="mk-emojis-by-category">
                 <div className="text-muted-foreground text-sm">{t('category')}</div>
-                <Accordion type="multiple" className="mt-2 w-full">
+                <Accordion multiple className="mt-2 w-full">
                   {searchedEmojis.categoryHit.map((c) => (
                     <MkEmojiPickerFolder
                       key={c}
@@ -173,7 +173,7 @@ export const MkEmojiPicker = (
 
             <div className="mk-emojis-by-category">
               <div className="text-muted-foreground text-sm">{t('category')}</div>
-              <Accordion type="multiple" className="w-full">
+              <Accordion multiple className="w-full">
                 {Object.entries(customEmojisRecursiveByCategory).map(([k, v]) => (
                   <MkEmojiPickerFolder key={k} name={k} ctnt={v} onEmojiChoose={onEmojiChoose} value={k || UNNAMED} />
                 ))}
@@ -225,7 +225,7 @@ const MkEmojiPickerFolder = (
       </AccordionTrigger>
       <AccordionContent>
         {lines.length > 0 && (
-          <Accordion type="multiple" className="w-full pl-2">
+          <Accordion multiple className="w-full pl-2">
             {lines.map(([k, v]) => (
               <MkEmojiPickerFolder key={k} name={k} ctnt={v} onEmojiChoose={onEmojiChoose} value={k || UNNAMED} />
             ))}

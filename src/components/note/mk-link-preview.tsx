@@ -6,14 +6,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import type { summaly } from '@misskey-dev/summaly';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
-import { Spinner } from '@/components/ui/spinner';
+import { Avatar, AvatarImage } from '@/ui/avatar';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/ui/item';
+import { Spinner } from '@/ui/spinner';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { registerNote } from '@/hooks/note';
 import { MkNoteSimple } from '@/components/mk-note-simple';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { ExpandIcon, LinkIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -78,8 +78,7 @@ export const MkLinkPreview = (props: { url: string; renoteId?: string | null } &
   }
 
   return (
-    <Item variant="outline" className={cn('wrap-anywhere', className)} {...rest} asChild size="sm">
-      <a href={url} target="_blank">
+    <Item variant="outline" className={cn('wrap-anywhere', className)} {...rest} size="sm" render={<a href={url} target="_blank"/>}>
         {data ? (
           <>
             <ItemMedia variant="image">{thumbnail ? <img src={thumbnail} /> : <LinkIcon />}</ItemMedia>
@@ -117,7 +116,7 @@ export const MkLinkPreview = (props: { url: string; renoteId?: string | null } &
             </ItemDescription>
           </ItemContent>
         )}
-      </a>
+      
     </Item>
   );
 };

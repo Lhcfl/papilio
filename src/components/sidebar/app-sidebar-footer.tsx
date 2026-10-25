@@ -5,7 +5,7 @@
 
 import { ChevronsUpDownIcon, LogOutIcon, PencilIcon, UserRoundIcon, Users2Icon } from 'lucide-react';
 import { MkAvatar } from '@/components/mk-avatar';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/ui/sidebar';
 import { MkUserName } from '@/components/mk-user-name';
 import { useMe } from '@/stores/me';
 import { useTranslation } from 'react-i18next';
@@ -77,9 +77,7 @@ export const AppSidebarFooter = () => {
   return (
     <SidebarMenu>
       <SidebarMenuItem className='hidden group-data-[state="collapsed"]:block'>
-        <SidebarMenuButton asChild>
-          <AppThemeToggle />
-        </SidebarMenuButton>
+        <SidebarMenuButton render={<AppThemeToggle />} />
       </SidebarMenuItem>
       <SidebarMenuItem>
         <MkPostFormDialog>

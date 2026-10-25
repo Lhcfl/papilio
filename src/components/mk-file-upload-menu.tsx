@@ -12,10 +12,10 @@ import { MkDriveFileSelect } from '@/components/mk-drive-file-select';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { createStreamChannel, misskeyApi } from '@/lib/inject-misskey-api';
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle } from '@/components/ui/dialog';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
-import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle } from '@/ui/dialog';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/ui/input-group';
+import { Button } from '@/ui/button';
+import { Spinner } from '@/ui/spinner';
 
 export const MkFileUploadMenu = (props: {
   label?: string;
@@ -141,10 +141,9 @@ export const MkFileUploadMenu = (props: {
               <InputGroupInput type="url" name="url" placeholder={t('imageUrl')} />
             </InputGroup>
             <DialogFooter className="mt-2">
-              <DialogClose asChild>
-                <Button variant="outline" type="reset">
+              <DialogClose render={<Button variant="outline" type="reset"/>}>
                   <XIcon /> {t('cancel')}
-                </Button>
+                
               </DialogClose>
               <Button type="submit">
                 {isUploading ? <Spinner /> : <UploadCloudIcon />}

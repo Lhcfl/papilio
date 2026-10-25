@@ -5,11 +5,11 @@
 
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkUserName } from '@/components/mk-user-name';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
-import { Item, ItemContent, ItemMedia, ItemTitle } from '@/components/ui/item';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/ui/button';
+import { Card, CardContent, CardTitle } from '@/ui/card';
+import { Item, ItemContent, ItemMedia, ItemTitle } from '@/ui/item';
+import { ScrollArea } from '@/ui/scroll-area';
+import { Skeleton } from '@/ui/skeleton';
 import { LoginLayout } from '@/layouts/login-layout';
 import { getAccountList, saveToAccountList } from '@/lib/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
@@ -43,11 +43,10 @@ function RouteComponent() {
               {saved_accounts.map((account) => (
                 <AccountItem key={account.site + ':' + account.token} site={account.site} token={account.token} />
               ))}
-              <Button asChild>
-                <Link to="/login" search={{ noredirect: true }}>
+              <Button render={<Link to="/login" search={{ noredirect: true }}/>}>
                   <PlusCircleIcon />
                   {t('addAccount')}
-                </Link>
+                
               </Button>
             </div>
           </ScrollArea>
@@ -72,8 +71,7 @@ function AccountItem(props: { token: string; site: string }) {
   }
 
   return account ? (
-    <Item asChild className="hover:bg-accent w-full flex-nowrap text-left">
-      <button type="button" onClick={onClick}>
+    <Item className="hover:bg-accent w-full flex-nowrap text-left" render={<button type="button" onClick={onClick}/>}>
         <ItemMedia variant="image">
           <MkAvatar user={account} />
         </ItemMedia>
@@ -88,7 +86,7 @@ function AccountItem(props: { token: string; site: string }) {
             </div>
           </div>
         </ItemContent>
-      </button>
+      
     </Item>
   ) : (
     <Skeleton className="h-10 w-full" />

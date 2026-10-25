@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Toaster } from '@/components/ui/sonner';
+import { Toaster } from '@/ui/sonner';
 import { useMainChannelListener } from '@/hooks/main-channel';
 import { useNoteUpdateListener } from '@/hooks/note';
 import { useUploadingHint } from '@/hooks/uploading-hint';

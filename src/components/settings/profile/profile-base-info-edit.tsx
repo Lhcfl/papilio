@@ -4,13 +4,13 @@
  */
 
 import { MkMfm } from '@/components/mk-mfm';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
-import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from '@/components/ui/field';
-import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/components/ui/input-group';
-import { Separator } from '@/components/ui/separator';
-import { Spinner } from '@/components/ui/spinner';
-import { Switch } from '@/components/ui/switch';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/ui/accordion';
+import { Button } from '@/ui/button';
+import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from '@/ui/field';
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from '@/ui/input-group';
+import { Separator } from '@/ui/separator';
+import { Spinner } from '@/ui/spinner';
+import { Switch } from '@/ui/switch';
 import { useProfileEditAction } from '@/hooks/profile-edit-actions';
 import { useMe } from '@/stores/me';
 import { CakeIcon, IdCardIcon, MapPinIcon, MessageCircleHeartIcon, SaveIcon } from 'lucide-react';
@@ -150,7 +150,7 @@ export function ProfileBaseInfoEdit() {
             <FieldDescription>{t('_profile.followedMessageDescription')}</FieldDescription>
           </Field>
         </FieldSet>
-        <Accordion type="multiple">
+        <Accordion multiple>
           <FieldSet>
             <AccordionItem value="advanced-settings" className="mb-2 overflow-hidden rounded-lg border last:border-b">
               <AccordionTrigger className="rounded-none px-3 hover:no-underline">

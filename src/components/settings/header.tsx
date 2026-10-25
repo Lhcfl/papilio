@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/tooltip';
 import { FlaskConicalIcon } from 'lucide-react';
 import type { HTMLProps } from 'react';
 import { useTranslation } from 'react-i18next';

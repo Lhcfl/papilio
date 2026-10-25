@@ -5,8 +5,8 @@
 
 import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkUserCardSmall } from '@/components/mk-user-card-small';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Separator } from '@/ui/separator';
+import { Tabs, TabsList, TabsTrigger } from '@/ui/tabs';
 import { getAcctUserQueryOptions, getUserQueryOptions } from '@/hooks/user';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { queryAtom } from '@/routes/search/-atoms';

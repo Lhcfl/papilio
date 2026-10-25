@@ -4,11 +4,11 @@
  */
 
 import { getDraftKey, useDraft, type DraftData, type DraftKeyProps } from '@/hooks/draft';
-import { InputGroup, InputGroupAddon, InputGroupTextarea } from '@/components/ui/input-group';
+import { InputGroup, InputGroupAddon, InputGroupTextarea } from '@/ui/input-group';
 import { useTranslation } from 'react-i18next';
 import { MkAvatar } from '@/components/mk-avatar';
 import { useMe } from '@/stores/me';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import {
   ChartColumnIcon,
   CircleAlertIcon,
@@ -36,7 +36,7 @@ import type { User } from '@/types/user';
 import { useEffect, useRef, useState, type HTMLProps } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { misskeyApi, site, siteDomain } from '@/lib/inject-misskey-api';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import type { NoteWithExtension } from '@/types/note';
 import { cond } from '@/lib/match';
 import * as mfm from 'mfm-js';
@@ -54,13 +54,13 @@ import { MkPostFormFiles } from '@/components/post-form/mk-post-form-files';
 import { extractMention } from '@/lib/mention';
 import { MkNoteSimple } from '@/components/mk-note-simple';
 import { useSiteMeta } from '@/stores/site';
-import { Progress } from '@/components/ui/progress';
+import { Progress } from '@/ui/progress';
 import { useErrorDialogs } from '@/stores/error-dialog';
 import { useAfterConfirm, useConfirmDialog } from '@/stores/confirm-dialog';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { MkPostFormPoll } from '@/components/post-form/mk-post-form-poll';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
 import { usePreference, useUserPreference } from '@/stores/perference';
 import type { DriveFile } from '@/types/drive-file';
 

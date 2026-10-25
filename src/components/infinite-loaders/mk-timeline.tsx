@@ -10,7 +10,7 @@ import { createStreamChannel, INITIAL_UNTIL_ID, misskeyApi } from '@/lib/inject-
 import { registerNote } from '@/hooks/note';
 import type { TimelineTypes } from '@/types/timeline';
 import { HeaderRightPortal } from '@/components/header-portal';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { CogIcon, RefreshCwIcon } from 'lucide-react';
 import type { SkEndpoints } from '@/types/sharkey-api';
 import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';

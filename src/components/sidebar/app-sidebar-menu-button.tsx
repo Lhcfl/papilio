@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { SidebarMenuButton } from '@/components/ui/sidebar';
+import { SidebarMenuButton } from '@/ui/sidebar';
 import { Link } from '@tanstack/react-router';
 import type { ComponentProps } from 'react';
 
@@ -21,8 +21,7 @@ export function AppSidebarMenuButtonLink({
   linkOptions: ComponentProps<typeof Link>;
 }) {
   return (
-    <SidebarMenuButton asChild className="h-12 w-full" tooltip={title}>
-      <Link {...linkOptions}>
+    <SidebarMenuButton className="h-12 w-full" tooltip={title} render={<Link {...linkOptions}/>}>
         {icon}
         {title}
         {count != null && count > 0 && (
@@ -38,7 +37,7 @@ export function AppSidebarMenuButtonLink({
         {ding && (
           <span className='ding bg-primary size-2 rounded-full group-data-[state="collapsed"]:absolute group-data-[state="collapsed"]:top-1 group-data-[state="collapsed"]:right-1 group-data-[state="collapsed"]:size-1' />
         )}
-      </Link>
+      
     </SidebarMenuButton>
   );
 }

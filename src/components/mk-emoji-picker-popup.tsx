@@ -7,9 +7,9 @@ import { useState } from 'react';
 
 import type { EmojiSimple } from 'misskey-js/entities.js';
 import { MkEmojiPicker } from '@/components/mk-emoji-picker';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/ui/popover';
 import { useIsMobile } from '@/hooks/mobile';
-import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
+import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '@/ui/drawer';
 
 export const MkEmojiPickerPopup = (props: {
   onEmojiChoose: (emoji: EmojiSimple | string) => void;
@@ -44,7 +44,7 @@ export const MkEmojiPickerPopup = (props: {
 
   return (
     <Popover open={show} onOpenChange={onOpenChange}>
-      <PopoverTrigger asChild>{props.children}</PopoverTrigger>
+      <PopoverTrigger render={props.children as React.ReactElement<Record<string, unknown>>} />
       <PopoverContent className="h-fit w-fit">
         <MkEmojiPicker
           onEmojiChoose={onEmojiChoose}

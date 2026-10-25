@@ -5,8 +5,8 @@
 
 import { HeaderRightPortal } from '@/components/header-portal';
 import { MkTime } from '@/components/mk-time';
-import { Button } from '@/components/ui/button';
-import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from '@/components/ui/item';
+import { Button } from '@/ui/button';
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from '@/ui/item';
 import { listlistQueryOptions } from '@/hooks/list';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryClient } from '@/plugins/persister';
@@ -36,8 +36,7 @@ function RouteComponent() {
       </HeaderRightPortal>
       <ItemGroup>
         {data.map((item) => (
-          <Item key={item.id} asChild>
-            <Link to="/my/lists/$id" params={{ id: item.id }}>
+          <Item key={item.id} render={<Link to="/my/lists/$id" params={{ id: item.id }}/>}>
               <ItemContent>
                 <ItemTitle>{item.name}</ItemTitle>
                 <ItemDescription>
@@ -50,7 +49,7 @@ function RouteComponent() {
                 </ItemDescription>
               </ItemContent>
               <ItemMedia variant="icon">{item.isPublic ? <GlobeIcon /> : <LockIcon />}</ItemMedia>
-            </Link>
+            
           </Item>
         ))}
       </ItemGroup>

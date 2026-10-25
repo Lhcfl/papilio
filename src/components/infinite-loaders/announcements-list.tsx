@@ -5,7 +5,7 @@
 
 import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinite-scroll';
 import type { Announcement } from 'misskey-js/entities.js';
-import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/ui/item';
 import { MkMfm } from '@/components/mk-mfm';
 import {
   CheckCircle,
@@ -16,11 +16,11 @@ import {
   MessageCircleWarningIcon,
   XCircleIcon,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { useTranslation } from 'react-i18next';
 import { infiniteQueryOptions, useInfiniteQuery, useMutation } from '@tanstack/react-query';
 import { INITIAL_UNTIL_ID, misskeyApi } from '@/lib/inject-misskey-api';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import { MkTime } from '@/components/mk-time';
 
 const POSSIBLE_TYPE = ['current', 'previous'] as const;

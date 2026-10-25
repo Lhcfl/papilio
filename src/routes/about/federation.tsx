@@ -4,9 +4,9 @@
  */
 
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Avatar, AvatarImage } from '@/ui/avatar';
+import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/ui/item';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';

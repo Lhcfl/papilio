@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-query';
 import { MkError } from '@/components/mk-error';
 import { LoadingTrigger } from '@/components/loading-trigger';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import { Fragment } from 'react/jsx-runtime';
 import { MkEmpty } from '@/components/mk-empty';
 import type { ComponentProps, HTMLProps } from 'react';

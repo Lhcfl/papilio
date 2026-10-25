@@ -4,7 +4,7 @@
  */
 
 import { LogInIcon } from 'lucide-react';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/ui/sidebar';
 import { useTranslation } from 'react-i18next';
 
 export const LogoutSidebarFooter = () => {

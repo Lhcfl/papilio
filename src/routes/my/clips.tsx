@@ -4,7 +4,7 @@
  */
 
 import { ClipsList } from '@/components/infinite-loaders/clips-list';
-import { Item } from '@/components/ui/item';
+import { Item } from '@/ui/item';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
@@ -20,10 +20,9 @@ function RouteComponent() {
       <PageTitle title={t('clips')} />
       <ClipsList>
         {(clip, children) => (
-          <Item asChild>
-            <Link to="/clips/$id" params={{ id: clip.id }}>
+          <Item render={<Link to="/clips/$id" params={{ id: clip.id }}/>}>
               {children}
-            </Link>
+            
           </Item>
         )}
       </ClipsList>

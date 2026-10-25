@@ -9,9 +9,9 @@ import { MkAlert } from '@/components/mk-alert';
 import { MkNote } from '@/components/mk-note';
 import { MkNoteReplies } from '@/components/mk-note-replies';
 import { MkNoteSkeleton } from '@/components/mk-note-skeleton';
-import { Button } from '@/components/ui/button';
-import { Empty, EmptyContent, EmptyHeader, EmptyMedia } from '@/components/ui/empty';
-import { Spinner } from '@/components/ui/spinner';
+import { Button } from '@/ui/button';
+import { Empty, EmptyContent, EmptyHeader, EmptyMedia } from '@/ui/empty';
+import { Spinner } from '@/ui/spinner';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import {
   EyeClosedIcon,
@@ -27,14 +27,14 @@ import { noteQueryOptions } from '@/hooks/note-query';
 import { registerNote, useNoteValue } from '@/hooks/note';
 import { getNoteRemoteUrl } from '@/lib/note';
 import { misskeyApi } from '@/lib/inject-misskey-api';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
 import { NoteReactionsList } from '@/components/infinite-loaders/note-reactions-list';
 import { NoteRenotesList } from '@/components/infinite-loaders/note-renotes-list';
 import { NoteDefaultStateContext } from '@/providers/expand-all-cw';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/tooltip';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { HeaderRightPortal } from '@/components/header-portal';
 import { queryClient } from '@/plugins/persister';
@@ -74,11 +74,10 @@ function RouteComponent() {
           <EmptyHeader>{t('removed')}</EmptyHeader>
         </EmptyHeader>
         <EmptyContent>
-          <Button asChild>
-            <Link to="/">
+          <Button render={<Link to="/"/>}>
               <HomeIcon />
               {t('home')}
-            </Link>
+            
           </Button>
         </EmptyContent>
       </Empty>
@@ -104,8 +103,7 @@ function RouteComponent() {
       <HeaderRightPortal>
         {isLoading && <Spinner />}
         <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
+          <TooltipTrigger render={<Button
               size="icon-sm"
               variant="ghost"
               className={cn({
@@ -113,10 +111,9 @@ function RouteComponent() {
               })}
               onClick={() => {
                 setExpandAllCw(!expandAllCw);
-              }}
-            >
+              }}/>}>
               {expandAllCw ? <EyeIcon /> : <EyeClosedIcon />}
-            </Button>
+            
           </TooltipTrigger>
           <TooltipContent>{t('expandAllCws')}</TooltipContent>
         </Tooltip>

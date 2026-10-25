@@ -4,7 +4,7 @@
  */
 
 import { HeaderRightPortal } from '@/components/header-portal';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/ui/input-group';
 import { queryAtom } from '@/routes/settings/-atoms';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { useAtom } from 'jotai';

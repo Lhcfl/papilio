@@ -4,7 +4,7 @@
  */
 
 import { lazy, Suspense, type HTMLProps } from 'react';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea } from '@/ui/scroll-area';
 import { usePreference } from '@/stores/perference';
 import { cn } from '@/lib/utils';
 
@@ -34,7 +34,7 @@ export function MkCode({
   return (
     <div className={cn('bg-accent relative rounded-md border text-sm lg:text-base', className)} {...props}>
       <span className="lang-tag text-muted-foreground absolute top-0 right-0 p-2 font-mono">{language}</span>
-      <ScrollArea orientation="horizontal" className="flex overflow-x-auto p-2 md:p-4">
+      <ScrollArea className="flex overflow-x-auto p-2 md:p-4">
         <div className="w-0 flex-[1_1_auto]">
           {disableHighlight ? (
             <MkCodeUnhighlighted code={code} language={language} />

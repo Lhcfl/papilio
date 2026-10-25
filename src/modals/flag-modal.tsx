@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import {
   DialogDescription,
   DialogTitle,
@@ -11,8 +11,8 @@ import {
   DialogFooter,
   Dialog,
   DialogContent,
-} from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/ui/dialog';
+import { Textarea } from '@/ui/textarea';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
 import { SendIcon, XIcon } from 'lucide-react';
@@ -56,21 +56,18 @@ export function FlagModal({
           }}
         />
         <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">
+          <DialogClose render={<Button variant="outline"/>}>
               <XIcon />
               {t('cancel')}
-            </Button>
+            
           </DialogClose>
-          <DialogClose asChild>
-            <Button
+          <DialogClose render={<Button
               onClick={() => {
                 mutate();
-              }}
-            >
+              }}/>}>
               <SendIcon />
               {t('send')}
-            </Button>
+            
           </DialogClose>
         </DialogFooter>
       </DialogContent>

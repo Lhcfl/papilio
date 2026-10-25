@@ -12,7 +12,7 @@ import { StrictMode } from 'react';
 import { dehydrateOptions, localStoragePersister, queryClient } from '@/plugins/persister';
 // Import the generated route tree
 import { routeTree } from '@/routeTree.gen';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import { AppDefaultErrorComponent } from '@/components/app-default-error-component';
 import { loadFontCssByLocalStorage } from '@/lib/font';
 

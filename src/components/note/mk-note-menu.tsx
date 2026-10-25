@@ -41,16 +41,16 @@ import { useAfterConfirm } from '@/stores/confirm-dialog';
 import type { Menu } from '@/components/menu-or-drawer';
 import { errorMessageSafe } from '@/lib/error';
 import { linkOptions } from '@tanstack/react-router';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import { useSiteMeta } from '@/stores/site';
 import { FlagModal } from '@/modals/flag-modal';
 import { useState } from 'react';
 import { AddClipModal } from '@/modals/add-clip-modal';
 import { getRelativeUrl, site } from '@/lib/inject-misskey-api';
 import { acct } from 'misskey-js';
-import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/ui/dialog';
 import { MkPostForm } from '@/components/mk-post-form';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
 
 const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }, successMessage: string) => () =>
@@ -311,10 +311,9 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
             <DialogTitle className="sr-only">editing</DialogTitle>
             <MkPostForm
               appendHeader={
-                <DialogClose asChild>
-                  <Button variant="ghost" size="icon">
+                <DialogClose render={<Button variant="ghost" size="icon"/>}>
                     <XIcon />
-                  </Button>
+                  
                 </DialogClose>
               }
               onSuccess={() => {

@@ -8,15 +8,15 @@ import { MkEmpty } from '@/components/mk-empty';
 import { EnumSettingItem } from '@/components/settings/enum';
 import { SwitchSettingItem } from '@/components/settings/switch';
 import { TextSettingItem } from '@/components/settings/text';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/ui/accordion';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { ItemMedia } from '@/components/ui/item';
+} from '@/ui/breadcrumb';
+import { ItemMedia } from '@/ui/item';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { cn } from '@/lib/utils';
 import { queryAtom } from '@/routes/settings/-atoms';
@@ -68,8 +68,7 @@ function RouteComponent() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/settings">{t('settings')}</Link>
+              <BreadcrumbLink render={<Link to="/settings"/>}>{t('settings')}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -79,7 +78,7 @@ function RouteComponent() {
         </Breadcrumb>
       </HeaderLeftPortal>
       {thisPageFiltered.categories.length === 0 && <MkEmpty />}
-      <Accordion type="multiple" defaultValue={defaultOpenCategory}>
+      <Accordion multiple defaultValue={defaultOpenCategory}>
         {thisPageFiltered.categories.map((category) => (
           <AccordionItem
             key={category.name}

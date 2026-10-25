@@ -10,7 +10,7 @@ import {
   ItemMedia,
   ItemSeparator,
   ItemTitle,
-} from '@/components/ui/item';
+} from '@/ui/item';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryAtom } from '@/routes/settings/-atoms';
 import { DetailedSettings } from '@/settings';
@@ -83,14 +83,13 @@ function SettingLinkItem({
 }) {
   return (
     <>
-      <Item asChild>
-        <Link {...linkopts}>
+      <Item render={<Link {...linkopts}/>}>
           <ItemMedia variant="icon">{icon}</ItemMedia>
           <ItemContent>
             <ItemTitle className="text-base">{title}</ItemTitle>
             <ItemDescription className="line-clamp-none text-wrap">{description}</ItemDescription>
           </ItemContent>
-        </Link>
+        
       </Item>
       <ItemSeparator />
     </>
@@ -155,15 +154,13 @@ function HasSearchComponent() {
     <ItemGroup>
       {results.map(({ page, category, item }) => (
         <Fragment key={[page.value, category.name, item?.name].join(':')}>
-          <Item asChild>
-            <Link
+          <Item render={<Link
               to="/settings/$page"
               params={{ page: page.value }}
               hash={[category.name, item?.id].join('::')}
               onClick={() => {
                 setQuery('');
-              }}
-            >
+              }}/>}>
               <ItemMedia variant="icon">{category.icon}</ItemMedia>
               <ItemContent>
                 <ItemTitle className="text-base">
@@ -182,7 +179,7 @@ function HasSearchComponent() {
                   {item?.description && <span>{t(item.description)}</span>}
                 </ItemDescription>
               </ItemContent>
-            </Link>
+            
           </Item>
           <ItemSeparator />
         </Fragment>

@@ -4,7 +4,7 @@
  */
 
 import { useIsMobile } from '@/hooks/mobile';
-import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
+import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '@/ui/drawer';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,15 +14,15 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuCheckboxItem,
-} from '@/components/ui/dropdown-menu';
+} from '@/ui/dropdown-menu';
 import { Link, type LinkOptions } from '@tanstack/react-router';
-import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
+import { Separator } from '@/ui/separator';
+import { Button } from '@/ui/button';
 import { useState, type ComponentProps } from 'react';
 import { cn } from '@/lib/utils';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Switch } from '@/ui/switch';
+import { Label } from '@/ui/label';
+import { ScrollArea } from '@/ui/scroll-area';
 
 export type MenuItem = {
   type: 'item';
@@ -121,7 +121,7 @@ export const MenuOrDrawer = (props: {
 
   return (
     <DropdownMenu open={open} onOpenChange={onOpenChange}>
-      <DropdownMenuTrigger asChild>{props.children}</DropdownMenuTrigger>
+      <DropdownMenuTrigger render={props.children as React.ReactElement<Record<string, unknown>>} />
       <DropdownMenuContent align="start" className="max-w-60 lg:max-w-75">
         {GenerateDropDownMenu(props.menu)}
       </DropdownMenuContent>
@@ -182,34 +182,28 @@ const GenerateDropDownMenu = (menu: Menu) => {
           return (
             <DropdownMenuItem
               key={x.id}
-              asChild
               variant={x.variant}
               onSelect={(ev) => {
                 if (x.preventCloseOnClick) ev.preventDefault();
               }}
               disabled={x.disabled}
-              className={cn({ 'bg-accent text-accent-foreground': x.active })}
-            >
-              <Link {...x.to}>
+              className={cn({ 'bg-accent text-accent-foreground': x.active })} render={<Link {...x.to}/>}>
                 {x.icon} {x.label}
-              </Link>
+              
             </DropdownMenuItem>
           );
         } else if ('href' in x) {
           return (
             <DropdownMenuItem
               key={x.id}
-              asChild
               variant={x.variant}
               onSelect={(ev) => {
                 if (x.preventCloseOnClick) ev.preventDefault();
               }}
               disabled={x.disabled}
-              className={cn({ 'bg-accent text-accent-foreground': x.active })}
-            >
-              <a href={x.href} target="_blank" rel="noopener noreferrer">
+              className={cn({ 'bg-accent text-accent-foreground': x.active })} render={<a href={x.href} target="_blank" rel="noopener noreferrer"/>}>
                 {x.icon} {x.label}
-              </a>
+              
             </DropdownMenuItem>
           );
         } else if ('wrapper' in x) {
@@ -292,28 +286,22 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
           return (
             <DrawerButton
               key={x.id}
-              asChild
               variant={x.variant ?? 'ghost'}
               disabled={x.disabled}
-              className={cn({ 'bg-accent text-accent-foreground': x.active })}
-            >
-              <Link {...x.to}>
+              className={cn({ 'bg-accent text-accent-foreground': x.active })} render={<Link {...x.to}/>}>
                 {x.icon} {x.label}
-              </Link>
+              
             </DrawerButton>
           );
         } else if ('href' in x) {
           return (
             <DrawerButton
               key={x.id}
-              asChild
               variant={x.variant ?? 'ghost'}
               disabled={x.disabled}
-              className={cn({ 'bg-accent text-accent-foreground': x.active })}
-            >
-              <a href={x.href} target="_blank" rel="noopener noreferrer">
+              className={cn({ 'bg-accent text-accent-foreground': x.active })} render={<a href={x.href} target="_blank" rel="noopener noreferrer"/>}>
                 {x.icon} {x.label}
-              </a>
+              
             </DrawerButton>
           );
         } else if ('wrapper' in x) {

@@ -7,9 +7,9 @@ import type { User } from '@/types/user';
 import { useTranslation } from 'react-i18next';
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkUserName } from '@/components/mk-user-name';
-import { Button } from '@/components/ui/button';
-import { Item, ItemActions, ItemContent, ItemDescription, ItemHeader, ItemMedia } from '@/components/ui/item';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Button } from '@/ui/button';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemHeader, ItemMedia } from '@/ui/item';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/tooltip';
 import { CheckIcon, XIcon } from 'lucide-react';
 import { acct } from 'misskey-js';
 import {
@@ -17,7 +17,7 @@ import {
   useCancelFollowRequestAction,
   useRejectFollowRequestAction,
 } from '@/hooks/user-action';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import { useState } from 'react';
 
 export const MkFollowRequest = (props: { user: User; type: 'received' | 'sent' }) => {
@@ -45,8 +45,7 @@ export const MkFollowRequest = (props: { user: User; type: 'received' | 'sent' }
       <ItemActions>
         {type === 'received' && (
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
+            <TooltipTrigger render={<Button
                 variant="outline"
                 size="icon"
                 onClick={() => {
@@ -56,18 +55,16 @@ export const MkFollowRequest = (props: { user: User; type: 'received' | 'sent' }
                     },
                   });
                 }}
-                disabled={isAccepting || isRejecting || isCanceling}
-              >
+                disabled={isAccepting || isRejecting || isCanceling}/>}>
                 {isAccepting ? <Spinner /> : <CheckIcon />}
-              </Button>
+              
             </TooltipTrigger>
             <TooltipContent>{t('accept')}</TooltipContent>
           </Tooltip>
         )}
         {type === 'received' && (
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
+            <TooltipTrigger render={<Button
                 variant="outline"
                 size="icon"
                 onClick={() => {
@@ -77,18 +74,16 @@ export const MkFollowRequest = (props: { user: User; type: 'received' | 'sent' }
                     },
                   });
                 }}
-                disabled={isAccepting || isRejecting || isCanceling}
-              >
+                disabled={isAccepting || isRejecting || isCanceling}/>}>
                 {isRejecting ? <Spinner /> : <XIcon className="text-destructive!" />}
-              </Button>
+              
             </TooltipTrigger>
             <TooltipContent>{t('reject')}</TooltipContent>
           </Tooltip>
         )}
         {type === 'sent' && (
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
+            <TooltipTrigger render={<Button
                 variant="outline"
                 size="icon"
                 onClick={() => {
@@ -98,10 +93,9 @@ export const MkFollowRequest = (props: { user: User; type: 'received' | 'sent' }
                     },
                   });
                 }}
-                disabled={isAccepting || isRejecting || isCanceling}
-              >
+                disabled={isAccepting || isRejecting || isCanceling}/>}>
                 {isCanceling ? <Spinner /> : <XIcon className="text-destructive!" />}
-              </Button>
+              
             </TooltipTrigger>
             <TooltipContent>{t('cancel')}</TooltipContent>
           </Tooltip>

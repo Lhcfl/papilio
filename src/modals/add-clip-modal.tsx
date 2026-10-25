@@ -4,14 +4,14 @@
  */
 
 import { ClipsList } from '@/components/infinite-loaders/clips-list';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle } from '@/components/ui/dialog';
-import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
-import { Item } from '@/components/ui/item';
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Spinner } from '@/components/ui/spinner';
-import { Switch } from '@/components/ui/switch';
+import { Button } from '@/ui/button';
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle } from '@/ui/dialog';
+import { InputGroup, InputGroupInput } from '@/ui/input-group';
+import { Item } from '@/ui/item';
+import { Label } from '@/ui/label';
+import { ScrollArea } from '@/ui/scroll-area';
+import { Spinner } from '@/ui/spinner';
+import { Switch } from '@/ui/switch';
 import { useClipNoteAction } from '@/hooks/note-actions';
 import { useCreateNewClipAction } from '@/hooks/clip';
 import { PlusIcon, XIcon } from 'lucide-react';
@@ -34,15 +34,13 @@ export function AddClipModal(props: { open: boolean; onOpenChange: (open: boolea
           <div className="p-1">
             <ClipsList>
               {(clip, children) => (
-                <Item variant="outline" size="sm" className="mb-2 text-left" asChild>
-                  <button
+                <Item variant="outline" size="sm" className="mb-2 text-left" render={<button
                     onClick={() => {
                       addClip(clip.id);
                       props.onOpenChange(false);
-                    }}
-                  >
+                    }}/>}>
                     {children}
-                  </button>
+                  
                 </Item>
               )}
             </ClipsList>
@@ -78,11 +76,10 @@ export function AddClipModal(props: { open: boolean; onOpenChange: (open: boolea
             {isCreatingClip ? <Spinner /> : <PlusIcon />}
             {t('createNewClip')}
           </Button>
-          <DialogClose asChild>
-            <Button variant="ghost">
+          <DialogClose render={<Button variant="ghost"/>}>
               <XIcon />
               {t('cancel')}
-            </Button>
+            
           </DialogClose>
         </DialogFooter>
       </DialogContent>

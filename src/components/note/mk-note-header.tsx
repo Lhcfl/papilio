@@ -9,7 +9,7 @@ import { MkAvatar } from '@/components/mk-avatar';
 import { MkTime } from '@/components/mk-time';
 import { MkUserName } from '@/components/mk-user-name';
 import { MkVisibilityIcon } from '@/components/note/mk-visibility-icon';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/ui/avatar';
 import { Link } from '@tanstack/react-router';
 import { useSiteMeta } from '@/stores/site';
 import { PencilIcon } from 'lucide-react';

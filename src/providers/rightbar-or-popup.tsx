@@ -4,10 +4,9 @@
  */
 
 import { AppRightCard } from '@/components/app-right-card';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { DialogTitle } from '@radix-ui/react-dialog';
+import { Button } from '@/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/ui/dialog';
+import { ScrollArea } from '@/ui/scroll-area';
 import { XIcon } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { useMedia } from 'react-use';

@@ -26,8 +26,8 @@ import { PageTitle } from '@/layouts/sidebar-layout';
 import { HeaderLeftPortal, HeaderRightPortal } from '@/components/header-portal';
 import { queryClient } from '@/plugins/persister';
 import { getAcctUserQueryOptions } from '@/hooks/user';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui/tabs';
+import { Button } from '@/ui/button';
 import { cn } from '@/lib/utils';
 
 export const Route = createFileRoute('/@{$acct}')({

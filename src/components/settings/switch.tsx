@@ -4,8 +4,8 @@
  */
 
 import { SettingHeader } from '@/components/settings/header';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
+import { Label } from '@/ui/label';
+import { Switch } from '@/ui/switch';
 import { cn } from '@/lib/utils';
 import type { SwitchSettings } from '@/settings';
 import { setterName, usePreference } from '@/stores/perference';

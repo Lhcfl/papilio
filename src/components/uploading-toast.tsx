@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Progress } from '@/components/ui/progress';
+import { Progress } from '@/ui/progress';
 import { useUploadProgressOfId } from '@/stores/upload-progress';
 
 export function UploadingToast(props: { img: string; id: string }) {

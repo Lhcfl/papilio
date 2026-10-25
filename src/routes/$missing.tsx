@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { HomeIcon } from 'lucide-react';
 

@@ -5,9 +5,9 @@
 
 import { useMedia, useTitle } from 'react-use';
 import { AppSidebar } from '@/components/app-sidebar';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { Tabs } from '@/components/ui/tabs';
+import { ScrollArea } from '@/ui/scroll-area';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/ui/sidebar';
+import { Tabs } from '@/ui/tabs';
 import { useNullableSiteMeta } from '@/stores/site';
 import { DesktopRightbar } from '@/providers/rightbar-or-popup';
 import { cn } from '@/lib/utils';

@@ -4,7 +4,7 @@
  */
 
 import { MkImage } from '@/components/mk-image';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -14,8 +14,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/ui/dialog';
+import { Textarea } from '@/ui/textarea';
 import type { DriveFile } from '@/types/drive-file';
 import { SaveIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -38,7 +38,7 @@ export function EditFileCaptionModal({
 
   return (
     <Dialog {...rest}>
-      {children && <DialogTrigger asChild>{children}</DialogTrigger>}
+      {children && <DialogTrigger render={children as React.ReactElement<Record<string, unknown>>} />}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('describeFile')}</DialogTitle>
@@ -55,21 +55,18 @@ export function EditFileCaptionModal({
           }}
         />
         <DialogFooter className="flex-row flex-wrap justify-end">
-          <DialogClose asChild>
-            <Button variant="outline">
+          <DialogClose render={<Button variant="outline"/>}>
               <XIcon />
               {t('cancel')}
-            </Button>
+            
           </DialogClose>
-          <DialogClose asChild>
-            <Button
+          <DialogClose render={<Button
               onClick={() => {
                 onOk(caption);
-              }}
-            >
+              }}/>}>
               <SaveIcon />
               {t('save')}
-            </Button>
+            
           </DialogClose>
         </DialogFooter>
       </DialogContent>

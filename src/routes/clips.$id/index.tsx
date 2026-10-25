@@ -8,7 +8,7 @@ import { MkNote } from '@/components/mk-note';
 import { registerNote } from '@/hooks/note';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { createFileRoute, useLoaderData } from '@tanstack/react-router';
-import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
+import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/ui/item';
 import { MkTime } from '@/components/mk-time';
 import { PaperclipIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

@@ -4,9 +4,9 @@
  */
 
 import { HeaderRightPortal } from '@/components/header-portal';
-import { Button } from '@/components/ui/button';
-import { ButtonGroup } from '@/components/ui/button-group';
-import { Progress } from '@/components/ui/progress';
+import { Button } from '@/ui/button';
+import { ButtonGroup } from '@/ui/button-group';
+import { Progress } from '@/ui/progress';
 import { type UserRelation } from '@/hooks/user';
 import { errorMessageSafe } from '@/lib/error';
 import { cn } from '@/lib/utils';
@@ -18,8 +18,8 @@ import { MkInfiniteScrollByData } from '@/components/infinite-loaders/mk-infinit
 import { MkMention } from '@/components/mk-mention';
 import { MkTime } from '@/components/mk-time';
 import { MkUserName } from '@/components/mk-user-name';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Table, TableBody, TableHead, TableHeader, TableCell, TableRow } from '@/components/ui/table';
+import { Checkbox } from '@/ui/checkbox';
+import { Table, TableBody, TableHead, TableHeader, TableCell, TableRow } from '@/ui/table';
 import { type InfiniteData, type UseInfiniteQueryResult } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { MkFileUploadMenu } from '@/components/mk-file-upload-menu';

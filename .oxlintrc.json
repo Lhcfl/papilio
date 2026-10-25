@@ -18,7 +18,7 @@
     "dist",
     "sharkey-js",
     "locales-source",
-    "src/components/ui/*.tsx",
+    "src/ui/*.tsx",
     "dev-scripts/**/*"
   ],
   "overrides": [

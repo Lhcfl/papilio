@@ -5,11 +5,11 @@
 
 import { useTranslation } from 'react-i18next';
 import { MkCustomEmoji, MkEmoji } from '@/components/mk-emoji';
-import { Button } from '@/components/ui/button';
-import { ButtonGroup } from '@/components/ui/button-group';
+import { Button } from '@/ui/button';
+import { ButtonGroup } from '@/ui/button-group';
 import { EditIcon, Trash2Icon } from 'lucide-react';
 import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import { useUserPreference } from '@/stores/perference';
 
 export default function NoteDefaultReaction() {

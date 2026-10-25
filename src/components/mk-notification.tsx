@@ -5,15 +5,15 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@/ui/item';
 import clsx from 'clsx';
 import type { Notification } from 'misskey-js/entities.js';
 import { MkNote } from '@/components/mk-note';
 import type { HTMLProps } from 'react';
 import { MkAvatar } from '@/components/mk-avatar';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { CheckIcon, ChevronLeftIcon, UserRoundPlusIcon, XIcon } from 'lucide-react';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import { NotificationItemMedia, ReactionEmoji } from '@/components/notification/item-media';
 import { NotificationDescription, NotificationTitle } from '@/components/notification/item-text';
 import { useUserQuery } from '@/hooks/user';

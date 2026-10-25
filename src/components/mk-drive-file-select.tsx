@@ -4,9 +4,9 @@
  */
 
 import { MkDrive } from '@/components/mk-drive';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/ui/button';
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/ui/dialog';
+import { ScrollArea } from '@/ui/scroll-area';
 import { getHeaderLeftId, getHeaderRightId, WindowContext } from '@/providers/window-provider';
 import { CheckIcon, XIcon } from 'lucide-react';
 import type { DriveFile } from '@/types/drive-file';
@@ -36,7 +36,7 @@ export function MkDriveFileSelect(
 
   return (
     <Dialog open={'open' in props ? props.open : open} onOpenChange={onOpenChange}>
-      {'children' in props && <DialogTrigger asChild>{props.children}</DialogTrigger>}
+      {'children' in props && <DialogTrigger render={props.children as React.ReactElement<Record<string, unknown>>} />}
       <DialogContent
         className="flex max-h-[calc(100vh-4rem)] w-[95%] max-w-300! flex-col overflow-hidden p-0"
         showCloseButton={false}
@@ -48,20 +48,16 @@ export function MkDriveFileSelect(
             <div className="flex items-center gap-1">
               <div id={getHeaderRightId(popupId)} data-ptrb-rank={ptrbRank} />
               <DialogClose
-                asChild
                 onClick={() => {
                   onFileSelect(selected);
                   console.log('selected files:', selected);
-                }}
-              >
-                <Button variant="outline" size="icon-sm">
+                }} render={<Button variant="outline" size="icon-sm"/>}>
                   <CheckIcon />
-                </Button>
+                
               </DialogClose>
-              <DialogClose asChild>
-                <Button variant="outline" size="icon-sm">
+              <DialogClose render={<Button variant="outline" size="icon-sm"/>}>
                   <XIcon />
-                </Button>
+                
               </DialogClose>
             </div>
           </div>

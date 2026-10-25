@@ -6,7 +6,7 @@
 import type { UserDetailed } from '@/types/user';
 import { useTranslation } from 'react-i18next';
 import { BanIcon, CircleXIcon, LockIcon, UserRoundPlusIcon, UsersRoundIcon, VolumeOffIcon } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/ui/badge';
 import type { ComponentProps } from 'react';
 
 export function MkUserBadges({

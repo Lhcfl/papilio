@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react/jsx-runtime';
 import { MkNotification } from '@/components/mk-notification';
 import { CheckCheckIcon, FilterIcon, FilterXIcon, ListChecksIcon, ListXIcon, RefreshCwIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { NOTIFICATION_TYPES, type NotificationIncludeableType } from '@/lib/notifications';
 import { createStreamChannel, INITIAL_UNTIL_ID, misskeyApi } from '@/lib/inject-misskey-api';
 import { registerNote } from '@/hooks/note';
@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react';
 import { groupNotifications } from '@/lib/notification-grouper';
 import { usePreference } from '@/stores/perference';
 import { HeaderRightPortal } from '@/components/header-portal';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import { useMarkAllAsReadAction } from '@/hooks/notifications';
 
 export const MkNotifications = () => {

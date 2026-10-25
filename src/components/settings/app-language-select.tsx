@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/ui/select';
 import langs from '@/assets/langs.json';
 import { useTranslation } from 'react-i18next';
 
@@ -17,7 +17,12 @@ export default function AppLanguageSelect() {
   }
 
   return (
-    <Select onValueChange={changeLanguage} value={i18n.language}>
+    <Select
+      onValueChange={(value) => {
+        if (value != null) changeLanguage(value);
+      }}
+      value={i18n.language}
+    >
       <SelectTrigger className="w-full">
         <SelectValue />
       </SelectTrigger>

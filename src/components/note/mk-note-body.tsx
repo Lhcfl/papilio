@@ -12,7 +12,7 @@ import type { HTMLProps } from 'react';
 import { MkMfm } from '@/components/mk-mfm';
 import type { NoteWithExtension } from '@/types/note';
 import { MkNoteSimple } from '@/components/mk-note-simple';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { MkLinkPreview } from '@/components/note/mk-link-preview';
 import { MkNoteFile } from '@/components/note/mk-note-file';
 import { MkNoteImages } from '@/components/note/mk-note-images';

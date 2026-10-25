@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Button } from '@/components/ui/button';
-import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemTitle } from '@/components/ui/item';
-import { Spinner } from '@/components/ui/spinner';
+import { Button } from '@/ui/button';
+import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemTitle } from '@/ui/item';
+import { Spinner } from '@/ui/spinner';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { clearCache } from '@/loaders/clear-cache';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

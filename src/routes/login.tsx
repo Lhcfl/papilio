@@ -8,10 +8,10 @@ import { useNavigate } from '@tanstack/react-router';
 import { createFileRoute } from '@tanstack/react-router';
 import { permissions } from 'misskey-js';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@/components/ui/button';
-import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
-import { Spinner } from '@/components/ui/spinner';
+import { Button } from '@/ui/button';
+import { Field, FieldGroup, FieldLabel } from '@/ui/field';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/ui/input-group';
+import { Spinner } from '@/ui/spinner';
 import { LoginLayout } from '@/layouts/login-layout';
 import { getAccountList, saveToAccountList, site, storeUserSite, token } from '@/lib/inject-misskey-api';
 

@@ -11,9 +11,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogFooter,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
+} from '@/ui/alert-dialog';
+import { Button } from '@/ui/button';
+import { Spinner } from '@/ui/spinner';
 import { useConfirmDialog } from '@/stores/confirm-dialog';
 import { CheckIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';

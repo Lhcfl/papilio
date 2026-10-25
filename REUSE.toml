@@ -32,7 +32,7 @@ SPDX-FileCopyrightText = "marie and other Sharkey contributors"
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 [[annotations]]
-path = ["src/components/ui/**"]
+path = ["src/ui/**"]
 precedence = "override"
 SPDX-FileCopyrightText = "shadcn"
 SPDX-License-Identifier = "MIT"

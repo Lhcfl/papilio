@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/ui/sidebar';
 import { AppSidebarFooter } from '@/components/sidebar/app-sidebar-footer';
 import { AppSidebarHeader } from '@/components/sidebar/app-sidebar-header';
 import { AppSidebarMain } from '@/components/sidebar/app-sidebar-main';

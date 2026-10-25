@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Progress } from '@/components/ui/progress';
+import { Progress } from '@/ui/progress';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 

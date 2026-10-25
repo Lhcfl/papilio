@@ -5,7 +5,7 @@
 
 import clsx from 'clsx';
 import type { HTMLProps } from 'react';
-import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
+import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/ui/item';
 import { GuessFileIcon } from '@/components/file/guess-file-icon';
 import type { NoteWithExtension } from '@/types/note';
 
@@ -17,8 +17,7 @@ export const MkNoteFile = (
   const className = clsx('p-2', classNameProps);
 
   return (
-    <Item className={className} {...rest} size="sm" variant="muted" asChild>
-      <a href={file.url} target="_blank" rel="noopener noreferrer">
+    <Item className={className} {...rest} size="sm" variant="muted" render={<a href={file.url} target="_blank" rel="noopener noreferrer"/>}>
         <ItemMedia variant="icon">
           <GuessFileIcon file={file} />
         </ItemMedia>
@@ -26,7 +25,7 @@ export const MkNoteFile = (
           <ItemTitle>{file.name}</ItemTitle>
           <ItemDescription className="text-xs">{file.comment}</ItemDescription>
         </ItemContent>
-      </a>
+      
     </Item>
   );
 };

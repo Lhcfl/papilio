@@ -4,11 +4,11 @@
  */
 
 import { SiteLogo } from '@/components/site-logo';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/ui/sidebar';
 import { useSiteMeta } from '@/stores/site';
 import { site } from '@/lib/inject-misskey-api';
 import { AppThemeToggle } from '@/components/app-theme-toggle';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { Link } from '@tanstack/react-router';
 
 export const AppSidebarHeader = () => {
@@ -18,18 +18,20 @@ export const AppSidebarHeader = () => {
   return (
     <SidebarMenu>
       <SidebarMenuItem className="flex items-center gap-2">
-        <SidebarMenuButton size="lg" asChild>
-          <Link to="/about/instance">
+        <SidebarMenuButton size="lg" render={<Link to="/about/instance"/>}>
             <SiteLogo />
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-medium">{metaName}</span>
               <span className="text-muted-foreground truncate text-xs">{domain}</span>
             </div>
-          </Link>
+          
         </SidebarMenuButton>
-        <Button variant="outline" size="icon" asChild className='group-data-[state="collapsed"]:hidden'>
-          <AppThemeToggle />
-        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          className='group-data-[state="collapsed"]:hidden'
+          render={<AppThemeToggle />}
+        />
       </SidebarMenuItem>
     </SidebarMenu>
   );

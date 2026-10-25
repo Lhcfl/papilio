@@ -9,12 +9,12 @@
 /* oxlint-disable typescript/no-unsafe-call */
 /* oxlint-disable typescript/no-explicit-any */
 import { MkCode } from '@/components/mk-code';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea } from '@/ui/scroll-area';
 import { site, token } from '@/lib/inject-misskey-api';
 import { createFileRoute } from '@tanstack/react-router';
 import { Stream } from 'misskey-js';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
+import { Label } from '@/ui/label';
+import { Switch } from '@/ui/switch';
 import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { AppThemeToggle } from '@/components/app-theme-toggle';
 
@@ -57,7 +57,9 @@ function WsDebugger({ site, token }: { site: string; token: string }) {
   const misskeyStream = useMemo(() => new Stream(site, { token }), [site, token]);
   const wsStream = (misskeyStream as any).stream;
 
-  const [messages, setMessages] = useState<{ time: Date; data: unknown }[]>([]);
+  const [messages, setMessages] = useState<{ time: Date; data: unknown }[]>(() => [
+    { time: new Date(), data: { info: 'connected' } },
+  ]);
   const [channels, setChannels] = useState<(typeof AvailableChannels)[number][]>([]);
 
   const handleMessage = useEffectEvent((msg: any) => {
@@ -67,9 +69,8 @@ function WsDebugger({ site, token }: { site: string; token: string }) {
   });
 
   useEffect(() => {
-    handleMessage({ data: JSON.stringify({ info: 'connected' }) });
     return () => {
-      handleMessage({ data: JSON.stringify({ info: 'connection closed' }) });
+      setMessages((msgs) => [{ time: new Date(), data: { info: 'connection closed' } }, ...msgs]);
       misskeyStream.close();
     };
   }, [misskeyStream]);

@@ -5,16 +5,15 @@
 
 import type { User } from '@/types/user';
 import type { CSSProperties, HTMLProps } from 'react';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar';
 import { MkBlurHash } from '@/components/mk-blurhash';
-import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { cn } from '@/lib/utils';
 import { Link } from '@tanstack/react-router';
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card';
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/ui/hover-card';
 import { MkUserCard } from '@/components/mk-user-card';
 import { useUserQuery } from '@/hooks/user';
 import { MkUserCardSkeleton } from '@/components/mk-user-card-skeleton';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea } from '@/ui/scroll-area';
 import { acct } from 'misskey-js';
 import type { UserDetailed as SkUserDetailed } from '@@/sharkey-js/entities';
 import { usePreference } from '@/stores/perference';
@@ -44,13 +43,9 @@ export const MkAvatar = (
         <MkAvatarMain user={user} {...avatarProps} disableRouteLink={disableRouteLink} />
       ) : (
         <HoverCard>
-          <HoverCardTrigger asChild>
-            <MkAvatarMain user={user} {...avatarProps} disableRouteLink={disableRouteLink} />
-          </HoverCardTrigger>
-          <HoverCardContent asChild className="h-100 w-80 p-0">
-            <ScrollArea>
-              <MkAvatarHoverCard user={user} />
-            </ScrollArea>
+          <HoverCardTrigger render={<MkAvatarMain user={user} {...avatarProps} disableRouteLink={disableRouteLink} />} />
+          <HoverCardContent className="h-100 w-80 p-0" render={<ScrollArea />}>
+            <MkAvatarHoverCard user={user} />
           </HoverCardContent>
         </HoverCard>
       )}
@@ -88,18 +83,20 @@ const MkAvatarMain = (
 
   return (
     <div className="relative">
-      <Avatar className={cn('rounded-md', avatarClassNameProps)} {...avatarPropsRest} asChild>
-        <Link to="/@{$acct}" params={{ acct: acct.toString(user) }} disabled={disableRouteLink}>
-          <AvatarPrimitive.Fallback className="relative overflow-hidden">
-            <MkBlurHash id={'user:' + user.id} blurhash={user.avatarBlurhash} className="h-full w-full" />
-          </AvatarPrimitive.Fallback>
-          <AvatarImage
-            src={user.avatarUrl ?? undefined}
-            loading="lazy"
-            decoding="async"
-            alt={`avatar of @${user.username}`}
-          />
-        </Link>
+      <Avatar
+        className={cn('rounded-md', avatarClassNameProps)}
+        {...avatarPropsRest}
+        render={<Link to="/@{$acct}" params={{ acct: acct.toString(user) }} disabled={disableRouteLink} />}
+      >
+        <AvatarFallback className="relative overflow-hidden">
+          <MkBlurHash id={'user:' + user.id} blurhash={user.avatarBlurhash} className="h-full w-full" />
+        </AvatarFallback>
+        <AvatarImage
+          src={user.avatarUrl ?? undefined}
+          loading="lazy"
+          decoding="async"
+          alt={`avatar of @${user.username}`}
+        />
       </Avatar>
       {showAvatarDecorations &&
         user.avatarDecorations.map((decoration, index) => (

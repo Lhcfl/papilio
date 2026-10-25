@@ -5,7 +5,7 @@
 
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkFileUploadMenu } from '@/components/mk-file-upload-menu';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { MkUserCardBanner } from '@/components/user/mk-user-card-banner';
 import { useProfileEditAction } from '@/hooks/profile-edit-actions';
 import { useMe } from '@/stores/me';

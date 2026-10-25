@@ -4,7 +4,7 @@
  */
 
 import { SettingHeader } from '@/components/settings/header';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/ui/input';
 import { cn } from '@/lib/utils';
 import type { TextSetting } from '@/settings/types';
 import { setterName, usePreference, useUserPreference } from '@/stores/perference';

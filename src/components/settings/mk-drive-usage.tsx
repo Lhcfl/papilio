@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import { toHumanReadableFileSize } from '@/lib/file';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';

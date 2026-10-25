@@ -11,7 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogFooter,
   AlertDialogAction,
-} from '@/components/ui/alert-dialog';
+} from '@/ui/alert-dialog';
 import { useErrorDialogs } from '@/stores/error-dialog';
 import { XIcon } from 'lucide-react';
 import { useState } from 'react';

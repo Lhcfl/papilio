@@ -8,7 +8,7 @@ import { MoreVerticalIcon, RepeatIcon, Trash2Icon } from 'lucide-react';
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkTime } from '@/components/mk-time';
 import { MkUserName } from '@/components/mk-user-name';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { MkVisibilityIcon } from '@/components/note/mk-visibility-icon';
 import type { NoteWithExtension } from '@/types/note';
 import { useMe } from '@/stores/me';

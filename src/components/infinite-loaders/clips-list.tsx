@@ -5,7 +5,7 @@
 
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkTime } from '@/components/mk-time';
-import { ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item';
+import { ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/ui/item';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { useMe } from '@/stores/me';
 import { PaperclipIcon } from 'lucide-react';

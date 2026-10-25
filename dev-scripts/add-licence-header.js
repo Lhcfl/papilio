@@ -11,7 +11,7 @@ import process from 'process';
 
 const PROJECT_ROOT = path.resolve(import.meta.dirname, '..');
 const include_dir = ['src/**/*.{js,ts,tsx,css}', 'dev-scripts/**/*.{js,ts,tsx}', 'vite-plugins/**/*.{js,ts}'];
-const exclude_dir = ['src/components/ui/**', '**/*.gen.ts'];
+const exclude_dir = ['src/ui/**', '**/*.gen.ts'];
 
 console.log('[Licence-Checker] Working at:', PROJECT_ROOT);
 chdir(PROJECT_ROOT);

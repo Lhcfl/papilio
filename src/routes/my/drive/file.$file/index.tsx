@@ -8,9 +8,9 @@ import { MenuOrDrawer, type Menu } from '@/components/menu-or-drawer';
 import { MkImage } from '@/components/mk-image';
 import { MkTime } from '@/components/mk-time';
 import { MkUrl } from '@/components/mk-url';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Item, ItemActions, ItemContent, ItemMedia, ItemTitle } from '@/components/ui/item';
+import { Badge } from '@/ui/badge';
+import { Button } from '@/ui/button';
+import { Item, ItemActions, ItemContent, ItemMedia, ItemTitle } from '@/ui/item';
 import {
   fileQueryOptions,
   useMarkAsNotSensitive,

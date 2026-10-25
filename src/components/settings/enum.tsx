@@ -4,7 +4,7 @@
  */
 
 import { SettingHeader } from '@/components/settings/header';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/ui/select';
 import { cn } from '@/lib/utils';
 import type { EnumSettings } from '@/settings';
 import { setterName, usePreference } from '@/stores/perference';

@@ -4,9 +4,9 @@
  */
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { CircleXIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
-import { Spinner } from '@/components/ui/spinner';
+import { Button } from '@/ui/button';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/ui/empty';
+import { Spinner } from '@/ui/spinner';
 import { PERSIST_GC_TIME } from '@/plugins/persister';
 import { site } from '@/lib/inject-misskey-api';
 import { MeContext } from '@/stores/me';

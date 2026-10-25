@@ -5,7 +5,7 @@
 
 import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scroll';
 import { MkNote } from '@/components/mk-note';
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/ui/separator';
 import { registerNote } from '@/hooks/note';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { queryAtom } from '@/routes/search/-atoms';

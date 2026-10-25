@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -12,8 +12,8 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+} from '@/ui/dialog';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/ui/input-group';
 import { CheckIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -38,7 +38,7 @@ export function InputModal({
 
   return (
     <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger render={children as React.ReactElement<Record<string, unknown>>} />
       <DialogContent>
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription>{description}</DialogDescription>

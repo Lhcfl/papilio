@@ -23,7 +23,7 @@ Papilio 是一个使用 React 编写的 [Misskey](https://misskey.io/) 第三方
 | Lint            | Oxlint + `oxlint-tsgolint`（类型感知规则）                                     |
 | 格式化          | Prettier + `prettier-plugin-tailwindcss`                                       |
 | 样式            | Tailwind CSS v4、CSS Variables、shadcn/ui                                      |
-| 组件基础        | Radix UI、shadcn/ui、lucide-react、vaul、sonner                                |
+| 组件基础        | Base UI（`@base-ui/react`）、shadcn/ui、lucide-react、vaul、sonner            |
 | 状态            | Zustand、Jotai、React Context                                                  |
 | Misskey API     | `misskey-js` + vendored `sharkey-js` 类型                                      |
 | i18n            | i18next + react-i18next + HTTP Backend                                         |
@@ -67,7 +67,7 @@ pnpm exec prettier --write .
 │   ├── tailwind.css             # Tailwind v4 入口与主题变量
 │   ├── routes/                  # 文件路由
 │   ├── components/              # 业务组件（mk-*、note/、post-form/ 等）
-│   │   └── ui/                  # shadcn/ui 生成组件，MIT，lint 忽略
+│   ├── ui/                      # shadcn/ui 生成组件（Base UI），MIT，lint 忽略
 │   ├── layouts/                 # 登录布局、侧边栏布局
 │   ├── hooks/                   # 业务 hooks（timeline、note、user、upload 等）
 │   ├── loaders/                 # 登录后数据加载、query options
@@ -236,13 +236,15 @@ locales-source/sukerbuka-locales/
 - 使用 `cn()`（来自 `@/lib/utils`）合并 className。
 - 使用 `prettier-plugin-tailwindcss` 自动排序 Tailwind class，不要手动维护顺序。
 - shadcn/ui 配置在 `components.json`：
-  - style: `radix-vega`
+  - style: `base-vega`（Base UI 版本）
   - base color: `olive`
   - icon library: `lucide`
-- `src/components/ui/**` 是 shadcn 生成组件：
+- `src/ui/**` 是 shadcn 生成组件（基于 `@base-ui/react`）：
   - 许可证为 MIT
   - Oxlint 忽略该目录
   - 尽量少改；需要业务封装时放到 `src/components/` 下新建组件
+  - 多态元素使用 Base UI 的 `render` prop，不再使用 Radix 的 `asChild`
+- UI 组件统一从 `@/ui/*` 导入，业务组件放在 `@/components/*`。
 - 业务组件命名通常使用 `Mk*`（如 `MkNote`、`MkAvatar`）或 `App*`（如 `AppSidebar`）。
 - 图标统一使用 `lucide-react`。
 - Toast 使用 `sonner`，抽屉使用 `vaul`，图片查看使用 PhotoSwipe。
@@ -266,7 +268,7 @@ locales-source/sukerbuka-locales/
 | `src/assets/langs.json` | locale 插件生成                                                                       |
 | `dist/**`               | 构建产物，已 gitignore                                                                |
 | `sharkey-js/**`         | 从 Sharkey 下载的 vendored 类型/API，通过 `bun dev-scripts/update-sharkey-js.ts` 更新 |
-| `src/components/ui/**`  | shadcn/ui 生成组件，MIT，lint 忽略                                                    |
+| `src/ui/**`             | shadcn/ui 生成组件（Base UI），MIT，lint 忽略                                          |
 | `locales-source/**`     | 上游语言快照，通过 `pnpm update-locales` 更新                                         |
 
 ## 12. 代码规范

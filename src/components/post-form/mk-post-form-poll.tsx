@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Input } from '@/components/ui/input';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
+import { Input } from '@/ui/input';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/ui/input-group';
+import { Label } from '@/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select';
+import { Switch } from '@/ui/switch';
 import type { DraftData } from '@/hooks/draft';
 import { toDatetimeLocalValue } from '@/lib/utils';
 import { ArrowDownIcon, ArrowUpIcon, Trash2Icon } from 'lucide-react';
@@ -26,6 +26,7 @@ export function MkPostFormPoll({
   const { t } = useTranslation();
   const expiresOpt = expiresAt ? 'expiresAt' : expiredAfter ? 'expiredAfter' : 'infinite';
   const [expiredAfterOpt, setExpiredAfterOpt] = useState('day' as 'second' | 'minute' | 'hour' | 'day');
+  const [minExpiresAt] = useState(() => toDatetimeLocalValue(new Date()));
   const expiredAfterValue = Math.round(
     expiredAfter
       ? expiredAfterOpt === 'second'
@@ -148,7 +149,7 @@ export function MkPostFormPoll({
           <Select
             value={expiresOpt}
             onValueChange={(v) => {
-              setExpiresOpt(v);
+              if (v != null) setExpiresOpt(v);
             }}
           >
             <SelectTrigger className="w-full">
@@ -167,7 +168,7 @@ export function MkPostFormPoll({
             <Input
               className="text-sm"
               type="datetime-local"
-              min={toDatetimeLocalValue(new Date())}
+              min={minExpiresAt}
               value={toDatetimeLocalValue(new Date(expiresAt))}
               name="expiresAt"
               onChange={(ev) => {
@@ -203,7 +204,7 @@ export function MkPostFormPoll({
               <Select
                 value={expiredAfterOpt}
                 onValueChange={(v) => {
-                  setExpiredAfterOpt(v as 'second' | 'minute' | 'hour' | 'day');
+                  if (v != null) setExpiredAfterOpt(v);
                 }}
               >
                 <SelectTrigger size="sm" className="border-none pr-1 shadow-none">

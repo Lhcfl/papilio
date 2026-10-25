@@ -5,18 +5,18 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { DialogClose } from '@radix-ui/react-dialog';
 import { createFileRoute } from '@tanstack/react-router';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
+  DialogClose,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Spinner } from '@/components/ui/spinner';
+} from '@/ui/dialog';
+import { Spinner } from '@/ui/spinner';
 import { LoginLayout } from '@/layouts/login-layout';
 import { saveToAccountList, site, storeUserToken } from '@/lib/inject-misskey-api';
 import { useQuery } from '@tanstack/react-query';
@@ -83,8 +83,7 @@ function RouteComponent() {
             <DialogDescription>Failed to login. Please try again.</DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-start">
-            <DialogClose asChild>
-              <Button type="button">Try Again</Button>
+            <DialogClose render={<Button type="button"/>}>Try Again
             </DialogClose>
           </DialogFooter>
         </DialogContent>

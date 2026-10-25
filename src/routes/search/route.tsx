@@ -4,7 +4,7 @@
  */
 
 import { AppPageTab, AppPageTabList } from '@/components/app-page-tab';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/ui/input-group';
 import { registerNote } from '@/hooks/note';
 import { noteQueryOptions } from '@/hooks/note-query';
 import { PageTitle } from '@/layouts/sidebar-layout';

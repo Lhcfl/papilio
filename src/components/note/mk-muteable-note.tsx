@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { useCheckHardMute, useCheckSoftMute } from '@/hooks/mute';
 import { firstTruthy } from '@/lib/match';
 import type { NoteWithExtension } from '@/types/note';

@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import { LoadingTrigger } from '@/components/loading-trigger';
 import { injectMisskeyStream, misskeyApi, sharkeyApi } from '@/lib/inject-misskey-api';
 import { patchNote, registerNote } from '@/hooks/note';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { useTranslation } from 'react-i18next';
 import { MoreHorizontalIcon } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
@@ -129,11 +129,10 @@ export const MkNoteReplies = (
           )}
           {/* 为了让后面的帖子也能够连接起来，还需要在左侧放置一根线
            */}
-          <Button className="z-10 ml-5" variant="outline" size="sm" asChild>
-            <Link to="/notes/$id" params={{ id: noteId }}>
+          <Button className="z-10 ml-5" variant="outline" size="sm" render={<Link to="/notes/$id" params={{ id: noteId }}/>}>
               <MoreHorizontalIcon />
               {t('showMore')}
-            </Link>
+            
           </Button>
         </div>
       )}

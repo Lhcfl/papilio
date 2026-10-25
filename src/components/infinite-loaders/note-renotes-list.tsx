@@ -7,7 +7,7 @@ import { MkInfiniteScroll } from '@/components/infinite-loaders/mk-infinite-scro
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkTime } from '@/components/mk-time';
 import { MkUserName } from '@/components/mk-user-name';
-import { Item, ItemContent, ItemDescription, ItemGroup, ItemHeader, ItemMedia } from '@/components/ui/item';
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemHeader, ItemMedia } from '@/ui/item';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { RepeatIcon } from 'lucide-react';
 

@@ -5,7 +5,7 @@
 
 import type { UserDetailed } from '@/types/user';
 import { MkUserName } from '@/components/mk-user-name';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import {
   BanIcon,
   CheckIcon,
@@ -23,7 +23,7 @@ import {
   useUnblockAction,
   useUnfollowAction,
 } from '@/hooks/user-action';
-import { Spinner } from '@/components/ui/spinner';
+import { Spinner } from '@/ui/spinner';
 import { MkI18n } from '@/components/mk-i18n';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 import { useErrorDialogs } from '@/stores/error-dialog';

@@ -12,7 +12,7 @@ import { MkNoteRenoteTip } from '@/components/note/mk-note-renote-tip';
 import { memo, useCallback, useState, type HTMLProps } from 'react';
 import { useAppearNote, useNoteValue } from '@/hooks/note';
 import { useTranslateAction } from '@/hooks/note-actions';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import { FoldVerticalIcon } from 'lucide-react';
 import { MkNoteReplyLine } from '@/components/note/mk-note-reply-line';
 import { usePreference } from '@/stores/perference';

@@ -8,7 +8,7 @@ import { MkMention } from '@/components/mk-mention';
 import { MkMfm } from '@/components/mk-mfm';
 import { MkUrl } from '@/components/mk-url';
 import { SiteLogo } from '@/components/site-logo';
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/ui/separator';
 import { MkUserCardBanner } from '@/components/user/mk-user-card-banner';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { misskeyApi } from '@/lib/inject-misskey-api';

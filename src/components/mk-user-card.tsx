@@ -9,7 +9,7 @@ import { acct } from 'misskey-js';
 import { Fragment, type HTMLProps } from 'react';
 import { cn } from '@/lib/utils';
 import { MkAvatar } from '@/components/mk-avatar';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/button';
 import {
   CalendarDaysIcon,
   CheckIcon,
@@ -21,17 +21,17 @@ import {
   UserRoundPlusIcon,
   XIcon,
 } from 'lucide-react';
-import { ButtonGroup } from '@/components/ui/button-group';
+import { ButtonGroup } from '@/ui/button-group';
 import { MkMfm } from '@/components/mk-mfm';
 import { useTranslation } from 'react-i18next';
 import { useAcceptFollowRequestAction, useRejectFollowRequestAction } from '@/hooks/user-action';
-import { Spinner } from '@/components/ui/spinner';
-import { Separator } from '@/components/ui/separator';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Spinner } from '@/ui/spinner';
+import { Separator } from '@/ui/separator';
+import { Alert, AlertDescription, AlertTitle } from '@/ui/alert';
 import { useMe } from '@/stores/me';
 import { Link } from '@tanstack/react-router';
 import { MkUserMenu } from '@/components/user/mk-user-menu';
-import { Card, CardAction, CardContent, CardTitle } from '@/components/ui/card';
+import { Card, CardAction, CardContent, CardTitle } from '@/ui/card';
 import { MkTime } from '@/components/mk-time';
 import { MkUserCardBanner } from '@/components/user/mk-user-card-banner';
 import { MkUserBadges } from '@/components/user/mk-user-badges';
@@ -96,11 +96,10 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
           {isNotMe ? (
             <MkUserCardButton user={user} />
           ) : (
-            <Button asChild>
-              <Link to="/settings/profile">
+            <Button render={<Link to="/settings/profile"/>}>
                 <EditIcon />
                 {t('editProfile')}
-              </Link>
+              
             </Button>
           )}
           <MkUserMenu user={user}>

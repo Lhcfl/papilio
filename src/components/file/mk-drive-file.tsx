@@ -5,7 +5,7 @@
 
 import { GuessFileIcon } from '@/components/file/guess-file-icon';
 import { MkImage } from '@/components/mk-image';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/ui/badge';
 import { cn } from '@/lib/utils';
 import type { DriveFile } from '@/types/drive-file';
 import { FileWarningIcon } from 'lucide-react';

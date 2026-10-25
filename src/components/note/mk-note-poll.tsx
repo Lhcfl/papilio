@@ -13,8 +13,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Spinner } from '@/components/ui/spinner';
+} from '@/ui/alert-dialog';
+import { Spinner } from '@/ui/spinner';
 import { useNotePollRefreshAction, useNoteVoteAction } from '@/hooks/note-actions';
 import { cn } from '@/lib/utils';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
@@ -127,12 +127,10 @@ export function MkNotePoll({
             // oxlint-disable-next-line react/no-array-index-key
             key={`${choice.text}-${index}`}
           >
-            <AlertDialogTrigger asChild>
-              <button
+            <AlertDialogTrigger render={<button
                 type="button"
                 disabled={disabled || choice.isVoted}
-                className="choice relative flex items-center gap-2 overflow-hidden rounded-sm border p-2 text-left text-sm"
-              >
+                className="choice relative flex items-center gap-2 overflow-hidden rounded-sm border p-2 text-left text-sm"/>}>
                 {choice.isVoted ? <CircleCheckBigIcon className="size-5" /> : <CircleIcon className="size-5" />}
                 <span className="w-0 flex-[1_1]">{choice.text}</span>
                 {showResult && (
@@ -147,7 +145,7 @@ export function MkNotePoll({
                     choice.isVoted ? 'bg-primary/10' : 'bg-primary/10',
                   )}
                 />
-              </button>
+              
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
