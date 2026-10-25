@@ -85,6 +85,18 @@ export function MkInfiniteScrollByData<TData, FlatDepth extends number = 1>(
   const items = (flatDepth == 0 ? (data?.pages as FlatArray<TData[], FlatDepth>[]) : data?.pages.flat(flatDepth)) ?? [];
   const isEmpty = !isPending && items.length === 0;
 
+  /**
+   * Key for each rendered item.
+   *
+   * When `flatDepth === 0`, an item is a whole page (a "window" of the timeline). The
+   * default key (the first element of the page) is unstable for the newest window: every
+   * incoming note is prepended to it, so the key changes and React unmounts + remounts
+   * the whole window on every new note. The last element (`untilId`) stays stable while
+   * notes are prepended, so use it as the page key instead.
+   */
+  const getItemKey = (a: unknown, idx: number): string | number =>
+    (flatDepth === 0 && Array.isArray(a) ? getId(a.at(-1), idx) : getId(a, idx)) ?? idx;
+
   const DataContainer = dataContainer ?? 'div';
   const WrapperContainer = wrapperContainer ?? 'div';
 
@@ -93,7 +105,7 @@ export function MkInfiniteScrollByData<TData, FlatDepth extends number = 1>(
       {/* it is intended to not use `cn`, because if we change containerClassName, we want to avoid unintended styles */}
       <DataContainer className={containerClassName ?? 'flex flex-col gap-2'}>
         {items.map((a, idx) => (
-          <Fragment key={getId(a, idx)}>{children(a)}</Fragment>
+          <Fragment key={getItemKey(a, idx)}>{children(a)}</Fragment>
         ))}
       </DataContainer>
       {isEmpty && <MkEmpty />}
