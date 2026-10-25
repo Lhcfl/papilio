@@ -6,6 +6,18 @@
       "sourceType": "github",
       "skillPath": ".agents/skills/migrate-oxlint/SKILL.md",
       "computedHash": "7bc6dccdcc557cdb7d887fc16c6632e685b13860d202b9c9ce5da7504f0dbe18"
+    },
+    "migrate-radix-to-base": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "skillPath": "skills/migrate-radix-to-base/SKILL.md",
+      "computedHash": "e1f2030ee5059be3dff0812ca0e4b995ee9fa3132176f049ebe6c90346a6755e"
+    },
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "computedHash": "b864a958765563321f485a96f4d59c0bb6539f4286ab6d8b8b66895b7ebd302d"
     }
   }
 }
