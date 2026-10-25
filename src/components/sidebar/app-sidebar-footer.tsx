@@ -79,9 +79,13 @@ export const AppSidebarFooter = () => {
       <SidebarMenuItem className='hidden group-data-[state="collapsed"]:block'>
         <SidebarMenuButton render={<AppThemeToggle />} />
       </SidebarMenuItem>
-      <SidebarMenuItem>
+      <SidebarMenuItem className="mb-2">
         <MkPostFormDialog>
-          <AppSidebarMenuButton variant="outline" icon={<PencilIcon />} title={t('note')} />
+          <AppSidebarMenuButton
+            icon={<PencilIcon />}
+            title={t('note')}
+            className="bg-primary! font-medium text-primary-foreground! hover:bg-primary/90! hover:text-primary-foreground!"
+          />
         </MkPostFormDialog>
       </SidebarMenuItem>
       <SidebarMenuItem>
