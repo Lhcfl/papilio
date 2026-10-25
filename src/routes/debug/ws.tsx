@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* oxlint-disable typescript/no-unsafe-argument */
+/* oxlint-disable typescript/no-unsafe-assignment */
+/* oxlint-disable typescript/no-unsafe-member-access */
+/* oxlint-disable typescript/no-unsafe-call */
+/* oxlint-disable typescript/no-explicit-any */
 import { MkCode } from '@/components/mk-code';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { site, token } from '@/lib/inject-misskey-api';
@@ -123,7 +123,7 @@ function WsDebugger({ site, token }: { site: string; token: string }) {
         </div>
         <div>
           {messages.map((msg, i) => (
-            // eslint-disable-next-line react-x/no-array-index-key
+            // oxlint-disable-next-line react/no-array-index-key
             <div key={i} className="my-2 text-sm">
               <div>
                 {msg.time.toLocaleDateString()} {msg.time.toLocaleTimeString()}

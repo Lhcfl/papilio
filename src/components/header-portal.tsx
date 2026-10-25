@@ -7,6 +7,8 @@ import { getHeaderCenterId, getHeaderLeftId, getHeaderRightId, WindowContext } f
 import { use, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+/* oxlint-disable react/set-state-in-effect */
+
 export function HeaderRightPortal(props: { children: React.ReactNode }) {
   const [container, setContainer] = useState<HTMLElement | null>(null);
   const { headerId } = use(WindowContext);
@@ -35,7 +37,7 @@ export function HeaderCenterPortal(props: { children: React.ReactNode }) {
 
   useEffect(() => {
     // We have to set container in useEffect, because the element may not be present.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+
     setContainer(document.getElementById(getHeaderCenterId(headerId)));
 
     const headerLeft = document.getElementById(getHeaderLeftId(headerId));

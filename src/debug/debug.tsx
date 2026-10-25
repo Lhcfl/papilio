@@ -20,7 +20,6 @@ if (import.meta.env.DEV) {
     });
   };
 } else {
-  // eslint-disable-next-line react-x/no-unnecessary-use-prefix
   useDebugger = () => null;
 }
 

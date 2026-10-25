@@ -45,6 +45,12 @@ const transformToI18nNext = (obj: Record<string, unknown>) => {
 // For some reason, backspace characters sometimes get mixed into strings and corrupt YAML, so we remove them
 const clean = (text: string) => text.replace(new RegExp(String.fromCodePoint(0x08), 'g'), '');
 
+const parseYaml = (text: string): Record<string, unknown> => {
+  const content = clean(text);
+
+  return (content.trim() ? yaml.load(content) : {}) as Record<string, unknown>;
+};
+
 const primaries: Record<string, string> = {
   en: 'US',
   ja: 'JP',
@@ -71,10 +77,7 @@ export const PapilioI18nGenerator = (): Plugin => {
         fsp
           .readFile(new URL(`locales-source/${locale}/${lang}.yml`, PROJECT_ROOT), 'utf-8')
           .catch(() => '')
-          .then((data) => {
-            const content = clean(data);
-            return [lang, (yaml.load(content) ?? {}) as Record<string, unknown>] as const;
-          }),
+          .then((data) => [lang, parseYaml(data)] as const),
       ),
     ).then((entries) => Object.fromEntries(entries));
 
@@ -138,10 +141,7 @@ export const PapilioI18nGenerator = (): Plugin => {
         }
 
         const langCode = path.basename(filePath, '.yml');
-        locales_cache[langCode] = merge(
-          locales_cache[langCode],
-          yaml.load(clean(fs.readFileSync(filePath, 'utf-8'))) as Record<string, unknown>,
-        );
+        locales_cache[langCode] = merge(locales_cache[langCode], parseYaml(fs.readFileSync(filePath, 'utf-8')));
 
         // 通知浏览器执行 HMR
         server.ws.send({

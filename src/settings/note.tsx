@@ -94,9 +94,9 @@ export const NoteSettings = {
           lazy(() => import('@/components/settings/note-default-reaction')),
           {
             key: 'defaultLike',
-            defaultValue: '❤' as string,
+            defaultValue: '❤',
             name: t('defaultLike'),
-            direction: 'right' as 'right' | 'bottom',
+            direction: 'right',
             user: true,
           },
         ),

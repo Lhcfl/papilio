@@ -31,7 +31,7 @@ export const AppearanceSettings = defineSettingsPage({
           lazy(() => import('@/components/settings/app-font-select')),
           {
             name: t('_stpvPlus.defaultFont.label'),
-            direction: 'right' as 'right' | 'bottom',
+            direction: 'right',
           },
         ),
         defineEnum('emojiStyle', {

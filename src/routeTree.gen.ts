@@ -9,87 +9,67 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PostingRouteImport } from './routes/posting'
-import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as ChatRouteImport } from './routes/chat'
-import { Route as AccountSwitchRouteImport } from './routes/account-switch'
-import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as MissingRouteImport } from './routes/$missing'
-import { Route as SettingsRouteRouteImport } from './routes/settings/route'
-import { Route as SearchRouteRouteImport } from './routes/search/route'
-import { Route as AnnouncementsRouteRouteImport } from './routes/announcements/route'
-import { Route as AboutRouteRouteImport } from './routes/about/route'
+import { Route as AtChar123acctChar125RouteImport } from './routes/@{$acct}'
 import { Route as TimelineRouteRouteImport } from './routes/_timeline/route'
-import { Route as SettingsIndexRouteImport } from './routes/settings/index'
-import { Route as AnnouncementsIndexRouteImport } from './routes/announcements/index'
+import { Route as AboutRouteRouteImport } from './routes/about/route'
+import { Route as AccountSwitchRouteImport } from './routes/account-switch'
+import { Route as AnnouncementsRouteRouteImport } from './routes/announcements/route'
+import { Route as ChatRouteImport } from './routes/chat'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as LoginRedirectRouteImport } from './routes/login-redirect'
+import { Route as PostingRouteImport } from './routes/posting'
+import { Route as SearchRouteRouteImport } from './routes/search/route'
+import { Route as SettingsRouteRouteImport } from './routes/settings/route'
 import { Route as TimelineIndexRouteImport } from './routes/_timeline/index'
-import { Route as TagTagRouteImport } from './routes/tag/$tag'
-import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
-import { Route as SettingsPageRouteImport } from './routes/settings/$page'
-import { Route as SearchUserRouteImport } from './routes/search/user'
-import { Route as SearchNoteRouteImport } from './routes/search/note'
-import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
-import { Route as MyClipsRouteImport } from './routes/my/clips'
-import { Route as DebugWsRouteImport } from './routes/debug/ws'
-import { Route as AnnouncementsPreviousRouteImport } from './routes/announcements/previous'
-import { Route as AboutToolsRouteImport } from './routes/about/tools'
-import { Route as AboutPapilioRouteImport } from './routes/about/papilio'
-import { Route as AboutInstanceRouteImport } from './routes/about/instance'
-import { Route as AboutFederationRouteImport } from './routes/about/federation'
-import { Route as TimelineLocalTimelineRouteImport } from './routes/_timeline/local-timeline'
-import { Route as TimelineHybridTimelineRouteImport } from './routes/_timeline/hybrid-timeline'
 import { Route as TimelineGlobalTimelineRouteImport } from './routes/_timeline/global-timeline'
-import { Route as MyRelationsRouteRouteImport } from './routes/my/relations/route'
-import { Route as MyNotificationsRouteRouteImport } from './routes/my/notifications/route'
-import { Route as MyFollowRequestsRouteRouteImport } from './routes/my/follow-requests/route'
+import { Route as TimelineHybridTimelineRouteImport } from './routes/_timeline/hybrid-timeline'
+import { Route as TimelineLocalTimelineRouteImport } from './routes/_timeline/local-timeline'
+import { Route as AboutFederationRouteImport } from './routes/about/federation'
+import { Route as AboutInstanceRouteImport } from './routes/about/instance'
+import { Route as AboutPapilioRouteImport } from './routes/about/papilio'
+import { Route as AboutToolsRouteImport } from './routes/about/tools'
+import { Route as AnnouncementsIndexRouteImport } from './routes/announcements/index'
+import { Route as AnnouncementsPreviousRouteImport } from './routes/announcements/previous'
 import { Route as ClipsIdRouteRouteImport } from './routes/clips.$id/route'
-import { Route as NotesIdIndexRouteImport } from './routes/notes.$id/index'
-import { Route as MyNotificationsIndexRouteImport } from './routes/my/notifications/index'
-import { Route as MyListsIndexRouteImport } from './routes/my/lists/index'
-import { Route as MyDriveIndexRouteImport } from './routes/my/drive/index'
+import { Route as DebugWsRouteImport } from './routes/debug/ws'
+import { Route as MyClipsRouteImport } from './routes/my/clips'
+import { Route as MyFavoritesRouteImport } from './routes/my/favorites'
+import { Route as MyFollowRequestsRouteRouteImport } from './routes/my/follow-requests/route'
+import { Route as MyNotificationsRouteRouteImport } from './routes/my/notifications/route'
+import { Route as MyRelationsRouteRouteImport } from './routes/my/relations/route'
+import { Route as SearchNoteRouteImport } from './routes/search/note'
+import { Route as SearchUserRouteImport } from './routes/search/user'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as SettingsPageRouteImport } from './routes/settings/$page'
+import { Route as SettingsProfileRouteImport } from './routes/settings/profile'
+import { Route as TagTagRouteImport } from './routes/tag/$tag'
 import { Route as ClipsIdIndexRouteImport } from './routes/clips.$id/index'
-import { Route as NotesIdHistoryRouteImport } from './routes/notes.$id/history'
-import { Route as MyRelationsMuteRouteImport } from './routes/my/relations/mute'
-import { Route as MyRelationsFollowingRouteImport } from './routes/my/relations/following'
-import { Route as MyRelationsFollowersRouteImport } from './routes/my/relations/followers'
-import { Route as MyRelationsBlockRouteImport } from './routes/my/relations/block'
-import { Route as MyNotificationsPmRouteImport } from './routes/my/notifications/pm'
-import { Route as MyNotificationsMentionsRouteImport } from './routes/my/notifications/mentions'
-import { Route as MyListsIdRouteImport } from './routes/my/lists/$id'
-import { Route as MyFollowRequestsSentRouteImport } from './routes/my/follow-requests/sent'
-import { Route as MyFollowRequestsReceivedRouteImport } from './routes/my/follow-requests/received'
 import { Route as ClipsIdEditRouteImport } from './routes/clips.$id/edit'
+import { Route as MyDriveIndexRouteImport } from './routes/my/drive/index'
+import { Route as MyFollowRequestsReceivedRouteImport } from './routes/my/follow-requests/received'
+import { Route as MyFollowRequestsSentRouteImport } from './routes/my/follow-requests/sent'
+import { Route as MyListsIndexRouteImport } from './routes/my/lists/index'
+import { Route as MyListsIdRouteImport } from './routes/my/lists/$id'
+import { Route as MyNotificationsIndexRouteImport } from './routes/my/notifications/index'
+import { Route as MyNotificationsMentionsRouteImport } from './routes/my/notifications/mentions'
+import { Route as MyNotificationsPmRouteImport } from './routes/my/notifications/pm'
+import { Route as MyRelationsBlockRouteImport } from './routes/my/relations/block'
+import { Route as MyRelationsFollowersRouteImport } from './routes/my/relations/followers'
+import { Route as MyRelationsFollowingRouteImport } from './routes/my/relations/following'
+import { Route as MyRelationsMuteRouteImport } from './routes/my/relations/mute'
+import { Route as NotesIdIndexRouteImport } from './routes/notes.$id/index'
+import { Route as NotesIdHistoryRouteImport } from './routes/notes.$id/history'
+import { Route as MyDriveFileFileRouteRouteImport } from './routes/my/drive/file.$file/route'
+import { Route as MyDriveFolderFolderRouteImport } from './routes/my/drive/folder/$folder'
 import { Route as MyListsIdIndexRouteImport } from './routes/my/lists/$id.index'
 import { Route as MyListsIdSettingsRouteImport } from './routes/my/lists/$id.settings'
-import { Route as MyDriveFolderFolderRouteImport } from './routes/my/drive/folder/$folder'
-import { Route as MyDriveFileFileRouteRouteImport } from './routes/my/drive/file.$file/route'
 import { Route as MyDriveFileFileIndexRouteImport } from './routes/my/drive/file.$file/index'
 import { Route as MyDriveFileFileNotesRouteImport } from './routes/my/drive/file.$file/notes'
 
-const PostingRoute = PostingRouteImport.update({
-  id: '/posting',
-  path: '/posting',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRedirectRoute = LoginRedirectRouteImport.update({
-  id: '/login-redirect',
-  path: '/login-redirect',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChatRoute = ChatRouteImport.update({
-  id: '/chat',
-  path: '/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AccountSwitchRoute = AccountSwitchRouteImport.update({
-  id: '/account-switch',
-  path: '/account-switch',
+const MissingRoute = MissingRouteImport.update({
+  id: '/$missing',
+  path: '/$missing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AtChar123acctChar125Route = AtChar123acctChar125RouteImport.update({
@@ -97,24 +77,8 @@ const AtChar123acctChar125Route = AtChar123acctChar125RouteImport.update({
   path: '/@{$acct}',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MissingRoute = MissingRouteImport.update({
-  id: '/$missing',
-  path: '/$missing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsRouteRoute = SettingsRouteRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SearchRouteRoute = SearchRouteRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AnnouncementsRouteRoute = AnnouncementsRouteRouteImport.update({
-  id: '/announcements',
-  path: '/announcements',
+const TimelineRouteRoute = TimelineRouteRouteImport.update({
+  id: '/_timeline',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRouteRoute = AboutRouteRouteImport.update({
@@ -122,98 +86,49 @@ const AboutRouteRoute = AboutRouteRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TimelineRouteRoute = TimelineRouteRouteImport.update({
-  id: '/_timeline',
+const AccountSwitchRoute = AccountSwitchRouteImport.update({
+  id: '/account-switch',
+  path: '/account-switch',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsIndexRoute = SettingsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SettingsRouteRoute,
+const AnnouncementsRouteRoute = AnnouncementsRouteRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AnnouncementsIndexRoute = AnnouncementsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AnnouncementsRouteRoute,
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRedirectRoute = LoginRedirectRouteImport.update({
+  id: '/login-redirect',
+  path: '/login-redirect',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PostingRoute = PostingRouteImport.update({
+  id: '/posting',
+  path: '/posting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRouteRoute = SearchRouteRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRouteRoute = SettingsRouteRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const TimelineIndexRoute = TimelineIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => TimelineRouteRoute,
-} as any)
-const TagTagRoute = TagTagRouteImport.update({
-  id: '/tag/$tag',
-  path: '/tag/$tag',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsProfileRoute = SettingsProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => SettingsRouteRoute,
-} as any)
-const SettingsPageRoute = SettingsPageRouteImport.update({
-  id: '/$page',
-  path: '/$page',
-  getParentRoute: () => SettingsRouteRoute,
-} as any)
-const SearchUserRoute = SearchUserRouteImport.update({
-  id: '/user',
-  path: '/user',
-  getParentRoute: () => SearchRouteRoute,
-} as any)
-const SearchNoteRoute = SearchNoteRouteImport.update({
-  id: '/note',
-  path: '/note',
-  getParentRoute: () => SearchRouteRoute,
-} as any)
-const MyFavoritesRoute = MyFavoritesRouteImport.update({
-  id: '/my/favorites',
-  path: '/my/favorites',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MyClipsRoute = MyClipsRouteImport.update({
-  id: '/my/clips',
-  path: '/my/clips',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DebugWsRoute = DebugWsRouteImport.update({
-  id: '/debug/ws',
-  path: '/debug/ws',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AnnouncementsPreviousRoute = AnnouncementsPreviousRouteImport.update({
-  id: '/previous',
-  path: '/previous',
-  getParentRoute: () => AnnouncementsRouteRoute,
-} as any)
-const AboutToolsRoute = AboutToolsRouteImport.update({
-  id: '/tools',
-  path: '/tools',
-  getParentRoute: () => AboutRouteRoute,
-} as any)
-const AboutPapilioRoute = AboutPapilioRouteImport.update({
-  id: '/papilio',
-  path: '/papilio',
-  getParentRoute: () => AboutRouteRoute,
-} as any)
-const AboutInstanceRoute = AboutInstanceRouteImport.update({
-  id: '/instance',
-  path: '/instance',
-  getParentRoute: () => AboutRouteRoute,
-} as any)
-const AboutFederationRoute = AboutFederationRouteImport.update({
-  id: '/federation',
-  path: '/federation',
-  getParentRoute: () => AboutRouteRoute,
-} as any)
-const TimelineLocalTimelineRoute = TimelineLocalTimelineRouteImport.update({
-  id: '/local-timeline',
-  path: '/local-timeline',
-  getParentRoute: () => TimelineRouteRoute,
-} as any)
-const TimelineHybridTimelineRoute = TimelineHybridTimelineRouteImport.update({
-  id: '/hybrid-timeline',
-  path: '/hybrid-timeline',
   getParentRoute: () => TimelineRouteRoute,
 } as any)
 const TimelineGlobalTimelineRoute = TimelineGlobalTimelineRouteImport.update({
@@ -221,14 +136,64 @@ const TimelineGlobalTimelineRoute = TimelineGlobalTimelineRouteImport.update({
   path: '/global-timeline',
   getParentRoute: () => TimelineRouteRoute,
 } as any)
-const MyRelationsRouteRoute = MyRelationsRouteRouteImport.update({
-  id: '/my/relations',
-  path: '/my/relations',
+const TimelineHybridTimelineRoute = TimelineHybridTimelineRouteImport.update({
+  id: '/hybrid-timeline',
+  path: '/hybrid-timeline',
+  getParentRoute: () => TimelineRouteRoute,
+} as any)
+const TimelineLocalTimelineRoute = TimelineLocalTimelineRouteImport.update({
+  id: '/local-timeline',
+  path: '/local-timeline',
+  getParentRoute: () => TimelineRouteRoute,
+} as any)
+const AboutFederationRoute = AboutFederationRouteImport.update({
+  id: '/federation',
+  path: '/federation',
+  getParentRoute: () => AboutRouteRoute,
+} as any)
+const AboutInstanceRoute = AboutInstanceRouteImport.update({
+  id: '/instance',
+  path: '/instance',
+  getParentRoute: () => AboutRouteRoute,
+} as any)
+const AboutPapilioRoute = AboutPapilioRouteImport.update({
+  id: '/papilio',
+  path: '/papilio',
+  getParentRoute: () => AboutRouteRoute,
+} as any)
+const AboutToolsRoute = AboutToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => AboutRouteRoute,
+} as any)
+const AnnouncementsIndexRoute = AnnouncementsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AnnouncementsRouteRoute,
+} as any)
+const AnnouncementsPreviousRoute = AnnouncementsPreviousRouteImport.update({
+  id: '/previous',
+  path: '/previous',
+  getParentRoute: () => AnnouncementsRouteRoute,
+} as any)
+const ClipsIdRouteRoute = ClipsIdRouteRouteImport.update({
+  id: '/clips/$id',
+  path: '/clips/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MyNotificationsRouteRoute = MyNotificationsRouteRouteImport.update({
-  id: '/my/notifications',
-  path: '/my/notifications',
+const DebugWsRoute = DebugWsRouteImport.update({
+  id: '/debug/ws',
+  path: '/debug/ws',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyClipsRoute = MyClipsRouteImport.update({
+  id: '/my/clips',
+  path: '/my/clips',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyFavoritesRoute = MyFavoritesRouteImport.update({
+  id: '/my/favorites',
+  path: '/my/favorites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MyFollowRequestsRouteRoute = MyFollowRequestsRouteRouteImport.update({
@@ -236,29 +201,44 @@ const MyFollowRequestsRouteRoute = MyFollowRequestsRouteRouteImport.update({
   path: '/my/follow-requests',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ClipsIdRouteRoute = ClipsIdRouteRouteImport.update({
-  id: '/clips/$id',
-  path: '/clips/$id',
+const MyNotificationsRouteRoute = MyNotificationsRouteRouteImport.update({
+  id: '/my/notifications',
+  path: '/my/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
-const NotesIdIndexRoute = NotesIdIndexRouteImport.update({
-  id: '/notes/$id/',
-  path: '/notes/$id/',
+const MyRelationsRouteRoute = MyRelationsRouteRouteImport.update({
+  id: '/my/relations',
+  path: '/my/relations',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MyNotificationsIndexRoute = MyNotificationsIndexRouteImport.update({
+const SearchNoteRoute = SearchNoteRouteImport.update({
+  id: '/note',
+  path: '/note',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
+const SearchUserRoute = SearchUserRouteImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => MyNotificationsRouteRoute,
+  getParentRoute: () => SettingsRouteRoute,
 } as any)
-const MyListsIndexRoute = MyListsIndexRouteImport.update({
-  id: '/my/lists/',
-  path: '/my/lists/',
-  getParentRoute: () => rootRouteImport,
+const SettingsPageRoute = SettingsPageRouteImport.update({
+  id: '/$page',
+  path: '/$page',
+  getParentRoute: () => SettingsRouteRoute,
 } as any)
-const MyDriveIndexRoute = MyDriveIndexRouteImport.update({
-  id: '/my/drive/',
-  path: '/my/drive/',
+const SettingsProfileRoute = SettingsProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => SettingsRouteRoute,
+} as any)
+const TagTagRoute = TagTagRouteImport.update({
+  id: '/tag/$tag',
+  path: '/tag/$tag',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClipsIdIndexRoute = ClipsIdIndexRouteImport.update({
@@ -266,50 +246,15 @@ const ClipsIdIndexRoute = ClipsIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ClipsIdRouteRoute,
 } as any)
-const NotesIdHistoryRoute = NotesIdHistoryRouteImport.update({
-  id: '/notes/$id/history',
-  path: '/notes/$id/history',
+const ClipsIdEditRoute = ClipsIdEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => ClipsIdRouteRoute,
+} as any)
+const MyDriveIndexRoute = MyDriveIndexRouteImport.update({
+  id: '/my/drive/',
+  path: '/my/drive/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const MyRelationsMuteRoute = MyRelationsMuteRouteImport.update({
-  id: '/mute',
-  path: '/mute',
-  getParentRoute: () => MyRelationsRouteRoute,
-} as any)
-const MyRelationsFollowingRoute = MyRelationsFollowingRouteImport.update({
-  id: '/following',
-  path: '/following',
-  getParentRoute: () => MyRelationsRouteRoute,
-} as any)
-const MyRelationsFollowersRoute = MyRelationsFollowersRouteImport.update({
-  id: '/followers',
-  path: '/followers',
-  getParentRoute: () => MyRelationsRouteRoute,
-} as any)
-const MyRelationsBlockRoute = MyRelationsBlockRouteImport.update({
-  id: '/block',
-  path: '/block',
-  getParentRoute: () => MyRelationsRouteRoute,
-} as any)
-const MyNotificationsPmRoute = MyNotificationsPmRouteImport.update({
-  id: '/pm',
-  path: '/pm',
-  getParentRoute: () => MyNotificationsRouteRoute,
-} as any)
-const MyNotificationsMentionsRoute = MyNotificationsMentionsRouteImport.update({
-  id: '/mentions',
-  path: '/mentions',
-  getParentRoute: () => MyNotificationsRouteRoute,
-} as any)
-const MyListsIdRoute = MyListsIdRouteImport.update({
-  id: '/my/lists/$id',
-  path: '/my/lists/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MyFollowRequestsSentRoute = MyFollowRequestsSentRouteImport.update({
-  id: '/sent',
-  path: '/sent',
-  getParentRoute: () => MyFollowRequestsRouteRoute,
 } as any)
 const MyFollowRequestsReceivedRoute =
   MyFollowRequestsReceivedRouteImport.update({
@@ -317,10 +262,75 @@ const MyFollowRequestsReceivedRoute =
     path: '/received',
     getParentRoute: () => MyFollowRequestsRouteRoute,
   } as any)
-const ClipsIdEditRoute = ClipsIdEditRouteImport.update({
-  id: '/edit',
-  path: '/edit',
-  getParentRoute: () => ClipsIdRouteRoute,
+const MyFollowRequestsSentRoute = MyFollowRequestsSentRouteImport.update({
+  id: '/sent',
+  path: '/sent',
+  getParentRoute: () => MyFollowRequestsRouteRoute,
+} as any)
+const MyListsIndexRoute = MyListsIndexRouteImport.update({
+  id: '/my/lists/',
+  path: '/my/lists/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyListsIdRoute = MyListsIdRouteImport.update({
+  id: '/my/lists/$id',
+  path: '/my/lists/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyNotificationsIndexRoute = MyNotificationsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MyNotificationsRouteRoute,
+} as any)
+const MyNotificationsMentionsRoute = MyNotificationsMentionsRouteImport.update({
+  id: '/mentions',
+  path: '/mentions',
+  getParentRoute: () => MyNotificationsRouteRoute,
+} as any)
+const MyNotificationsPmRoute = MyNotificationsPmRouteImport.update({
+  id: '/pm',
+  path: '/pm',
+  getParentRoute: () => MyNotificationsRouteRoute,
+} as any)
+const MyRelationsBlockRoute = MyRelationsBlockRouteImport.update({
+  id: '/block',
+  path: '/block',
+  getParentRoute: () => MyRelationsRouteRoute,
+} as any)
+const MyRelationsFollowersRoute = MyRelationsFollowersRouteImport.update({
+  id: '/followers',
+  path: '/followers',
+  getParentRoute: () => MyRelationsRouteRoute,
+} as any)
+const MyRelationsFollowingRoute = MyRelationsFollowingRouteImport.update({
+  id: '/following',
+  path: '/following',
+  getParentRoute: () => MyRelationsRouteRoute,
+} as any)
+const MyRelationsMuteRoute = MyRelationsMuteRouteImport.update({
+  id: '/mute',
+  path: '/mute',
+  getParentRoute: () => MyRelationsRouteRoute,
+} as any)
+const NotesIdIndexRoute = NotesIdIndexRouteImport.update({
+  id: '/notes/$id/',
+  path: '/notes/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotesIdHistoryRoute = NotesIdHistoryRouteImport.update({
+  id: '/notes/$id/history',
+  path: '/notes/$id/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyDriveFileFileRouteRoute = MyDriveFileFileRouteRouteImport.update({
+  id: '/my/drive/file/$file',
+  path: '/my/drive/file/$file',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyDriveFolderFolderRoute = MyDriveFolderFolderRouteImport.update({
+  id: '/my/drive/folder/$folder',
+  path: '/my/drive/folder/$folder',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const MyListsIdIndexRoute = MyListsIdIndexRouteImport.update({
   id: '/',
@@ -331,16 +341,6 @@ const MyListsIdSettingsRoute = MyListsIdSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
   getParentRoute: () => MyListsIdRoute,
-} as any)
-const MyDriveFolderFolderRoute = MyDriveFolderFolderRouteImport.update({
-  id: '/my/drive/folder/$folder',
-  path: '/my/drive/folder/$folder',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MyDriveFileFileRouteRoute = MyDriveFileFileRouteRouteImport.update({
-  id: '/my/drive/file/$file',
-  path: '/my/drive/file/$file',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const MyDriveFileFileIndexRoute = MyDriveFileFileIndexRouteImport.update({
   id: '/',
@@ -727,39 +727,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/posting': {
-      id: '/posting'
-      path: '/posting'
-      fullPath: '/posting'
-      preLoaderRoute: typeof PostingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login-redirect': {
-      id: '/login-redirect'
-      path: '/login-redirect'
-      fullPath: '/login-redirect'
-      preLoaderRoute: typeof LoginRedirectRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/chat': {
-      id: '/chat'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof ChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/account-switch': {
-      id: '/account-switch'
-      path: '/account-switch'
-      fullPath: '/account-switch'
-      preLoaderRoute: typeof AccountSwitchRouteImport
+    '/$missing': {
+      id: '/$missing'
+      path: '/$missing'
+      fullPath: '/$missing'
+      preLoaderRoute: typeof MissingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/@{$acct}': {
@@ -769,32 +741,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AtChar123acctChar125RouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$missing': {
-      id: '/$missing'
-      path: '/$missing'
-      fullPath: '/$missing'
-      preLoaderRoute: typeof MissingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/announcements': {
-      id: '/announcements'
-      path: '/announcements'
-      fullPath: '/announcements'
-      preLoaderRoute: typeof AnnouncementsRouteRouteImport
+    '/_timeline': {
+      id: '/_timeline'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof TimelineRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -804,137 +755,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_timeline': {
-      id: '/_timeline'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof TimelineRouteRouteImport
+    '/account-switch': {
+      id: '/account-switch'
+      path: '/account-switch'
+      fullPath: '/account-switch'
+      preLoaderRoute: typeof AccountSwitchRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings/': {
-      id: '/settings/'
-      path: '/'
-      fullPath: '/settings/'
-      preLoaderRoute: typeof SettingsIndexRouteImport
-      parentRoute: typeof SettingsRouteRoute
+    '/announcements': {
+      id: '/announcements'
+      path: '/announcements'
+      fullPath: '/announcements'
+      preLoaderRoute: typeof AnnouncementsRouteRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/announcements/': {
-      id: '/announcements/'
-      path: '/'
-      fullPath: '/announcements/'
-      preLoaderRoute: typeof AnnouncementsIndexRouteImport
-      parentRoute: typeof AnnouncementsRouteRoute
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login-redirect': {
+      id: '/login-redirect'
+      path: '/login-redirect'
+      fullPath: '/login-redirect'
+      preLoaderRoute: typeof LoginRedirectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posting': {
+      id: '/posting'
+      path: '/posting'
+      fullPath: '/posting'
+      preLoaderRoute: typeof PostingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_timeline/': {
       id: '/_timeline/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof TimelineIndexRouteImport
-      parentRoute: typeof TimelineRouteRoute
-    }
-    '/tag/$tag': {
-      id: '/tag/$tag'
-      path: '/tag/$tag'
-      fullPath: '/tag/$tag'
-      preLoaderRoute: typeof TagTagRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings/profile': {
-      id: '/settings/profile'
-      path: '/profile'
-      fullPath: '/settings/profile'
-      preLoaderRoute: typeof SettingsProfileRouteImport
-      parentRoute: typeof SettingsRouteRoute
-    }
-    '/settings/$page': {
-      id: '/settings/$page'
-      path: '/$page'
-      fullPath: '/settings/$page'
-      preLoaderRoute: typeof SettingsPageRouteImport
-      parentRoute: typeof SettingsRouteRoute
-    }
-    '/search/user': {
-      id: '/search/user'
-      path: '/user'
-      fullPath: '/search/user'
-      preLoaderRoute: typeof SearchUserRouteImport
-      parentRoute: typeof SearchRouteRoute
-    }
-    '/search/note': {
-      id: '/search/note'
-      path: '/note'
-      fullPath: '/search/note'
-      preLoaderRoute: typeof SearchNoteRouteImport
-      parentRoute: typeof SearchRouteRoute
-    }
-    '/my/favorites': {
-      id: '/my/favorites'
-      path: '/my/favorites'
-      fullPath: '/my/favorites'
-      preLoaderRoute: typeof MyFavoritesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/my/clips': {
-      id: '/my/clips'
-      path: '/my/clips'
-      fullPath: '/my/clips'
-      preLoaderRoute: typeof MyClipsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/debug/ws': {
-      id: '/debug/ws'
-      path: '/debug/ws'
-      fullPath: '/debug/ws'
-      preLoaderRoute: typeof DebugWsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/announcements/previous': {
-      id: '/announcements/previous'
-      path: '/previous'
-      fullPath: '/announcements/previous'
-      preLoaderRoute: typeof AnnouncementsPreviousRouteImport
-      parentRoute: typeof AnnouncementsRouteRoute
-    }
-    '/about/tools': {
-      id: '/about/tools'
-      path: '/tools'
-      fullPath: '/about/tools'
-      preLoaderRoute: typeof AboutToolsRouteImport
-      parentRoute: typeof AboutRouteRoute
-    }
-    '/about/papilio': {
-      id: '/about/papilio'
-      path: '/papilio'
-      fullPath: '/about/papilio'
-      preLoaderRoute: typeof AboutPapilioRouteImport
-      parentRoute: typeof AboutRouteRoute
-    }
-    '/about/instance': {
-      id: '/about/instance'
-      path: '/instance'
-      fullPath: '/about/instance'
-      preLoaderRoute: typeof AboutInstanceRouteImport
-      parentRoute: typeof AboutRouteRoute
-    }
-    '/about/federation': {
-      id: '/about/federation'
-      path: '/federation'
-      fullPath: '/about/federation'
-      preLoaderRoute: typeof AboutFederationRouteImport
-      parentRoute: typeof AboutRouteRoute
-    }
-    '/_timeline/local-timeline': {
-      id: '/_timeline/local-timeline'
-      path: '/local-timeline'
-      fullPath: '/local-timeline'
-      preLoaderRoute: typeof TimelineLocalTimelineRouteImport
-      parentRoute: typeof TimelineRouteRoute
-    }
-    '/_timeline/hybrid-timeline': {
-      id: '/_timeline/hybrid-timeline'
-      path: '/hybrid-timeline'
-      fullPath: '/hybrid-timeline'
-      preLoaderRoute: typeof TimelineHybridTimelineRouteImport
       parentRoute: typeof TimelineRouteRoute
     }
     '/_timeline/global-timeline': {
@@ -944,18 +825,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TimelineGlobalTimelineRouteImport
       parentRoute: typeof TimelineRouteRoute
     }
-    '/my/relations': {
-      id: '/my/relations'
-      path: '/my/relations'
-      fullPath: '/my/relations'
-      preLoaderRoute: typeof MyRelationsRouteRouteImport
+    '/_timeline/hybrid-timeline': {
+      id: '/_timeline/hybrid-timeline'
+      path: '/hybrid-timeline'
+      fullPath: '/hybrid-timeline'
+      preLoaderRoute: typeof TimelineHybridTimelineRouteImport
+      parentRoute: typeof TimelineRouteRoute
+    }
+    '/_timeline/local-timeline': {
+      id: '/_timeline/local-timeline'
+      path: '/local-timeline'
+      fullPath: '/local-timeline'
+      preLoaderRoute: typeof TimelineLocalTimelineRouteImport
+      parentRoute: typeof TimelineRouteRoute
+    }
+    '/about/federation': {
+      id: '/about/federation'
+      path: '/federation'
+      fullPath: '/about/federation'
+      preLoaderRoute: typeof AboutFederationRouteImport
+      parentRoute: typeof AboutRouteRoute
+    }
+    '/about/instance': {
+      id: '/about/instance'
+      path: '/instance'
+      fullPath: '/about/instance'
+      preLoaderRoute: typeof AboutInstanceRouteImport
+      parentRoute: typeof AboutRouteRoute
+    }
+    '/about/papilio': {
+      id: '/about/papilio'
+      path: '/papilio'
+      fullPath: '/about/papilio'
+      preLoaderRoute: typeof AboutPapilioRouteImport
+      parentRoute: typeof AboutRouteRoute
+    }
+    '/about/tools': {
+      id: '/about/tools'
+      path: '/tools'
+      fullPath: '/about/tools'
+      preLoaderRoute: typeof AboutToolsRouteImport
+      parentRoute: typeof AboutRouteRoute
+    }
+    '/announcements/': {
+      id: '/announcements/'
+      path: '/'
+      fullPath: '/announcements/'
+      preLoaderRoute: typeof AnnouncementsIndexRouteImport
+      parentRoute: typeof AnnouncementsRouteRoute
+    }
+    '/announcements/previous': {
+      id: '/announcements/previous'
+      path: '/previous'
+      fullPath: '/announcements/previous'
+      preLoaderRoute: typeof AnnouncementsPreviousRouteImport
+      parentRoute: typeof AnnouncementsRouteRoute
+    }
+    '/clips/$id': {
+      id: '/clips/$id'
+      path: '/clips/$id'
+      fullPath: '/clips/$id'
+      preLoaderRoute: typeof ClipsIdRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/my/notifications': {
-      id: '/my/notifications'
-      path: '/my/notifications'
-      fullPath: '/my/notifications'
-      preLoaderRoute: typeof MyNotificationsRouteRouteImport
+    '/debug/ws': {
+      id: '/debug/ws'
+      path: '/debug/ws'
+      fullPath: '/debug/ws'
+      preLoaderRoute: typeof DebugWsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my/clips': {
+      id: '/my/clips'
+      path: '/my/clips'
+      fullPath: '/my/clips'
+      preLoaderRoute: typeof MyClipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my/favorites': {
+      id: '/my/favorites'
+      path: '/my/favorites'
+      fullPath: '/my/favorites'
+      preLoaderRoute: typeof MyFavoritesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/my/follow-requests': {
@@ -965,39 +916,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyFollowRequestsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/clips/$id': {
-      id: '/clips/$id'
-      path: '/clips/$id'
-      fullPath: '/clips/$id'
-      preLoaderRoute: typeof ClipsIdRouteRouteImport
+    '/my/notifications': {
+      id: '/my/notifications'
+      path: '/my/notifications'
+      fullPath: '/my/notifications'
+      preLoaderRoute: typeof MyNotificationsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/notes/$id/': {
-      id: '/notes/$id/'
-      path: '/notes/$id'
-      fullPath: '/notes/$id/'
-      preLoaderRoute: typeof NotesIdIndexRouteImport
+    '/my/relations': {
+      id: '/my/relations'
+      path: '/my/relations'
+      fullPath: '/my/relations'
+      preLoaderRoute: typeof MyRelationsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/my/notifications/': {
-      id: '/my/notifications/'
+    '/search/note': {
+      id: '/search/note'
+      path: '/note'
+      fullPath: '/search/note'
+      preLoaderRoute: typeof SearchNoteRouteImport
+      parentRoute: typeof SearchRouteRoute
+    }
+    '/search/user': {
+      id: '/search/user'
+      path: '/user'
+      fullPath: '/search/user'
+      preLoaderRoute: typeof SearchUserRouteImport
+      parentRoute: typeof SearchRouteRoute
+    }
+    '/settings/': {
+      id: '/settings/'
       path: '/'
-      fullPath: '/my/notifications/'
-      preLoaderRoute: typeof MyNotificationsIndexRouteImport
-      parentRoute: typeof MyNotificationsRouteRoute
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof SettingsRouteRoute
     }
-    '/my/lists/': {
-      id: '/my/lists/'
-      path: '/my/lists'
-      fullPath: '/my/lists/'
-      preLoaderRoute: typeof MyListsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+    '/settings/$page': {
+      id: '/settings/$page'
+      path: '/$page'
+      fullPath: '/settings/$page'
+      preLoaderRoute: typeof SettingsPageRouteImport
+      parentRoute: typeof SettingsRouteRoute
     }
-    '/my/drive/': {
-      id: '/my/drive/'
-      path: '/my/drive'
-      fullPath: '/my/drive/'
-      preLoaderRoute: typeof MyDriveIndexRouteImport
+    '/settings/profile': {
+      id: '/settings/profile'
+      path: '/profile'
+      fullPath: '/settings/profile'
+      preLoaderRoute: typeof SettingsProfileRouteImport
+      parentRoute: typeof SettingsRouteRoute
+    }
+    '/tag/$tag': {
+      id: '/tag/$tag'
+      path: '/tag/$tag'
+      fullPath: '/tag/$tag'
+      preLoaderRoute: typeof TagTagRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clips/$id/': {
@@ -1007,46 +979,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClipsIdIndexRouteImport
       parentRoute: typeof ClipsIdRouteRoute
     }
-    '/notes/$id/history': {
-      id: '/notes/$id/history'
-      path: '/notes/$id/history'
-      fullPath: '/notes/$id/history'
-      preLoaderRoute: typeof NotesIdHistoryRouteImport
+    '/clips/$id/edit': {
+      id: '/clips/$id/edit'
+      path: '/edit'
+      fullPath: '/clips/$id/edit'
+      preLoaderRoute: typeof ClipsIdEditRouteImport
+      parentRoute: typeof ClipsIdRouteRoute
+    }
+    '/my/drive/': {
+      id: '/my/drive/'
+      path: '/my/drive'
+      fullPath: '/my/drive/'
+      preLoaderRoute: typeof MyDriveIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/my/relations/mute': {
-      id: '/my/relations/mute'
-      path: '/mute'
-      fullPath: '/my/relations/mute'
-      preLoaderRoute: typeof MyRelationsMuteRouteImport
-      parentRoute: typeof MyRelationsRouteRoute
+    '/my/follow-requests/received': {
+      id: '/my/follow-requests/received'
+      path: '/received'
+      fullPath: '/my/follow-requests/received'
+      preLoaderRoute: typeof MyFollowRequestsReceivedRouteImport
+      parentRoute: typeof MyFollowRequestsRouteRoute
     }
-    '/my/relations/following': {
-      id: '/my/relations/following'
-      path: '/following'
-      fullPath: '/my/relations/following'
-      preLoaderRoute: typeof MyRelationsFollowingRouteImport
-      parentRoute: typeof MyRelationsRouteRoute
+    '/my/follow-requests/sent': {
+      id: '/my/follow-requests/sent'
+      path: '/sent'
+      fullPath: '/my/follow-requests/sent'
+      preLoaderRoute: typeof MyFollowRequestsSentRouteImport
+      parentRoute: typeof MyFollowRequestsRouteRoute
     }
-    '/my/relations/followers': {
-      id: '/my/relations/followers'
-      path: '/followers'
-      fullPath: '/my/relations/followers'
-      preLoaderRoute: typeof MyRelationsFollowersRouteImport
-      parentRoute: typeof MyRelationsRouteRoute
+    '/my/lists/': {
+      id: '/my/lists/'
+      path: '/my/lists'
+      fullPath: '/my/lists/'
+      preLoaderRoute: typeof MyListsIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/my/relations/block': {
-      id: '/my/relations/block'
-      path: '/block'
-      fullPath: '/my/relations/block'
-      preLoaderRoute: typeof MyRelationsBlockRouteImport
-      parentRoute: typeof MyRelationsRouteRoute
+    '/my/lists/$id': {
+      id: '/my/lists/$id'
+      path: '/my/lists/$id'
+      fullPath: '/my/lists/$id'
+      preLoaderRoute: typeof MyListsIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/my/notifications/pm': {
-      id: '/my/notifications/pm'
-      path: '/pm'
-      fullPath: '/my/notifications/pm'
-      preLoaderRoute: typeof MyNotificationsPmRouteImport
+    '/my/notifications/': {
+      id: '/my/notifications/'
+      path: '/'
+      fullPath: '/my/notifications/'
+      preLoaderRoute: typeof MyNotificationsIndexRouteImport
       parentRoute: typeof MyNotificationsRouteRoute
     }
     '/my/notifications/mentions': {
@@ -1056,33 +1035,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyNotificationsMentionsRouteImport
       parentRoute: typeof MyNotificationsRouteRoute
     }
-    '/my/lists/$id': {
-      id: '/my/lists/$id'
-      path: '/my/lists/$id'
-      fullPath: '/my/lists/$id'
-      preLoaderRoute: typeof MyListsIdRouteImport
+    '/my/notifications/pm': {
+      id: '/my/notifications/pm'
+      path: '/pm'
+      fullPath: '/my/notifications/pm'
+      preLoaderRoute: typeof MyNotificationsPmRouteImport
+      parentRoute: typeof MyNotificationsRouteRoute
+    }
+    '/my/relations/block': {
+      id: '/my/relations/block'
+      path: '/block'
+      fullPath: '/my/relations/block'
+      preLoaderRoute: typeof MyRelationsBlockRouteImport
+      parentRoute: typeof MyRelationsRouteRoute
+    }
+    '/my/relations/followers': {
+      id: '/my/relations/followers'
+      path: '/followers'
+      fullPath: '/my/relations/followers'
+      preLoaderRoute: typeof MyRelationsFollowersRouteImport
+      parentRoute: typeof MyRelationsRouteRoute
+    }
+    '/my/relations/following': {
+      id: '/my/relations/following'
+      path: '/following'
+      fullPath: '/my/relations/following'
+      preLoaderRoute: typeof MyRelationsFollowingRouteImport
+      parentRoute: typeof MyRelationsRouteRoute
+    }
+    '/my/relations/mute': {
+      id: '/my/relations/mute'
+      path: '/mute'
+      fullPath: '/my/relations/mute'
+      preLoaderRoute: typeof MyRelationsMuteRouteImport
+      parentRoute: typeof MyRelationsRouteRoute
+    }
+    '/notes/$id/': {
+      id: '/notes/$id/'
+      path: '/notes/$id'
+      fullPath: '/notes/$id/'
+      preLoaderRoute: typeof NotesIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/my/follow-requests/sent': {
-      id: '/my/follow-requests/sent'
-      path: '/sent'
-      fullPath: '/my/follow-requests/sent'
-      preLoaderRoute: typeof MyFollowRequestsSentRouteImport
-      parentRoute: typeof MyFollowRequestsRouteRoute
+    '/notes/$id/history': {
+      id: '/notes/$id/history'
+      path: '/notes/$id/history'
+      fullPath: '/notes/$id/history'
+      preLoaderRoute: typeof NotesIdHistoryRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/my/follow-requests/received': {
-      id: '/my/follow-requests/received'
-      path: '/received'
-      fullPath: '/my/follow-requests/received'
-      preLoaderRoute: typeof MyFollowRequestsReceivedRouteImport
-      parentRoute: typeof MyFollowRequestsRouteRoute
+    '/my/drive/file/$file': {
+      id: '/my/drive/file/$file'
+      path: '/my/drive/file/$file'
+      fullPath: '/my/drive/file/$file'
+      preLoaderRoute: typeof MyDriveFileFileRouteRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/clips/$id/edit': {
-      id: '/clips/$id/edit'
-      path: '/edit'
-      fullPath: '/clips/$id/edit'
-      preLoaderRoute: typeof ClipsIdEditRouteImport
-      parentRoute: typeof ClipsIdRouteRoute
+    '/my/drive/folder/$folder': {
+      id: '/my/drive/folder/$folder'
+      path: '/my/drive/folder/$folder'
+      fullPath: '/my/drive/folder/$folder'
+      preLoaderRoute: typeof MyDriveFolderFolderRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/my/lists/$id/': {
       id: '/my/lists/$id/'
@@ -1097,20 +1111,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/my/lists/$id/settings'
       preLoaderRoute: typeof MyListsIdSettingsRouteImport
       parentRoute: typeof MyListsIdRoute
-    }
-    '/my/drive/folder/$folder': {
-      id: '/my/drive/folder/$folder'
-      path: '/my/drive/folder/$folder'
-      fullPath: '/my/drive/folder/$folder'
-      preLoaderRoute: typeof MyDriveFolderFolderRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/my/drive/file/$file': {
-      id: '/my/drive/file/$file'
-      path: '/my/drive/file/$file'
-      fullPath: '/my/drive/file/$file'
-      preLoaderRoute: typeof MyDriveFileFileRouteRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/my/drive/file/$file/': {
       id: '/my/drive/file/$file/'

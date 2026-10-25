@@ -26,7 +26,7 @@ type IsCaseMatched<
   P extends Endpoints[E]['req'],
   C extends number,
 > = Endpoints[E]['res'] extends SwitchCase
-  ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ? // oxlint-disable-next-line typescript/no-explicit-any
     IsNeverType<StrictExtract<Endpoints[E]['res']['$switch']['$cases'][C], [P, any]>> extends false
     ? true
     : false
@@ -37,7 +37,7 @@ type GetCaseResult<
   P extends Endpoints[E]['req'],
   C extends number,
 > = Endpoints[E]['res'] extends SwitchCase
-  ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ? // oxlint-disable-next-line typescript/no-explicit-any
     StrictExtract<Endpoints[E]['res']['$switch']['$cases'][C], [P, any]>[1]
   : never;
 

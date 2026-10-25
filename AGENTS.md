@@ -9,10 +9,10 @@
 
 Code style (follow strictly):
 
-- Formatting: Prettier with `prettier-plugin-tailwindcss`; config enforced via ESLint `prettier/prettier` rule (printWidth=120, tabWidth=2, singleQuote=true, semi=true, trailingComma=all, endOfLine=lf).
-- ESLint: follow project ESLint config in `eslint.config.js` (TypeScript strict/type-checked rules enabled). Use `pnpm lint` before PRs.
+- Formatting: Prettier with `prettier-plugin-tailwindcss`; run `prettier --check .` separately or via editor.
+- Oxlint: follow project config in `.oxlintrc.json` (TypeScript strict/type-checked rules enabled). Use `pnpm lint` before PRs.
 - Imports: use absolute `@/` imports where existing (e.g. `@/components/...`). Prefer explicit named imports; keep import groups consistent (external -> src alias -> local).
-- TypeScript: prefer strict typing and `ts-expect-error` only when necessary; `@typescript-eslint/no-non-null-assertion` is disabled in config, but avoid `!` unless justified.
+- TypeScript: prefer strict typing and `ts-expect-error` only when necessary; `typescript/no-non-null-assertion` is disabled in config, but avoid `!` unless justified.
 - Naming: use descriptive camelCase for variables and PascalCase for React components.
 - Error handling: use `react-error-boundary` for top-level components; prefer returning explicit `null` or error UI over swallowing errors.
 - Tests: add tests with `vitest` and follow existing patterns; if adding tests, include a script `test` and a `test:single` helper if needed.

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type SubmitEvent } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { createFileRoute } from '@tanstack/react-router';
 import { permissions } from 'misskey-js';
@@ -53,7 +53,7 @@ function RouteComponent() {
     }
   }, [navigate]);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
 

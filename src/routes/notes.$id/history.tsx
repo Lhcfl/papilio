@@ -27,8 +27,8 @@ export const Route = createFileRoute('/notes/$id/history')({
   component: RouteComponent,
   loader: ({ params }) =>
     Promise.all([
-      queryClient.ensureQueryData(historyQueryOptions(params.id)),
-      queryClient.ensureQueryData(noteQueryOptions(params.id)),
+      queryClient.query({ ...historyQueryOptions(params.id), staleTime: 'static' }),
+      queryClient.query({ ...noteQueryOptions(params.id), staleTime: 'static' }),
     ]),
 });
 

@@ -124,7 +124,7 @@ export function MkNotePoll({
         {choices.map((choice, index) => (
           <AlertDialog
             // sometimes choices can have the same text
-            // eslint-disable-next-line react-x/no-array-index-key
+            // oxlint-disable-next-line react/no-array-index-key
             key={`${choice.text}-${index}`}
           >
             <AlertDialogTrigger asChild>

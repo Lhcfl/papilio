@@ -61,7 +61,7 @@ export function groupNotifications(ns: Notification[]) {
       case 'renote':
       case 'reaction': {
         if (grouped.length === 1) {
-          res.push(grouped[0] as FrontendGroupedNotification);
+          res.push(grouped[0]);
         } else {
           const g = grouped as Extract<Notification, { type: 'renote' }>[];
           res.push({
@@ -75,7 +75,7 @@ export function groupNotifications(ns: Notification[]) {
         break;
       }
       case 'unique': {
-        res.push(grouped[0] as FrontendGroupedNotification);
+        res.push(grouped[0]);
         break;
       }
       default: {

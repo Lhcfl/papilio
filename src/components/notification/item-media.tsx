@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import {
   AtSignIcon,
   BellIcon,
+  type LucideIcon,
   CalendarCheck2Icon,
   CalendarX2Icon,
   ChartColumnBigIcon,
@@ -35,59 +36,38 @@ import type { FrontendGroupedNotification } from '@/lib/notification-grouper';
 
 type Notification = FrontendGroupedNotification;
 
-export const NotificationItemIcon = (type: Notification['type']) => {
-  switch (type) {
-    case 'note':
-      return PlusIcon;
-    case 'mention':
-      return AtSignIcon;
-    case 'reply':
-      return MessageSquareReplyIcon;
-    case 'renote':
-      return RepeatIcon;
-    case 'quote':
-      return QuoteIcon;
-    case 'reaction':
-      return SmilePlusIcon;
-    case 'receiveFollowRequest':
-      return UserPlusIcon;
-    case 'followRequestAccepted':
-      return UserCheckIcon;
-    case 'follow':
-      return Users2Icon;
-    case 'pollEnded':
-      return ChartColumnBigIcon;
-    case 'scheduledNotePosted':
-      return CalendarCheck2Icon;
-    case 'scheduledNotePostFailed':
-      return CalendarX2Icon;
-    case 'roleAssigned':
-      return UserRoundPlusIcon;
-    case 'chatRoomInvitationReceived':
-      return MessageCircleMoreIcon;
-    case 'achievementEarned':
-      return TrophyIcon;
-    case 'exportCompleted':
-      return DownloadIcon;
-    case 'login':
-      return KeyRoundIcon;
-    case 'createToken':
-      return KeyRoundIcon;
-    case 'app':
-      return LayoutGridIcon;
-    case 'reaction:grouped':
-    case 'grouped:reaction':
-      return SmilePlusIcon;
-    case 'renote:grouped':
-    case 'grouped:renote':
-      return RepeatIcon;
-    case 'test':
-      return FlaskConicalIcon;
-    case 'edited':
-      return EditIcon;
-    default:
-      return BellIcon;
-  }
+const notificationIcons: Partial<Record<Notification['type'], LucideIcon>> = {
+  note: PlusIcon,
+  mention: AtSignIcon,
+  reply: MessageSquareReplyIcon,
+  renote: RepeatIcon,
+  quote: QuoteIcon,
+  reaction: SmilePlusIcon,
+  receiveFollowRequest: UserPlusIcon,
+  followRequestAccepted: UserCheckIcon,
+  follow: Users2Icon,
+  pollEnded: ChartColumnBigIcon,
+  scheduledNotePosted: CalendarCheck2Icon,
+  scheduledNotePostFailed: CalendarX2Icon,
+  roleAssigned: UserRoundPlusIcon,
+  chatRoomInvitationReceived: MessageCircleMoreIcon,
+  achievementEarned: TrophyIcon,
+  exportCompleted: DownloadIcon,
+  login: KeyRoundIcon,
+  createToken: KeyRoundIcon,
+  app: LayoutGridIcon,
+  'reaction:grouped': SmilePlusIcon,
+  'grouped:reaction': SmilePlusIcon,
+  'renote:grouped': RepeatIcon,
+  'grouped:renote': RepeatIcon,
+  test: FlaskConicalIcon,
+  edited: EditIcon,
+};
+
+export const NotificationItemIcon = ({ type, className }: { type: Notification['type']; className?: string }) => {
+  const Icon = notificationIcons[type] ?? BellIcon;
+
+  return <Icon className={className} />;
 };
 
 const NotificationIconColor = (type: Notification['type']) => {
@@ -163,8 +143,6 @@ export const NotificationItemMedia = (
   props: { notification: FrontendGroupedNotification } & React.ComponentProps<typeof ItemMedia>,
 ) => {
   const { notification, ...mediaProps } = props;
-  const ItemIcon = NotificationItemIcon(notification.type);
-
   switch (notification.type) {
     case 'follow':
     case 'receiveFollowRequest':
@@ -181,7 +159,7 @@ export const NotificationItemMedia = (
                 NotificationIconColor(notification.type),
               )}
             >
-              <ItemIcon />
+              <NotificationItemIcon type={notification.type} />
             </span>
           </div>
         </ItemMedia>
@@ -206,7 +184,7 @@ export const NotificationItemMedia = (
           NotificationIconColor(notification.type),
         )}
       >
-        <ItemIcon className="size-6" />
+        <NotificationItemIcon type={notification.type} className="size-6" />
       </span>
     </ItemMedia>
   );

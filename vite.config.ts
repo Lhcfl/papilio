@@ -4,11 +4,11 @@ import TanStackRouter from '@tanstack/router-plugin/vite';
 import React, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { visualizer as Visualizer } from 'rollup-plugin-visualizer';
-import PackageJSON from './package.json';
+import PackageJSON from './package.json' with { type: 'json' };
 import { env } from 'node:process';
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
-import { PapilioI18nGenerator } from './vite-plugins/locales-generator';
+import { PapilioI18nGenerator } from './vite-plugins/locales-generator.ts';
 import Babel from '@rolldown/plugin-babel';
 
 const execAsync = promisify(exec);
@@ -39,7 +39,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(import.meta.dirname, './src'),
     },
   },
   build: {

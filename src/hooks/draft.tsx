@@ -91,7 +91,7 @@ export const useDraft = (draftKey: string, defaults?: Partial<DraftData>) => {
       }
     }
     return ret;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react/exhaustive-deps
   }, flattenedDefaults);
 
   // const [loading, setLoading] = useState(true);

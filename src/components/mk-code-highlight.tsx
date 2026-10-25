@@ -4,7 +4,7 @@
  */
 
 // It's a code highlight component, so disabling the rule about array index as key is acceptable
-/* eslint-disable react-x/no-array-index-key */
+/* oxlint-disable react/no-array-index-key */
 
 import { cn } from '@/lib/utils';
 import { usePreference } from '@/stores/perference';

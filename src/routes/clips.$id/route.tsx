@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/clips/$id')({
   component: RouteComponent,
-  loader: ({ params }) => queryClient.ensureQueryData(clipQueryOptions(params.id)),
+  loader: ({ params }) => queryClient.query({ ...clipQueryOptions(params.id), staleTime: 'static' }),
 });
 
 function RouteComponent() {

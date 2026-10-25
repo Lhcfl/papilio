@@ -66,7 +66,7 @@ export const MkEmojiPicker = (
     const ret: Partial<EmojisByCategory> = {};
     for (const emoji of customEmojis) {
       // We want "" to be categorized as "Other"
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      // oxlint-disable-next-line typescript/prefer-nullish-coalescing
       const category = emoji.category || OTHER_CATEGORY_I18N;
       ret[category] = ret[category] ?? [];
       ret[category].push(emoji);

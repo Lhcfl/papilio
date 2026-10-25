@@ -195,7 +195,7 @@ export function useNoteUpdateListener() {
 
         // fix sharkey
         case 'updated' as never: {
-          GlobalNoteSingletonManager.patch(id, body as Partial<NoteWithExtension>);
+          GlobalNoteSingletonManager.patch(id, body);
           return;
         }
 

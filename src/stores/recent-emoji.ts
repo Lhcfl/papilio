@@ -41,7 +41,7 @@ export const useRecentEmojis = create<RecentEmojiStore>()(
     {
       name: 'recent-emojis',
       storage: createJSONStorage(() => ({
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        // oxlint-disable-next-line typescript/no-unsafe-return
         getItem: (k) => IDB.get(k, getCurrentUserSiteIDB()).then((v) => v ?? null),
         setItem: (k, v) => IDB.set(k, v, getCurrentUserSiteIDB()),
         removeItem: (k) => IDB.del(k, getCurrentUserSiteIDB()),

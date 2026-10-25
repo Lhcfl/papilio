@@ -15,7 +15,7 @@ export const meopt = queryOptions({
   queryFn: () =>
     misskeyApi('i', {}).then((me) => {
       // @ts-expect-error: workaround for misskey 12 / iceshrimp missing policies field
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      // oxlint-disable-next-line typescript/no-unnecessary-condition
       me.policies ??= {};
       return me;
     }),

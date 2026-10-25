@@ -12,7 +12,7 @@ interface Setting<U extends boolean> {
   experimental?: string;
   // Ok this is a bit tricky. I don't know how to type this properly.
   // It will cause circular type reference if I try to type it strictly.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   hidden?: (settings: any) => boolean;
   user?: U;
 }
@@ -107,7 +107,7 @@ export function defineKeyCustom<K extends string, V, U extends boolean>(
     kind: 'custom' as const,
     component,
     ...opts,
-  } as never;
+  };
 }
 
 export function defineText<K extends string, U extends boolean>(

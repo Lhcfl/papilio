@@ -34,7 +34,7 @@ export const Route = createFileRoute('/@{$acct}')({
   component: RouteComponent,
   loader: ({ params }) => {
     const { username, host } = acct.parse(params.acct);
-    return queryClient.ensureQueryData(getAcctUserQueryOptions({ username, host }));
+    return queryClient.query({ ...getAcctUserQueryOptions({ username, host }), staleTime: 'static' });
   },
   pendingComponent: () => <MkUserCardSkeleton />,
 });

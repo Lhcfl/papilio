@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/my/lists/')({
   component: RouteComponent,
-  loader: () => queryClient.ensureQueryData(listlistQueryOptions()),
+  loader: () => queryClient.query({ ...listlistQueryOptions(), staleTime: 'static' }),
 });
 
 function RouteComponent() {

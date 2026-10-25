@@ -29,7 +29,7 @@ const statsQueryOpts = queryOptions({
 
 export const Route = createFileRoute('/about/instance')({
   component: RouteComponent,
-  loader: () => queryClient.ensureQueryData(statsQueryOpts),
+  loader: () => queryClient.query({ ...statsQueryOpts, staleTime: 'static' }),
 });
 
 function RouteComponent() {
@@ -59,7 +59,7 @@ function RouteComponent() {
         </h3>
         <div
           className="**:not-[img]:[all:revert] [&_img]:inline"
-          // eslint-disable-next-line react-dom/no-dangerously-set-innerhtml
+          // oxlint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: descriptionSanitized }}
         />
       </div>
@@ -70,7 +70,7 @@ function RouteComponent() {
         </h3>
         <div>
           {meta.serverRules.map((rule, index) => (
-            // eslint-disable-next-line react-x/no-array-index-key
+            // oxlint-disable-next-line react/no-array-index-key
             <div className="mt-3 flex items-start gap-2" key={index}>
               <div className="text-background bg-foreground relative mt-0.5 min-h-5 min-w-5 flex-[0_0] rounded-full border">
                 <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs">{index + 1}</span>

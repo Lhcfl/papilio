@@ -90,7 +90,7 @@ export function MkPostFormPoll({
       <div>
         {[...choices, ''].map((choice, index) => (
           <InputGroup
-            // eslint-disable-next-line react-x/no-array-index-key
+            // oxlint-disable-next-line react/no-array-index-key
             key={index}
             className="mb-2"
           >

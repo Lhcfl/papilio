@@ -5,10 +5,10 @@
 
 import { MkError } from '@/components/mk-error';
 import { useQueryErrorResetBoundary } from '@tanstack/react-query';
-import { useRouter } from '@tanstack/react-router';
+import { useRouter, type ErrorComponentProps } from '@tanstack/react-router';
 import { useEffect } from 'react';
 
-export function AppDefaultErrorComponent({ error }: { error: Error }) {
+export function AppDefaultErrorComponent({ error }: ErrorComponentProps) {
   const router = useRouter();
   const boundary = useQueryErrorResetBoundary();
 
@@ -16,5 +16,5 @@ export function AppDefaultErrorComponent({ error }: { error: Error }) {
     boundary.reset();
   }, [boundary]);
 
-  return <MkError error={error} retry={() => router.invalidate()} />;
+  return <MkError error={error as Error} retry={() => router.invalidate()} />;
 }

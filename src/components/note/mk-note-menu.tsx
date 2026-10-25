@@ -105,7 +105,7 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
 
   function share() {
     // navigator.share is not supported in all browsers
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    // oxlint-disable-next-line typescript/no-unnecessary-condition
     if (navigator.share) {
       navigator
         .share({

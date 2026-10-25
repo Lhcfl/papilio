@@ -41,7 +41,7 @@ import { queryClient } from '@/plugins/persister';
 
 export const Route = createFileRoute('/notes/$id/')({
   component: RouteComponent,
-  loader: ({ params }) => queryClient.ensureQueryData(noteQueryOptions(params.id)),
+  loader: ({ params }) => queryClient.query({ ...noteQueryOptions(params.id), staleTime: 'static' }),
   pendingComponent: () => <MkNoteSkeleton />,
 });
 

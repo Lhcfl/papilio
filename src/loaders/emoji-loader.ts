@@ -14,7 +14,7 @@ export const emojisopt = queryOptions({
   queryKey: ['custom-emojis'],
   refetchInterval: 1000 * 60 * 60, // 1 hours
   queryFn: () =>
-    queryClient.ensureQueryData(metaQueryOpts).then((meta) => {
+    queryClient.query({ ...metaQueryOpts, staleTime: 'static' }).then((meta) => {
       // Misskey 12 and 12 forks, like Firefish and Iceshrimp, have emojis in meta, and do not have /api/emojis endpoint.
       if ('emojis' in meta) {
         return { emojis: meta.emojis } as EmojisResponse;
