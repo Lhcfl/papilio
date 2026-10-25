@@ -7,7 +7,7 @@ import { MisskeyIcon } from '@/components/icons/misskey-icon';
 
 export const LoginLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="grid min-h-svh lg:grid-cols-2">
+    <div className="bg-background grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">

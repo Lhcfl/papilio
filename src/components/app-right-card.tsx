@@ -20,12 +20,12 @@ export const AppRightCard = ({ className, ...props }: HTMLProps<HTMLDivElement>)
 
   return (
     <aside className={cn('flex flex-col gap-2 p-2', className)} {...props}>
-      <div className="bg-background rounded-lg p-2">
+      <div className="bg-sidebar rounded-lg p-2">
         <MkClock />
       </div>
       {isLoggedIn && (
-        <ScrollArea className="bg-background h-0 flex-[1_1] rounded-lg">
-          <header className="bg-background sticky top-0 z-20 flex items-center justify-between border-b p-1">
+        <ScrollArea className="bg-sidebar h-0 flex-[1_1] rounded-lg">
+          <header className="bg-sidebar sticky top-0 z-20 flex items-center justify-between border-b p-1">
             <div className="title ml-2 flex items-center gap-1 text-sm">
               <BellIcon className="size-4" />
               {t('notifications')}
