@@ -19,7 +19,8 @@
     "sharkey-js",
     "locales-source",
     "src/ui/*.tsx",
-    "dev-scripts/**/*"
+    "dev-scripts/**/*",
+    ".agents/**/*"
   ],
   "overrides": [
     {
