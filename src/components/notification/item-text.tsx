@@ -15,7 +15,7 @@ import type { FrontendGroupedNotification } from '@/lib/notification-grouper';
 /** Compact actor line: 18px avatar + name, used by the notification list. */
 const Actor = ({ user, children }: { user: User; children: React.ReactNode }) => (
   <span className="inline-flex min-w-0 items-center gap-1.5">
-    <MkAvatar user={user} avatarProps={{ className: 'size-[18px] shrink-0' }} />
+    <MkAvatar user={user} avatarProps={{ className: 'size-8 shrink-0' }} />
     <span className="truncate">{children}</span>
   </span>
 );
