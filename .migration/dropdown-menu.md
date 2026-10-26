@@ -19,6 +19,10 @@
 
 `Menu.Item` still closes on click (default `closeOnClick`), but `CheckboxItem`/`RadioItem` default to `closeOnClick=false`. This app does not use checkbox/radio menu items, so no visible change. Sub-trigger open state is exposed as `data-popup-open`.
 
+## Deviation from the registry
+
+- `DropdownMenuContent` no longer applies `w-(--anchor-width)`. Base UI resolves `--anchor-width` to the trigger's width, so every menu was pinned to its trigger width (icon triggers collapsed to the 128px `min-w-32` floor) and long labels/descriptions wrapped badly. The Radix wrapper only had `min-w-[8rem]` with a content-sized width, and this app's menus (`src/components/menu-or-drawer.tsx`, which passes `max-w-60 lg:max-w-75` to cap the width) depend on that. `DropdownMenuSubContent` already used `w-auto`, so submenus were unaffected.
+
 ## Verify by hand
 
-Open the note menu, account menu and menu-or-drawer: hover submenus, click an item and confirm it closes, keyboard arrows/typeahead work, destructive items are red.
+Open the note menu, account menu and menu-or-drawer: hover submenus, click an item and confirm it closes, keyboard arrows/typeahead work, destructive items are red. Check menu width on both a wide trigger (post-form visibility picker) and an icon trigger (note "..." menu): the popup should be content-sized (icon menus land on the 128px minimum) and never equal to the trigger width.
