@@ -34,7 +34,10 @@ function merge(...args: Record<string, unknown>[]): Record<string, unknown> {
 const transformToI18nNext = (obj: Record<string, unknown>) => {
   for (const k of Object.keys(obj)) {
     if (typeof obj[k] === 'string') {
-      obj[k] = obj[k].replaceAll(/{(\w+)}/g, (_, p1) => `{{${p1}}}`); // change to i18next style interpolation
+      // Change Misskey-style `{count}` placeholders to i18next-style `{{count}}`.
+      // Strings that already use i18next style must be left untouched, otherwise `{{count}}`
+      // would be wrapped again into `{{{count}}}`, which i18next cannot interpolate.
+      obj[k] = obj[k].replaceAll(/(?<!\{)\{(\w+)\}(?!\})/g, (_, p1) => `{{${p1}}}`);
     }
     if (typeof obj[k] === 'object') {
       transformToI18nNext(obj[k] as Record<string, unknown>);
@@ -141,7 +144,11 @@ export const PapilioI18nGenerator = (): Plugin => {
         }
 
         const langCode = path.basename(filePath, '.yml');
-        locales_cache[langCode] = merge(locales_cache[langCode], parseYaml(fs.readFileSync(filePath, 'utf-8')));
+        // keep the same `{count}` -> `{{count}}` conversion as the initial build,
+        // otherwise HMR would serve single-braced placeholders until a restart
+        const changed = parseYaml(fs.readFileSync(filePath, 'utf-8'));
+        transformToI18nNext(changed);
+        locales_cache[langCode] = merge(locales_cache[langCode], changed);
 
         // 通知浏览器执行 HMR
         server.ws.send({

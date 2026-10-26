@@ -43,5 +43,5 @@ settingIsDisabled: "由于某项设置覆盖了此选项，该选项被禁用。
 aSeemsLikeB: "{a} 看起来像 {b}"
 
 _settingsPage:
-  sectionCount: "{{count}} 项设置"
+  sectionCount_other: "{{count}} 项设置"
   autoSaved: "更改会自动保存"
