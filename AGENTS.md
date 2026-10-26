@@ -245,7 +245,11 @@ locales-source/sukerbuka-locales/
   - 尽量少改；需要业务封装时放到 `src/components/` 下新建组件
   - 多态元素使用 Base UI 的 `render` prop，不再使用 Radix 的 `asChild`
 - UI 组件统一从 `@/ui/*` 导入，业务组件放在 `@/components/*`。
-- 业务组件命名通常使用 `Mk*`（如 `MkNote`、`MkAvatar`）或 `App*`（如 `AppSidebar`）。
+- 业务组件命名前缀按「是否与 Misskey 功能相关」区分（`Mk` = Misskey）：
+  - `Mk*`：直接承载或复刻 Misskey 客户端功能的组件，例如 `MkNote`、`MkNotification`、`MkMfm`、`MkAvatar`、`MkDrive`、`MkEmoji`、`MkPostForm`。Misskey 上游客户端组件同样以 `Mk*` 命名，保持同名便于对照。
+  - `App*`：Papilio 自身的外壳与页面级 UI，Misskey 没有对应的功能概念，例如 `AppSidebar`、`AppNavBar`、`AppPageTab`、`AppRightCard`、`AppThemeToggle`、`AppDefaultErrorComponent`。
+  - `src/ui/**` 的 shadcn 生成组件不加前缀。
+  - 既有偏通用的组件（`MkError`、`MkEmpty`、`MkAlert`、`MkClock`、`MkI18n` 等）沿用了 `Mk*`，不必为改名而改名；新增组件按上述规则判定。
 - 图标统一使用 `lucide-react`。
 - Toast 使用 `sonner`，抽屉使用 `vaul`，图片查看使用 PhotoSwipe。
 - MFM 渲染入口是 `src/components/mk-mfm.tsx`，不要把 MFM 当普通 Markdown 处理。
@@ -312,7 +316,7 @@ locales-source/sukerbuka-locales/
 
 - 变量、函数：`camelCase`
 - React 组件、类型：`PascalCase`
-- 业务组件：`MkXxx` / `AppXxx`
+- 业务组件：`MkXxx` / `AppXxx`，前缀判定规则见 §9「样式与 UI 约定」
 - 文件：组件文件通常使用 kebab-case，例如 `mk-post-form.tsx`
 
 ### 错误处理
