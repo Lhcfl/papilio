@@ -1,1 +1,16 @@
 * text eol=lf
+
+# Never run EOL conversion on binary files: doing so silently corrupts them
+# (public/banner-2.png was mangled by a CRLF->LF rewrite).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.mp4 binary
+*.webm binary
