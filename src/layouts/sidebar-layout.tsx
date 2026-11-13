@@ -9,7 +9,7 @@ import { ScrollArea } from '@/ui/scroll-area';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/ui/sidebar';
 import { Tabs } from '@/ui/tabs';
 import { useNullableSiteMeta } from '@/stores/site';
-import { DesktopRightbar } from '@/providers/rightbar-or-popup';
+import { DesktopRightbar } from '@/providers/desktop-rightbar';
 import { cn } from '@/lib/utils';
 import { useRouterState } from '@tanstack/react-router';
 import { AppNavBar } from '@/components/app-nav-bar';

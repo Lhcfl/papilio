@@ -23,6 +23,8 @@ import {
 import { useState, type ComponentProps } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/ui/button';
+import { Dialog, DialogContent, DialogTitle } from '@/ui/dialog';
+import { ScrollArea } from '@/ui/scroll-area';
 import { Spinner } from '@/ui/spinner';
 import { useNoteMenu } from '@/components/note/mk-note-menu';
 import { MkEmojiPickerPopup } from '@/components/mk-emoji-picker-popup';
@@ -38,7 +40,6 @@ import { patchNote } from '@/hooks/note';
 import { cn } from '@/lib/utils';
 import { usePreference, useUserPreference } from '@/stores/perference';
 import { useSiteMeta } from '@/stores/site';
-import { RightbarOrPopup } from '@/providers/rightbar-or-popup';
 
 const MkNoteActionButton = (
   props: {
@@ -333,36 +334,40 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
         />
       )}
       {postFormStyle === 'separate' && (
-        <RightbarOrPopup
+        <Dialog
           open={!!postFormProps}
           onOpenChange={(open) => {
             if (!open) {
               setPostFormProps(null);
             }
           }}
-          hideClose
         >
-          <MkPostForm
-            {...postFormProps}
-            relatedNote={note}
-            displayRelatedNote
-            className="border"
-            appendHeader={
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
+          <DialogContent className="top-6 translate-y-0 p-0" showCloseButton={false}>
+            <DialogTitle className="sr-only">posting</DialogTitle>
+            <ScrollArea className="max-h-[calc(100vh_-_8em)]">
+              <MkPostForm
+                {...postFormProps}
+                relatedNote={note}
+                displayRelatedNote
+                className="border"
+                appendHeader={
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      setPostFormProps(null);
+                    }}
+                  >
+                    <XIcon />
+                  </Button>
+                }
+                onSuccess={() => {
                   setPostFormProps(null);
                 }}
-              >
-                <XIcon />
-              </Button>
-            }
-            onSuccess={() => {
-              setPostFormProps(null);
-            }}
-          />
-        </RightbarOrPopup>
+              />
+            </ScrollArea>
+          </DialogContent>
+        </Dialog>
       )}
 
       <MenuDialogs />
