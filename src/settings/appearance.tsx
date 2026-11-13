@@ -4,7 +4,7 @@
  */
 
 import { defineCategory, defineCustom, defineEnum, defineSettingsPage, defineSwitch } from '@/settings/types';
-import { CogIcon, PaletteIcon } from 'lucide-react';
+import { CogIcon, PaletteIcon, ZapIcon } from 'lucide-react';
 import { lazy } from 'react';
 
 const t = (x: string) => x;
@@ -39,6 +39,18 @@ export const AppearanceSettings = defineSettingsPage({
           values: ['native', 'twemoji', 'fluent-emoji', 'tossface'] as const,
           name: t('emojiStyle'),
           valuesI18n: [t('native'), 'Twemoji', 'Fluent Emoji', 'Tossface'],
+        }),
+      ],
+    }),
+    defineCategory({
+      icon: <ZapIcon />,
+      name: t('performance'),
+      description: 'TODO',
+      items: [
+        defineSwitch('reduceBlur', {
+          defaultValue: false,
+          name: t('_preference.reduceBlur'),
+          description: t('_preference.reduceBlurDesc'),
         }),
       ],
     }),

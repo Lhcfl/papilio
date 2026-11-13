@@ -5,6 +5,8 @@ _drafts:
   deleteConfirmLong: "The draft will be permanently deleted and cannot be recovered. Everything in the draft will be lost."
 
 _preference:
+  reduceBlur: "Reduce Blur"
+  reduceBlurDesc: "Turns off backdrop blur effects. Enable it on devices without GPU acceleration or with weak graphics."
   showNoteActionsCount: "Show Note Action Counts"
   showNoteActionsCountDesc: "Toggle to show or hide the counts of actions on notes."
   notePostFormStyle: "Post Form Style"

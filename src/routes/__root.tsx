@@ -33,6 +33,7 @@ export const Route = createRootRoute({
 function RootRouteComponent() {
   const theme = usePreference((p) => p.theme);
   const cssTextAutoSpace = usePreference((p) => p.cssTextAutospace);
+  const reduceBlur = usePreference((p) => p.reduceBlur);
   const shouldLogin = useChildMatches({
     select: (matches) => !matches.some((x) => x.staticData.noAuth === true),
   });
@@ -44,6 +45,10 @@ function RootRouteComponent() {
       document.body.classList.remove('dark');
     }
   }, [theme]);
+
+  useEffect(() => {
+    document.body.classList.toggle('reduce-blur', reduceBlur);
+  }, [reduceBlur]);
 
   useEffect(() => {
     // see https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Properties/text-autospace

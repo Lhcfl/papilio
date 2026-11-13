@@ -5,6 +5,8 @@ _drafts:
   deleteConfirmLong: "此草稿将被永久删除（真的很久！）。草稿中的所有内容将永久丢弃。"
 
 _preference:
+  reduceBlur: "减少模糊"
+  reduceBlurDesc: "关闭背景模糊效果。在没有 GPU 加速或显卡性能较弱的设备上开启。"
   showNoteActionsCount: "显示帖子操作计数"
   showNoteActionsCountDesc: "在帖子操作按钮上显示喜欢、重发等的计数。"
   notePostFormStyle: "发帖框样式"
