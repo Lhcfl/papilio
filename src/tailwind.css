@@ -19,6 +19,17 @@ body {
 	overflow: hidden;
 }
 
+/* The app only ships light/dark, and the theme class lives on <body>.
+   Pin the UA baseline on the root and mirror the class there so native
+   widgets (scrollbars, form controls) follow the theme too. */
+:root {
+	color-scheme: light;
+}
+
+html:has(body.dark) {
+	color-scheme: dark;
+}
+
 /* Skip layout/paint for timeline entries that are far outside the viewport.
    `contain-intrinsic-size` keeps a placeholder height so the scrollbar does not jump. */
 @utility note-deferred {
