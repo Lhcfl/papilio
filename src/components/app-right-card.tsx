@@ -3,13 +3,19 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { MkNotifications } from '@/components/infinite-loaders/mk-notifications';
 import { MkClock } from '@/components/mk-clock';
-import { site, token } from '@/lib/inject-misskey-api';
+import { ScrollArea } from '@/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { NotificationsWindow } from '@/windows/notifications-window';
+import { getHeaderRightId, WindowContext } from '@/providers/window-provider';
+import { site, token } from '@/lib/inject-misskey-api';
+import { BellIcon } from 'lucide-react';
 import { type HTMLProps } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const AppRightCard = ({ className, ...props }: HTMLProps<HTMLDivElement>) => {
+  const { t } = useTranslation();
+  const headerId = 'sidebar';
   const isLoggedIn = site != null && token != null;
 
   return (
@@ -18,7 +24,18 @@ export const AppRightCard = ({ className, ...props }: HTMLProps<HTMLDivElement>)
         <MkClock />
       </div>
       {isLoggedIn && (
-        <NotificationsWindow />
+        <ScrollArea className="bg-sidebar h-0 flex-[1_1] rounded-lg">
+          <header className="bg-sidebar sticky top-0 z-20 flex items-center justify-between border-b p-1">
+            <div className="title ml-2 flex items-center gap-1 text-sm">
+              <BellIcon className="size-4" />
+              {t('notifications')}
+            </div>
+            <div id={getHeaderRightId(headerId)} />
+          </header>
+          <WindowContext value={{ headerId }}>
+            <MkNotifications />
+          </WindowContext>
+        </ScrollArea>
       )}
       {/* TODO: translate this */}
       <footer className="text-muted-foreground p-2 text-xs">

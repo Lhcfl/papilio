@@ -21,13 +21,7 @@ import { HeaderRightPortal } from '@/components/header-portal';
 import { Spinner } from '@/ui/spinner';
 import { useMarkAllAsReadAction } from '@/hooks/notifications';
 
-/**
- * @deprecated Keeps the notification list, its filter state and its header
- * actions in a single component. Use the window-based
- * `MkNotifications` in `@/components/notifications/mk-notifications` instead,
- * which takes the excluded types as a parameter.
- */
-export const OldMkNotifications = () => {
+export const MkNotifications = () => {
   const [excluded, setExcluded] = useState<NotificationIncludeableType[]>([]);
   const grouping = usePreference((p) => p.groupNotifications);
   const { t } = useTranslation();
