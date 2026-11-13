@@ -9,6 +9,7 @@ import type { HTMLProps } from 'react';
 
 export const MkVideo = (props: { video: DriveFile } & HTMLProps<HTMLDivElement>) => {
   const { video, className, ...rest } = props;
+  const { width, height } = video.properties ?? {};
   return (
     <div
       className={clsx(
@@ -17,7 +18,16 @@ export const MkVideo = (props: { video: DriveFile } & HTMLProps<HTMLDivElement>)
       )}
       {...rest}
     >
-      <video src={video.url} controls className="h-full w-full" />
+      <video
+        src={video.url}
+        controls
+        // Reserve the right box before metadata arrives instead of collapsing to 0 height.
+        width={width ?? undefined}
+        height={height ?? undefined}
+        poster={video.thumbnailUrl ?? undefined}
+        preload="metadata"
+        className="h-full w-full"
+      />
     </div>
   );
 };
