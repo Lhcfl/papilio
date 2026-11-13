@@ -37,7 +37,7 @@ export const MkUrl = (
       })}
       {...rest}
     >
-      {noIcon ? null : <LinkIcon className="mr-1 inline size-4 align-[-0.13em]" />}
+      {noIcon ? null : <LinkIcon className="mr-[0.25em] inline size-[1em] align-[-0.13em]" />}
       {text}
     </Comp>
   );
