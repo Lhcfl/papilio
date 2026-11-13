@@ -19,6 +19,13 @@ body {
 	overflow: hidden;
 }
 
+/* Skip layout/paint for timeline entries that are far outside the viewport.
+   `contain-intrinsic-size` keeps a placeholder height so the scrollbar does not jump. */
+@utility note-deferred {
+	content-visibility: auto;
+	contain-intrinsic-size: auto 150px;
+}
+
 @theme inline {
 	--radius-sm: calc(var(--radius) - 4px);
 	--radius-md: calc(var(--radius) - 2px);

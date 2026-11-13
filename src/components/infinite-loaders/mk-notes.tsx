@@ -13,6 +13,15 @@ import { isPureRenote } from 'misskey-js/note.js';
 import { useMemo } from 'react';
 
 /**
+ * Number of leading notes that are always rendered eagerly. These are the ones
+ * most likely to sit inside the initial viewport, where `content-visibility: auto`
+ * would only add work instead of saving it.
+ */
+const EAGER_NOTES = 4;
+
+const deferredClassName = (index: number) => (index >= EAGER_NOTES ? 'note-deferred' : undefined);
+
+/**
  * Displays a list of Misskey notes with infinite scrolling.\
  * Supports optional smart timeline feature to group replies into threads.
  */
@@ -28,7 +37,13 @@ export function MkNotes({
   return (
     <MkInfiniteScrollByData infiniteQueryResult={query} flatDepth={0} className={className}>
       {(xs) =>
-        smartTimeline ? <ThreadedNotes notes={xs} /> : xs.map((noteId) => <MkNote key={noteId} noteId={noteId} />)
+        smartTimeline ? (
+          <ThreadedNotes notes={xs} />
+        ) : (
+          xs.map((noteId, index) => (
+            <MkNote key={noteId} noteId={noteId} className={deferredClassName(index)} />
+          ))
+        )
       }
     </MkInfiniteScrollByData>
   );
@@ -103,7 +118,7 @@ function ThreadedNotes({ notes }: { notes: string[] }) {
       return { noteId, hidden: false };
     });
 
-    return processedNotes.map(({ noteId, hidden }) => {
+    return processedNotes.map(({ noteId, hidden }, index) => {
       if (hidden) {
         return null;
       }
@@ -114,6 +129,7 @@ function ThreadedNotes({ notes }: { notes: string[] }) {
         <MkNote
           key={noteId}
           noteId={noteId}
+          className={deferredClassName(index)}
           mergedRenoteIds={sameRenoteSet.get(noteId)}
           initialReplyAppearance={subNoteDisplayNoteIds.has(noteId) ? 'subNote' : null}
         />
