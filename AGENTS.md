@@ -234,6 +234,8 @@ locales-source/sukerbuka-locales/
 - Tailwind CSS v4，配置是 CSS-first，入口在 `src/tailwind.css`。
 - 主题颜色使用 CSS Variables，暗色模式通过 `.dark` class 切换。
 - 使用 `cn()`（来自 `@/lib/utils`）合并 className。
+- 组件包装的是哪个 HTML 元素，就应透传那个元素的 props（例如 `React.ComponentProps<'div'> & WindowParams`），让调用方可以正常使用 `className`、`style`、`id`、`aria-*`、`data-*` 等。
+- 不要为组件的**内部子元素**发明 `headerClassName` / `titleClassName` 这类穿透式 prop 去改内部样式；内部样式由组件自己负责，或用有语义的变体。变体只在出现第二个真实用例时才抽。
 - 使用 `prettier-plugin-tailwindcss` 自动排序 Tailwind class，不要手动维护顺序。
 - shadcn/ui 配置在 `components.json`：
   - style: `base-vega`（Base UI 版本）
@@ -312,12 +314,36 @@ locales-source/sukerbuka-locales/
 
 优先使用命名导入，避免不必要的默认导入。
 
+### 响应性（React）
+
+- **不得偷偷丢失响应性。** 任何可能变化的值（props、params、store 选择器、URL、context）都必须保持响应，不能只在首次渲染时读一次。
+- 禁止把可变输入复制进 `useState` 初始值后不再同步，例如 `useState(() => params.exclude)`——那是快照，不是响应。需要由子组件修改的值，应把状态放到真正的所有者（store / 上层组件），再用受控 props 向下传。
+- 唯一例外是确实只需要“首次渲染的初值”；这种情况下必须写明注释和理由，并确认上游不会在组件生命周期内更新该值。
+- 同一个值不要有两个可写的所有者；出现两个真相时，改成单一所有者 + 受控更新，而不是靠 `useEffect` 双向同步。
+- 派生值直接在渲染期计算；不要为了“缓存”而吞掉依赖变化（`useMemo` / 记忆化组件同理，依赖必须是完整的）。
+
 ### 命名
 
 - 变量、函数：`camelCase`
 - React 组件、类型：`PascalCase`
 - 业务组件：`MkXxx` / `AppXxx`，前缀判定规则见 §9「样式与 UI 约定」
 - 文件：组件文件通常使用 kebab-case，例如 `mk-post-form.tsx`
+- 以 `use` 开头的函数会被 React 当作 hook：只有真正的 hook 才能这样命名，并且只能在组件或其它 hook 中调用；不要把普通函数/对象属性命名成 `use`。
+
+### 注释
+
+- **不要胡乱添加注释。** 写之前先问：这行代码是不是不言自明的？删掉注释，读者会误解或丢失信息吗？如果不会，就不要写。
+- 注释解释**为什么**（非显然的约束、坑、取舍、外部限制），不复述**做了什么**（代码已经写清楚了）。
+- 禁止用注释解释显而易见的声明、命名和赋值。“这里声明了状态，因为它不是参数”这类句子没有信息量，只会让下一个人怀疑有东西没说。
+- 值得保留的注释：公共 API 的 JSDoc、反直觉的 hack 及其原因、不能从代码推出的约束、许可证头。
+
+### 组合
+
+- 能用同一棵 React 树里的父子组合表达的布局，就不要用 portal。portal 只用于真正脱离层叠/滚动容器的东西：dialog、popover、toast、菜单等。
+- 不要把“让远处的组件往这里塞内容”当成组件 API 的设计目标。让拥有布局的组件直接渲染子组件，而不是提供槽位再传送。
+- 如果一个抽象的存在理由就是“避免 portal”，那么实现里就不该出现 portal。
+- 不要用 `React.Children` 检查子节点的组件类型来做隐式分区（header/body、slot 之类）。让实现显式写出结构，例如 `<WindowHeader>…</WindowHeader>` 之后的内容自然就是 body。
+- 不要为只有一个用例的东西预先造抽象（变体表、策略对象、可配置项）。先直接写具体实现，出现第二个真实用例再抽。
 
 ### 错误处理
 
