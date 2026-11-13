@@ -81,13 +81,15 @@ export const MkLinkPreview = (props: { url: string; renoteId?: string | null } &
     <Item variant="outline" className={cn('wrap-anywhere', className)} {...rest} size="sm" render={<a href={url} target="_blank"/>}>
         {data ? (
           <>
-            <ItemMedia variant="image">{thumbnail ? <img src={thumbnail} /> : <LinkIcon />}</ItemMedia>
+            <ItemMedia variant="image">
+              {thumbnail ? <img src={thumbnail} alt="" loading="lazy" decoding="async" /> : <LinkIcon />}
+            </ItemMedia>
             <ItemContent>
               <ItemTitle>{title}</ItemTitle>
               <ItemDescription className="text-wrap">{data.description}</ItemDescription>
               <div className="text-muted-foreground flex items-center gap-1 text-xs">
                 <Avatar className="size-3">
-                  <AvatarImage src={data.icon ?? undefined} />
+                  <AvatarImage src={data.icon ?? undefined} alt="" />
                 </Avatar>
                 {data.sitename}
               </div>
