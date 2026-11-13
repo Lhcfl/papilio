@@ -23,7 +23,7 @@ export default function AppLanguageSelect() {
       }}
       value={i18n.language}
     >
-      <SelectTrigger className="w-40 sm:w-52">
+      <SelectTrigger className="w-40 @md:w-52">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

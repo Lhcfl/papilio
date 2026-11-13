@@ -185,7 +185,7 @@ const PostFormImage = ({
   ];
 
   return (
-    <div className={cn('relative h-20 w-20 overflow-hidden rounded-md border lg:h-30 lg:w-30', className)} {...props}>
+    <div className={cn('relative h-20 w-20 overflow-hidden rounded-md border @lg:h-30 @lg:w-30', className)} {...props}>
       <img
         src={file.url}
         alt={file.name}

@@ -36,7 +36,7 @@ export function EnumSettingItem({ item, highlighted }: { item: EnumSettings; hig
     <div className="flex items-center gap-2">
       <SettingHeader className={cn('w-0 flex-[1_1]', { 'opacity-60': hidden })} item={item} hidden={hidden} />
       <Select onValueChange={setValue as never} value={value} disabled={hidden}>
-        <SelectTrigger className="w-40 sm:w-52">
+        <SelectTrigger className="w-40 @md:w-52">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

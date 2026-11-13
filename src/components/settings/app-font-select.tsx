@@ -17,7 +17,7 @@ export default function AppFontSelect() {
       }}
       value={font}
     >
-      <SelectTrigger className="w-40 sm:w-52">
+      <SelectTrigger className="w-40 @md:w-52">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

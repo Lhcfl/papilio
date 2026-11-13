@@ -32,9 +32,9 @@ export function MkCode({
   const disableHighlight = usePreference((s) => s.dataSaverCode);
 
   return (
-    <div className={cn('bg-accent relative rounded-md border text-sm lg:text-base', className)} {...props}>
+    <div className={cn('bg-accent relative rounded-md border text-sm @sm:text-base', className)} {...props}>
       <span className="lang-tag text-muted-foreground absolute top-0 right-0 p-2 font-mono">{language}</span>
-      <ScrollArea className="flex overflow-x-auto p-2 md:p-4">
+      <ScrollArea className="flex overflow-x-auto p-2 @sm:p-4">
         <div className="w-0 flex-[1_1_auto]">
           {disableHighlight ? (
             <MkCodeUnhighlighted code={code} language={language} />

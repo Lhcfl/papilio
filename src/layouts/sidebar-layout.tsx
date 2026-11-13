@@ -51,7 +51,7 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
               </div>
             </header>
             <div className="flex justify-center p-2">
-              <div className="main-area w-0 max-w-[38rem] flex-[1_1]">{children}</div>
+              <div className="main-area @container/main w-0 max-w-[38rem] flex-[1_1]">{children}</div>
             </div>
           </ScrollArea>
           {smbreakpoint && <AppNavBar />}
