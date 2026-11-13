@@ -59,6 +59,8 @@ export function AppPageTab({
       key={value}
       value={value}
       onClick={handleTabChange}
+      aria-current={isActive ? 'page' : undefined}
+      aria-label={label}
       className={cn('flex items-center gap-1 rounded-md border px-2.5 py-1.5 text-[0.8125rem] [&>svg]:size-4', {
         'bg-background': isActive,
         'border-transparent': !isActive,
