@@ -52,13 +52,11 @@ export const useUserFollowersInfiniteQuery = (userId: string) =>
         limit: 90,
         untilId: pageParam,
       }).then((res) =>
-        res.map(
-          (item): UserRelation => ({
-            id: item.id,
-            user: item.follower!,
-            createdAt: item.createdAt,
-          }),
-        ),
+        res.map((item): UserRelation => ({
+          id: item.id,
+          user: item.follower!,
+          createdAt: item.createdAt,
+        })),
       ),
     initialPageParam: INITIAL_UNTIL_ID,
     getNextPageParam: (lastPage) => lastPage.at(-1)?.id,
@@ -73,13 +71,11 @@ export const useUserFollowingsInfiniteQuery = (userId: string) =>
         limit: 90,
         untilId: pageParam,
       }).then((res) =>
-        res.map(
-          (item): UserRelation => ({
-            id: item.id,
-            user: item.followee!,
-            createdAt: item.createdAt,
-          }),
-        ),
+        res.map((item): UserRelation => ({
+          id: item.id,
+          user: item.followee!,
+          createdAt: item.createdAt,
+        })),
       ),
     initialPageParam: INITIAL_UNTIL_ID,
     getNextPageParam: (lastPage) => lastPage.at(-1)?.id,

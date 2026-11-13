@@ -141,9 +141,8 @@ export const MkFileUploadMenu = (props: {
               <InputGroupInput type="url" name="url" placeholder={t('imageUrl')} />
             </InputGroup>
             <DialogFooter className="mt-2">
-              <DialogClose render={<Button variant="outline" type="reset"/>}>
-                  <XIcon /> {t('cancel')}
-                
+              <DialogClose render={<Button variant="outline" type="reset" />}>
+                <XIcon /> {t('cancel')}
               </DialogClose>
               <Button type="submit">
                 {isUploading ? <Spinner /> : <UploadCloudIcon />}

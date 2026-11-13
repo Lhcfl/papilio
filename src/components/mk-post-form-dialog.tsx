@@ -19,9 +19,8 @@ export const MkPostFormDialog = (props: { children: React.ReactNode }) => {
         <DialogTitle className="sr-only">posting</DialogTitle>
         <MkPostForm
           appendHeader={
-            <DialogClose render={<Button variant="ghost" size="icon"/>}>
-                <XIcon />
-              
+            <DialogClose render={<Button variant="ghost" size="icon" />}>
+              <XIcon />
             </DialogClose>
           }
           onSuccess={() => {

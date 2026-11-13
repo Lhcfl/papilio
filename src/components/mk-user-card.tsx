@@ -96,10 +96,9 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
           {isNotMe ? (
             <MkUserCardButton user={user} />
           ) : (
-            <Button render={<Link to="/settings/profile"/>}>
-                <EditIcon />
-                {t('editProfile')}
-              
+            <Button render={<Link to="/settings/profile" />}>
+              <EditIcon />
+              {t('editProfile')}
             </Button>
           )}
           <MkUserMenu user={user}>

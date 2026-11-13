@@ -17,15 +17,20 @@ export const MkNoteFile = (
   const className = clsx('p-2', classNameProps);
 
   return (
-    <Item className={className} {...rest} size="sm" variant="muted" render={<a href={file.url} target="_blank" rel="noopener noreferrer"/>}>
-        <ItemMedia variant="icon">
-          <GuessFileIcon file={file} />
-        </ItemMedia>
-        <ItemContent>
-          <ItemTitle>{file.name}</ItemTitle>
-          <ItemDescription className="text-xs">{file.comment}</ItemDescription>
-        </ItemContent>
-      
+    <Item
+      className={className}
+      {...rest}
+      size="sm"
+      variant="muted"
+      render={<a href={file.url} target="_blank" rel="noopener noreferrer" />}
+    >
+      <ItemMedia variant="icon">
+        <GuessFileIcon file={file} />
+      </ItemMedia>
+      <ItemContent>
+        <ItemTitle>{file.name}</ItemTitle>
+        <ItemDescription className="text-xs">{file.comment}</ItemDescription>
+      </ItemContent>
     </Item>
   );
 };

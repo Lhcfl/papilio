@@ -55,18 +55,21 @@ export function EditFileCaptionModal({
           }}
         />
         <DialogFooter className="flex-row flex-wrap justify-end">
-          <DialogClose render={<Button variant="outline"/>}>
-              <XIcon />
-              {t('cancel')}
-            
+          <DialogClose render={<Button variant="outline" />}>
+            <XIcon />
+            {t('cancel')}
           </DialogClose>
-          <DialogClose render={<Button
-              onClick={() => {
-                onOk(caption);
-              }}/>}>
-              <SaveIcon />
-              {t('save')}
-            
+          <DialogClose
+            render={
+              <Button
+                onClick={() => {
+                  onOk(caption);
+                }}
+              />
+            }
+          >
+            <SaveIcon />
+            {t('save')}
           </DialogClose>
         </DialogFooter>
       </DialogContent>

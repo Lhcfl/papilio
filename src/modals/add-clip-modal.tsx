@@ -34,13 +34,20 @@ export function AddClipModal(props: { open: boolean; onOpenChange: (open: boolea
           <div className="p-1">
             <ClipsList>
               {(clip, children) => (
-                <Item variant="outline" size="sm" className="mb-2 text-left" render={<button
-                    onClick={() => {
-                      addClip(clip.id);
-                      props.onOpenChange(false);
-                    }}/>}>
-                    {children}
-                  
+                <Item
+                  variant="outline"
+                  size="sm"
+                  className="mb-2 text-left"
+                  render={
+                    <button
+                      onClick={() => {
+                        addClip(clip.id);
+                        props.onOpenChange(false);
+                      }}
+                    />
+                  }
+                >
+                  {children}
                 </Item>
               )}
             </ClipsList>
@@ -76,10 +83,9 @@ export function AddClipModal(props: { open: boolean; onOpenChange: (open: boolea
             {isCreatingClip ? <Spinner /> : <PlusIcon />}
             {t('createNewClip')}
           </Button>
-          <DialogClose render={<Button variant="ghost"/>}>
-              <XIcon />
-              {t('cancel')}
-            
+          <DialogClose render={<Button variant="ghost" />}>
+            <XIcon />
+            {t('cancel')}
           </DialogClose>
         </DialogFooter>
       </DialogContent>

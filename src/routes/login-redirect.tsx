@@ -83,8 +83,7 @@ function RouteComponent() {
             <DialogDescription>Failed to login. Please try again.</DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-start">
-            <DialogClose render={<Button type="button"/>}>Try Again
-            </DialogClose>
+            <DialogClose render={<Button type="button" />}>Try Again</DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>

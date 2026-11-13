@@ -2,14 +2,7 @@
  * SPDX-FileCopyrightText: Linca and papilio-project
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemGroup,
-  ItemMedia,
-  ItemTitle,
-} from '@/ui/item';
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from '@/ui/item';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryAtom } from '@/routes/settings/-atoms';
 import { DetailedSettings } from '@/settings';

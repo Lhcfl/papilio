@@ -18,13 +18,12 @@ export const AppSidebarHeader = () => {
   return (
     <SidebarMenu>
       <SidebarMenuItem className="flex items-center gap-2">
-        <SidebarMenuButton size="lg" render={<Link to="/about/instance"/>}>
-            <SiteLogo />
-            <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-medium">{metaName}</span>
-              <span className="text-muted-foreground truncate text-xs">{domain}</span>
-            </div>
-          
+        <SidebarMenuButton size="lg" render={<Link to="/about/instance" />}>
+          <SiteLogo />
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-medium">{metaName}</span>
+            <span className="text-muted-foreground truncate text-xs">{domain}</span>
+          </div>
         </SidebarMenuButton>
         <Button
           variant="outline"

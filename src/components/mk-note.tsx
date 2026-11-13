@@ -113,7 +113,11 @@ const MkNoteComponent = (
     <MkMuteableNote
       note={note.id == appearNote.id ? null : note}
       appearNote={appearNote}
-      className={clsx('mk-note @container relative flex flex-col p-2', { 'border-border border-b': !isSubNote }, classNameProps)}
+      className={clsx(
+        'mk-note @container relative flex flex-col p-2',
+        { 'border-border border-b': !isSubNote },
+        classNameProps,
+      )}
       bypassMuteCheck={detailed}
       {...divProps}
     >

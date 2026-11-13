@@ -103,10 +103,7 @@ const FollowNotification = (props: { notification: PickNotification<'follow'> })
       <ItemContent className="gap-0.5!">
         <ItemTitle className="line-clamp-1 flex w-full justify-between text-[0.8125rem]! font-medium">
           <NotificationTitle notification={notification} />
-          <MkTime
-            time={notification.createdAt}
-            className="text-muted-foreground text-[0.6875rem]! font-normal"
-          />
+          <MkTime time={notification.createdAt} className="text-muted-foreground text-[0.6875rem]! font-normal" />
         </ItemTitle>
         <div className="text-muted-foreground line-clamp-2 text-[0.72rem]! leading-relaxed wrap-break-word">
           <NotificationDescription notification={notification} />
@@ -143,10 +140,7 @@ const ReceiveFollowRequestNotification = (props: { notification: PickNotificatio
       <ItemContent className="gap-0.5!">
         <ItemTitle className="line-clamp-1 flex w-full justify-between text-[0.8125rem]! font-medium">
           <NotificationTitle notification={notification} />
-          <MkTime
-            time={notification.createdAt}
-            className="text-muted-foreground text-[0.6875rem]! font-normal"
-          />
+          <MkTime time={notification.createdAt} className="text-muted-foreground text-[0.6875rem]! font-normal" />
         </ItemTitle>
         <ItemDescription className="line-clamp-2 text-[0.72rem]!">
           {t('_notification.youReceivedFollowRequest')}
@@ -250,10 +244,7 @@ function ExpandableNotification(props: { notification: PickNotification<'grouped
 export const SimpleNotification = (props: { notification: Notification } & React.ComponentProps<typeof Item>) => {
   const { notification, ...itemProps } = props;
   return (
-    <Item
-      {...itemProps}
-      className={cn('items-start gap-2 rounded-lg px-2 py-2', itemProps.className)}
-    >
+    <Item {...itemProps} className={cn('items-start gap-2 rounded-lg px-2 py-2', itemProps.className)}>
       <NotificationItemMedia notification={notification} />
       <ItemContent className="w-0 flex-[1_1] gap-0.5!">
         <ItemTitle className="w-full text-[0.8125rem]! font-medium">

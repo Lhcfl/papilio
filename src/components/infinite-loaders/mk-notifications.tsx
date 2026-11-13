@@ -166,25 +166,23 @@ export const MkNotificationsFilter = (props: {
           ),
         },
         null,
-        ...NOTIFICATION_TYPES.map(
-          (type): MenuSwitch => ({
-            type: 'switch',
-            id: type,
-            label: t(`_notification._types.${type}`),
-            value: !excluded.includes(type),
-            onChange: (checked) => {
-              setExcluded((old) => {
-                const set = new Set<NotificationIncludeableType>(old);
-                if (checked) {
-                  set.delete(type);
-                } else {
-                  set.add(type);
-                }
-                return [...set.values()];
-              });
-            },
-          }),
-        ),
+        ...NOTIFICATION_TYPES.map((type): MenuSwitch => ({
+          type: 'switch',
+          id: type,
+          label: t(`_notification._types.${type}`),
+          value: !excluded.includes(type),
+          onChange: (checked) => {
+            setExcluded((old) => {
+              const set = new Set<NotificationIncludeableType>(old);
+              if (checked) {
+                set.delete(type);
+              } else {
+                set.add(type);
+              }
+              return [...set.values()];
+            });
+          },
+        })),
       ],
     },
     {

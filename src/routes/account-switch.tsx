@@ -43,10 +43,9 @@ function RouteComponent() {
               {saved_accounts.map((account) => (
                 <AccountItem key={account.site + ':' + account.token} site={account.site} token={account.token} />
               ))}
-              <Button render={<Link to="/login" search={{ noredirect: true }}/>}>
-                  <PlusCircleIcon />
-                  {t('addAccount')}
-                
+              <Button render={<Link to="/login" search={{ noredirect: true }} />}>
+                <PlusCircleIcon />
+                {t('addAccount')}
               </Button>
             </div>
           </ScrollArea>
@@ -71,22 +70,21 @@ function AccountItem(props: { token: string; site: string }) {
   }
 
   return account ? (
-    <Item className="hover:bg-accent w-full flex-nowrap text-left" render={<button type="button" onClick={onClick}/>}>
-        <ItemMedia variant="image">
-          <MkAvatar user={account} />
-        </ItemMedia>
-        <ItemContent>
-          <ItemTitle>
-            <MkUserName user={account} />
-          </ItemTitle>
-          <div className="text-muted-foreground flex flex-col text-sm">
-            <div>{site}</div>
-            <div className="text-xs">
-              <code>{token}</code>
-            </div>
+    <Item className="hover:bg-accent w-full flex-nowrap text-left" render={<button type="button" onClick={onClick} />}>
+      <ItemMedia variant="image">
+        <MkAvatar user={account} />
+      </ItemMedia>
+      <ItemContent>
+        <ItemTitle>
+          <MkUserName user={account} />
+        </ItemTitle>
+        <div className="text-muted-foreground flex flex-col text-sm">
+          <div>{site}</div>
+          <div className="text-xs">
+            <code>{token}</code>
           </div>
-        </ItemContent>
-      
+        </div>
+      </ItemContent>
     </Item>
   ) : (
     <Skeleton className="h-10 w-full" />

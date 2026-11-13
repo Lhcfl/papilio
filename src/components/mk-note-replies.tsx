@@ -129,10 +129,14 @@ export const MkNoteReplies = (
           )}
           {/* 为了让后面的帖子也能够连接起来，还需要在左侧放置一根线
            */}
-          <Button className="z-10 ml-5" variant="outline" size="sm" render={<Link to="/notes/$id" params={{ id: noteId }}/>}>
-              <MoreHorizontalIcon />
-              {t('showMore')}
-            
+          <Button
+            className="z-10 ml-5"
+            variant="outline"
+            size="sm"
+            render={<Link to="/notes/$id" params={{ id: noteId }} />}
+          >
+            <MoreHorizontalIcon />
+            {t('showMore')}
           </Button>
         </div>
       )}

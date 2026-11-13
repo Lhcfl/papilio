@@ -194,9 +194,10 @@ const GenerateDropDownMenu = (menu: Menu, inGroup = false) => {
                 if (x.preventCloseOnClick) ev.preventDefault();
               }}
               disabled={x.disabled}
-              className={cn({ 'bg-accent text-accent-foreground': x.active })} render={<Link {...x.to}/>}>
-                {x.icon} {x.label}
-              
+              className={cn({ 'bg-accent text-accent-foreground': x.active })}
+              render={<Link {...x.to} />}
+            >
+              {x.icon} {x.label}
             </DropdownMenuItem>
           );
         } else if ('href' in x) {
@@ -208,9 +209,10 @@ const GenerateDropDownMenu = (menu: Menu, inGroup = false) => {
                 if (x.preventCloseOnClick) ev.preventDefault();
               }}
               disabled={x.disabled}
-              className={cn({ 'bg-accent text-accent-foreground': x.active })} render={<a href={x.href} target="_blank" rel="noopener noreferrer"/>}>
-                {x.icon} {x.label}
-              
+              className={cn({ 'bg-accent text-accent-foreground': x.active })}
+              render={<a href={x.href} target="_blank" rel="noopener noreferrer" />}
+            >
+              {x.icon} {x.label}
             </DropdownMenuItem>
           );
         } else if ('wrapper' in x) {
@@ -295,9 +297,10 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
               key={x.id}
               variant={x.variant ?? 'ghost'}
               disabled={x.disabled}
-              className={cn({ 'bg-accent text-accent-foreground': x.active })} render={<Link {...x.to}/>}>
-                {x.icon} {x.label}
-              
+              className={cn({ 'bg-accent text-accent-foreground': x.active })}
+              render={<Link {...x.to} />}
+            >
+              {x.icon} {x.label}
             </DrawerButton>
           );
         } else if ('href' in x) {
@@ -306,9 +309,10 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
               key={x.id}
               variant={x.variant ?? 'ghost'}
               disabled={x.disabled}
-              className={cn({ 'bg-accent text-accent-foreground': x.active })} render={<a href={x.href} target="_blank" rel="noopener noreferrer"/>}>
-                {x.icon} {x.label}
-              
+              className={cn({ 'bg-accent text-accent-foreground': x.active })}
+              render={<a href={x.href} target="_blank" rel="noopener noreferrer" />}
+            >
+              {x.icon} {x.label}
             </DrawerButton>
           );
         } else if ('wrapper' in x) {

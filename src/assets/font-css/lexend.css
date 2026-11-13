@@ -4,12 +4,12 @@
  */
 
 @font-face {
-    font-display: swap;
-    font-family: 'Lexend';
-    font-style: normal;
-    src: url('/fonts/ofl/Lexend-VariableFont_wght.ttf') format("truetype");
+  font-display: swap;
+  font-family: 'Lexend';
+  font-style: normal;
+  src: url('/fonts/ofl/Lexend-VariableFont_wght.ttf') format('truetype');
 }
 
-html[default-font="lexend"] {
-    --font-sans: 'Lexend', Roboto, Arial, sans-serif;
+html[default-font='lexend'] {
+  --font-sans: 'Lexend', Roboto, Arial, sans-serif;
 }

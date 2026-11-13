@@ -296,7 +296,9 @@ function MkPostFormLoaded(
   const { mutate: addUnspecifiedMentionUser, isPending: isAddingUser } = useMutation({
     mutationKey: ['add-unspecified-mention-user', draftKey],
     mutationFn: () =>
-      Promise.allSettled(unspecifiedMentions.map((u) => queryClient.query({ ...getAcctUserQueryOptions(u), staleTime: 'static' }))),
+      Promise.allSettled(
+        unspecifiedMentions.map((u) => queryClient.query({ ...getAcctUserQueryOptions(u), staleTime: 'static' })),
+      ),
     onSuccess: (users) => {
       const dedumplicater = new Map<string, User>(draft.visibleUsers.map((u) => [u.id, u]));
       for (const u of users) {

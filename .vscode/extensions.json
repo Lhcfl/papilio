@@ -4,6 +4,6 @@
     "oxc.oxc-vscode",
     "lokalise.i18n-ally",
     "bradlc.vscode-tailwindcss",
-    "blazejkustra.react-compiler-marker",
-  ],
+    "blazejkustra.react-compiler-marker"
+  ]
 }

@@ -51,13 +51,13 @@ export function MkDriveFileSelect(
                 onClick={() => {
                   onFileSelect(selected);
                   console.log('selected files:', selected);
-                }} render={<Button variant="outline" size="icon-sm"/>}>
-                  <CheckIcon />
-                
+                }}
+                render={<Button variant="outline" size="icon-sm" />}
+              >
+                <CheckIcon />
               </DialogClose>
-              <DialogClose render={<Button variant="outline" size="icon-sm"/>}>
-                  <XIcon />
-                
+              <DialogClose render={<Button variant="outline" size="icon-sm" />}>
+                <XIcon />
               </DialogClose>
             </div>
           </div>

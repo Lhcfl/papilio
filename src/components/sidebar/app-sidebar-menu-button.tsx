@@ -51,24 +51,23 @@ export function AppSidebarMenuButtonLink({
       aria-current={isActive ? 'page' : undefined}
       className={MENU_ITEM_CLASS}
       tooltip={title}
-      render={<Link {...linkOptions}/>}
+      render={<Link {...linkOptions} />}
     >
-        {icon}
-        {title}
-        {count != null && count > 0 && (
-          <>
-            <span className='count bg-primary text-secondary rounded-sm px-1.5 py-0.5 text-xs group-data-[state="collapsed"]:hidden'>
-              {count}
-            </span>
-            <span className='count bg-primary text-secondary absolute top-0.5 right-0.5 hidden rounded-sm px-1 py-0.5 text-[7px] group-data-[state="collapsed"]:block'>
-              {count}
-            </span>
-          </>
-        )}
-        {ding && (
-          <span className='ding bg-primary size-2 rounded-full group-data-[state="collapsed"]:absolute group-data-[state="collapsed"]:top-1 group-data-[state="collapsed"]:right-1 group-data-[state="collapsed"]:size-1' />
-        )}
-      
+      {icon}
+      {title}
+      {count != null && count > 0 && (
+        <>
+          <span className='count bg-primary text-secondary rounded-sm px-1.5 py-0.5 text-xs group-data-[state="collapsed"]:hidden'>
+            {count}
+          </span>
+          <span className='count bg-primary text-secondary absolute top-0.5 right-0.5 hidden rounded-sm px-1 py-0.5 text-[7px] group-data-[state="collapsed"]:block'>
+            {count}
+          </span>
+        </>
+      )}
+      {ding && (
+        <span className='ding bg-primary size-2 rounded-full group-data-[state="collapsed"]:absolute group-data-[state="collapsed"]:top-1 group-data-[state="collapsed"]:right-1 group-data-[state="collapsed"]:size-1' />
+      )}
     </SidebarMenuButton>
   );
 }

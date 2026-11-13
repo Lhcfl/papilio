@@ -74,10 +74,9 @@ function RouteComponent() {
           <EmptyHeader>{t('removed')}</EmptyHeader>
         </EmptyHeader>
         <EmptyContent>
-          <Button render={<Link to="/"/>}>
-              <HomeIcon />
-              {t('home')}
-            
+          <Button render={<Link to="/" />}>
+            <HomeIcon />
+            {t('home')}
           </Button>
         </EmptyContent>
       </Empty>
@@ -103,17 +102,21 @@ function RouteComponent() {
       <HeaderRightPortal>
         {isLoading && <Spinner />}
         <Tooltip>
-          <TooltipTrigger render={<Button
-              size="icon-sm"
-              variant="ghost"
-              className={cn({
-                'text-primary bg-primary/10 hover:text-primary hover:bg-primary/20': expandAllCw,
-              })}
-              onClick={() => {
-                setExpandAllCw(!expandAllCw);
-              }}/>}>
-              {expandAllCw ? <EyeIcon /> : <EyeClosedIcon />}
-            
+          <TooltipTrigger
+            render={
+              <Button
+                size="icon-sm"
+                variant="ghost"
+                className={cn({
+                  'text-primary bg-primary/10 hover:text-primary hover:bg-primary/20': expandAllCw,
+                })}
+                onClick={() => {
+                  setExpandAllCw(!expandAllCw);
+                }}
+              />
+            }
+          >
+            {expandAllCw ? <EyeIcon /> : <EyeClosedIcon />}
           </TooltipTrigger>
           <TooltipContent>{t('expandAllCws')}</TooltipContent>
         </Tooltip>

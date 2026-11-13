@@ -311,9 +311,8 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
             <DialogTitle className="sr-only">editing</DialogTitle>
             <MkPostForm
               appendHeader={
-                <DialogClose render={<Button variant="ghost" size="icon"/>}>
-                    <XIcon />
-                  
+                <DialogClose render={<Button variant="ghost" size="icon" />}>
+                  <XIcon />
                 </DialogClose>
               }
               onSuccess={() => {

@@ -45,57 +45,69 @@ export const MkFollowRequest = (props: { user: User; type: 'received' | 'sent' }
       <ItemActions>
         {type === 'received' && (
           <Tooltip>
-            <TooltipTrigger render={<Button
-                variant="outline"
-                size="icon"
-                onClick={() => {
-                  accept(void null, {
-                    onSuccess: () => {
-                      setIsRemoved(true);
-                    },
-                  });
-                }}
-                disabled={isAccepting || isRejecting || isCanceling}/>}>
-                {isAccepting ? <Spinner /> : <CheckIcon />}
-              
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => {
+                    accept(void null, {
+                      onSuccess: () => {
+                        setIsRemoved(true);
+                      },
+                    });
+                  }}
+                  disabled={isAccepting || isRejecting || isCanceling}
+                />
+              }
+            >
+              {isAccepting ? <Spinner /> : <CheckIcon />}
             </TooltipTrigger>
             <TooltipContent>{t('accept')}</TooltipContent>
           </Tooltip>
         )}
         {type === 'received' && (
           <Tooltip>
-            <TooltipTrigger render={<Button
-                variant="outline"
-                size="icon"
-                onClick={() => {
-                  reject(void null, {
-                    onSuccess: () => {
-                      setIsRemoved(true);
-                    },
-                  });
-                }}
-                disabled={isAccepting || isRejecting || isCanceling}/>}>
-                {isRejecting ? <Spinner /> : <XIcon className="text-destructive!" />}
-              
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => {
+                    reject(void null, {
+                      onSuccess: () => {
+                        setIsRemoved(true);
+                      },
+                    });
+                  }}
+                  disabled={isAccepting || isRejecting || isCanceling}
+                />
+              }
+            >
+              {isRejecting ? <Spinner /> : <XIcon className="text-destructive!" />}
             </TooltipTrigger>
             <TooltipContent>{t('reject')}</TooltipContent>
           </Tooltip>
         )}
         {type === 'sent' && (
           <Tooltip>
-            <TooltipTrigger render={<Button
-                variant="outline"
-                size="icon"
-                onClick={() => {
-                  cancel(void null, {
-                    onSuccess: () => {
-                      setIsRemoved(true);
-                    },
-                  });
-                }}
-                disabled={isAccepting || isRejecting || isCanceling}/>}>
-                {isCanceling ? <Spinner /> : <XIcon className="text-destructive!" />}
-              
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => {
+                    cancel(void null, {
+                      onSuccess: () => {
+                        setIsRemoved(true);
+                      },
+                    });
+                  }}
+                  disabled={isAccepting || isRejecting || isCanceling}
+                />
+              }
+            >
+              {isCanceling ? <Spinner /> : <XIcon className="text-destructive!" />}
             </TooltipTrigger>
             <TooltipContent>{t('cancel')}</TooltipContent>
           </Tooltip>

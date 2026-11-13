@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-html[default-font="times-new-roman"] {
+html[default-font='times-new-roman'] {
   --default-font-family: var(--font-serif);
   --font-serif: 'Times New Roman', Times, serif;
 }

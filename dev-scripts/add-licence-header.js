@@ -60,7 +60,7 @@ if (TEST_MODE) {
   if (added.length > 0) {
     console.error(chalk.red(`[Licence-Checker] ${added.length} files lack a SPDX-License-Identifier!`));
     for (const item of added) {
-      console.warn(chalk.yellow(" - " + item));
+      console.warn(chalk.yellow(' - ' + item));
     }
     process.exit(1);
   } else {

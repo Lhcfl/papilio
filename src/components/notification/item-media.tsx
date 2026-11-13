@@ -72,11 +72,7 @@ export const NotificationItemIcon = ({ type, className }: { type: Notification['
 export const ReactionEmoji = (props: { reaction: string; note: NoteWithExtension }) => (
   <span className="text-primary-foreground bg-secondary/40 absolute right-0 bottom-0 flex size-4 items-center justify-center overflow-hidden rounded-sm p-0.5 backdrop-blur-sm">
     {props.reaction.startsWith(':') ? (
-      <MkCustomEmoji
-        name={props.reaction}
-        url={props.note.reactionEmojis[props.reaction]}
-        innerClassName="h-[1em]!"
-      />
+      <MkCustomEmoji name={props.reaction} url={props.note.reactionEmojis[props.reaction]} innerClassName="h-[1em]!" />
     ) : (
       <MkEmoji emoji={props.reaction} innerClassName="h-[1em]!" />
     )}
@@ -91,10 +87,7 @@ export const NotificationItemMedia = (
   // V1 compact layout: a small leading glyph instead of the large tile/avatar block.
   if (notification.type === 'reaction') {
     return (
-      <ItemMedia
-        {...mediaProps}
-        className={cn('mt-0.5 size-5 shrink-0 items-center justify-center', className)}
-      >
+      <ItemMedia {...mediaProps} className={cn('mt-0.5 size-5 shrink-0 items-center justify-center', className)}>
         {notification.reaction.startsWith(':') ? (
           <MkCustomEmoji
             name={notification.reaction}

@@ -74,7 +74,9 @@ export function PageTitle({ title, pageTitle, noPortal }: { title: string; pageT
 
   return (
     <HeaderLeftPortal>
-      <h1 className="text-foreground/85 text-[0.9375rem] font-semibold @max-xl:[[data-center-count]>&]:hidden">{title}</h1>
+      <h1 className="text-foreground/85 text-[0.9375rem] font-semibold @max-xl:[[data-center-count]>&]:hidden">
+        {title}
+      </h1>
     </HeaderLeftPortal>
   );
 }

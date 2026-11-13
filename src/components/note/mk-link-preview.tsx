@@ -78,47 +78,52 @@ export const MkLinkPreview = (props: { url: string; renoteId?: string | null } &
   }
 
   return (
-    <Item variant="outline" className={cn('wrap-anywhere', className)} {...rest} size="sm" render={<a href={url} target="_blank"/>}>
-        {data ? (
-          <>
-            <ItemMedia variant="image">
-              {thumbnail ? <img src={thumbnail} alt="" loading="lazy" decoding="async" /> : <LinkIcon />}
-            </ItemMedia>
-            <ItemContent>
-              <ItemTitle>{title}</ItemTitle>
-              <ItemDescription className="text-wrap">{data.description}</ItemDescription>
-              <div className="text-muted-foreground flex items-center gap-1 text-xs">
-                <Avatar className="size-3">
-                  <AvatarImage src={data.icon ?? undefined} alt="" />
-                </Avatar>
-                {data.sitename}
-              </div>
-            </ItemContent>
-            {!rich && (
-              // why `!rich`? because when rich is false, there must be somthing to expand
-              <ItemActions>
-                <Button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setRich(true);
-                  }}
-                  size="icon"
-                >
-                  <ExpandIcon />
-                </Button>
-              </ItemActions>
-            )}
-          </>
-        ) : (
+    <Item
+      variant="outline"
+      className={cn('wrap-anywhere', className)}
+      {...rest}
+      size="sm"
+      render={<a href={url} target="_blank" />}
+    >
+      {data ? (
+        <>
+          <ItemMedia variant="image">
+            {thumbnail ? <img src={thumbnail} alt="" loading="lazy" decoding="async" /> : <LinkIcon />}
+          </ItemMedia>
           <ItemContent>
             <ItemTitle>{title}</ItemTitle>
-            <ItemDescription>
-              <Spinner />
-            </ItemDescription>
+            <ItemDescription className="text-wrap">{data.description}</ItemDescription>
+            <div className="text-muted-foreground flex items-center gap-1 text-xs">
+              <Avatar className="size-3">
+                <AvatarImage src={data.icon ?? undefined} alt="" />
+              </Avatar>
+              {data.sitename}
+            </div>
           </ItemContent>
-        )}
-      
+          {!rich && (
+            // why `!rich`? because when rich is false, there must be somthing to expand
+            <ItemActions>
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setRich(true);
+                }}
+                size="icon"
+              >
+                <ExpandIcon />
+              </Button>
+            </ItemActions>
+          )}
+        </>
+      ) : (
+        <ItemContent>
+          <ItemTitle>{title}</ItemTitle>
+          <ItemDescription>
+            <Spinner />
+          </ItemDescription>
+        </ItemContent>
+      )}
     </Item>
   );
 };

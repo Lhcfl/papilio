@@ -43,7 +43,9 @@ export const MkAvatar = (
         <MkAvatarMain user={user} {...avatarProps} disableRouteLink={disableRouteLink} />
       ) : (
         <HoverCard>
-          <HoverCardTrigger render={<MkAvatarMain user={user} {...avatarProps} disableRouteLink={disableRouteLink} />} />
+          <HoverCardTrigger
+            render={<MkAvatarMain user={user} {...avatarProps} disableRouteLink={disableRouteLink} />}
+          />
           <HoverCardContent className="h-100 w-80 p-0" render={<ScrollArea />}>
             <MkAvatarHoverCard user={user} />
           </HoverCardContent>

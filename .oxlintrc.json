@@ -1,10 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": [
-    "typescript",
-    "react",
-    "unicorn"
-  ],
+  "plugins": ["typescript", "react", "unicorn"],
   "categories": {
     "correctness": "off"
   },
@@ -14,19 +10,10 @@
   "env": {
     "builtin": true
   },
-  "ignorePatterns": [
-    "dist",
-    "sharkey-js",
-    "locales-source",
-    "src/ui/*.tsx",
-    "dev-scripts/**/*",
-    ".agents/**/*"
-  ],
+  "ignorePatterns": ["dist", "sharkey-js", "locales-source", "src/ui/*.tsx", "dev-scripts/**/*", ".agents/**/*"],
   "overrides": [
     {
-      "files": [
-        "**/*.{ts,tsx}"
-      ],
+      "files": ["**/*.{ts,tsx}"],
       "env": {
         "es2020": true,
         "browser": true
@@ -175,10 +162,7 @@
         "typescript/prefer-reduce-type-parameter": "error",
         "typescript/prefer-return-this-type": "error",
         "typescript/related-getter-setter-pairs": "error",
-        "typescript/return-await": [
-          "error",
-          "error-handling-correctness-only"
-        ],
+        "typescript/return-await": ["error", "error-handling-correctness-only"],
         "typescript/unified-signatures": "error",
         "typescript/use-unknown-in-catch-callback-variable": "error",
         "no-empty-function": "error",
@@ -213,9 +197,7 @@
           "warn",
           {
             "allowConstantExport": true,
-            "allowExportNames": [
-              "Route"
-            ]
+            "allowExportNames": ["Route"]
           }
         ],
         "react/error-boundaries": "error",
@@ -255,9 +237,7 @@
       }
     },
     {
-      "files": [
-        "src/routes/**/*.{ts,tsx}"
-      ],
+      "files": ["src/routes/**/*.{ts,tsx}"],
       "rules": {
         "react/only-export-components": "off"
       }

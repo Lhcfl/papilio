@@ -19,12 +19,7 @@ function RouteComponent() {
     <>
       <PageTitle title={t('clips')} />
       <ClipsList>
-        {(clip, children) => (
-          <Item render={<Link to="/clips/$id" params={{ id: clip.id }}/>}>
-              {children}
-            
-          </Item>
-        )}
+        {(clip, children) => <Item render={<Link to="/clips/$id" params={{ id: clip.id }} />}>{children}</Item>}
       </ClipsList>
     </>
   );

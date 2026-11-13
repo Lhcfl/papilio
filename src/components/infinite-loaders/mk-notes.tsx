@@ -40,9 +40,7 @@ export function MkNotes({
         smartTimeline ? (
           <ThreadedNotes notes={xs} />
         ) : (
-          xs.map((noteId, index) => (
-            <MkNote key={noteId} noteId={noteId} className={deferredClassName(index)} />
-          ))
+          xs.map((noteId, index) => <MkNote key={noteId} noteId={noteId} className={deferredClassName(index)} />)
         )
       }
     </MkInfiniteScrollByData>

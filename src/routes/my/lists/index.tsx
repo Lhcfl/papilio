@@ -36,20 +36,19 @@ function RouteComponent() {
       </HeaderRightPortal>
       <ItemGroup>
         {data.map((item) => (
-          <Item key={item.id} render={<Link to="/my/lists/$id" params={{ id: item.id }}/>}>
-              <ItemContent>
-                <ItemTitle>{item.name}</ItemTitle>
-                <ItemDescription>
-                  <span>
-                    {t('createdAt')}: <MkTime time={item.createdAt} />
-                  </span>
-                  <span className="ml-2">
-                    {item.userIds?.length ?? 0} / {userEachUserListsLimit} {t('users')}
-                  </span>
-                </ItemDescription>
-              </ItemContent>
-              <ItemMedia variant="icon">{item.isPublic ? <GlobeIcon /> : <LockIcon />}</ItemMedia>
-            
+          <Item key={item.id} render={<Link to="/my/lists/$id" params={{ id: item.id }} />}>
+            <ItemContent>
+              <ItemTitle>{item.name}</ItemTitle>
+              <ItemDescription>
+                <span>
+                  {t('createdAt')}: <MkTime time={item.createdAt} />
+                </span>
+                <span className="ml-2">
+                  {item.userIds?.length ?? 0} / {userEachUserListsLimit} {t('users')}
+                </span>
+              </ItemDescription>
+            </ItemContent>
+            <ItemMedia variant="icon">{item.isPublic ? <GlobeIcon /> : <LockIcon />}</ItemMedia>
           </Item>
         ))}
       </ItemGroup>

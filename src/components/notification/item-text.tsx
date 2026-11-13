@@ -86,23 +86,59 @@ export const NotificationTitle = (props: { notification: FrontendGroupedNotifica
 
   switch (notification.type) {
     case 'note':
-      return <Actor user={notification.user}><MkUserName user={notification.user} /></Actor>;
+      return (
+        <Actor user={notification.user}>
+          <MkUserName user={notification.user} />
+        </Actor>
+      );
     case 'mention':
-      return <Actor user={notification.user}><MkUserName user={notification.user} /></Actor>;
+      return (
+        <Actor user={notification.user}>
+          <MkUserName user={notification.user} />
+        </Actor>
+      );
     case 'reply':
-      return <Actor user={notification.user}><MkUserName user={notification.user} /></Actor>;
+      return (
+        <Actor user={notification.user}>
+          <MkUserName user={notification.user} />
+        </Actor>
+      );
     case 'renote':
-      return <Actor user={notification.user}><MkUserName user={notification.user} /></Actor>;
+      return (
+        <Actor user={notification.user}>
+          <MkUserName user={notification.user} />
+        </Actor>
+      );
     case 'quote':
-      return <Actor user={notification.user}><MkUserName user={notification.user} /></Actor>;
+      return (
+        <Actor user={notification.user}>
+          <MkUserName user={notification.user} />
+        </Actor>
+      );
     case 'reaction':
-      return <Actor user={notification.user}><MkUserName user={notification.user} /></Actor>;
+      return (
+        <Actor user={notification.user}>
+          <MkUserName user={notification.user} />
+        </Actor>
+      );
     case 'receiveFollowRequest':
-      return <Actor user={notification.user}><MkUserName user={notification.user} /></Actor>;
+      return (
+        <Actor user={notification.user}>
+          <MkUserName user={notification.user} />
+        </Actor>
+      );
     case 'followRequestAccepted':
-      return <Actor user={notification.user}><MkUserName user={notification.user} /></Actor>;
+      return (
+        <Actor user={notification.user}>
+          <MkUserName user={notification.user} />
+        </Actor>
+      );
     case 'follow':
-      return <Actor user={notification.user}><MkUserName user={notification.user} /></Actor>;
+      return (
+        <Actor user={notification.user}>
+          <MkUserName user={notification.user} />
+        </Actor>
+      );
     case 'pollEnded':
       return t('_notification._types.pollEnded');
     case 'scheduledNotePosted':
@@ -112,7 +148,11 @@ export const NotificationTitle = (props: { notification: FrontendGroupedNotifica
     case 'roleAssigned':
       return t('_notification._types.roleAssigned');
     case 'chatRoomInvitationReceived':
-      return <Actor user={notification.invitation.user}><MkUserName user={notification.invitation.user} /></Actor>;
+      return (
+        <Actor user={notification.invitation.user}>
+          <MkUserName user={notification.invitation.user} />
+        </Actor>
+      );
     case 'achievementEarned':
       return t(`_achievements._types._${notification.achievement}.title`);
     case 'exportCompleted':

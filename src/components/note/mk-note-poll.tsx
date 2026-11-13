@@ -127,25 +127,29 @@ export function MkNotePoll({
             // oxlint-disable-next-line react/no-array-index-key
             key={`${choice.text}-${index}`}
           >
-            <AlertDialogTrigger render={<button
-                type="button"
-                disabled={disabled || choice.isVoted}
-                className="choice relative flex items-center gap-2 overflow-hidden rounded-sm border p-2 text-left text-sm"/>}>
-                {choice.isVoted ? <CircleCheckBigIcon className="size-5" /> : <CircleIcon className="size-5" />}
-                <span className="w-0 flex-[1_1]">{choice.text}</span>
-                {showResult && (
-                  <span className="text-muted-foreground">{t('_poll.votesCount', { n: choice.votes })}</span>
-                )}
-                <div
-                  style={{
-                    transform: calculateTransform(showResult ? choice.votes : 0, multiple ? maxVotes : totalVotes),
-                  }}
-                  className={cn(
-                    'absolute bottom-0 left-0 h-full w-full transition-transform duration-500',
-                    choice.isVoted ? 'bg-primary/10' : 'bg-primary/10',
-                  )}
+            <AlertDialogTrigger
+              render={
+                <button
+                  type="button"
+                  disabled={disabled || choice.isVoted}
+                  className="choice relative flex items-center gap-2 overflow-hidden rounded-sm border p-2 text-left text-sm"
                 />
-              
+              }
+            >
+              {choice.isVoted ? <CircleCheckBigIcon className="size-5" /> : <CircleIcon className="size-5" />}
+              <span className="w-0 flex-[1_1]">{choice.text}</span>
+              {showResult && (
+                <span className="text-muted-foreground">{t('_poll.votesCount', { n: choice.votes })}</span>
+              )}
+              <div
+                style={{
+                  transform: calculateTransform(showResult ? choice.votes : 0, multiple ? maxVotes : totalVotes),
+                }}
+                className={cn(
+                  'absolute bottom-0 left-0 h-full w-full transition-transform duration-500',
+                  choice.isVoted ? 'bg-primary/10' : 'bg-primary/10',
+                )}
+              />
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>

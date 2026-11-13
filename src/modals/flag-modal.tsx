@@ -4,14 +4,7 @@
  */
 
 import { Button } from '@/ui/button';
-import {
-  DialogDescription,
-  DialogTitle,
-  DialogClose,
-  DialogFooter,
-  Dialog,
-  DialogContent,
-} from '@/ui/dialog';
+import { DialogDescription, DialogTitle, DialogClose, DialogFooter, Dialog, DialogContent } from '@/ui/dialog';
 import { Textarea } from '@/ui/textarea';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
@@ -56,18 +49,21 @@ export function FlagModal({
           }}
         />
         <DialogFooter>
-          <DialogClose render={<Button variant="outline"/>}>
-              <XIcon />
-              {t('cancel')}
-            
+          <DialogClose render={<Button variant="outline" />}>
+            <XIcon />
+            {t('cancel')}
           </DialogClose>
-          <DialogClose render={<Button
-              onClick={() => {
-                mutate();
-              }}/>}>
-              <SendIcon />
-              {t('send')}
-            
+          <DialogClose
+            render={
+              <Button
+                onClick={() => {
+                  mutate();
+                }}
+              />
+            }
+          >
+            <SendIcon />
+            {t('send')}
           </DialogClose>
         </DialogFooter>
       </DialogContent>
