@@ -99,30 +99,32 @@ function RouteComponent() {
         <AppPageTab value="/search/note" label={t('notes')} icon={<TextInitialIcon />} />
         <AppPageTab value="/search/user" label={t('users')} icon={<UserRoundIcon />} />
       </AppPageTabList>
-      <InputGroup>
-        <InputGroupInput
-          value={searchText || query}
-          placeholder={t('search')}
-          onInput={(e) => {
-            setSearchText(e.currentTarget.value);
+      <search>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch(searchText || query);
           }}
-          onKeyUp={(e) => {
-            if (e.key == 'Enter') {
-              handleSearch(e.currentTarget.value);
-            }
-          }}
-        />
-        <InputGroupAddon align="inline-end">
-          <InputGroupButton
-            onClick={() => {
-              handleSearch(searchText);
-            }}
-            title={t('search')}
-          >
-            <SearchIcon />
-          </InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
+        >
+          <InputGroup>
+            <InputGroupInput
+              type="search"
+              name="q"
+              aria-label={t('search')}
+              value={searchText || query}
+              placeholder={t('search')}
+              onInput={(e) => {
+                setSearchText(e.currentTarget.value);
+              }}
+            />
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton type="submit" aria-label={t('search')}>
+                <SearchIcon />
+              </InputGroupButton>
+            </InputGroupAddon>
+          </InputGroup>
+        </form>
+      </search>
       <Outlet />
     </div>
   );
