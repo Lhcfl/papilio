@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { MkNotifications } from '@/components/infinite-loaders/mk-notifications';
+import { OldMkNotifications } from '@/components/infinite-loaders/old-mk-notifications';
 import { misskeyApi } from '@/lib/inject-misskey-api';
 import { useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
@@ -23,5 +23,6 @@ function RouteComponent() {
     markAllAsRead();
   }, [markAllAsRead]);
 
-  return <MkNotifications />;
+  // oxlint-disable-next-line typescript/no-deprecated -- this route is still on the legacy notifications component and gets migrated with the window rework.
+  return <OldMkNotifications />;
 }
