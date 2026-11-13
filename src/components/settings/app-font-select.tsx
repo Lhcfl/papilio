@@ -15,6 +15,7 @@ export default function AppFontSelect() {
       onValueChange={(value) => {
         if (value != null) setFontPreference(value);
       }}
+      items={AVAILABLE_FONTS.map((x) => ({ ...x, label: x.name }))}
       value={font}
     >
       <SelectTrigger className="w-40 @md:w-52">

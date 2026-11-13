@@ -86,6 +86,18 @@ export function MkPostFormPoll({
     setPoll({ ...poll, choices: newChoices });
   }
 
+  const expiresOptions = [
+    { value: 'infinite', label: t('_poll.infinite') },
+    { value: 'expiresAt', label: t('_poll.at') },
+    { value: 'expiredAfter', label: t('_poll.after') },
+  ];
+  const durationUnitOptions = [
+    { value: 'second', label: t('_time.second') },
+    { value: 'minute', label: t('_time.minute') },
+    { value: 'hour', label: t('_time.hour') },
+    { value: 'day', label: t('_time.day') },
+  ];
+
   return (
     <div {...props}>
       <div>
@@ -151,14 +163,17 @@ export function MkPostFormPoll({
             onValueChange={(v) => {
               if (v != null) setExpiresOpt(v);
             }}
+            items={expiresOptions}
           >
             <SelectTrigger className="w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="infinite">{t('_poll.infinite')}</SelectItem>
-              <SelectItem value="expiresAt">{t('_poll.at')}</SelectItem>
-              <SelectItem value="expiredAfter">{t('_poll.after')}</SelectItem>
+              {expiresOptions.map((o) => (
+                <SelectItem key={o.value} value={o.value}>
+                  {o.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </Label>
@@ -206,15 +221,17 @@ export function MkPostFormPoll({
                 onValueChange={(v) => {
                   if (v != null) setExpiredAfterOpt(v);
                 }}
+                items={durationUnitOptions}
               >
                 <SelectTrigger size="sm" className="border-none pr-1 shadow-none">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="second">{t('_time.second')}</SelectItem>
-                  <SelectItem value="minute">{t('_time.minute')}</SelectItem>
-                  <SelectItem value="hour">{t('_time.hour')}</SelectItem>
-                  <SelectItem value="day">{t('_time.day')}</SelectItem>
+                  {durationUnitOptions.map((o) => (
+                    <SelectItem key={o.value} value={o.value}>
+                      {o.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </InputGroupAddon>
