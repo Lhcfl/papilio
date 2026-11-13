@@ -89,6 +89,10 @@ function RouteComponent() {
               <InputGroupInput
                 id="domain"
                 type="text"
+                inputMode="url"
+                autoComplete="url"
+                spellCheck={false}
+                autoCapitalize="off"
                 placeholder="example.com"
                 required
                 onChange={(e) => {
@@ -103,6 +107,8 @@ function RouteComponent() {
               <InputGroupInput
                 id="custom-name"
                 type="text"
+                autoComplete="off"
+                spellCheck={false}
                 placeholder="Custom Name"
                 required
                 value={customName}
