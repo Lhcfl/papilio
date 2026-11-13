@@ -528,7 +528,7 @@ function MkPostFormLoaded(
                       draft.update({ visibleUsers: draft.visibleUsers.filter((x) => x.id != u.id) });
                     }}
                   >
-                    <XIcon className="ml-1 size-4" />
+                    <XIcon className="ml-[0.3em] size-[1.15em]" />
                   </MkMention>
                 ))}
               </div>
