@@ -43,24 +43,26 @@ export const AppSidebarMain = () => {
   return (
     <SidebarGroup>
       <SidebarGroupContent>
-        <SidebarMenu className="gap-0.5!">
-          {data.map((item) => (
-            <SidebarMenuItem key={item.to}>
-              <AppSidebarMenuButtonLink
-                linkOptions={{ to: item.to }}
-                icon={<item.icon />}
-                title={item.title}
-                count={item.count}
-                ding={item.ding}
-              />
+        <nav aria-label={t('menu')}>
+          <SidebarMenu className="gap-0.5!">
+            {data.map((item) => (
+              <SidebarMenuItem key={item.to}>
+                <AppSidebarMenuButtonLink
+                  linkOptions={{ to: item.to }}
+                  icon={<item.icon />}
+                  title={item.title}
+                  count={item.count}
+                  ding={item.ding}
+                />
+              </SidebarMenuItem>
+            ))}
+            <SidebarMenuItem>
+              <MenuOrDrawer menu={otherMenu}>
+                <AppSidebarMenuButton icon={<MoreHorizontalIcon />} title={t('other')} />
+              </MenuOrDrawer>
             </SidebarMenuItem>
-          ))}
-          <SidebarMenuItem>
-            <MenuOrDrawer menu={otherMenu}>
-              <AppSidebarMenuButton icon={<MoreHorizontalIcon />} title={t('other')} />
-            </MenuOrDrawer>
-          </SidebarMenuItem>
-        </SidebarMenu>
+          </SidebarMenu>
+        </nav>
       </SidebarGroupContent>
     </SidebarGroup>
   );
