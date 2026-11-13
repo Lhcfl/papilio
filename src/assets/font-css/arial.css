@@ -4,5 +4,6 @@
  */
 
 html[default-font='arial'] {
+  --default-font-family: var(--font-sans);
   --font-sans: Arial, sans-serif;
 }

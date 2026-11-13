@@ -13,5 +13,6 @@
 }
 
 html[default-font='ysbzt'] {
+  --default-font-family: var(--font-sans);
   --font-sans: '峄山碑篆体', 'chongxi-seal', sans-serif;
 }

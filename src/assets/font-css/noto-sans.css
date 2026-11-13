@@ -6,6 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+SC:wght@100..900&family=Noto+Sans+TC:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 html[default-font='noto-sans'] {
+  --default-font-family: var(--font-sans);
   --font-sans: 'Noto Sans', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', Roboto, Arial, sans-serif;
   &[lang='ja'],
   [lang='ja'] {

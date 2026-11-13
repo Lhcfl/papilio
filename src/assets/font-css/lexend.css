@@ -11,5 +11,6 @@
 }
 
 html[default-font='lexend'] {
+  --default-font-family: var(--font-sans);
   --font-sans: 'Lexend', Roboto, Arial, sans-serif;
 }

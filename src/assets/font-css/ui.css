@@ -4,5 +4,6 @@
  */
 
 html[default-font='ui'] {
+  --default-font-family: var(--font-sans);
   --font-sans: ui-sans-serif, sans-serif;
 }

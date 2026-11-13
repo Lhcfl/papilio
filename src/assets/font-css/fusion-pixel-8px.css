@@ -16,5 +16,6 @@
 }
 
 html[default-font='fusion-pixel-8px'] {
+  --default-font-family: var(--font-sans);
   --font-sans: 'Fusion Pixel 8px', monospace;
 }

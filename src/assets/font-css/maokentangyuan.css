@@ -20,6 +20,7 @@
 }
 
 html[default-font='maokentangyuan'] {
+  --default-font-family: var(--font-sans);
   --font-sans: 'MaoKenTangYuan', 'jf-openhuninn', Roboto, Arial, sans-serif;
   &[lang='zh-WY'],
   &[lang='zh-TW'] {

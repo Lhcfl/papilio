@@ -200,7 +200,10 @@ html:has(body.dark) {
   body {
     @apply bg-sidebar text-foreground;
   }
+  /* `@theme inline` bakes a utility's value, so `@apply font-sans` was frozen to
+     the literal Inter stack and no font setting could take effect. Font files
+     declare --default-font-family themselves, whatever family they use. */
   html {
-    @apply font-sans;
+    font-family: var(--default-font-family, var(--font-sans));
   }
 }
