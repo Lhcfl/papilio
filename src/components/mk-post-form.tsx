@@ -551,6 +551,7 @@ function MkPostFormLoaded(
           )}
           <InputGroupTextarea
             name="text"
+            aria-label={t('note')}
             ref={textareaRef}
             className={cn('@max-sm:text-sm', {
               'pb-7': usedTextLengthLimitPercent >= 70,
