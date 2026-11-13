@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 120,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "sortTailwindcss": false,
+  "ignorePatterns": [
+    ".agents/**",
+    "pnpm-lock.yaml",
+    "dist/**",
+    "sharkey-js/**",
+    "locales-source/**",
+    "src/ui/**",
+    "src/routeTree.gen.ts",
+    "src/assets/langs.json",
+    "src/assets/emojilist.json"
+  ]
+}

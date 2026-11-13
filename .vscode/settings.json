@@ -2,30 +2,25 @@
 // if you want to override these settings, you may use `EditorConfig.EditorConfig` extension.
 // or you can create an profile in your vscode.
 {
-	"i18n-ally.localesPaths": [
-		"locales-source/**"
-	],
-	"editor.codeActionsOnSave": {
-		"source.fixAll.oxc": "explicit",
-	},
-	"oxc.enable": true,
-	"oxc.lint.run": "onType",
-	"files.eol": "\n",
-	"typescript.preferences.importModuleSpecifier": "non-relative",
-	"javascript.preferences.importModuleSpecifier": "non-relative",
-	"javascript.preferences.autoImportSpecifierExcludeRegexes": [
-		"@radix-ui"
-	],
-	"typescript.preferences.autoImportSpecifierExcludeRegexes": [
-		"@radix-ui"
-	],
-	"explorer.fileNesting.enabled": true,
-	"explorer.fileNesting.patterns": {
-		"tsconfig.json": "tsconfig.*.json",
-		"package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb, bun.lock, components.json",
-		"vite.config.ts": "*.config.js, REUSE.toml, vercel.json",
-		".gitignore": ".git*",
-		"README.md": "CODE_OF_CONDUCT.md, CONTRIBUTING.md, LICENCE, COPYING"
-	},
-	"i18n-ally.keystyle": "nested"
+  "i18n-ally.localesPaths": ["locales-source/**"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "explicit"
+  },
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "oxc.enable": true,
+  "oxc.lint.run": "onType",
+  "files.eol": "\n",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.autoImportSpecifierExcludeRegexes": ["@radix-ui"],
+  "typescript.preferences.autoImportSpecifierExcludeRegexes": ["@radix-ui"],
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb, bun.lock, components.json",
+    "vite.config.ts": "*.config.js, REUSE.toml, vercel.json",
+    ".gitignore": ".git*",
+    "README.md": "CODE_OF_CONDUCT.md, CONTRIBUTING.md, LICENCE, COPYING"
+  },
+  "i18n-ally.keystyle": "nested"
 }

@@ -26,12 +26,12 @@ TBD
 
 ### Linting and Formatting
 
-Papilio uses Oxlint and Prettier for code linting and formatting. You can run the following commands to check and fix code style issues:
+Papilio uses Oxlint and Oxfmt for code linting and formatting. You can run the following commands to check and fix code style issues:
 
 ```sh
 pnpm lint # check linting issues
 pnpm lint:fix # fix auto-fixable issues
-pnpm exec prettier --write . # format files
+pnpm format # format files
 ```
 
 Please ensure that your code passes linting and formatting checks before submitting a pull request.
@@ -57,4 +57,3 @@ Please make sure to pass strict type checks when contributing code to Papilio. T
 ### TanStack
 
 Papilio uses TanStack libraries such as [React Query](https://tanstack.com/query/latest) and [React Router](https://tanstack.com/router/latest) for data fetching and routing. Familiarity with these libraries will be beneficial when contributing to the project.
-

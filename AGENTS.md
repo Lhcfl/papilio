@@ -21,9 +21,9 @@ Papilio 是一个使用 React 编写的 [Misskey](https://misskey.io/) 第三方
 | 数据请求 / 缓存 | TanStack Query + `query-async-storage-persister` + IndexedDB                   |
 | 类型检查        | `tsrs`（Rust 版 TypeScript 7 编译器，替代 `tsc` / `tsgo`）                     |
 | Lint            | Oxlint + `oxlint-tsgolint`（类型感知规则）                                     |
-| 格式化          | Prettier + `prettier-plugin-tailwindcss`                                       |
+| 格式化          | Oxfmt，配置在 `.oxfmtrc.json`                                                  |
 | 样式            | Tailwind CSS v4、CSS Variables、shadcn/ui                                      |
-| 组件基础        | Base UI（`@base-ui/react`）、shadcn/ui、lucide-react、vaul、sonner            |
+| 组件基础        | Base UI（`@base-ui/react`）、shadcn/ui、lucide-react、vaul、sonner             |
 | 状态            | Zustand、Jotai、React Context                                                  |
 | Misskey API     | `misskey-js` + vendored `sharkey-js` 类型                                      |
 | i18n            | i18next + react-i18next + HTTP Backend                                         |
@@ -45,8 +45,8 @@ pnpm licence:check    # 检查 SPDX 许可证头
 pnpm licence:annotate # 自动补充 SPDX 许可证头
 pnpm test:pre-commit  # pre-commit 钩子实际执行的命令
 pnpm test:pre-push    # 并行执行 licence check、typecheck、lint
-pnpm exec prettier --check .
-pnpm exec prettier --write .
+pnpm format           # oxfmt，格式化整个仓库
+pnpm format:check     # 检查格式（不改文件）
 ```
 
 注意：
@@ -236,7 +236,7 @@ locales-source/sukerbuka-locales/
 - 使用 `cn()`（来自 `@/lib/utils`）合并 className。
 - 组件包装的是哪个 HTML 元素，就应透传那个元素的 props（例如 `React.ComponentProps<'div'> & WindowParams`），让调用方可以正常使用 `className`、`style`、`id`、`aria-*`、`data-*` 等。
 - 不要为组件的**内部子元素**发明 `headerClassName` / `titleClassName` 这类穿透式 prop 去改内部样式；内部样式由组件自己负责，或用有语义的变体。变体只在出现第二个真实用例时才抽。
-- 使用 `prettier-plugin-tailwindcss` 自动排序 Tailwind class，不要手动维护顺序。
+- Tailwind class 顺序目前仍靠手写维护：Oxfmt 的 `sortTailwindcss` 在配置里显式设为 `false`（开启它会一次性重排约 280 个文件）。要切换时把它改成 `{ "stylesheet": "./src/tailwind.css" }`，跑一次 `pnpm format`，然后删掉这条说明。
 - shadcn/ui 配置在 `components.json`：
   - style: `base-vega`（Base UI 版本）
   - base color: `olive`
@@ -274,16 +274,16 @@ locales-source/sukerbuka-locales/
 | `src/assets/langs.json` | locale 插件生成                                                                       |
 | `dist/**`               | 构建产物，已 gitignore                                                                |
 | `sharkey-js/**`         | 从 Sharkey 下载的 vendored 类型/API，通过 `bun dev-scripts/update-sharkey-js.ts` 更新 |
-| `src/ui/**`             | shadcn/ui 生成组件（Base UI），MIT，lint 忽略                                          |
+| `src/ui/**`             | shadcn/ui 生成组件（Base UI），MIT，lint 忽略                                         |
 | `locales-source/**`     | 上游语言快照，通过 `pnpm update-locales` 更新                                         |
 
 ## 12. 代码规范
 
 ### 格式化
 
-- 使用 Prettier。
-- 使用 `prettier-plugin-tailwindcss`。
-- 提交前运行 `pnpm exec prettier --check .`。
+- 使用 Oxfmt，配置在 `.oxfmtrc.json`（`printWidth` 120、单引号、`sortTailwindcss` 关闭、`sortImports` 关闭）。
+- Oxfmt 内置的 import 排序（`sortImports`）保持关闭，导入顺序仍按本文约定手写。
+- 提交前运行 `pnpm format:check`。
 
 ### Lint
 
@@ -405,7 +405,7 @@ feat(settings): add font selector
 
 `.github/workflows/ci.yml` 包含三个 job：
 
-1. **Lint**：`pnpm install --frozen-lockfile` → `pnpm lint`
+1. **Lint**：`pnpm install --frozen-lockfile` → `pnpm lint` → `pnpm format:check`
 2. **Build**：`pnpm install --frozen-lockfile` → `pnpm typecheck` → `pnpm build`
 3. **REUSE Lint**：`pipx run reuse lint`
 
