@@ -108,6 +108,7 @@ const MkAvatarMain = (
             key={index}
             className="z-index-1 pointer-events-none absolute -top-1/2 -left-1/2 w-2/1 max-w-2/1"
             src={decoration.url}
+            alt=""
             decoding="async"
             loading="lazy"
             style={getDecorationStyle(decoration)}

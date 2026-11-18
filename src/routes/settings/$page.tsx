@@ -111,7 +111,7 @@ function RouteComponent() {
                       {highlighted && (
                         <div className="bg-primary absolute top-1/2 -left-2 h-2 w-2 -translate-y-1/2 animate-ping rounded-full" />
                       )}
-                      <a id={category.name + '::' + itemIdValue} />
+                      <span id={category.name + '::' + itemIdValue} />
                       <SettingItemPolymorph item={item} highlighted={highlighted} />
                     </div>
                   );

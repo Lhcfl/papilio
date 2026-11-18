@@ -7,7 +7,7 @@ import { getHeaderCenterId, getHeaderLeftId, getHeaderRightId, WindowContext } f
 import { use, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-/* oxlint-disable react/set-state-in-effect */
+/* oxlint-disable react/set-state-in-effect, react/no-deriving-state-in-effects -- the portal target is a DOM node that only exists after mount */
 
 export function HeaderRightPortal(props: { children: React.ReactNode }) {
   const [container, setContainer] = useState<HTMLElement | null>(null);

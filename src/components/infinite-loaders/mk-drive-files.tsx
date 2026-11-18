@@ -57,6 +57,7 @@ export function MkDriveFiles(props: {
                   name={file.id}
                   checked={selected.has(file.id)}
                   disabled={selected.size == selectLimit && !selected.has(file.id)}
+                  aria-label={file.name}
                   onChange={(e) => {
                     if (e.currentTarget.checked) {
                       if (selectLimit === 1) {

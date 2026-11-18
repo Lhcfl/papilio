@@ -23,6 +23,7 @@ export const MkNoteReplyLine = (props: { noteId: string; onExpand: () => void })
   if (note == null) return null;
 
   return (
+    // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- wraps note content with its own links; a role="button" wrapper would nest interactive elements. Keyboard users expand via the reply line's own focusable content.
     <div
       className="mk-note-reply-line relative flex cursor-pointer items-center gap-4 px-2 pt-2"
       onClick={withNoSelection(withStopPrevent(onExpand))}

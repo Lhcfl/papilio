@@ -499,6 +499,7 @@ export const MkMfm = (in_props: MfmProps) => {
                 style = { fontStyle: 'italic' };
                 break;
               }
+              // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- MFM clickable token dispatches an author-defined event with no keyboard equivalent
               <span
                 key={Math.random()}
                 onClick={(ev) => {

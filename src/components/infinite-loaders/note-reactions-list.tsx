@@ -20,6 +20,7 @@ export function NoteReactionsList({ noteId }: { noteId: string }) {
       >
         {(x) => (
           <>
+            {/* oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- ItemGroup renders a div[role=list], a nested <li> would be invalid */}
             <Item role="listitem">
               <ItemMedia>
                 <MkAvatar user={x.user} avatarProps={{ className: 'size-10' }} />

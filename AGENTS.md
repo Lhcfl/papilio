@@ -288,10 +288,12 @@ locales-source/sukerbuka-locales/
 
 ### Lint
 
-- 使用 Oxlint，配置在 `oxlint.config.ts`。只启用官方 recommended 基线：`correctness: error` + `typescript` / `react` / `unicorn` 插件，不再逐条列举规则。
+- 使用 Oxlint，配置在 `oxlint.config.ts`。以官方 recommended 为基线：`correctness: error` + `typescript` / `react` / `unicorn` 插件，额外开启 `perf` 分类与 `jsx-a11y` / `promise` 插件；不再逐条列举规则。
 - 类型感知规则已开启，依赖 `oxlint-tsgolint`；新增规则前先确认 recommended 是否已覆盖，避免回退到长规则清单。
-- 仍需避免使用 `any`（recommended 默认不检查 `typescript/no-explicit-any`，所以靠 review 而非 lint 把关）。
-- 路由文件中的 `react/only-export-components` 已关闭，避免 TanStack Router 的 `Route` 导出误报。
+- 显式补了三条 recommended 不含的规则：`typescript/no-explicit-any: error`、`typescript/ban-ts-comment`（要求描述）、`react/exhaustive-deps: warn`。
+- `jsx-a11y/control-has-associated-label` 关闭：Base UI 的 `render={<button />}` 把 label 传给包装组件，规则看不穿这层。
+- 不启用 `react/only-export-components`：每个路由文件都必须导出 `Route`，规则会在 69 个路由文件上全部误报，而非路由文件零命中。
+- 不要启用 `react-perf` 插件：它要求手写 memo，与 React Compiler 的定位冲突，且会在现有代码上产生数百条报告。
 
 ### TypeScript
 

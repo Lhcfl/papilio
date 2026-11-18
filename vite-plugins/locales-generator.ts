@@ -12,7 +12,7 @@ import path from 'node:path';
 const PROJECT_ROOT = new URL('..', import.meta.url);
 
 function merge(...args: Record<string, unknown>[]): Record<string, unknown> {
-  const keys = Array.from(new Set(args.map((x) => Object.keys(x)).flat()));
+  const keys = Array.from(new Set(args.flatMap((x) => Object.keys(x))));
 
   return Object.fromEntries(
     keys.map((key) => [

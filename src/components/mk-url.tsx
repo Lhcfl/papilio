@@ -43,4 +43,5 @@ export const MkUrl = (
   );
 };
 
+// oxlint-disable-next-line jsx-a11y/anchor-has-content -- label and children arrive through `props`
 const UrlA = (props: HTMLProps<HTMLAnchorElement>) => <a rel="noopener noreferrer" target="_blank" {...props} />;

@@ -18,6 +18,7 @@ export const MkVideo = (props: { video: DriveFile } & HTMLProps<HTMLDivElement>)
       )}
       {...rest}
     >
+      {/* oxlint-disable-next-line jsx-a11y/media-has-caption -- remote uploads have no caption track */}
       <video
         src={video.url}
         controls

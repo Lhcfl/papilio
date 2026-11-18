@@ -68,6 +68,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
   return (
     <div className={cn('mk-note-body overflow-hidden', className)} {...rest}>
       {note.text && (
+        // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- wraps MFM content with its own links; keyboard users open the note through those links or the note menu
         <div className="note-body-text" onClick={onContentClick}>
           {showReplyAsIcon && note.replyId && (
             <Link className="text-primary mr-1 hover:underline" to="/notes/$id" params={{ id: note.replyId }}>

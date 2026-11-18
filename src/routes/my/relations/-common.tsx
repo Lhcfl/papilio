@@ -67,6 +67,7 @@ export function CommonRouteComponent<T extends UserRelation>({
     setHasStarted(true);
     for (const userId of selected) {
       try {
+        // oxlint-disable-next-line eslint/no-await-in-loop -- one request per user keeps rate limits and per-user progress intact
         await bulkableAction(userId);
       } catch (e) {
         toast.error(errorMessageSafe(e));
