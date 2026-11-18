@@ -58,7 +58,9 @@ function RouteComponent() {
     queryKey: ['note-conversation', noteId],
     queryFn: () =>
       isReply
-        ? misskeyApi('notes/conversation', { noteId: noteId }).then((ns) => registerNote(ns).reverse())
+        ? // registerNote 返回的是 map 出来的新数组，就地反转不影响缓存。toReversed 是 ES2023，项目 lib 为 ES2022。
+          // oxlint-disable-next-line unicorn/no-array-reverse
+          misskeyApi('notes/conversation', { noteId: noteId }).then((ns) => registerNote(ns).reverse())
         : Promise.resolve(null),
     // Conversation (parent replies chain) will never change, so we can cache it indefinitely
     staleTime: Number.POSITIVE_INFINITY,

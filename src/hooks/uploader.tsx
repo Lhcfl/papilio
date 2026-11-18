@@ -87,11 +87,11 @@ export function useUploader() {
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', getRelativeUrl('/api/drive/files/create'), true);
-    xhr.upload.onprogress = (ev) => {
+    xhr.upload.addEventListener('progress', (ev) => {
       if (ev.lengthComputable) {
         setProgress(id, ev.loaded, ev.total);
       }
-    };
+    });
 
     const promise = new Promise<DriveFile>((resolve, reject) => {
       xhr.addEventListener('load', function (_ev) {

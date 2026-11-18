@@ -34,20 +34,20 @@ export const emojilist: UnicodeEmojiDef[] = _emojilist.map((x) => ({
 
 const unicodeEmojisMap = new Map<string, UnicodeEmojiDef>(emojilist.map((x) => [x.char, x]));
 
-const _indexByChar = new Map<string, number>();
-const _charGroupByCategory = new Map<string, string[]>();
+const indexByChar = new Map<string, number>();
+const charGroupByCategory = new Map<string, string[]>();
 for (let i = 0; i < emojilist.length; i++) {
   const emo = emojilist[i];
-  _indexByChar.set(emo.char, i);
+  indexByChar.set(emo.char, i);
 
-  if (_charGroupByCategory.has(emo.category)) {
-    _charGroupByCategory.get(emo.category)?.push(emo.char);
+  if (charGroupByCategory.has(emo.category)) {
+    charGroupByCategory.get(emo.category)?.push(emo.char);
   } else {
-    _charGroupByCategory.set(emo.category, [emo.char]);
+    charGroupByCategory.set(emo.category, [emo.char]);
   }
 }
 
-export const emojiCharByCategory = _charGroupByCategory;
+export const emojiCharByCategory = charGroupByCategory;
 
 export function getUnicodeEmoji(char: string): UnicodeEmojiDef | string {
   // Colorize it because emojilist.json assumes that
@@ -66,7 +66,7 @@ export function isSupportedEmoji(char: string): boolean {
 
 export function getEmojiName(char: string): string {
   // Colorize it because emojilist.json assumes that
-  const idx = _indexByChar.get(colorizeEmoji(char)) ?? _indexByChar.get(char);
+  const idx = indexByChar.get(colorizeEmoji(char)) ?? indexByChar.get(char);
   if (idx === undefined) {
     // 絵文字情報がjsonに無い場合は名前の取得が出来ないのでそのまま返すしか無い
     return char;

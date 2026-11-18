@@ -26,6 +26,7 @@ export const Route = createRootRoute({
         return redirect({ to: '/login' });
       }
     }
+    return undefined;
   },
   component: RootRouteComponent,
 });

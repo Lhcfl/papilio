@@ -39,7 +39,7 @@ export const MkNoteReplies = (
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (kind !== 'replies') return;
+    if (kind !== 'replies') return undefined;
 
     const stream = injectMisskeyStream();
 

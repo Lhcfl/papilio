@@ -79,6 +79,8 @@ export const MkTimeline = ({ type }: { type: TimelineTypes }) => {
             return misskeyApi('notes/local-timeline', params);
           case 'hybrid':
             return misskeyApi('notes/hybrid-timeline', params);
+          default:
+            throw new Error(`Unknown timeline type: ${String(type)}`);
         }
       })();
       return registerNote(notes);

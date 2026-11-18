@@ -16,9 +16,7 @@ export function cn(...inputs: ClassValue[]) {
 export function copyToClipboard(text: string) {
   return navigator.clipboard
     .writeText(text)
-    .then(() => {
-      toast.success(i18n.t('copiedToClipboard'));
-    })
+    .then(() => void toast.success(i18n.t('copiedToClipboard')))
     .catch((e: unknown) => {
       toast.error(`Failed to copy: ${errorMessageSafe(e)}`);
     });
@@ -62,7 +60,7 @@ export function withNoSelection<F extends (...args: never[]) => unknown>(
 ): (...args: Parameters<F>) => ReturnType<F> | undefined {
   return (...args: Parameters<F>) => {
     if (window.getSelection()?.toString()) {
-      return;
+      return undefined;
     }
     return fn(...args) as ReturnType<F>;
   };
@@ -88,13 +86,13 @@ export function onlyWhenNonInteractableContentClicked<
       if (import.meta.env.DEV) {
         console.log('stopped click event because', { interactable });
       }
-      return;
+      return undefined;
     }
     if (window.getSelection()?.toString()) {
       if (import.meta.env.DEV) {
         console.log('stopped click event because', { selection: window.getSelection()?.toString() });
       }
-      return;
+      return undefined;
     }
     ev.stopPropagation();
     ev.preventDefault();
@@ -114,8 +112,9 @@ export function withDefer<Args extends unknown[], R>(
     });
 }
 
+const pad = (n: number) => n.toString().padStart(2, '0');
+
 export function toDatetimeLocalValue(date: Date) {
-  const pad = (n: number) => n.toString().padStart(2, '0');
   return (
     date.getFullYear().toString().padStart(4, '0') +
     '-' +

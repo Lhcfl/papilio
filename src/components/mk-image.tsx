@@ -48,7 +48,7 @@ export const MkImage = ({
   const displayOfSensitiveMedia = usePreference((s) => s.displayOfSensitiveMedia);
 
   const [hidden, setHidden] = useState<null | boolean>(
-    displayOfSensitiveMedia === 'respect' ? null : displayOfSensitiveMedia === 'force' ? true : false,
+    displayOfSensitiveMedia === 'respect' ? null : displayOfSensitiveMedia === 'force',
   );
   const [loading, setLoading] = useState(true);
 
@@ -71,12 +71,8 @@ export const MkImage = ({
     img.src = url;
     img.decoding = 'async';
     img.loading = 'lazy';
-    img.onload = () => {
-      setLoading(false);
-    };
-    img.onerror = () => {
-      setLoading(false);
-    };
+    img.addEventListener('load', () => setLoading(false));
+    img.addEventListener('error', () => setLoading(false));
   }, [image.properties.height, image.properties.width, url]);
 
   const showBlurHash = loading || (imageHidden && !disableSensitiveOverlay);

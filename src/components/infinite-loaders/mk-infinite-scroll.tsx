@@ -58,7 +58,11 @@ export function MkInfiniteScroll<P, FlatDepth extends number = 1>(
     getNextPageParam,
   });
 
-  return MkInfiniteScrollByData<P, FlatDepth>({ ...rest, infiniteQueryResult: result, children });
+  return (
+    <MkInfiniteScrollByData<P, FlatDepth> {...rest} infiniteQueryResult={result}>
+      {children}
+    </MkInfiniteScrollByData>
+  );
 }
 
 export function MkInfiniteScrollByData<TData, FlatDepth extends number = 1>(

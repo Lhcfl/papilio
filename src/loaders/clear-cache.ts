@@ -12,9 +12,7 @@ import { metaQueryOpts } from '@/loaders/meta-loader';
 export function clearCache(queryClient: QueryClient) {
   return Promise.all([
     // MisskeyApi can force refetch even if cache exists
-    misskeyApi('emojis', {}).then((emojis) => {
-      queryClient.setQueryData(emojisopt.queryKey, emojis);
-    }),
+    misskeyApi('emojis', {}).then((emojis) => void queryClient.setQueryData(emojisopt.queryKey, emojis)),
     queryClient.refetchQueries(meopt),
     queryClient.refetchQueries(metaQueryOpts),
     queryClient.refetchQueries({

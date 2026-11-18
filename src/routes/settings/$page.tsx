@@ -31,7 +31,7 @@ function RouteComponent() {
 
   // 从搜索跳转过来时，把高亮的设置项滚到视野中间
   useEffect(() => {
-    if (!catName || !itemId) return;
+    if (!catName || !itemId) return undefined;
     const frame = requestAnimationFrame(() => {
       document
         .querySelector(`[data-setting-id="${CSS.escape(`${catName}::${itemId}`)}"]`)

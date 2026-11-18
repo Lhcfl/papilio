@@ -17,6 +17,7 @@ export const Route = createFileRoute('/my/follow-requests')({
         to: '/my/follow-requests/received',
       });
     }
+    return undefined;
   },
   component: RouteComponent,
 });

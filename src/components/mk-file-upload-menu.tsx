@@ -36,11 +36,11 @@ export const MkFileUploadMenu = (props: {
     const input = document.createElement('input');
     input.type = 'file';
     input.multiple = limit > 1;
-    input.onchange = () => {
+    input.addEventListener('change', () => {
       if (!input.files) return;
       const files = Array.from(input.files);
       onUpload(files.map((file) => uploadFile(file, opts)));
-    };
+    });
     input.click();
   }
 

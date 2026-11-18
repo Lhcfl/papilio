@@ -201,7 +201,7 @@ export function useNoteUpdateListener() {
 
         default: {
           console.log('[NoteUpdateListener] ❌ unhandled noteUpdated event', { type, id, body });
-          return {};
+          return;
         }
       }
     }
@@ -246,9 +246,7 @@ export const markAsChanged = (noteId: string) => {
     if (import.meta.env.DEV) {
       console.log(`[NoteUpdate]: ♻️ re-fetching note ${noteId} due to timeout`);
     }
-    void misskeyApi('notes/show', { noteId }).then((note) => {
-      registerNote([note]);
-    });
+    void misskeyApi('notes/show', { noteId }).then((note) => void registerNote([note]));
   }, 2000);
 
   document.addEventListener(

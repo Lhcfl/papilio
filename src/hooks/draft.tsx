@@ -138,6 +138,7 @@ export const useDraft = (draftKey: string, defaults?: Partial<DraftData>) => {
         } else {
           setDraft(defaultsWithFallback);
         }
+        return undefined;
       })
       .catch((e: unknown) => {
         console.error(e);

@@ -108,7 +108,7 @@ export function MkNotePoll({
 
   useEffect(() => {
     if (interval < 0) {
-      return;
+      return undefined;
     }
     const id = setInterval(() => {
       setNow(new Date());

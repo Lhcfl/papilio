@@ -91,20 +91,20 @@ export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
     return null;
   }
 
+  reactions.sort(([, a], [, b]) => b - a);
+
   return (
     <div className="mk-note-reactions flex flex-wrap gap-1 px-2 pb-2">
-      {reactions
-        .sort(([, a], [, b]) => b - a)
-        .map(([reaction, count]) => (
-          <NoteReaction
-            key={reaction}
-            reaction={reaction}
-            count={count}
-            url={note.reactionEmojis[reaction]}
-            meReacted={myReaction === reaction}
-            noteId={note.id}
-          />
-        ))}
+      {reactions.map(([reaction, count]) => (
+        <NoteReaction
+          key={reaction}
+          reaction={reaction}
+          count={count}
+          url={note.reactionEmojis[reaction]}
+          meReacted={myReaction === reaction}
+          noteId={note.id}
+        />
+      ))}
     </div>
   );
 };

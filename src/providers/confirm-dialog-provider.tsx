@@ -58,9 +58,7 @@ export const ConfirmDialogProvider = () => {
             onClick={() => {
               setConfirming(true);
               void Promise.resolve(dialog.onConfirm())
-                .then(() => {
-                  closeDialog();
-                })
+                .then(() => closeDialog())
                 .finally(() => {
                   setConfirming(false);
                 });

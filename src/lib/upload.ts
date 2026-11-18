@@ -38,7 +38,7 @@ export async function getCompressionConfig(
 ): Promise<Partial<BrowserImageResizerConfigWithConvertedOutput> | undefined> {
   const imgConfig = (isWebpSupported() ? compressTypeMap : compressTypeMapFallback)[file.type];
   if (!imgConfig || (await isAnimated(file))) {
-    return;
+    return undefined;
   }
 
   return {

@@ -81,6 +81,7 @@ function findFirstLabel(menu: Menu): React.ReactNode {
       if (label) return label;
     }
   }
+  return undefined;
 }
 
 export const MenuOrDrawer = (props: {
@@ -109,7 +110,7 @@ export const MenuOrDrawer = (props: {
           <DrawerTitle className="sr-only">{findFirstLabel(props.menu)}</DrawerTitle>
           <ScrollArea className="flex max-h-[75vh] flex-col">
             <div className="flex flex-col p-2">
-              {GenerateDrawerMenu(props.menu, () => {
+              {generateDrawerMenu(props.menu, () => {
                 setOpen(false);
               })}
             </div>
@@ -123,13 +124,13 @@ export const MenuOrDrawer = (props: {
     <DropdownMenu open={open} onOpenChange={onOpenChange}>
       <DropdownMenuTrigger render={props.children as React.ReactElement<Record<string, unknown>>} />
       <DropdownMenuContent align="start" className="max-w-60 lg:max-w-75">
-        {GenerateDropDownMenu(props.menu)}
+        {generateDropDownMenu(props.menu)}
       </DropdownMenuContent>
     </DropdownMenu>
   );
 };
 
-const GenerateDropDownMenu = (menu: Menu, inGroup = false) => {
+const generateDropDownMenu = (menu: Menu, inGroup = false) => {
   return menu.map((x, i) => {
     if (x === null) {
       const key = `separator-${i}`;
@@ -140,7 +141,7 @@ const GenerateDropDownMenu = (menu: Menu, inGroup = false) => {
     }
     switch (x.type) {
       case 'group':
-        return <DropdownMenuGroup key={x.id}>{GenerateDropDownMenu(x.items, true)}</DropdownMenuGroup>;
+        return <DropdownMenuGroup key={x.id}>{generateDropDownMenu(x.items, true)}</DropdownMenuGroup>;
       case 'label': {
         /**
          * Base UI's `Menu.GroupLabel` must live inside a `Menu.Group`, otherwise it throws
@@ -215,7 +216,7 @@ const GenerateDropDownMenu = (menu: Menu, inGroup = false) => {
               {x.icon} {x.label}
             </DropdownMenuItem>
           );
-        } else if ('wrapper' in x) {
+        } else {
           return (
             <x.wrapper key={x.id}>
               <DropdownMenuItem
@@ -232,11 +233,13 @@ const GenerateDropDownMenu = (menu: Menu, inGroup = false) => {
           );
         }
       }
+      default:
+        return null;
     }
   });
 };
 
-const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
+const generateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
   return menu.map((x, i) => {
     if (x === null) {
       const key = `separator-${i}`;
@@ -249,7 +252,7 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
       case 'group':
         return (
           <div className="flex flex-col gap-1" key={x.id}>
-            {GenerateDrawerMenu(x.items, setCloseMenu)}
+            {generateDrawerMenu(x.items, setCloseMenu)}
           </div>
         );
       case 'label':
@@ -315,7 +318,7 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
               {x.icon} {x.label}
             </DrawerButton>
           );
-        } else if ('wrapper' in x) {
+        } else {
           return (
             <x.wrapper key={x.id}>
               <DrawerButton
@@ -331,6 +334,8 @@ const GenerateDrawerMenu = (menu: Menu, setCloseMenu: () => void) => {
           );
         }
       }
+      default:
+        return null;
     }
   });
 };

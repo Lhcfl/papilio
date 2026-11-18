@@ -18,7 +18,7 @@ export function useNotificationsCleaner() {
   const { mutate } = useMarkAllAsReadAction();
 
   useEffect(() => {
-    if (!clearNotificationsOnFocus) return;
+    if (!clearNotificationsOnFocus) return undefined;
 
     const controller = new AbortController();
     window.addEventListener(

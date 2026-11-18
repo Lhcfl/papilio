@@ -43,15 +43,15 @@ import { useAfterConfirm } from '@/stores/confirm-dialog';
 import { MkI18n } from '@/components/mk-i18n';
 import { MkUserName } from '@/components/mk-user-name';
 
+function runAction(action: { mutateAsync: (...args: never[]) => Promise<unknown> }) {
+  return () => action.mutateAsync().then(() => void null);
+}
+
 export function MkUserMenu({ user, children }: { user: UserDetailed; children: React.ReactNode }) {
   const { t } = useTranslation();
   const meId = useMe((s) => s.id);
   const isMe = user.id === meId;
   const isFollowable = !user.isBlocked;
-
-  function mutateAsync(props: { mutateAsync: (...args: never[]) => Promise<unknown> }) {
-    return () => props.mutateAsync().then(() => void null);
-  }
 
   const follow = useAfterConfirm(
     {
@@ -61,7 +61,7 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
       confirmIcon: <UserRoundPlusIcon />,
       cancelText: t('cancel'),
     },
-    mutateAsync(useFollowAction(user)),
+    runAction(useFollowAction(user)),
   );
 
   const unfollow = useAfterConfirm(
@@ -73,7 +73,7 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
       cancelText: t('cancel'),
       variant: 'destructive',
     },
-    mutateAsync(useUnfollowAction(user)),
+    runAction(useUnfollowAction(user)),
   );
 
   const cancelFollowRequest = useAfterConfirm(
@@ -84,7 +84,7 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
       confirmIcon: <UserRoundMinusIcon />,
       cancelText: t('cancel'),
     },
-    mutateAsync(useCancelFollowRequestAction(user)),
+    runAction(useCancelFollowRequestAction(user)),
   );
 
   const breakFollow = useAfterConfirm(
@@ -96,7 +96,7 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
       cancelText: t('cancel'),
       variant: 'destructive',
     },
-    mutateAsync(useBreakFollowAction(user)),
+    runAction(useBreakFollowAction(user)),
   );
 
   const block = useAfterConfirm(
@@ -108,7 +108,7 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
       cancelText: t('cancel'),
       variant: 'destructive',
     },
-    mutateAsync(useBlockAction(user)),
+    runAction(useBlockAction(user)),
   );
 
   const unblock = useAfterConfirm(
@@ -119,7 +119,7 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
       confirmIcon: <BanIcon />,
       cancelText: t('cancel'),
     },
-    mutateAsync(useUnblockAction(user)),
+    runAction(useUnblockAction(user)),
   );
 
   const { mutate: unmute } = useUnmuteAction(user);

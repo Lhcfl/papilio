@@ -20,7 +20,7 @@ export const useUserQuery = (userId: string) => useQuery(getUserQueryOptions(use
 
 export const useUsersQuery = (userIds: string[] = []) =>
   useQuery({
-    queryKey: ['users', ...userIds.sort()],
+    queryKey: ['users', ...[...userIds].sort()],
     queryFn: () => misskeyApi('users/show', { userIds }) as unknown as Promise<UserLite[]>,
     staleTime: 1000 * 60 * 15, // 15 minutes
     enabled: userIds.length > 0,

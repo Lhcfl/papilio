@@ -74,9 +74,7 @@ export function AddClipModal(props: { open: boolean; onOpenChange: (open: boolea
                 name: clipName,
                 description: '',
                 isPublic: false,
-              }).then(() => {
-                setClipName('');
-              });
+              }).then(() => setClipName(''));
             }}
             disabled={isCreatingClip}
           >

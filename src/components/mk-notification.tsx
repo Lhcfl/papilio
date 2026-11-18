@@ -204,6 +204,7 @@ function ExpandableNotification(props: { notification: PickNotification<'grouped
               case 'renote':
                 return <MkAvatar key={n.id} user={n.user} avatarProps={{ className: 'mr-1 size-8' }} />;
             }
+            return null;
           })}
           {hasMore && !expand && (
             <Button

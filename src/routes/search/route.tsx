@@ -24,6 +24,7 @@ export const Route = createFileRoute('/search')({
     if (ctx.location.pathname === '/search') {
       return redirect({ to: '/search/note', replace: true });
     }
+    return undefined;
   },
   component: RouteComponent,
 });
@@ -79,6 +80,7 @@ function RouteComponent() {
                   queryClient.setQueryData(noteQueryOptions(res.object.id).queryKey, res.object.id);
                   return navigate({ to: '/notes/$id', params: { id: res.object.id } });
               }
+              return undefined;
             })
             .catch(() => {
               setQuery(query);

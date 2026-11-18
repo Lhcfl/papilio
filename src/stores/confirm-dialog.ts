@@ -48,14 +48,8 @@ export const useAfterConfirm = (
     new Promise((resolve) => {
       pushDialog({
         ...dialog,
-        onConfirm: () =>
-          Promise.resolve(onConfirm()).then(() => {
-            resolve(true);
-          }),
-        onCancel: () =>
-          Promise.resolve(onCancel?.()).then(() => {
-            resolve(false);
-          }),
+        onConfirm: () => Promise.resolve(onConfirm()).then(() => resolve(true)),
+        onCancel: () => Promise.resolve(onCancel?.()).then(() => resolve(false)),
       });
     });
 };
