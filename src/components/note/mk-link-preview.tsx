@@ -58,7 +58,7 @@ export const MkLinkPreview = (props: { url: string; renoteId?: string | null } &
   if (rich) {
     if (apData?.type === 'Note' && apData.object.id !== renoteId) {
       return (
-        <div className={cn('note-body-quote overflow-hidden rounded-md border', className)}>
+        <div className={cn('mk-note-body-quote overflow-hidden rounded-md border', className)}>
           <MkNoteSimple
             noteId={apData.object.id}
             appendHeader={

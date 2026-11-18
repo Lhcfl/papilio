@@ -120,7 +120,7 @@ export function MkNotePoll({
 
   return (
     <div className="mk-note-poll mt-2">
-      <div className="choices flex flex-col gap-1">
+      <div className="mk-note-poll-choices flex flex-col gap-1">
         {choices.map((choice, index) => (
           <AlertDialog
             // sometimes choices can have the same text
@@ -132,7 +132,7 @@ export function MkNotePoll({
                 <button
                   type="button"
                   disabled={disabled || choice.isVoted}
-                  className="choice relative flex items-center gap-2 overflow-hidden rounded-sm border p-2 text-left text-sm"
+                  className="mk-note-poll-choice relative flex items-center gap-2 overflow-hidden rounded-sm border p-2 text-left text-sm"
                 />
               }
             >

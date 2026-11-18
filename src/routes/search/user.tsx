@@ -71,9 +71,9 @@ function RouteComponent() {
         </TabsTrigger>
       </TabsList>
       {query !== '' && (
-        <div className="search-result">
+        <div className="app-search-result">
           <Separator />
-          <div className="search-result-label text-muted-foreground p-2 text-sm">{t('searchResult')}</div>
+          <div className="app-search-result-label text-muted-foreground p-2 text-sm">{t('searchResult')}</div>
           <MkInfiniteScrollByData infiniteQueryResult={q} containerClassName="grid @xl:grid-cols-2 gap-2">
             {(u) => <MkUserCardSmall user={u} className="rounded-md border" />}
           </MkInfiniteScrollByData>

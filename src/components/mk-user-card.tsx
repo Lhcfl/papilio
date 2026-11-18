@@ -52,7 +52,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
         <MkUserBadges user={user} />
       </div>
       {user.hasPendingFollowRequestToYou && (
-        <Card className="-col bg-background/50 absolute top-2 right-4 z-10 flex border-none py-2 backdrop-blur-2xl">
+        <Card className="bg-background/50 absolute top-2 right-4 z-10 flex border-none py-2 backdrop-blur-2xl">
           <CardContent className="px-2">
             <CardTitle className="flex items-center gap-2 p-2 font-normal">
               <UserRoundPlusIcon className="size-4" />
@@ -130,7 +130,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
         </div>
         {user.fields.length > 0 && <Separator />}
         {user.fields.length > 0 && (
-          <div className="user-field mt-2 grid grid-cols-[auto_1fr] gap-2 text-sm">
+          <div className="mk-user-card-field mt-2 grid grid-cols-[auto_1fr] gap-2 text-sm">
             {user.fields.map((f) => (
               <Fragment key={`${f.name}-${f.value}`}>
                 <span className="text-muted-foreground max-w-30 @md:max-w-50 @lg:max-w-70">
@@ -159,7 +159,7 @@ export const MkUserCard = (props: { user: UserDetailed } & HTMLProps<HTMLDivElem
             </UserCardInfoLine>
           )}
         </div>
-        <div className="info mt-2">
+        <div className="mk-user-card-info mt-2">
           <span className="mr-4">
             <span className="mr-2 font-bold">{user.notesCount}</span>
             <span>{t('notes')}</span>

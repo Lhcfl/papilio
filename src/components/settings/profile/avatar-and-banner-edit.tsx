@@ -21,7 +21,7 @@ export function AvatarAndBannerEdit() {
   const { mutate } = useProfileEditAction();
 
   return (
-    <div className="edit-avatar-and-banner bg-card relative overflow-hidden rounded-lg border">
+    <div className="app-edit-avatar-and-banner bg-card relative overflow-hidden rounded-lg border">
       <MkFileUploadMenu
         onUpload={wrapAsync(async (promise) => {
           const file = await promise[0];

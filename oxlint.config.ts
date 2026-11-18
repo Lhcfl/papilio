@@ -17,6 +17,10 @@ export default defineConfig({
   env: {
     builtin: true,
   },
+  jsPlugins: ['oxlint-tailwindcss'],
+  settings: {
+    tailwindcss: { entryPoint: 'src/tailwind.css' },
+  },
   ignorePatterns: [
     'dist',
     'sharkey-js',
@@ -70,6 +74,10 @@ export default defineConfig({
     'typescript/switch-exhaustiveness-check': ['error', { considerDefaultExhaustiveForUnions: true }],
     'eslint/require-unicode-regexp': 'error',
     'typescript/no-misused-promises': 'error',
+    'tailwindcss/enforce-canonical': 'error',
+    'tailwindcss/no-unknown-classes': ['error', { ignorePrefixes: ['mk-', 'app-', 'mfm', '_mfm_'] }],
+    'tailwindcss/no-deprecated-classes': 'error',
+    'tailwindcss/no-duplicate-classes': 'error',
     // `smart` 放行 `== null`（同时判断 null 与 undefined 的惯用写法）与同类字面量比较。
     'eslint/eqeqeq': ['error', 'smart'],
   },

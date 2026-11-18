@@ -140,7 +140,7 @@ function RouteComponent() {
                   <Spinner />
                 </div>
               ) : (
-                <div className="note-conversations" ref={onMounted}>
+                <div className="mk-note-conversations" ref={onMounted}>
                   {conversation?.map((n) => (
                     <MkNote key={n} noteId={n} isSubNote showReply={false} className="-mb-4" />
                   ))}

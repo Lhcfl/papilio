@@ -157,7 +157,7 @@ export function MkPostFormPoll({
       </div>
       <div className="flex items-center gap-2 @max-md:flex-col">
         <Label className="w-full">
-          <span className="flex-shrink-0">{t('_poll.deadlineDate')}</span>
+          <span className="shrink-0">{t('_poll.deadlineDate')}</span>
           <Select
             value={expiresOpt}
             onValueChange={(v) => {
@@ -179,7 +179,7 @@ export function MkPostFormPoll({
         </Label>
         {expiresAt && (
           <Label className="w-full">
-            <span className="flex-shrink-0">{t('dateAndTime')}</span>
+            <span className="shrink-0">{t('dateAndTime')}</span>
             <Input
               className="text-sm"
               type="datetime-local"

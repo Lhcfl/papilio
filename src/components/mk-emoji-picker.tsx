@@ -244,7 +244,7 @@ const MkEmojiPickerEmojis = ({
   emojis?: (EmojiSimple | string)[];
   onEmojiChoose: (emoji: EmojiSimple | string) => void;
 }) => (
-  <div className="grid grid-cols-[repeat(auto-fit,calc(var(--spacing)_*_14))] gap-1">
+  <div className="grid grid-cols-[repeat(auto-fit,--spacing(14))] gap-1">
     {emojis?.map((emoji) =>
       typeof emoji === 'string' ? (
         <button

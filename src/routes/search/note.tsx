@@ -25,9 +25,9 @@ function RouteComponent() {
   return (
     <div>
       {query.trim() !== '' && (
-        <div className="search-result mt-4">
+        <div className="app-search-result mt-4">
           <Separator />
-          <div className="search-result-label text-muted-foreground p-2 text-sm">{t('searchResult')}</div>
+          <div className="app-search-result-label text-muted-foreground p-2 text-sm">{t('searchResult')}</div>
           <MkInfiniteScroll
             queryKey={['search/notes', query]}
             queryFn={({ pageParam }) =>

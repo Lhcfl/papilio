@@ -158,7 +158,7 @@ export const MkImage = ({
           {...restImgProps}
         />
         <MkBlurHash
-          className={cn('transform-opacity absolute inset-0 h-full w-full object-cover duration-200', {
+          className={cn('transition-opacity absolute inset-0 h-full w-full object-cover duration-200', {
             'opacity-100': showBlurHash,
             'opacity-0': !showBlurHash,
           })}
@@ -169,7 +169,7 @@ export const MkImage = ({
       {!disableSensitiveOverlay && (
         <button
           className={cn(
-            'transform-opacity absolute inset-0 z-10 flex h-full w-full cursor-pointer items-center justify-center bg-black/30 duration-200',
+            'transition-opacity absolute inset-0 z-10 flex h-full w-full cursor-pointer items-center justify-center bg-black/30 duration-200',
             imageHidden ? 'opacity-100' : 'pointer-events-none opacity-0',
           )}
           onClick={(e) => {

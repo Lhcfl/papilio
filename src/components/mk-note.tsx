@@ -127,7 +127,7 @@ const MkNoteComponent = (
         <MkNote
           noteId={appearNote.replyId}
           isSubNote={true}
-          className="reply-note -m-2"
+          className="mk-reply-note -m-2"
           showReply={collapseNotesRepliedTo}
           hasReply={true}
           initialReplyAppearance={initialReplyAppearance}
@@ -150,7 +150,7 @@ const MkNoteComponent = (
         <MkNoteActions onTranslate={translate} note={appearNote} />
         {isSubNote && onClose && (
           <Button
-            className="note-close absolute top-3 left-7.5 z-10 -translate-x-1/2 rounded-full"
+            className="mk-note-close absolute top-3 left-7.5 z-10 -translate-x-1/2 rounded-full"
             onClick={onClose}
             variant="outline"
             size="icon-sm"
@@ -164,7 +164,7 @@ const MkNoteComponent = (
        * 回复树构造。
        * 对于每个 subnote, 并且有回复的话，显示左侧的连线。
        */}
-      {isSubNote && hasReplyMerged && <div className="note-sub-line absolute top-6 -bottom-2 left-9 border-l-2" />}
+      {isSubNote && hasReplyMerged && <div className="mk-note-sub-line absolute top-6 -bottom-2 left-9 border-l-2" />}
     </MkMuteableNote>
   );
 };

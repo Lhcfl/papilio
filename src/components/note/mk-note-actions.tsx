@@ -344,7 +344,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
         >
           <DialogContent className="top-6 translate-y-0 p-0" showCloseButton={false}>
             <DialogTitle className="sr-only">posting</DialogTitle>
-            <ScrollArea className="max-h-[calc(100vh_-_8em)]">
+            <ScrollArea className="max-h-[calc(100vh-8em)]">
               <MkPostForm
                 {...postFormProps}
                 relatedNote={note}

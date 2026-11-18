@@ -52,7 +52,7 @@ export const MkCustomEmoji = (props: {
 
   if ((!url || error) && props.fallbackToImage) {
     return (
-      <span className="mk-custom-emoji error mk-custom-emoji-fallback">
+      <span className="mk-custom-emoji mk-emoji-error mk-custom-emoji-fallback">
         <img className={className} src={emojiFallbackUrl} alt={alt} title={alt} decoding="async" />
       </span>
     );
@@ -115,7 +115,7 @@ export const MkCustomEmoji = (props: {
     }
   }
 
-  return <span className="mk-custom-emoji error">{alt}</span>;
+  return <span className="mk-custom-emoji mk-emoji-error">{alt}</span>;
 };
 
 export const MkEmoji = (props: {

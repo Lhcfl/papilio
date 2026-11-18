@@ -48,7 +48,7 @@ export const MkNoteSimple = (
           disableRouteOnClick={disableRouteOnClick}
         />
       </div>
-      {isSubNote && showLeftLine && <div className="note-sub-line absolute top-6 -bottom-2 left-9 border-l-2" />}
+      {isSubNote && showLeftLine && <div className="mk-note-sub-line absolute top-6 -bottom-2 left-9 border-l-2" />}
     </div>
   );
 };

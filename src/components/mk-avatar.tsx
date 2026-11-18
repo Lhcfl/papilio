@@ -106,7 +106,7 @@ const MkAvatarMain = (
             // avatar decorations may have same ids
             // oxlint-disable-next-line react/no-array-index-key
             key={index}
-            className="z-index-1 pointer-events-none absolute -top-1/2 -left-1/2 w-2/1 max-w-2/1"
+            className="z-1 pointer-events-none absolute -top-1/2 -left-1/2 w-2/1 max-w-2/1"
             src={decoration.url}
             alt=""
             decoding="async"

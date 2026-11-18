@@ -109,7 +109,7 @@ function RouteComponent() {
   return (
     <div>
       <PageTitle title={t('file')} />
-      <div className="preview relative flex max-h-100">
+      <div className="app-drive-file-preview relative flex max-h-100">
         {isSensitive && (
           <Badge className="absolute top-2 left-2 z-10">
             <FileWarningIcon /> {t('sensitive')}
@@ -136,7 +136,7 @@ function RouteComponent() {
         )}
       </div>
 
-      <div className="details *:mt-2">
+      <div className="app-drive-file-details *:mt-2">
         <FileInfoRow icon={<TextCursorInputIcon />} title={t('fileName')} content={file.name}>
           <InputModal
             title={t('rename')}

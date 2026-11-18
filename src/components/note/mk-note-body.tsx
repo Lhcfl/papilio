@@ -70,7 +70,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
     <div className={cn('mk-note-body overflow-hidden', className)} {...rest}>
       {note.text && (
         // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- wraps MFM content with its own links; keyboard users open the note through those links or the note menu
-        <div className="note-body-text" onClick={onContentClick}>
+        <div className="mk-note-body-text" onClick={onContentClick}>
           {showReplyAsIcon && note.replyId && (
             <Link className="text-primary mr-1 hover:underline" to="/notes/$id" params={{ id: note.replyId }}>
               <ReplyIcon className="inline size-4" />
@@ -98,7 +98,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
       <MkNoteTranslation note={note} />
       {note.poll != null && <MkNotePoll noteId={note.id} poll={note.poll} isRemote={note.userHost != null} />}
       {note.renoteId && !showQuoteAsIcon && (
-        <div className="note-body-quote mt-2 rounded-md border">
+        <div className="mk-note-body-quote mt-2 rounded-md border">
           <MkNoteSimple noteId={note.renoteId} />
         </div>
       )}
@@ -107,7 +107,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
         <MkNoteFile className="mt-1" key={f.id} file={f} />
       ))}
       {urls.length > 0 && !disableLinkPreview && (
-        <div className="note-body-url-previews">
+        <div className="mk-note-body-url-previews">
           {urls.map((u) => (
             <MkLinkPreview className="mt-1" key={u} url={u} renoteId={note.renoteId} />
           ))}
@@ -134,8 +134,8 @@ const NoteBodyCw = (props: NoteBodyCommonProps) => {
     .join(', ');
 
   return (
-    <div className="note-body-with-cw">
-      <div className="note-body-cw">
+    <div className="mk-note-body-with-cw">
+      <div className="mk-note-body-cw">
         <MkMfm text={props.note.cw!} author={props.note.user} emojiUrls={props.note.emojis} />
       </div>
       {expanded && <NoteBodyExpanded className="mb-2" {...props} />}
@@ -170,7 +170,7 @@ const NoteBodyLong = (props: NoteBodyCommonProps) => {
   const [manualExpanded, setExpanded] = useState<boolean | null>(null);
   const expanded = manualExpanded ?? expandLongNote;
   return (
-    <div className="note-body-long">
+    <div className="mk-note-body-long">
       <NoteBodyExpanded
         className={cn({
           'mb-[-2em] max-h-50 overflow-hidden mask-b-from-0': !expanded,
@@ -282,7 +282,7 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
         [true, <NoteBodyExpanded key="default" note={note} textAst={textAst} {...rest} />],
       ])}
       {detailed && (
-        <div className="note-time text-muted-foreground mt-4 text-sm">
+        <div className="mk-note-time text-muted-foreground mt-4 text-sm">
           <p>
             {t('createdAt')}: <MkTime mode="detail" time={note.createdAt} />
           </p>

@@ -26,7 +26,7 @@ export const AppRightCard = ({ className, ...props }: HTMLProps<HTMLDivElement>)
       {isLoggedIn && (
         <ScrollArea className="bg-sidebar h-0 flex-[1_1] rounded-lg">
           <header className="bg-sidebar sticky top-0 z-20 flex items-center justify-between border-b p-1">
-            <div className="title ml-2 flex items-center gap-1 text-sm">
+            <div className="app-right-card-title ml-2 flex items-center gap-1 text-sm">
               <BellIcon className="size-4" />
               {t('notifications')}
             </div>

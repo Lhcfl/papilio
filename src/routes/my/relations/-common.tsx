@@ -99,7 +99,7 @@ export function CommonRouteComponent<T extends UserRelation>({
       </HeaderRightPortal>
 
       {hasStarted && <Progress value={(removed.size / selected.size) * 100} className="mb-2" />}
-      <div className="controls mb-2 flex items-center justify-between">
+      <div className="app-relations-controls mb-2 flex items-center justify-between">
         <div>
           <span>Selected {selected.size} users</span>
         </div>

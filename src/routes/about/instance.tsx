@@ -53,7 +53,7 @@ function RouteComponent() {
           <h2 className="text-2xl font-bold">{meta.name}</h2>
         </div>
       </div>
-      <div className="about mt-2">
+      <div className="app-about-instance mt-2">
         <h3 className="mb-1 flex items-center gap-2 text-lg font-semibold">
           <InfoIcon className="size-6" /> {t('about')}
         </h3>

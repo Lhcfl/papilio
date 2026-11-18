@@ -24,7 +24,7 @@ export function AppNavBar({ className, ...props }: HTMLProps<HTMLDivElement>) {
       <div className="relative h-10 flex-1/4">
         <SidebarTrigger className="h-full w-full" variant="secondary" />
         {hasDing && (
-          <span className="ding bg-primary absolute top-1/2 left-1/2 z-10 h-2 w-2 translate-x-3 -translate-y-3 rounded-full" />
+          <span className="app-nav-bar-ding bg-primary absolute top-1/2 left-1/2 z-10 h-2 w-2 translate-x-3 -translate-y-3 rounded-full" />
         )}
       </div>
       <Button variant="secondary" className="h-10 flex-1/4" render={<Link to="/" />}>

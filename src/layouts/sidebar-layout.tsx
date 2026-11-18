@@ -28,7 +28,7 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
     <SidebarProvider className="relative mx-auto w-full max-w-[1200px]">
       <AppSidebar />
       <SidebarInset className="grid grid-cols-[minmax(0,1fr)_auto]">
-        <Tabs className="main-container h-dvh gap-0">
+        <Tabs className="app-main-container h-dvh gap-0">
           <ScrollArea className="h-0 flex-[1_1]" id="main-scroll-area">
             <header className="bg-background @container sticky top-0 z-30 h-13 gap-1 border-b">
               <div className="relative flex h-full w-full items-center justify-between p-2">
@@ -51,12 +51,12 @@ export function SidebarLayout({ children }: { children: React.ReactNode }) {
               </div>
             </header>
             <div className="flex justify-center p-2">
-              <div className="main-area @container/main w-0 max-w-[38rem] flex-[1_1]">{children}</div>
+              <div className="app-main-area @container/main w-0 max-w-[38rem] flex-[1_1]">{children}</div>
             </div>
           </ScrollArea>
           {smbreakpoint && <AppNavBar />}
         </Tabs>
-        <div className="right-container max-lg:hidden">
+        <div className="app-right-container max-lg:hidden">
           <DesktopRightbar />
         </div>
       </SidebarInset>

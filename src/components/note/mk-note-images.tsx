@@ -30,13 +30,13 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
   const twoImageBothWide = aspectRatio(images[0]) > 1.5 && aspectRatio(images[1]) > 1.5;
 
   const className = clsx('mk-note-images w-full text-center gap-2', classNameProp, {
-    'images-1': count === 1,
-    'images-2 aspect-[16/9] grid': count === 2,
+    'mk-note-images-1': count === 1,
+    'mk-note-images-2 aspect-[16/9] grid': count === 2,
     'grid-cols-2': count === 2 && !twoImageBothWide,
     'grid-rows-2': count === 2 && twoImageBothWide,
-    'images-3 aspect-[16/9] grid grid-cols-2 ': count === 3,
-    'images-4 aspect-[16/9] grid grid-cols-2 grid-rows-2': count === 4,
-    'images-many grid grid-cols-2': count > 5,
+    'mk-note-images-3 aspect-[16/9] grid grid-cols-2 ': count === 3,
+    'mk-note-images-4 aspect-[16/9] grid grid-cols-2 grid-rows-2': count === 4,
+    'mk-note-images-many grid grid-cols-2': count > 5,
   });
 
   const firstImageAspectRatio = aspectRatio(images[0]);

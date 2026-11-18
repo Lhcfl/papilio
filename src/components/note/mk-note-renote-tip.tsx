@@ -39,7 +39,7 @@ export const MkNoteRenoteTip = (props: { note: NoteWithExtension }) => {
       <RepeatIcon />
       <MkAvatar user={note.user} avatarProps={{ className: 'size-6' }} />
       <MkUserName user={note.user} className="line-clamp-1 w-0 flex-[1_1]" />
-      <div className="renote-info flex items-center gap-2">
+      <div className="mk-renote-info flex items-center gap-2">
         {isMine && (
           <MenuOrDrawer menu={menu}>
             <Button size="icon" variant="ghost">

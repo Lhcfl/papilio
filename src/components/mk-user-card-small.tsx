@@ -47,7 +47,7 @@ export function MkUserCardSmall({ user, className, ...props }: { user: UserDetai
           <MkMfm text={user.description ?? ''} />
         </div>
       </div>
-      <div className="info p-2 pt-1 text-sm">
+      <div className="mk-user-card-small-info p-2 pt-1 text-sm">
         <span className="mr-2">
           <span className="mr-1 font-bold">{user.notesCount}</span>
           <span>{t('notes')}</span>

@@ -346,7 +346,7 @@ const DrawerButton = ({ variant, className, ...props }: ComponentProps<typeof Bu
       className={cn(
         'h-fit justify-start',
         {
-          'text-destructive hover:bg-destructive/10 focus:bg-destructive/10 dark:focus:bg-destructive/20 dark:hover:bg-destructive/20 focus:text-destructive hover:text-destructive &:*:[svg]:!text-destructive':
+          'text-destructive hover:bg-destructive/10 focus:bg-destructive/10 dark:focus:bg-destructive/20 dark:hover:bg-destructive/20 focus:text-destructive hover:text-destructive *:[svg]:!text-destructive':
             variant === 'destructive',
         },
         className,

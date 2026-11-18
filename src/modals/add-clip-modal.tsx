@@ -30,7 +30,7 @@ export function AddClipModal(props: { open: boolean; onOpenChange: (open: boolea
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent>
         <DialogTitle>{t('clip')}</DialogTitle>
-        <ScrollArea className="max-h-70vh flex flex-col">
+        <ScrollArea className="max-h-[70vh] flex flex-col">
           <div className="p-1">
             <ClipsList>
               {(clip, children) => (

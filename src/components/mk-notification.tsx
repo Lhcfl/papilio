@@ -197,7 +197,7 @@ function ExpandableNotification(props: { notification: PickNotification<'grouped
             switch (n.type) {
               case 'reaction':
                 return (
-                  <div className="reacter relative" key={n.id}>
+                  <div className="mk-notification-reacter relative" key={n.id}>
                     <MkAvatar user={n.user} avatarProps={{ className: 'mr-1 size-8' }} />
                     <ReactionEmoji reaction={n.reaction} note={notification.note} />
                   </div>
