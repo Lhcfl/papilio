@@ -38,7 +38,7 @@ export const useConfirmDialog = create<ConfirmDialogState>((set) => ({
 }));
 
 /**
- * 打开确认框，返回等待用户选择的处理器。挂到 `onClick` 这类 void 上下文时用 `wrapAsync` 包一层。
+ * 打开确认框，返回等待用户选择的处理器。
  * @param dialog 确认框内容（标题、描述、按钮文案等）
  * @param onConfirm 用户点确认时执行
  * @param onCancel 用户点取消时执行
