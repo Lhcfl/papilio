@@ -71,21 +71,19 @@ export const MkNoteReactions = (props: { note: NoteWithExtension }) => {
   let myReaction = note.myReaction;
 
   if (mergeNoteReactions) {
-    const map = reactions.reduce<Record<string, number>>((acc, [reaction, count]) => {
+    const map: Record<string, number> = {};
+    for (const [reaction, count] of reactions) {
       const [normalizedName] = normalizeEmojiName(reaction);
-      const emoji = emojisMap.get(normalizedName);
-      if (emoji) {
-        const name = `:${normalizedName}:`;
-        if (myReaction === reaction) {
-          myReaction = name;
-        }
-        acc[name] = acc[name] || 0;
-        acc[name] += count;
-      } else {
-        acc[reaction] = count;
+      if (!emojisMap.has(normalizedName)) {
+        map[reaction] = count;
+        continue;
       }
-      return acc;
-    }, {});
+      const name = `:${normalizedName}:`;
+      if (myReaction === reaction) {
+        myReaction = name;
+      }
+      map[name] = (map[name] ?? 0) + count;
+    }
     reactions = Object.entries(map);
   }
 

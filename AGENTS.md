@@ -21,7 +21,7 @@ Papilio 是一个使用 React 编写的 [Misskey](https://misskey.io/) 第三方
 | 数据请求 / 缓存 | TanStack Query + `query-async-storage-persister` + IndexedDB                   |
 | 类型检查        | `tsrs`（Rust 版 TypeScript 7 编译器，替代 `tsc` / `tsgo`）                     |
 | Lint            | Oxlint + `oxlint-tsgolint`（类型感知规则）                                     |
-| 格式化          | Oxfmt，配置在 `.oxfmtrc.json`                                                  |
+| 格式化          | Oxfmt，配置在 `oxfmt.config.ts`                                                |
 | 样式            | Tailwind CSS v4、CSS Variables、shadcn/ui                                      |
 | 组件基础        | Base UI（`@base-ui/react`）、shadcn/ui、lucide-react、vaul、sonner             |
 | 状态            | Zustand、Jotai、React Context                                                  |
@@ -87,7 +87,8 @@ pnpm format:check     # 检查格式（不改文件）
 ├── vite-plugins/                # Vite 插件（locale 生成器）
 ├── .github/workflows/ci.yml     # CI：lint、typecheck + build、REUSE lint
 ├── .husky/                      # Git hooks
-├── .oxlintrc.json               # Oxlint 配置
+├── oxlint.config.ts             # Oxlint 配置（TS 配置，由 tsconfig.node.json 类型检查）
+├── oxfmt.config.ts              # Oxfmt 配置
 ├── components.json              # shadcn CLI 配置
 ├── tsconfig*.json               # TypeScript 项目引用配置
 └── vite.config.ts               # Vite 插件、别名、构建配置
@@ -281,17 +282,15 @@ locales-source/sukerbuka-locales/
 
 ### 格式化
 
-- 使用 Oxfmt，配置在 `.oxfmtrc.json`（`printWidth` 120、单引号、`sortTailwindcss` 关闭、`sortImports` 关闭）。
-- Oxfmt 内置的 import 排序（`sortImports`）保持关闭，导入顺序仍按本文约定手写。
+- 使用 Oxfmt，配置在 `oxfmt.config.ts`，只保留非默认项（`printWidth` 120、单引号）和 `ignorePatterns`。
+- Oxfmt 内置的 import 排序（`sortImports`）与 Tailwind 类名排序（`sortTailwindcss`）都是默认关闭，不要开启；导入顺序按本文约定手写。
 - 提交前运行 `pnpm format:check`。
 
 ### Lint
 
-- 使用 Oxlint，配置在 `.oxlintrc.json`。
-- 类型感知规则已开启，依赖 `oxlint-tsgolint`。
-- `typescript/no-explicit-any` 为 error；确实需要 `any` 时使用 `oxlint-disable-next-line typescript/no-explicit-any` 并说明原因。
-- `typescript/no-non-null-assertion` 关闭，但仍应避免无依据的 `!`。
-- `typescript/ban-ts-comment` 要求 `@ts-expect-error` / `@ts-ignore` 带描述。
+- 使用 Oxlint，配置在 `oxlint.config.ts`。只启用官方 recommended 基线：`correctness: error` + `typescript` / `react` / `unicorn` 插件，不再逐条列举规则。
+- 类型感知规则已开启，依赖 `oxlint-tsgolint`；新增规则前先确认 recommended 是否已覆盖，避免回退到长规则清单。
+- 仍需避免使用 `any`（recommended 默认不检查 `typescript/no-explicit-any`，所以靠 review 而非 lint 把关）。
 - 路由文件中的 `react/only-export-components` 已关闭，避免 TanStack Router 的 `Route` 导出误报。
 
 ### TypeScript
