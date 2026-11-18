@@ -25,7 +25,7 @@ function merge(...args: Record<string, unknown>[]): Record<string, unknown> {
           return merge(...objects);
         }
 
-        return values.findLast((x) => x != null && x != '');
+        return values.findLast((x) => x != null && x !== '');
       })(),
     ]),
   );
@@ -37,7 +37,7 @@ const transformToI18nNext = (obj: Record<string, unknown>) => {
       // Change Misskey-style `{count}` placeholders to i18next-style `{{count}}`.
       // Strings that already use i18next style must be left untouched, otherwise `{{count}}`
       // would be wrapped again into `{{{count}}}`, which i18next cannot interpolate.
-      obj[k] = obj[k].replaceAll(/(?<!\{)\{(\w+)\}(?!\})/g, (_, p1) => `{{${p1}}}`);
+      obj[k] = obj[k].replaceAll(/(?<!\{)\{(\w+)\}(?!\})/gu, (_, p1) => `{{${p1}}}`);
     }
     if (typeof obj[k] === 'object') {
       transformToI18nNext(obj[k] as Record<string, unknown>);
@@ -46,7 +46,7 @@ const transformToI18nNext = (obj: Record<string, unknown>) => {
 };
 
 // For some reason, backspace characters sometimes get mixed into strings and corrupt YAML, so we remove them
-const clean = (text: string) => text.replace(new RegExp(String.fromCodePoint(0x08), 'g'), '');
+const clean = (text: string) => text.replace(new RegExp(String.fromCodePoint(0x08), 'gu'), '');
 
 const parseYaml = (text: string): Record<string, unknown> => {
   const content = clean(text);
@@ -70,7 +70,7 @@ export const PapilioI18nGenerator = (): Plugin => {
       locales_folders
         .flatMap((x) => fs.readdirSync(new URL(`locales-source/${x}`, PROJECT_ROOT)))
         .filter((f) => f.endsWith('.yml'))
-        .map((f) => f.replace(/\.yml$/, '')),
+        .map((f) => f.replace(/\.yml$/u, '')),
     ),
   ];
 

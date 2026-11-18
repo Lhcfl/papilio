@@ -47,7 +47,7 @@ export const Route = createFileRoute('/notes/$id/')({
 
 function RouteComponent() {
   const { data: noteId } = useSuspenseQuery(noteQueryOptions(Route.useParams().id));
-  const isLoading = useIsFetching({ predicate: (q) => q.queryKey[0] == 'note-replies' }) > 0;
+  const isLoading = useIsFetching({ predicate: (q) => q.queryKey[0] === 'note-replies' }) > 0;
   const [expandAllCw, setExpandAllCw] = useState(false);
   const note = useNoteValue(noteId);
   const { t } = useTranslation();

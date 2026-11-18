@@ -10,7 +10,7 @@ import type { TextSetting } from '@/settings/types';
 import { setterName, usePreference, useUserPreference } from '@/stores/perference';
 
 export function TextSettingItem({ item, highlighted }: { item: TextSetting<string, boolean>; highlighted?: boolean }) {
-  const isUser = item.user == true;
+  const isUser = item.user === true;
 
   const value = [
     usePreference((p) => p[item.key as never]) as string,

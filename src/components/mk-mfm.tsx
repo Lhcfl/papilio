@@ -52,12 +52,12 @@ const defaultStore = {
 const validTime = (t: string | boolean | null | undefined) => {
   if (t == null) return null;
   if (typeof t === 'boolean') return null;
-  return /^-?[0-9.]+s$/.exec(t) ? t : null;
+  return /^-?[0-9.]+s$/u.exec(t) ? t : null;
 };
 
 const validColor = (c: unknown): string | null => {
   if (typeof c !== 'string') return null;
-  return /^[0-9a-f]{3,6}$/i.exec(c) ? c : null;
+  return /^[0-9a-f]{3,6}$/iu.exec(c) ? c : null;
 };
 
 export const MkMfm = (in_props: MfmProps) => {
@@ -98,7 +98,7 @@ export const MkMfm = (in_props: MfmProps) => {
     ast.map((token): React.ReactNode => {
       switch (token.type) {
         case 'text': {
-          let text = token.props.text.replace(/(\r\n|\n|\r)/g, '\n');
+          let text = token.props.text.replace(/(\r\n|\n|\r)/gu, '\n');
 
           if (!disableNyaize && shouldNyaize) {
             text = doNyaize(text);
@@ -109,7 +109,7 @@ export const MkMfm = (in_props: MfmProps) => {
               .split('\n')
               .map((t, i) => [i > 0 && <br key={Math.random()} />, <span key={Math.random()}>{t}</span>]);
           } else {
-            return <span key={Math.random()}>{text.replace(/\n/g, ' ')}</span>;
+            return <span key={Math.random()}>{text.replace(/\n/gu, ' ')}</span>;
           }
         }
         case 'bold':

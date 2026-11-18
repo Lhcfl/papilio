@@ -109,12 +109,12 @@ export function MkPostFormPoll({
           >
             <InputGroupInput
               value={choice}
-              placeholder={index == choices.length ? t('add') : t('_poll.choiceN', { n: index + 1 })}
+              placeholder={index === choices.length ? t('add') : t('_poll.choiceN', { n: index + 1 })}
               onChange={(ev) => {
                 updateChoice(index, ev.target.value);
               }}
             />
-            {index != choices.length && (
+            {index !== choices.length && (
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
                   disabled={index === 0}

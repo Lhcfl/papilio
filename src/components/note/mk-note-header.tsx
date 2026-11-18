@@ -30,7 +30,7 @@ export const MkNoteHeader = (props: { note: NoteWithExtension; append?: React.Re
             <MkUserName user={note.user} />
           </div>
           <span className="note-time text-muted-foreground flex shrink-0 items-center gap-2">
-            {note.updatedAt && note.updatedAt != note.createdAt && (
+            {note.updatedAt && note.updatedAt !== note.createdAt && (
               <Link className="text-muted-foreground" to="/notes/$id/history" params={{ id: note.id }}>
                 <PencilIcon className="size-3.5" />
               </Link>

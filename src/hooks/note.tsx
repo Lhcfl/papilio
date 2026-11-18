@@ -14,7 +14,7 @@ import { isPureRenote } from 'misskey-js/note.js';
 import { setFileQueryData } from '@/hooks/file';
 
 const flatten = (notes: NoteWithExtension[]): NoteWithExtension[] =>
-  notes.length == 0
+  notes.length === 0
     ? []
     : [
         ...flatten(notes.map((n) => (n as Note).reply).filter(Boolean) as NoteWithExtension[]),

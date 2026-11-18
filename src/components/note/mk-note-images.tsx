@@ -73,7 +73,7 @@ export const MkNoteImages = (props: { images: DriveFile[] } & HTMLProps<HTMLDivE
                     [count === 3 && index === 0, 16 / 18],
                     [count >= 3, 16 / 9],
                   ])}
-                  style={count == 1 ? { aspectRatio: oneImageContainerAspectRatio } : undefined}
+                  style={count === 1 ? { aspectRatio: oneImageContainerAspectRatio } : undefined}
                   className={clsx('max-h-150 cursor-zoom-in', { 'row-span-2': count === 3 && index === 0 })}
                   onClick={onlyWhenNonInteractableContentClicked(open)}
                   imgProps={{ ref }}

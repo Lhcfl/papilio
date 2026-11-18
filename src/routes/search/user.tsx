@@ -70,7 +70,7 @@ function RouteComponent() {
           <GlobeLockIcon /> {t('remote')}
         </TabsTrigger>
       </TabsList>
-      {query != '' && (
+      {query !== '' && (
         <div className="search-result">
           <Separator />
           <div className="search-result-label text-muted-foreground p-2 text-sm">{t('searchResult')}</div>

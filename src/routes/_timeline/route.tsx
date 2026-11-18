@@ -26,7 +26,7 @@ function Index() {
         {tabs.map((t) => (
           <AppPageTab
             key={t.value}
-            value={t.value == 'home' ? '/' : `/${t.value}-timeline`}
+            value={t.value === 'home' ? '/' : `/${t.value}-timeline`}
             label={t.label}
             icon={t.icon}
           />

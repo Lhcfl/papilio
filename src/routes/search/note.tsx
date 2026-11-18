@@ -24,7 +24,7 @@ function RouteComponent() {
 
   return (
     <div>
-      {query.trim() != '' && (
+      {query.trim() !== '' && (
         <div className="search-result mt-4">
           <Separator />
           <div className="search-result-label text-muted-foreground p-2 text-sm">{t('searchResult')}</div>

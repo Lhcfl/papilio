@@ -235,7 +235,7 @@ function MkPostFormLoaded(
     (draft.text.trim().length > 0 ||
       (draft.showPoll && // show poll and
         draft.poll.choices.length >= 2 && // two choices at least
-        new Set(draft.poll.choices).size == draft.poll.choices.length && // all choices are unique
+        new Set(draft.poll.choices).size === draft.poll.choices.length && // all choices are unique
         draft.poll.choices.every((c) => c.trim().length > 0)) || // no empty choice
       draft.files.length > 0); // or has attachments
 
@@ -245,7 +245,7 @@ function MkPostFormLoaded(
   const parsedText = textLimitRemaining > -1000 ? mfm.parse(draft.text) : [];
   const mentionedUsers = collectAst(parsedText, (node) => (node.type === 'mention' ? node.props : undefined));
   const unspecifiedMentions = mentionedUsers.filter((u) =>
-    draft.visibleUsers.every((vu) => u.username != vu.username || (u.host != siteDomain && u.host != vu.host)),
+    draft.visibleUsers.every((vu) => u.username !== vu.username || (u.host !== siteDomain && u.host !== vu.host)),
   );
 
   const PostBtnIcon = props.replyId
@@ -302,7 +302,7 @@ function MkPostFormLoaded(
     onSuccess: (users) => {
       const dedumplicater = new Map<string, User>(draft.visibleUsers.map((u) => [u.id, u]));
       for (const u of users) {
-        if (u.status == 'fulfilled') {
+        if (u.status === 'fulfilled') {
           dedumplicater.set(u.value.id, u.value);
         }
       }
@@ -357,7 +357,7 @@ function MkPostFormLoaded(
 
   function focusTextarea() {
     setTimeout(() => {
-      if (currentFocusTextarea == 'cw') {
+      if (currentFocusTextarea === 'cw') {
         cwRef.current?.focus();
       } else {
         textareaRef.current?.focus();
@@ -446,7 +446,7 @@ function MkPostFormLoaded(
   });
 
   useEffect(() => {
-    if (draft.visibility == 'specified') {
+    if (draft.visibility === 'specified') {
       addUnspecifiedMentionUser();
     }
   }, [draft.visibility, addUnspecifiedMentionUser]);
@@ -525,7 +525,7 @@ function MkPostFormLoaded(
                     noNavigate
                     className="cursor-pointer"
                     onClick={() => {
-                      draft.update({ visibleUsers: draft.visibleUsers.filter((x) => x.id != u.id) });
+                      draft.update({ visibleUsers: draft.visibleUsers.filter((x) => x.id !== u.id) });
                     }}
                   >
                     <XIcon className="ml-[0.3em] size-[1.15em]" />
@@ -575,7 +575,7 @@ function MkPostFormLoaded(
               setCurrentFocusTextarea('text');
             }}
             onKeyDown={(k) => {
-              if (k.ctrlKey && k.code == 'Enter' && sendable) {
+              if (k.ctrlKey && k.code === 'Enter' && sendable) {
                 send(draft);
               }
             }}

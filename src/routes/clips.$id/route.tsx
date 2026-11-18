@@ -28,7 +28,7 @@ function RouteComponent() {
     <>
       <AppPageTabList>
         <AppPageTab value="/clips/$id/" label={t('notes')} icon={<PaperclipIcon />} />
-        {clip.userId == meId && <AppPageTab value="/clips/$id/edit" label={t('edit')} icon={<EditIcon />} />}
+        {clip.userId === meId && <AppPageTab value="/clips/$id/edit" label={t('edit')} icon={<EditIcon />} />}
       </AppPageTabList>
       <PageTitle title={clip.name} />
       <Outlet />

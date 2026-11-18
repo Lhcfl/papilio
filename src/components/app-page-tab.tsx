@@ -44,7 +44,7 @@ export function AppPageTab({
     select: (match) => match.at(-1)?.fullPath,
   });
   const navigate = useNavigate();
-  const isActive = children == null ? value == lastMatchedLocationFullPath : value === currentTabValue;
+  const isActive = children == null ? value === lastMatchedLocationFullPath : value === currentTabValue;
   const handleTabChange = () => {
     setCurrentTabValue(value);
     if (children == null) {

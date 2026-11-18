@@ -216,7 +216,7 @@ export const MkNoteActions = (props: { note: NoteWithExtension; onTranslate: () 
               });
             }}
           />
-        ) : renoteVisibility == 'choose' ? (
+        ) : renoteVisibility === 'choose' ? (
           <MenuOrDrawer menu={renoteMenu}>
             <MkNoteActionButton
               icon={<RepeatIcon />}

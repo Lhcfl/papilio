@@ -17,7 +17,15 @@ export default defineConfig({
   env: {
     builtin: true,
   },
-  ignorePatterns: ['dist', 'sharkey-js', 'locales-source', 'src/ui/*.tsx', 'dev-scripts/**/*', '.agents/**/*'],
+  ignorePatterns: [
+    'dist',
+    'sharkey-js',
+    'locales-source',
+    'src/ui/*.tsx',
+    'dev-scripts/**/*',
+    '.agents/**/*',
+    '.husky/**',
+  ],
   rules: {
     'react/exhaustive-deps': 'warn',
     'typescript/ban-ts-comment': [
@@ -58,5 +66,10 @@ export default defineConfig({
     'eslint/no-shadow': 'off',
     // 规则建议的 `toSorted` 是 ES2023，项目 lib 为 ES2022，因此放行复制后排序。
     'unicorn/no-array-sort': ['error', { allowAfterSpread: true }],
+    // 项目里 switch 普遍用 default 兜底（未识别的通知类型退回通用渲染），带 default 的 switch 视为已穷尽。
+    'typescript/switch-exhaustiveness-check': ['error', { considerDefaultExhaustiveForUnions: true }],
+    'eslint/require-unicode-regexp': 'error',
+    // `smart` 放行 `== null`（同时判断 null 与 undefined 的惯用写法）与同类字面量比较。
+    'eslint/eqeqeq': ['error', 'smart'],
   },
 });

@@ -79,10 +79,10 @@ function MkAnnouncement(props: { item: Announcement }) {
     <Item variant="outline" className="items-baseline">
       <div className="-mt-2 translate-y-2">
         <ItemMedia variant="icon">
-          {item.icon == 'info' && <InfoIcon />}
-          {item.icon == 'error' && <XCircleIcon />}
-          {item.icon == 'success' && <CheckCircle />}
-          {item.icon == 'warning' && <MessageCircleWarningIcon />}
+          {item.icon === 'info' && <InfoIcon />}
+          {item.icon === 'error' && <XCircleIcon />}
+          {item.icon === 'success' && <CheckCircle />}
+          {item.icon === 'warning' && <MessageCircleWarningIcon />}
         </ItemMedia>
       </div>
       <ItemContent>

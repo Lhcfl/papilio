@@ -101,10 +101,10 @@ function RouteComponent() {
                 {category.items.map((item) => {
                   const fuckitem = item as { key?: string; name: string };
                   const itemIdValue = fuckitem.key ?? fuckitem.name;
-                  const highlighted = itemId == itemIdValue;
+                  const highlighted = itemId === itemIdValue;
                   return (
                     <div
-                      key={item.kind == 'custom' ? item.name : item.key}
+                      key={item.kind === 'custom' ? item.name : item.key}
                       data-setting-id={category.name + '::' + itemIdValue}
                       className="relative py-4"
                     >

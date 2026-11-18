@@ -104,7 +104,7 @@ export const saveToAccountList = ({ token, site }: { token: string; site: string
     token: string;
     site: string;
   }[];
-  const new_saved_accounts = [{ token, site }, ...saved_accounts.filter((x) => x.token != token)];
+  const new_saved_accounts = [{ token, site }, ...saved_accounts.filter((x) => x.token !== token)];
   localStorage.setItem('saved_accounts', JSON.stringify(new_saved_accounts));
   localStorage.setItem('token', token);
   localStorage.setItem('site', site);
@@ -117,7 +117,7 @@ export const getAccountList = (): { token: string; site: string }[] => {
   }[];
 
   if (token != null) {
-    return [{ token, site: site! }, ...ret.filter((x) => x.token != token)];
+    return [{ token, site: site! }, ...ret.filter((x) => x.token !== token)];
   }
   return ret;
 };

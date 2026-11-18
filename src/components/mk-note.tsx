@@ -111,7 +111,7 @@ const MkNoteComponent = (
 
   return (
     <MkMuteableNote
-      note={note.id == appearNote.id ? null : note}
+      note={note.id === appearNote.id ? null : note}
       appearNote={appearNote}
       className={clsx(
         'mk-note @container relative flex flex-col p-2',
@@ -122,7 +122,7 @@ const MkNoteComponent = (
       {...divProps}
     >
       {mergedRenoteIds != null && mergedRenoteIds.length > 0 && <MkNoteMergedRenoteTip noteIds={mergedRenoteIds} />}
-      {appearNote.id != note.id && <MkNoteRenoteTip note={note} />}
+      {appearNote.id !== note.id && <MkNoteRenoteTip note={note} />}
       {showReply && replyAppearance === 'subNote' && appearNote.replyId != null && (
         <MkNote
           noteId={appearNote.replyId}

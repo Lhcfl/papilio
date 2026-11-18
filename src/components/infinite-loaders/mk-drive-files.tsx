@@ -23,7 +23,7 @@ export function MkDriveFiles(props: {
   const selectLimit = selecting ? selecting.limit : 0;
   const selected = new Set(selecting?.selected.map((f) => f.id));
   const qtrim = query?.trim();
-  const search = qtrim == '' ? undefined : qtrim;
+  const search = qtrim === '' ? undefined : qtrim;
 
   return (
     <MkInfiniteScroll
@@ -42,7 +42,7 @@ export function MkDriveFiles(props: {
       {(file) => (
         <div className="relative">
           <MkDriveFile className={cn('h-full w-full', { 'bg-primary/15': selected.has(file.id) })} file={file} />
-          {selectLimit == 0 ? (
+          {selectLimit === 0 ? (
             <Link
               to="/my/drive/file/$file"
               params={{ file: file.id }}
@@ -52,11 +52,11 @@ export function MkDriveFiles(props: {
             <>
               <label className="absolute inset-0 z-10 h-full w-full p-2">
                 <input
-                  type={selectLimit == 1 ? 'radio' : 'checkbox'}
+                  type={selectLimit === 1 ? 'radio' : 'checkbox'}
                   className="size-4"
                   name={file.id}
                   checked={selected.has(file.id)}
-                  disabled={selected.size == selectLimit && !selected.has(file.id)}
+                  disabled={selected.size === selectLimit && !selected.has(file.id)}
                   aria-label={file.name}
                   onChange={(e) => {
                     if (e.currentTarget.checked) {

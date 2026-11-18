@@ -45,7 +45,7 @@ export const MkNoteReplies = (
 
     function onNoteReplied(ev: NoteUpdatedEvent) {
       const { id, type } = ev;
-      if (id != noteId) return;
+      if (id !== noteId) return;
 
       // This is a sharkey/firefish extension event type
       if (type === ('replied' as never)) {
@@ -68,7 +68,7 @@ export const MkNoteReplies = (
   const { data, isPending, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: [`notes/${kind}`, noteId],
     queryFn: ({ pageParam: sinceId }) =>
-      kind == 'replies'
+      kind === 'replies'
         ? misskeyApi('notes/children', { noteId: noteId, sinceId }).then((ns) => registerNote(ns))
         : sharkeyApi('notes/renotes', { noteId: noteId, sinceId, quote: true }).then((ns) => registerNote(ns)),
     getNextPageParam: (lastPage) => lastPage.at(-1),
@@ -96,7 +96,7 @@ export const MkNoteReplies = (
   return (
     <div
       className={clsx('mk-note-replies', classNameProps, {
-        'pl-9': !justOneReply && realIndent != 0,
+        'pl-9': !justOneReply && realIndent !== 0,
       })}
       {...divProps}
       data-replies-count={replies.length}

@@ -218,22 +218,22 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
   const extraVisibleUsers = (visibleUsers ?? []).filter((u) =>
     mentions.every(
       (m) =>
-        acct.toString(u) != acct.toString(m) &&
+        acct.toString(u) !== acct.toString(m) &&
         acct.toString({
           username: u.username,
           host: u.host ?? siteDomain,
-        }) != acct.toString(m),
+        }) !== acct.toString(m),
     ),
   );
 
   const invisibleMentions = mentions.filter((m) =>
     visibleUsers?.every(
       (u) =>
-        acct.toString(u) != acct.toString(m) &&
+        acct.toString(u) !== acct.toString(m) &&
         acct.toString({
           username: u.username,
           host: u.host ?? siteDomain,
-        }) != acct.toString(m),
+        }) !== acct.toString(m),
     ),
   );
 
@@ -244,21 +244,22 @@ export const MkNoteBody = (props: Omit<NoteBodyCommonProps, 'textAst'> & { class
     countAst(textAst, (ast) => {
       switch (ast.type) {
         case 'url':
-          return 2;
         case 'link':
           return 2;
         case 'fn': {
-          if (ast.props.name == 'x2') return 3;
-          if (ast.props.name == 'x3') return 5;
-          if (ast.props.name == 'x4') return 9;
+          if (ast.props.name === 'x2') return 3;
+          if (ast.props.name === 'x3') return 5;
+          if (ast.props.name === 'x4') return 9;
+          return 0;
         }
+        default:
+          return 0;
       }
-      return 0;
     }) >= 10;
 
   return (
     <div className={cn('mk-note-body p-2 text-[0.95em] leading-[1.75]', className)}>
-      {note.visibility == 'specified' && (extraVisibleUsers.length > 0 || invisibleMentions.length > 0) && (
+      {note.visibility === 'specified' && (extraVisibleUsers.length > 0 || invisibleMentions.length > 0) && (
         <div className="text-muted-foreground mb-2 flex flex-wrap items-center gap-1 border-b px-2 pb-2 text-sm">
           <MailIcon className="size-3" />
           {t('recipient')}:

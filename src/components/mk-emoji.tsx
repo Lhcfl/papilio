@@ -38,7 +38,7 @@ export const MkCustomEmoji = (props: {
 
   const name = props.name.startsWith(':') ? props.name.slice(1, -1) : props.name;
   const [normalizedName, normalizedHost] = name.split('@');
-  const isLocal = props.host == null && (normalizedHost == '.' || !normalizedHost);
+  const isLocal = props.host == null && (normalizedHost === '.' || !normalizedHost);
   const url =
     props.url ??
     (isLocal
@@ -134,7 +134,7 @@ export const MkEmoji = (props: {
 
   const inner = (
     <span className={cn('mk-emoji', props.className)}>
-      {emojiStyle != 'native' ? (
+      {emojiStyle !== 'native' ? (
         <img
           className={innerClassName}
           src={getRelativeUrl(`/${emojiStyle}/${Twemoji.convert.toCodePoint(props.emoji)}.svg`)}
@@ -156,7 +156,7 @@ export const MkEmoji = (props: {
         id: 'g-0',
         items: [
           { type: 'label', label: inner, id: 'emoji' },
-          props.noteContext.myReaction != props.emoji && {
+          props.noteContext.myReaction !== props.emoji && {
             id: 'react',
             type: 'item',
             icon: <SmilePlusIcon />,

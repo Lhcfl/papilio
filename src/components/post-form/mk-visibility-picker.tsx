@@ -95,7 +95,7 @@ export const MkVisibilityPicker = (
             setLocalOnly(!localOnly);
           },
           preventCloseOnClick: true,
-          disabled: visibility == 'specified' || props.forceLocalOnly === true,
+          disabled: visibility === 'specified' || props.forceLocalOnly === true,
         },
       ],
     },
