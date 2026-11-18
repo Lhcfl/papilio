@@ -20,6 +20,7 @@ import { MkNoteTranslation } from '@/components/note/mk-note-translation';
 import { Link } from '@tanstack/react-router';
 import { collectAst, countAst } from '@/lib/note';
 import { cn, onlyWhenNonInteractableContentClicked } from '@/lib/utils';
+import { wrapAsync } from '@/lib/error';
 import { siteDomain } from '@/lib/inject-misskey-api';
 import { cond } from '@/lib/match';
 import { MkMention } from '@/components/mk-mention';
@@ -63,7 +64,7 @@ const NoteBodyExpanded = (props: NoteBodyCommonProps & HTMLProps<HTMLDivElement>
   const onContentClick =
     disableRouteOnClick || !clickToOpen
       ? undefined
-      : onlyWhenNonInteractableContentClicked(() => navigate({ to: '/notes/$id', params: { id: note.id } }));
+      : wrapAsync(onlyWhenNonInteractableContentClicked(() => navigate({ to: '/notes/$id', params: { id: note.id } })));
 
   return (
     <div className={cn('mk-note-body overflow-hidden', className)} {...rest}>

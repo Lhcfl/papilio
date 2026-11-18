@@ -39,7 +39,7 @@ import {
 } from '@/hooks/note-actions';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 import type { Menu } from '@/components/menu-or-drawer';
-import { errorMessageSafe } from '@/lib/error';
+import { wrapAsync } from '@/lib/error';
 import { linkOptions } from '@tanstack/react-router';
 import { Spinner } from '@/ui/spinner';
 import { useSiteMeta } from '@/stores/site';
@@ -53,11 +53,11 @@ import { MkPostForm } from '@/components/mk-post-form';
 import { Button } from '@/ui/button';
 import { useMisskeyForkFeatures } from '@/stores/node-info';
 
-const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }, successMessage: string) => () =>
-  props
-    .mutateAsync()
-    .then(() => toast.success(successMessage))
-    .catch((e: unknown) => toast.error(errorMessageSafe(e)));
+const withToast = (props: { mutateAsync: (...args: never[]) => Promise<unknown> }, successMessage: string) =>
+  wrapAsync(async () => {
+    await props.mutateAsync();
+    toast.success(successMessage);
+  });
 
 export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () => void }) => {
   const { t } = useTranslation();
@@ -286,7 +286,7 @@ export const useNoteMenu = (props: { note: NoteWithExtension; onTranslate: () =>
           id: 'delete',
           type: 'item',
           variant: 'destructive',
-          onClick: onDelete,
+          onClick: wrapAsync(onDelete),
           icon: <Trash2Icon />,
           label: isMine ? t('delete') : `${t('delete')} (${t('administration')})`,
         },

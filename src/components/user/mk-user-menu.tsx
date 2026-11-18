@@ -40,6 +40,7 @@ import {
   useUnmuteAction,
 } from '@/hooks/user-action';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
+import { wrapAsync } from '@/lib/error';
 import { MkI18n } from '@/components/mk-i18n';
 import { MkUserName } from '@/components/mk-user-name';
 
@@ -226,14 +227,14 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
               id: 'unblock-user',
               icon: <BanIcon />,
               label: t('unblock'),
-              onClick: unblock,
+              onClick: wrapAsync(unblock),
             }
           : {
               type: 'item',
               id: 'block-user',
               icon: <BanIcon />,
               label: t('block'),
-              onClick: block,
+              onClick: wrapAsync(block),
               variant: 'destructive',
             },
         isFollowable &&
@@ -242,7 +243,7 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
             id: 'unfollow',
             icon: <UserRoundMinusIcon />,
             label: t('unfollow'),
-            onClick: unfollow,
+            onClick: wrapAsync(unfollow),
           },
         isFollowable &&
           !user.isFollowing &&
@@ -251,7 +252,7 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
             id: 'follow',
             icon: <UserRoundPlusIcon />,
             label: t('follow'),
-            onClick: follow,
+            onClick: wrapAsync(follow),
           },
         isFollowable &&
           !user.isFollowing &&
@@ -260,14 +261,14 @@ export function MkUserMenu({ user, children }: { user: UserDetailed; children: R
             id: 'cancel-follow-request',
             icon: <HourglassIcon />,
             label: t('followRequestPending'),
-            onClick: cancelFollowRequest,
+            onClick: wrapAsync(cancelFollowRequest),
           },
         user.isFollowed && {
           type: 'item',
           id: 'break-follow',
           icon: <UserRoundXIcon />,
           label: t('breakFollow'),
-          onClick: breakFollow,
+          onClick: wrapAsync(breakFollow),
         },
       ],
     },

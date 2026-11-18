@@ -16,6 +16,7 @@ import { Fragment } from 'react/jsx-runtime';
 import { MkEmpty } from '@/components/mk-empty';
 import type { ComponentProps, HTMLProps } from 'react';
 import { cn } from '@/lib/utils';
+import { wrapAsync } from '@/lib/error';
 import { INITIAL_UNTIL_ID } from '@/lib/inject-misskey-api';
 
 function getId<T>(item: unknown, fallback?: T): typeof fallback | string {
@@ -114,8 +115,12 @@ export function MkInfiniteScrollByData<TData, FlatDepth extends number = 1>(
         ))}
       </DataContainer>
       {isEmpty && <MkEmpty />}
-      {error && <MkError error={error} retry={() => refetch()} />}
-      <LoadingTrigger onShow={() => hasNextPage && !isFetchingNextPage && fetchNextPage()} />
+      {error && <MkError error={error} retry={wrapAsync(() => refetch())} />}
+      <LoadingTrigger
+        onShow={wrapAsync(async () => {
+          if (hasNextPage && !isFetchingNextPage) await fetchNextPage();
+        })}
+      />
       {(isPending || hasNextPage) && (
         <div className="flex w-full justify-center p-3">
           <Spinner />

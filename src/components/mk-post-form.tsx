@@ -48,7 +48,7 @@ import { useMount } from 'react-use';
 import { MkPostFormPreview } from '@/components/post-form/mk-post-form-preview';
 import { MkFileUploadMenu } from '@/components/mk-file-upload-menu';
 import { toast } from 'sonner';
-import { errorMessageSafe } from '@/lib/error';
+import { errorMessageSafe, wrapAsync } from '@/lib/error';
 import { useUploader } from '@/hooks/uploader';
 import { MkPostFormFiles } from '@/components/post-form/mk-post-form-files';
 import { extractMention } from '@/lib/mention';
@@ -167,10 +167,10 @@ export function MkPostForm(props: MkPostFormProps) {
                 {t('reset')}
               </Button>
               <Button
-                onClick={async () => {
+                onClick={wrapAsync(async () => {
                   await copyToClipboard(JSON.stringify(draft));
                   toast.success(t('copiedToClipboard'));
-                }}
+                })}
               >
                 <CopyIcon />
                 Copy Raw Data
@@ -657,7 +657,7 @@ function MkPostFormLoaded(
       <div className="mk-post-form__footer flex justify-between border-t p-2">
         <div className="mk-post-form__action flex @md:gap-1">
           {prependFooter}
-          <MkFileUploadMenu onUpload={onFileUpload} limit={maxAttachments}>
+          <MkFileUploadMenu onUpload={wrapAsync(onFileUpload)} limit={maxAttachments}>
             <PostFormButton label={t('addFile')}>
               <ImageIcon />
             </PostFormButton>

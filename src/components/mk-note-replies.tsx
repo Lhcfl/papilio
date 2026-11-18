@@ -9,6 +9,7 @@ import { MkNote } from '@/components/mk-note';
 import clsx from 'clsx';
 import { LoadingTrigger } from '@/components/loading-trigger';
 import { injectMisskeyStream, misskeyApi, sharkeyApi } from '@/lib/inject-misskey-api';
+import { wrapAsync } from '@/lib/error';
 import { patchNote, registerNote } from '@/hooks/note';
 import { Button } from '@/ui/button';
 import { useTranslation } from 'react-i18next';
@@ -140,7 +141,7 @@ export const MkNoteReplies = (
           </Button>
         </div>
       )}
-      {!reachLimit && hasNextPage && <LoadingTrigger className="h-1 w-2" onShow={() => fetchNextPage()} />}
+      {!reachLimit && hasNextPage && <LoadingTrigger className="h-1 w-2" onShow={wrapAsync(() => fetchNextPage())} />}
     </div>
   );
 };

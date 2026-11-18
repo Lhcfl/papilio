@@ -4,6 +4,7 @@
  */
 
 import { Button } from '@/ui/button';
+import { wrapAsync } from '@/lib/error';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { HomeIcon } from 'lucide-react';
 
@@ -18,7 +19,7 @@ function RouteComponent() {
     <div className="flex h-full w-full flex-col items-center justify-center">
       <div className="p-4 text-8xl">🚧</div>
       <div className="p-2">Not implemented. Papilio is under active development.</div>
-      <Button onClick={() => navigate({ to: '/' })}>
+      <Button onClick={wrapAsync(() => navigate({ to: '/' }))}>
         <HomeIcon />
         Home
       </Button>

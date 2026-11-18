@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@/ui/item';
 import { cn } from '@/lib/utils';
+import { wrapAsync } from '@/lib/error';
 import clsx from 'clsx';
 import type { Notification } from 'misskey-js/entities.js';
 import { MkNote } from '@/components/mk-note';
@@ -114,7 +115,7 @@ const FollowNotification = (props: { notification: PickNotification<'follow'> })
               variant="outline"
               size="sm"
               onClick={() => {
-                follow(void null, { onSuccess: () => refetch() });
+                follow(void null, { onSuccess: wrapAsync(() => refetch()) });
               }}
             >
               {isFollowing ? <Spinner /> : <UserRoundPlusIcon />} {t('follow')}

@@ -69,6 +69,7 @@ export default defineConfig({
     // 项目里 switch 普遍用 default 兜底（未识别的通知类型退回通用渲染），带 default 的 switch 视为已穷尽。
     'typescript/switch-exhaustiveness-check': ['error', { considerDefaultExhaustiveForUnions: true }],
     'eslint/require-unicode-regexp': 'error',
+    'typescript/no-misused-promises': 'error',
     // `smart` 放行 `== null`（同时判断 null 与 undefined 的惯用写法）与同类字面量比较。
     'eslint/eqeqeq': ['error', 'smart'],
   },

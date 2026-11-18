@@ -27,7 +27,7 @@ import { Spinner } from '@/ui/spinner';
 import { MkI18n } from '@/components/mk-i18n';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 import { useErrorDialogs } from '@/stores/error-dialog';
-import { errorMessageSafe } from '@/lib/error';
+import { errorMessageSafe, wrapAsync } from '@/lib/error';
 import type { ComponentProps } from 'react';
 
 export function MkUserCardButton({
@@ -133,7 +133,7 @@ export function MkUserCardButton({
     <Button
       {...props}
       variant={variant}
-      onClick={onClick}
+      onClick={wrapAsync(onClick)}
       disabled={loading || props.disabled}
       title={hideLabel ? label : undefined}
     >

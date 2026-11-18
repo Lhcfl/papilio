@@ -12,6 +12,7 @@ import { useMe } from '@/stores/me';
 import { AwardIcon, ImageIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
+import { wrapAsync } from '@/lib/error';
 
 export function AvatarAndBannerEdit() {
   const me = useMe();
@@ -22,10 +23,10 @@ export function AvatarAndBannerEdit() {
   return (
     <div className="edit-avatar-and-banner bg-card relative overflow-hidden rounded-lg border">
       <MkFileUploadMenu
-        onUpload={async (promise) => {
+        onUpload={wrapAsync(async (promise) => {
           const file = await promise[0];
           mutate({ bannerId: file.id });
-        }}
+        })}
         label={t('banner')}
         limit={1}
       >
@@ -41,10 +42,10 @@ export function AvatarAndBannerEdit() {
       />
       <div className="flex items-center justify-center gap-3 p-4 pt-18">
         <MkFileUploadMenu
-          onUpload={async (promise) => {
+          onUpload={wrapAsync(async (promise) => {
             const file = await promise[0];
             mutate({ avatarId: file.id });
-          }}
+          })}
           label={t('avatar')}
           limit={1}
         >

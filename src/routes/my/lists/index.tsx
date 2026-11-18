@@ -10,6 +10,7 @@ import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } f
 import { listlistQueryOptions } from '@/hooks/list';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { queryClient } from '@/plugins/persister';
+import { wrapAsync } from '@/lib/error';
 import { useMe } from '@/stores/me';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
@@ -30,7 +31,7 @@ function RouteComponent() {
     <div>
       <PageTitle title={t('lists')} />
       <HeaderRightPortal>
-        <Button variant="ghost" size="icon" title={t('reload')} onClick={() => refetch()}>
+        <Button variant="ghost" size="icon" title={t('reload')} onClick={wrapAsync(() => refetch())}>
           <RefreshCwIcon className={isRefetching ? 'animate-spin' : undefined} />
         </Button>
       </HeaderRightPortal>

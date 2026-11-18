@@ -16,6 +16,7 @@ import { logout } from '@/lib/inject-misskey-api';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 import { AppSidebarMenuButton } from '@/components/sidebar/app-sidebar-menu-button';
 import { AppThemeToggle } from '@/components/app-theme-toggle';
+import { wrapAsync } from '@/lib/error';
 
 export const AppSidebarFooter = () => {
   const me = useMe();
@@ -69,7 +70,13 @@ export const AppSidebarFooter = () => {
           icon: <Users2Icon />,
           to: linkOptions({ to: '/account-switch' }),
         },
-        { type: 'item', id: 'logout', label: t('logout'), icon: <LogOutIcon />, onClick: logoutWithConfirm },
+        {
+          type: 'item',
+          id: 'logout',
+          label: t('logout'),
+          icon: <LogOutIcon />,
+          onClick: wrapAsync(logoutWithConfirm),
+        },
       ],
     },
   ];

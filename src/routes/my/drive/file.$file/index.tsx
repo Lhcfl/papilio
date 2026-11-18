@@ -20,6 +20,7 @@ import {
 } from '@/hooks/file';
 import { PageTitle } from '@/layouts/sidebar-layout';
 import { toHumanReadableFileSize } from '@/lib/file';
+import { wrapAsync } from '@/lib/error';
 import { EditFileCaptionModal } from '@/modals/edit-file-caption-modal';
 import { InputModal } from '@/modals/input-modal';
 import { queryClient } from '@/plugins/persister';
@@ -86,14 +87,14 @@ function RouteComponent() {
       icon: <EyeIcon />,
       label: t('unmarkAsSensitive'),
       id: 'unmark-as-sensitive',
-      onClick: markAsNotSensitive,
+      onClick: wrapAsync(markAsNotSensitive),
     },
     !isSensitive && {
       type: 'item',
       icon: <EyeClosedIcon />,
       label: t('markAsSensitive'),
       id: 'mark-as-sensitive',
-      onClick: markAsSensitive,
+      onClick: wrapAsync(markAsSensitive),
     },
     {
       type: 'item',
@@ -101,7 +102,7 @@ function RouteComponent() {
       label: t('delete'),
       variant: 'destructive',
       id: 'delete',
-      onClick: deleteWithConfirm,
+      onClick: wrapAsync(deleteWithConfirm),
     },
   ];
 
@@ -141,7 +142,7 @@ function RouteComponent() {
             title={t('rename')}
             value={fileName}
             updateValue={setFileName}
-            onOk={() => mutateAsync({ name: fileName })}
+            onOk={wrapAsync(() => mutateAsync({ name: fileName }))}
           >
             <Button variant="ghost">
               <Edit2Icon />

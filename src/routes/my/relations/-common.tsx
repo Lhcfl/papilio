@@ -8,7 +8,7 @@ import { Button } from '@/ui/button';
 import { ButtonGroup } from '@/ui/button-group';
 import { Progress } from '@/ui/progress';
 import { type UserRelation } from '@/hooks/user';
-import { errorMessageSafe } from '@/lib/error';
+import { errorMessageSafe, wrapAsync } from '@/lib/error';
 import { cn } from '@/lib/utils';
 import { useAfterConfirm } from '@/stores/confirm-dialog';
 import { CheckCheckIcon, MinusIcon, RefreshCw, UploadCloudIcon } from 'lucide-react';
@@ -93,7 +93,7 @@ export function CommonRouteComponent<T extends UserRelation>({
   return (
     <div>
       <HeaderRightPortal>
-        <Button variant="ghost" size="icon-sm" onClick={() => refetch()}>
+        <Button variant="ghost" size="icon-sm" onClick={wrapAsync(() => refetch())}>
           <RefreshCw className={cn(isRefetching && 'animate-spin')} />
         </Button>
       </HeaderRightPortal>
@@ -117,7 +117,7 @@ export function CommonRouteComponent<T extends UserRelation>({
 
           <Button
             variant="destructive"
-            onClick={() => bulkActionWithConfirm()}
+            onClick={wrapAsync(bulkActionWithConfirm)}
             disabled={hasStarted || selected.size === 0}
           >
             <MinusIcon />
@@ -125,7 +125,7 @@ export function CommonRouteComponent<T extends UserRelation>({
           </Button>
 
           {onUpload && (
-            <MkFileUploadMenu onUpload={onUpload} limit={1} disableCompress>
+            <MkFileUploadMenu onUpload={wrapAsync(onUpload)} limit={1} disableCompress>
               <Button variant="outline">
                 <UploadCloudIcon />
                 {t('import')}
