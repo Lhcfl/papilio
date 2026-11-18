@@ -4,12 +4,11 @@
  */
 
 import { useNoteValue } from '@/hooks/note';
-import { MkMfm } from '@/components/mk-mfm';
-import { getNoteExcerpt } from '@/lib/note-excerpt';
 import { MkAvatar } from '@/components/mk-avatar';
 import { withNoSelection, withStopPrevent } from '@/lib/utils';
 import { LockIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { MkNoteExcerpt } from '@/components/note/mk-note-excerpt';
 
 /**
  * Collapsed reply line component for Misskey notes.\
@@ -35,7 +34,7 @@ export const MkNoteReplyLine = (props: { noteId: string; onExpand: () => void })
             <LockIcon className="size-4" />({t('private')})
           </span>
         ) : (
-          <MkMfm text={getNoteExcerpt(note)} author={note.user} emojiUrls={note.emojis} inline />
+          <MkNoteExcerpt note={note} />
         )}
       </div>
 

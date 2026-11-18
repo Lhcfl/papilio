@@ -7,10 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { MkAvatar } from '@/components/mk-avatar';
 import { MkUserName } from '@/components/mk-user-name';
 import type { User } from '@/types/user';
-import { getNoteExcerpt } from '@/lib/note-excerpt';
 import { Link } from '@tanstack/react-router';
-import { MkMfm } from '@/components/mk-mfm';
 import type { FrontendGroupedNotification } from '@/lib/notification-grouper';
+import { MkNoteExcerpt } from '@/components/note/mk-note-excerpt';
 
 /** Compact actor line: 18px avatar + name, used by the notification list. */
 const Actor = ({ user, children }: { user: User; children: React.ReactNode }) => (
@@ -34,7 +33,7 @@ export const NotificationDescription = (props: { notification: FrontendGroupedNo
     case 'reaction:grouped':
       return (
         <Link to="/notes/$id" params={{ id: notification.note.id }}>
-          <MkMfm text={getNoteExcerpt(notification.note)} inline />
+          <MkNoteExcerpt note={notification.note} />
         </Link>
       );
     case 'grouped:renote':
@@ -42,7 +41,7 @@ export const NotificationDescription = (props: { notification: FrontendGroupedNo
     case 'renote:grouped':
       return (
         <Link to="/notes/$id" params={{ id: notification.note.renoteId! }}>
-          <MkMfm text={getNoteExcerpt(notification.note.renote!)} inline />
+          <MkNoteExcerpt note={notification.note.renote!} />
         </Link>
       );
     case 'receiveFollowRequest':
@@ -52,11 +51,11 @@ export const NotificationDescription = (props: { notification: FrontendGroupedNo
     case 'follow':
       return t('followsYou');
     case 'pollEnded':
-      return getNoteExcerpt(notification.note);
+      return <MkNoteExcerpt note={notification.note} />;
     case 'scheduledNotePosted':
-      return getNoteExcerpt(notification.note);
+      return <MkNoteExcerpt note={notification.note} />;
     case 'scheduledNotePostFailed':
-      return getNoteExcerpt(notification.noteDraft);
+      return <MkNoteExcerpt note={notification.noteDraft} />;
     case 'roleAssigned':
       return notification.role.name;
     case 'chatRoomInvitationReceived':
@@ -74,7 +73,7 @@ export const NotificationDescription = (props: { notification: FrontendGroupedNo
     case 'test':
       return t('_notification.testNotification');
     case 'edited':
-      return getNoteExcerpt(notification.note);
+      return <MkNoteExcerpt note={notification.note} />;
     default:
       return t('unknown');
   }
